@@ -4329,9 +4329,9 @@ body {
 .marmoset-modal-content {
     background: white;
     border-radius: 8px;
-    max-width: 90vw;
-    max-height: 90vh;
-    width: 900px;
+    max-width: 95vw;
+    max-height: 95vh;
+    width: 1000px;
     height: 700px;
     display: flex;
     flex-direction: column;
@@ -4346,6 +4346,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .marmoset-header h2 {
@@ -4375,27 +4376,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 0;
 }
 
 #marmoset-viewer-inline {
     width: 100%;
     height: 100%;
+    border: none;
     background: white;
-}
-
-#marmoset-viewer-inline p {
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    margin: 0;
-    padding: 50px;
-}
-
-/* Marmoset embed - interface native */
-#marmoset-viewer-inline marmoset {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
 }
 
 @keyframes fadeIn {

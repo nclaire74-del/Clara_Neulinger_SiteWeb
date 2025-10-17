@@ -515,72 +515,20 @@
                     <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">×</button>
                 </div>
                 <div class="marmoset-viewer-container">
-                    <div id="marmoset-viewer-inline">
+                    <iframe id="marmoset-viewer-inline" 
+                            src="assets/images/Cirucs/Circus_Viewer.html" 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0"
+                            allowfullscreen>
                         <p>Chargement du viewer Marmoset...</p>
-                    </div>
+                    </iframe>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
-
-        // Charger le script Marmoset depuis CDN
-        this.loadMarmosetScript().then(() => {
-            // Charger le fichier .mview du projet Circus
-            this.initializeMarmosetViewer();
-        });
-    }
-
-    // Charger le script Marmoset depuis CDN
-    loadMarmosetScript() {
-        return new Promise((resolve, reject) => {
-            // Vérifier si Marmoset est déjà chargé
-            if (window.marmoset) {
-                resolve();
-                return;
-            }
-
-            const script = document.createElement('script');
-            script.src = 'https://viewer.marmoset.co/main/marmoset.js';
-            script.onload = () => {
-                console.log('[MARMOSET] Script chargé depuis CDN');
-                resolve();
-            };
-            script.onerror = () => {
-                console.error('[MARMOSET] Erreur de chargement du script');
-                reject();
-            };
-            document.head.appendChild(script);
-        });
-    }
-
-    // Initialiser le viewer Marmoset avec le fichier .mview
-    initializeMarmosetViewer() {
-        console.log('[MARMOSET] Initialisation du viewer...');
-        
-        const viewerContainer = document.getElementById('marmoset-viewer-inline');
-        if (!viewerContainer) {
-            console.error('[MARMOSET] Container non trouvé');
-            return;
-        }
-
-        if (window.marmoset) {
-            // URL du fichier .mview du projet Circus
-            const mviewUrl = 'assets/images/Cirucs/ok.mview';
-            
-            // Interface Marmoset native sans styling personnalisé
-            viewerContainer.innerHTML = `
-                <marmoset id="circus-mview" src="${mviewUrl}" width="100%" height="500">
-                    <p>Chargement du modèle 3D Circus...</p>
-                </marmoset>
-            `;
-
-            // Initialiser Marmoset avec les contrôles natifs
-            window.marmoset.embed();
-            console.log('[MARMOSET] Viewer natif initialisé avec succès');
-        } else {
-            viewerContainer.innerHTML = '<p style="color: red;">Erreur: Script Marmoset non disponible</p>';
-        }
+        console.log('[MARMOSET] Viewer chargé depuis Circus_Viewer.html');
     }
 }
 
