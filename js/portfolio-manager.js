@@ -160,13 +160,13 @@
                     <div class="project-viewer-content">
                         <div class="project-video-wrapper">
                             <video class="project-main-video" autoplay muted loop>
-                                <source src="00_SITE_ACTIF/assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
-                                Votre navigateur ne supporte pas la lecture de vidÃ©os.
+                                <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
                             </video>
                             <div class="project-overlay">
                                 <div class="project-overlay-text">
                                     <span>[3D] Projet 3D : ${project.title}</span>
-                                    <p>Double-clic pour inspecter</p>
+                                    <p>Double-clic pour accéder au viewer Marmoset</p>
                                 </div>
                             </div>
                         </div>
@@ -505,7 +505,7 @@
     showMarmosetViewerInline(project) {
         console.log('[MARMOSET] Affichage du viewer Marmoset inline pour Circus');
         
-        // Créer la modal avec le viewer Marmoset intégré
+        // Créer une modal simple et minimaliste
         const modal = document.createElement('div');
         modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
@@ -515,15 +515,8 @@
                     <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">×</button>
                 </div>
                 <div class="marmoset-viewer-container">
-                    <div id="marmoset-viewer-inline" class="marmoset-viewer-inline">
+                    <div id="marmoset-viewer-inline">
                         <p>Chargement du viewer Marmoset...</p>
-                    </div>
-                </div>
-                <div class="marmoset-info">
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <div class="project-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
                 </div>
             </div>
@@ -575,15 +568,16 @@
             // URL du fichier .mview du projet Circus
             const mviewUrl = 'assets/images/Cirucs/ok.mview';
             
+            // Interface Marmoset native sans styling personnalisé
             viewerContainer.innerHTML = `
-                <marmoset id="circus-mview" src="${mviewUrl}" width="800" height="600">
+                <marmoset id="circus-mview" src="${mviewUrl}" width="100%" height="500">
                     <p>Chargement du modèle 3D Circus...</p>
                 </marmoset>
             `;
 
-            // Initialiser Marmoset
+            // Initialiser Marmoset avec les contrôles natifs
             window.marmoset.embed();
-            console.log('[MARMOSET] Viewer initialisé avec succès');
+            console.log('[MARMOSET] Viewer natif initialisé avec succès');
         } else {
             viewerContainer.innerHTML = '<p style="color: red;">Erreur: Script Marmoset non disponible</p>';
         }

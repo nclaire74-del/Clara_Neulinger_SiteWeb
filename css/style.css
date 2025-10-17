@@ -4327,13 +4327,12 @@ body {
 }
 
 .marmoset-modal-content {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border: 2px solid #4CAF50;
-    border-radius: 15px;
+    background: white;
+    border-radius: 8px;
     max-width: 90vw;
     max-height: 90vh;
-    width: 1000px;
-    height: 800px;
+    width: 900px;
+    height: 700px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
@@ -4341,115 +4340,65 @@ body {
 }
 
 .marmoset-header {
-    background: linear-gradient(45deg, #0f3460, #0e6ba8);
+    background: #333;
     color: white;
     padding: 15px 20px;
-    font-family: 'Kindergarten', Arial, sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #4CAF50;
 }
 
 .marmoset-header h2 {
     margin: 0;
-    font-size: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 1.3rem;
 }
 
 .close-marmoset-viewer {
     background: none;
     border: none;
     color: white;
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background 0.3s ease;
 }
 
 .close-marmoset-viewer:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
 }
 
 .marmoset-viewer-container {
     flex: 1;
-    padding: 20px;
+    padding: 0;
+    background: #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, #2d2d44, #1a1a2e);
 }
 
-.marmoset-viewer-inline {
+#marmoset-viewer-inline {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #000;
-    border: 1px solid #4CAF50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: white;
 }
 
-.marmoset-viewer-inline p {
-    color: #4CAF50;
-    font-family: 'Kindergarten', Arial, sans-serif;
-    font-size: 1.2rem;
+#marmoset-viewer-inline p {
     text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 50px;
 }
 
-.marmoset-info {
-    background: linear-gradient(135deg, #0f3460, #0e6ba8);
-    color: white;
-    padding: 20px;
-    border-top: 1px solid #4CAF50;
-}
-
-.marmoset-info h3 {
-    margin: 0 0 10px 0;
-    font-family: 'Kindergarten', Arial, sans-serif;
-    font-size: 1.3rem;
-    color: #4CAF50;
-}
-
-.marmoset-info p {
-    margin: 0 0 15px 0;
-    line-height: 1.6;
-    color: #e0e0e0;
-}
-
-.marmoset-info .project-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.marmoset-info .tag {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid #4CAF50;
-    color: #4CAF50;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-family: 'Kindergarten', Arial, sans-serif;
-}
-
-/* Marmoset embed styling */
-.marmoset-viewer-inline marmoset {
+/* Marmoset embed - interface native */
+#marmoset-viewer-inline marmoset {
     width: 100% !important;
     height: 100% !important;
-    border-radius: 10px;
+    display: block;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
+    from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
 }
