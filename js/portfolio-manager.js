@@ -534,11 +534,15 @@
             <div class="marmoset-modal-content">
                 <div class="marmoset-header">
                     <h2>${project.title}</h2>
-                    <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">×</button>
+                    <p class="project-description">${project.description}</p>
+                    <div class="project-tags">
+                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">Fermer ×</button>
                 </div>
                 <div class="marmoset-main-container">
                     <div class="marmoset-gallery-panel">
-                        <h3>Galerie</h3>
+                        <h3>Galerie Images</h3>
                         <div class="gallery-scroll-container" id="circus-gallery">
                             <!-- Images seront ajoutées ici -->
                         </div>
@@ -554,7 +558,7 @@
                         </iframe>
                     </div>
                     <div class="marmoset-info-panel">
-                        <h3>Informations</h3>
+                        <h3>Informations Techniques</h3>
                         <div class="project-software">
                             <h4>Logiciels utilisés</h4>
                             <div class="software-list">
@@ -562,8 +566,8 @@
                             </div>
                         </div>
                         <div class="project-details">
-                            <h4>Description</h4>
-                            <p>${project.description}</p>
+                            <h4>À propos du projet</h4>
+                            <p>Modélisation complète d'un environnement et personnage de cirque réalisée dans le cadre d'un cours de 3D. Le projet comprend le sculpting haute résolution, la retopologie, l'UV mapping et le rendu final.</p>
                         </div>
                     </div>
                 </div>
