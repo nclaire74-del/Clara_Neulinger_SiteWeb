@@ -527,19 +527,11 @@
     showMarmosetViewerInline(project) {
         console.log('[MARMOSET] Affichage du viewer Marmoset inline pour Circus');
         
-        // Créer une modal avec galerie, viewer et infos
+        // Créer une modal avec uniquement galerie, viewer et infos
         const modal = document.createElement('div');
         modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
             <div class="marmoset-modal-content">
-                <div class="marmoset-header">
-                    <h2>${project.title}</h2>
-                    <p class="project-description">${project.description}</p>
-                    <div class="project-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">Fermer ×</button>
-                </div>
                 <div class="marmoset-main-container">
                     <div class="marmoset-gallery-panel">
                         <h3>Galerie Images</h3>
@@ -569,6 +561,7 @@
                             <h4>À propos du projet</h4>
                             <p>Modélisation complète d'un environnement et personnage de cirque réalisée dans le cadre d'un cours de 3D. Le projet comprend le sculpting haute résolution, la retopologie, l'UV mapping et le rendu final.</p>
                         </div>
+                        <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">Fermer ×</button>
                     </div>
                 </div>
             </div>
