@@ -2837,31 +2837,6 @@ body {
     display: inline-block;
 }
 
-.project-3d-viewer {
-    flex: 2;
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.project-placeholder {
-    text-align: center;
-    color: white;
-    font-family: 'Kindergarten', sans-serif;
-}
-
-.project-placeholder p {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.project-placeholder span {
-    font-size: 1rem;
-    color: #aaa;
-}
-
 .project-info {
     flex: 1;
     padding: 40px;
@@ -3398,16 +3373,7 @@ body {
     transform: translateY(0);
 }
 
-/* Effet de survol sur le placeholder 3D */
-.project-3d-viewer:hover .project-placeholder {
-    background: linear-gradient(135deg, 
-        rgba(0, 170, 255, 0.2), 
-        rgba(255, 255, 255, 0.1));
-    transform: scale(1.02);
-    box-shadow: 
-        0 10px 30px rgba(0, 170, 255, 0.3),
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
-}
+
 
 /* PROTECTION CONTRE COMING SOON SEULEMENT */
 .coming-soon-overlay {
@@ -3514,21 +3480,6 @@ body {
     border-radius: 8px;
 }
 
-.project-3d-viewer {
-    flex: 2;
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.project-3d-viewer:hover .project-main-image,
-.project-3d-viewer:hover .project-main-video {
-    transform: scale(1.05);
-}
-
 /* Overlay d'information sur l'image */
 .project-overlay {
     position: absolute;
@@ -3542,10 +3493,6 @@ body {
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-}
-
-.project-3d-viewer:hover .project-overlay {
-    opacity: 1;
 }
 
 .project-overlay-text {
@@ -3836,149 +3783,13 @@ body {
     .gallery-image {
         height: 120px;
     }
-    
-    .project-3d-container {
-        min-height: 250px;
-    }
 }
 
-/* ======= INTÉGRATION MARMOSET VIEWER ======= */
-
-/* Container pour le viewer Marmoset */
-.marmoset-viewer {
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f0f0f0;
-    border: 2px solid #ccc;
-}
-
-/* Iframe/Canvas pour Marmoset */
-.marmoset-viewer iframe,
-.marmoset-viewer canvas {
-    width: 100% !important;
-    height: 100% !important;
-    border: none;
-    border-radius: 6px;
-}
-
-/* Overlay de chargement pour Marmoset */
-.marmoset-loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-}
-
-.marmoset-loading.hidden {
-    display: none;
-}
-
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #000;
-    border-top: 4px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* ======= SECTION VIEWER 3D MARMOSET ======= */
-
-.project-3d-container {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-    padding: 20px;
-    min-height: 400px;
-    position: relative;
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.1),
-        inset 0 0 20px rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(1px);
-    z-index: 15;
-}
-
-/* Titre décoratif pour le viewer */
-.project-3d-container::before {
-    content: '🎮 Viewer 3D Interactif';
-    position: absolute;
-    top: -15px;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 5px 15px;
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    transform: rotate(-1deg);
-}
-
-.tbscene-viewer {
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Placeholder pour Marmoset */
-.tbscene-placeholder {
-    text-align: center;
-    color: #333;
-    font-family: 'Kindergarten', sans-serif;
-    padding: 40px;
-    width: 100%;
-    background: 
-        linear-gradient(135deg, 
-            rgba(240, 240, 240, 0.8) 0%, 
-            rgba(255, 255, 255, 0.9) 100%);
-    border: 2px dashed #000;
-    border-radius: 10px;
-}
-
-.viewer-3d-icon {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    display: block;
-    animation: float 3s ease-in-out infinite;
-}
+/* ======= SECTION PORTFOLIO COLLECTIBLES ======= */
 
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
-}
-
-.tbscene-placeholder h3 {
-    font-size: 2rem;
-    margin: 20px 0;
-    color: #000;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-}
-
-.tbscene-placeholder p {
-    font-size: 1.1rem;
-    margin: 10px 0;
-    color: #555;
 }
 
 .viewer-controls {
@@ -4497,4 +4308,148 @@ body {
         inset 0 0 15px rgba(255, 255, 255, 0.2);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     letter-spacing: 1px;
+}
+
+/* ======= MARMOSET VIEWER MODAL ======= */
+.marmoset-viewer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.marmoset-modal-content {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #4CAF50;
+    border-radius: 15px;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 1000px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+.marmoset-header {
+    background: linear-gradient(45deg, #0f3460, #0e6ba8);
+    color: white;
+    padding: 15px 20px;
+    font-family: 'Kindergarten', Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #4CAF50;
+}
+
+.marmoset-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.close-marmoset-viewer {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-marmoset-viewer:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.marmoset-viewer-container {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #2d2d44, #1a1a2e);
+}
+
+.marmoset-viewer-inline {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid #4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marmoset-viewer-inline p {
+    color: #4CAF50;
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.marmoset-info {
+    background: linear-gradient(135deg, #0f3460, #0e6ba8);
+    color: white;
+    padding: 20px;
+    border-top: 1px solid #4CAF50;
+}
+
+.marmoset-info h3 {
+    margin: 0 0 10px 0;
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 1.3rem;
+    color: #4CAF50;
+}
+
+.marmoset-info p {
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+.marmoset-info .project-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.marmoset-info .tag {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-family: 'Kindergarten', Arial, sans-serif;
+}
+
+/* Marmoset embed styling */
+.marmoset-viewer-inline marmoset {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }

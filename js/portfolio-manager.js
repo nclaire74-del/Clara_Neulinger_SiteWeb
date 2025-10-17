@@ -1,4 +1,4 @@
-class PortfolioManager {
+﻿class PortfolioManager {
     constructor() {
         this.projects = [];
         this.categories = ['Tous', '3D', 'Animation', 'Design'];
@@ -10,20 +10,20 @@ class PortfolioManager {
             { 
                 folder: 'Cirucs', 
                 title: 'Projet Circus 3D',
-                description: 'Modélisation 3D d\'un environnement et personnage de cirque. Projet réalisé en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.',
+                description: 'ModÃ©lisation 3D d\'un environnement et personnage de cirque. Projet rÃ©alisÃ© en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.',
                 tags: ['Blender', 'ZBrush', 'Substance Painter'],
                 category: '3D'
             },
             { 
                 folder: 'Arch', 
                 title: 'Architecture 3D',
-                description: 'Projet architectural avec modélisation d\'intérieurs et extérieurs.',
+                description: 'Projet architectural avec modÃ©lisation d\'intÃ©rieurs et extÃ©rieurs.',
                 tags: ['3ds Max', 'Archicad', 'Corona'],
                 category: '3D'
             }
         ];
         
-        // Les projets seront initialisés après le chargement du DOM
+        // Les projets seront initialisÃ©s aprÃ¨s le chargement du DOM
     }
 
     // Fonction pour initialiser les projets depuis les dossiers d'images
@@ -55,11 +55,11 @@ class PortfolioManager {
                     "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg",
                     "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_References.jpg"
                 ];
-                console.log('[OK] Galerie Cirucs configurée avec', project.gallery.length, 'images');
+                console.log('[OK] Galerie Cirucs configurÃ©e avec', project.gallery.length, 'images');
             }
 
             this.projects.push(project);
-            console.log(`[OK] Projet ${project.title} ajouté depuis le dossier ${folderConfig.folder}`);
+            console.log(`[OK] Projet ${project.title} ajoutÃ© depuis le dossier ${folderConfig.folder}`);
         }
     }
 
@@ -68,14 +68,14 @@ class PortfolioManager {
         try {
             this.setupEventListeners();
             this.updateDisplay();
-            console.log('[OK] PortfolioManager initialisé avec succès');
+            console.log('[OK] PortfolioManager initialisÃ© avec succÃ¨s');
         } catch (error) {
             console.error('[ERROR] Erreur lors de l\'initialisation du PortfolioManager:', error);
         }
     }
 
     setupEventListeners() {
-        // Navigation des catégories
+        // Navigation des catÃ©gories
         const prevCategoryBtn = document.getElementById('prev-category');
         const nextCategoryBtn = document.getElementById('next-category');
         
@@ -112,19 +112,19 @@ class PortfolioManager {
     previousCategory() {
         this.currentCategory = (this.currentCategory - 1 + this.categories.length) % this.categories.length;
         this.updateCategoryDisplay();
-        console.log(`[CATEGORY] Catégorie précédente: ${this.categories[this.currentCategory]}`);
+        console.log(`[CATEGORY] CatÃ©gorie prÃ©cÃ©dente: ${this.categories[this.currentCategory]}`);
     }
 
     nextCategory() {
         this.currentCategory = (this.currentCategory + 1) % this.categories.length;
         this.updateCategoryDisplay();
-        console.log(`[CATEGORY] Catégorie suivante: ${this.categories[this.currentCategory]}`);
+        console.log(`[CATEGORY] CatÃ©gorie suivante: ${this.categories[this.currentCategory]}`);
     }
 
     previousProject() {
         this.currentProject = (this.currentProject - 1 + this.projects.length) % this.projects.length;
         this.updateProjectDisplay();
-        console.log(`[PROJECT] Projet précédent: ${this.projects[this.currentProject].title}`);
+        console.log(`[PROJECT] Projet prÃ©cÃ©dent: ${this.projects[this.currentProject].title}`);
     }
 
     nextProject() {
@@ -161,7 +161,7 @@ class PortfolioManager {
                         <div class="project-video-wrapper">
                             <video class="project-main-video" autoplay muted loop>
                                 <source src="00_SITE_ACTIF/assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
-                                Votre navigateur ne supporte pas la lecture de vidéos.
+                                Votre navigateur ne supporte pas la lecture de vidÃ©os.
                             </video>
                             <div class="project-overlay">
                                 <div class="project-overlay-text">
@@ -192,20 +192,20 @@ class PortfolioManager {
         console.log('[DEBUG] Debug galerie:', project.gallery);
         console.log('[DEBUG] Nombre d\'images:', project.gallery ? project.gallery.length : 'undefined');
 
-        // Pour le projet Circus, charger la page dédiée
+        // Pour le projet Circus, afficher le viewer Marmoset inline
         if (project.title === 'Projet Circus 3D') {
-            this.loadCircusProjectPage();
+            this.showMarmosetViewerInline(project);
             return;
         }
 
-        // Créer la modal des détails avec animation de livre qui s'ouvre
+        // CrÃ©er la modal des dÃ©tails avec animation de livre qui s'ouvre
         const modal = document.createElement('div');
         modal.className = 'project-details-modal page-opening';
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>${project.title}</h2>
-                    <button class="close-modal" onclick="this.closest('.project-details-modal').remove()">×</button>
+                    <button class="close-modal" onclick="this.closest('.project-details-modal').remove()">Ã—</button>
                 </div>
                 <div class="modal-body">
                     <div class="project-3d-container">
@@ -220,7 +220,7 @@ class PortfolioManager {
                             <p>${project.description}</p>
                             
                             <div class="project-specs">
-                                <h4>[TECH] Spécifications</h4>
+                                <h4>[TECH] SpÃ©cifications</h4>
                                 <div class="specs-grid">
                                     <div class="spec-item">
                                         <strong>[TOOLS] Logiciels:</strong> ${project.tags.join(', ')}
@@ -232,7 +232,7 @@ class PortfolioManager {
                                         <strong>[IMAGES] Images:</strong> ${project.gallery.length} assets
                                     </div>
                                     <div class="spec-item">
-                                        <strong>[CATEGORY] Catégorie:</strong> ${project.category}
+                                        <strong>[CATEGORY] CatÃ©gorie:</strong> ${project.category}
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@ class PortfolioManager {
         modal.style.height = '100%';
         modal.style.display = 'flex';
         
-        console.log('[MODAL] Modal ajoutée avec z-index 99999');
+        console.log('[MODAL] Modal ajoutÃ©e avec z-index 99999');
         
         // Animation d'ouverture de page
         setTimeout(() => {
@@ -283,12 +283,12 @@ class PortfolioManager {
 
         console.log(`[3D] Initialisation du viewer Marmoset pour: ${tbsceneFile}`);
         
-        // Créer l'interface du viewer Marmoset
+        // CrÃ©er l'interface du viewer Marmoset
         viewerContainer.innerHTML = `
             <div class="marmoset-container">
                 <div id="marmoset-${projectId}" class="marmoset-viewer">
                     <div id="loading-${projectId}" class="marmoset-loading">
-                        <p>Chargement du modèle 3D...</p>
+                        <p>Chargement du modÃ¨le 3D...</p>
                     </div>
                 </div>
             </div>
@@ -309,15 +309,15 @@ class PortfolioManager {
 
         console.log(`[3D] Tentative de chargement du fichier: ${mviewFile}`);
 
-        // Vérifier si Marmoset Viewer est disponible
+        // VÃ©rifier si Marmoset Viewer est disponible
         if (typeof marmoset !== 'undefined' && marmoset.embed) {
-            console.log('[OK] Marmoset Viewer détecté, chargement du fichier .mview...');
+            console.log('[OK] Marmoset Viewer dÃ©tectÃ©, chargement du fichier .mview...');
             
             try {
                 // Nettoyer le container
                 marmosetContainer.innerHTML = '';
                 
-                // Créer l'élément viewer Marmoset
+                // CrÃ©er l'Ã©lÃ©ment viewer Marmoset
                 const viewerElement = marmoset.embed({
                     src: mviewFile,
                     id: `viewer-${projectId}`,
@@ -332,14 +332,14 @@ class PortfolioManager {
                 // Ajouter le viewer au container
                 marmosetContainer.appendChild(viewerElement);
                 
-                console.log('[OK] Viewer Marmoset créé et ajouté au DOM');
+                console.log('[OK] Viewer Marmoset crÃ©Ã© et ajoutÃ© au DOM');
                 
-                // Masquer le loading après un délai
+                // Masquer le loading aprÃ¨s un dÃ©lai
                 setTimeout(() => {
                     if (loadingOverlay) {
                         loadingOverlay.style.display = 'none';
                     }
-                    console.log('[OK] Loading overlay masqué');
+                    console.log('[OK] Loading overlay masquÃ©');
                 }, 3000);
                 
             } catch (error) {
@@ -348,9 +348,9 @@ class PortfolioManager {
             }
             
         } else {
-            console.log('[WARNING] Marmoset Viewer non disponible, vérification dans 2 secondes...');
+            console.log('[WARNING] Marmoset Viewer non disponible, vÃ©rification dans 2 secondes...');
             
-            // Réessayer après un délai pour laisser le temps au script de se charger
+            // RÃ©essayer aprÃ¨s un dÃ©lai pour laisser le temps au script de se charger
             setTimeout(() => {
                 if (typeof marmoset !== 'undefined' && marmoset.embed) {
                     this.loadMarmosetViewer(projectId, mviewFile);
@@ -371,17 +371,17 @@ class PortfolioManager {
                 <div class="viewer-3d-icon">[3D]</div>
                 <h3>Viewer 3D Marmoset</h3>
                 <p><strong>Fichier:</strong> ${mviewFile}</p>
-                <p>[TARGET] Le modèle 3D devrait apparaître ici</p>
-                <p>[CHECK] Vérification du chargement en cours...</p>
+                <p>[TARGET] Le modÃ¨le 3D devrait apparaÃ®tre ici</p>
+                <p>[CHECK] VÃ©rification du chargement en cours...</p>
                 <div class="viewer-controls">
-                    <button onclick="window.portfolioManager.loadMarmosetViewer(${projectId}, '${mviewFile}')">[RETRY] Réessayer</button>
+                    <button onclick="window.portfolioManager.loadMarmosetViewer(${projectId}, '${mviewFile}')">[RETRY] RÃ©essayer</button>
                 </div>
                 <div class="viewer-status">
                     <span>[LOADING] Chargement du viewer 3D...</span>
                 </div>
                 <div style="margin-top: 20px; padding: 15px; background: rgba(255, 200, 100, 0.2); border: 2px dashed #000; border-radius: 8px;">
                     <p style="margin: 0; font-size: 0.9rem; color: #666;">
-                        [INFO] <strong>Fichier .mview détecté:</strong> ${mviewFile}
+                        [INFO] <strong>Fichier .mview dÃ©tectÃ©:</strong> ${mviewFile}
                     </p>
                 </div>
             </div>
@@ -448,7 +448,7 @@ class PortfolioManager {
             mainUI.style.display = 'block';
         }
         
-        console.log('[PORTFOLIO] Retour à l\'interface principale');
+        console.log('[PORTFOLIO] Retour Ã  l\'interface principale');
     }
 
     closeModal() {
@@ -458,7 +458,7 @@ class PortfolioManager {
         }
     }
 
-    // Méthode pour ajouter facilement de nouveaux projets
+    // MÃ©thode pour ajouter facilement de nouveaux projets
     addProject(projectData) {
         const newProject = {
             id: this.projects.length + 1,
@@ -472,19 +472,19 @@ class PortfolioManager {
         
         this.projects.push(newProject);
         this.updateDisplay();
-        console.log(`[OK] Projet ajouté: ${project.title}`);
+        console.log(`[OK] Projet ajoutÃ©: ${project.title}`);
     }
 
-    // Méthode pour facilement modifier un projet
+    // MÃ©thode pour facilement modifier un projet
     updateProject(index, projectData) {
         if (index >= 0 && index < this.projects.length) {
             this.projects[index] = { ...this.projects[index], ...projectData };
             this.updateDisplay();
-            console.log(`[EDIT] Projet modifié: ${this.projects[index].title}`);
+            console.log(`[EDIT] Projet modifiÃ©: ${this.projects[index].title}`);
         }
     }
 
-    // Ouvrir directement la page dédiée du projet Circus 3D
+    // Ouvrir directement la page dÃ©diÃ©e du projet Circus 3D
     loadCircusProjectPage() {
         console.log('[CIRCUS] Ouverture directe de la page Circus 3D...');
         
@@ -500,68 +500,102 @@ class PortfolioManager {
             document.body.style.overflow = '';
         }
     }
-}
 
-// Instance globale
-window.portfolioManager = null;
+    // Afficher le viewer Marmoset inline pour le projet Circus
+    showMarmosetViewerInline(project) {
+        console.log('[MARMOSET] Affichage du viewer Marmoset inline pour Circus');
+        
+        // Créer la modal avec le viewer Marmoset intégré
+        const modal = document.createElement('div');
+        modal.className = 'marmoset-viewer-modal';
+        modal.innerHTML = `
+            <div class="marmoset-modal-content">
+                <div class="marmoset-header">
+                    <h2>${project.title}</h2>
+                    <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">×</button>
+                </div>
+                <div class="marmoset-viewer-container">
+                    <div id="marmoset-viewer-inline" class="marmoset-viewer-inline">
+                        <p>Chargement du viewer Marmoset...</p>
+                    </div>
+                </div>
+                <div class="marmoset-info">
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                    <div class="project-tags">
+                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
 
-// Instance créée automatiquement au chargement du DOM
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('[PORTFOLIO] DOM chargé, création de l\'instance...');
-    if (!window.portfolioManager) {
-        window.portfolioManager = new PortfolioManager();
-        // Initialiser les projets et l'affichage
-        window.portfolioManager.initProjectsFromFolders().then(() => {
-            window.portfolioManager.init();
-            console.log('[PORTFOLIO] Initialisation complète');
+        document.body.appendChild(modal);
+
+        // Charger le script Marmoset depuis CDN
+        this.loadMarmosetScript().then(() => {
+            // Charger le fichier .mview du projet Circus
+            this.initializeMarmosetViewer();
         });
     }
-});
-            z-index: 10000;
-            overflow: hidden;
-        `;
+
+    // Charger le script Marmoset depuis CDN
+    loadMarmosetScript() {
+        return new Promise((resolve, reject) => {
+            // Vérifier si Marmoset est déjà chargé
+            if (window.marmoset) {
+                resolve();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://viewer.marmoset.co/main/marmoset.js';
+            script.onload = () => {
+                console.log('[MARMOSET] Script chargé depuis CDN');
+                resolve();
+            };
+            script.onerror = () => {
+                console.error('[MARMOSET] Erreur de chargement du script');
+                reject();
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    // Initialiser le viewer Marmoset avec le fichier .mview
+    initializeMarmosetViewer() {
+        console.log('[MARMOSET] Initialisation du viewer...');
         
-        // Charger le contenu de la page projet-circus-3d.html via iframe
-        modal.innerHTML = `
-            <iframe 
-                src="00_SITE_ACTIF/projets/circus-3d/index.html" 
-                style="width: 100%; height: 100%; border: none; background: #000;"
-                onload="console.log('[CIRCUS] Page dédiée chargée avec succès')">
-            </iframe>
-            <button 
-                onclick="this.closest('.circus-project-modal').remove()" 
-                style="position: absolute; top: 20px; right: 20px; 
-                       background: rgba(255,255,255,0.2); color: white; 
-                       border: none; padding: 10px 15px; border-radius: 50%; 
-                       font-size: 18px; cursor: pointer; z-index: 10001;
-                       backdrop-filter: blur(10px);">
-                ✕
-            </button>
-        `;
-        
-        // Ajouter au DOM avec animation
-        document.body.appendChild(modal);
-        
-        // Animation d'ouverture
-        modal.style.opacity = '0';
-        modal.style.transform = 'scale(0.9)';
-        
-        setTimeout(() => {
-            modal.style.transition = 'all 0.3s ease';
-            modal.style.opacity = '1';
-            modal.style.transform = 'scale(1)';
-        }, 10);
-        
-        console.log('[CIRCUS] Modal de la page Circus créée');
+        const viewerContainer = document.getElementById('marmoset-viewer-inline');
+        if (!viewerContainer) {
+            console.error('[MARMOSET] Container non trouvé');
+            return;
+        }
+
+        if (window.marmoset) {
+            // URL du fichier .mview du projet Circus
+            const mviewUrl = 'assets/images/Cirucs/ok.mview';
+            
+            viewerContainer.innerHTML = `
+                <marmoset id="circus-mview" src="${mviewUrl}" width="800" height="600">
+                    <p>Chargement du modèle 3D Circus...</p>
+                </marmoset>
+            `;
+
+            // Initialiser Marmoset
+            window.marmoset.embed();
+            console.log('[MARMOSET] Viewer initialisé avec succès');
+        } else {
+            viewerContainer.innerHTML = '<p style="color: red;">Erreur: Script Marmoset non disponible</p>';
+        }
     }
 }
 
 // Instance globale
 window.portfolioManager = null;
 
-// Instance créée automatiquement au chargement du DOM
+// Instance crÃ©Ã©e automatiquement au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[PORTFOLIO] DOM chargé, création de l\'instance...');
+    console.log('[PORTFOLIO] DOM chargÃ©, crÃ©ation de l\'instance...');
     if (!window.portfolioManager) {
         window.portfolioManager = new PortfolioManager();
         // Initialiser les projets et l'affichage
