@@ -3787,6 +3787,110 @@ body {
 
 /* ======= SECTION PORTFOLIO COLLECTIBLES ======= */
 
+/* Layout spécial pour le projet Circus */
+.circus-project {
+    display: flex !important;
+    gap: 20px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.circus-video-container {
+    flex: 1;
+    max-width: 400px;
+}
+
+.circus-video-wrapper {
+    position: relative;
+    border: 2px solid white;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.circus-video-wrapper:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+}
+
+.circus-main-video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.circus-video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 15px;
+    text-align: center;
+}
+
+.circus-overlay-text span {
+    color: #4CAF50;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.circus-info-container {
+    flex: 2;
+    padding-left: 20px;
+    color: white;
+}
+
+.circus-info-container h3 {
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 2rem;
+    color: #4CAF50;
+    margin: 0 0 15px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.circus-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    color: #e0e0e0;
+}
+
+.circus-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.circus-tags .tag {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 0.9rem;
+}
+
+.circus-hint {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+
+.circus-hint small {
+    color: #ccc;
+    font-style: italic;
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
@@ -4327,12 +4431,13 @@ body {
 }
 
 .marmoset-modal-content {
-    background: white;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid white;
     border-radius: 8px;
     max-width: 95vw;
     max-height: 95vh;
-    width: 1000px;
-    height: 700px;
+    width: 1400px;
+    height: 800px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
@@ -4347,11 +4452,14 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    border-bottom: 2px solid white;
 }
 
 .marmoset-header h2 {
     margin: 0;
     font-size: 1.3rem;
+    font-family: 'Kindergarten', sans-serif;
+    color: #4CAF50;
 }
 
 .close-marmoset-viewer {
@@ -4369,9 +4477,74 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
+.marmoset-main-container {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    gap: 2px;
+}
+
+/* Panneau galerie (gauche) */
+.marmoset-gallery-panel {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.05);
+    border-right: 2px solid white;
+    display: flex;
+    flex-direction: column;
+}
+
+.marmoset-gallery-panel h3 {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    margin: 0;
+    padding: 10px 15px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gallery-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.gallery-item {
+    position: relative;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 5px 8px;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+/* Viewer central */
 .marmoset-viewer-container {
     flex: 1;
-    padding: 0;
     background: #f5f5f5;
     display: flex;
     align-items: center;
@@ -4384,6 +4557,120 @@ body {
     height: 100%;
     border: none;
     background: white;
+}
+
+/* Panneau infos (droite) */
+.marmoset-info-panel {
+    width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.marmoset-info-panel h3 {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    margin: 0;
+    padding: 10px 15px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-software {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-software h4 {
+    color: #4CAF50;
+    font-family: 'Kindergarten', sans-serif;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+}
+
+.software-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.software-item {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    font-family: 'Kindergarten', sans-serif;
+}
+
+.project-details {
+    padding: 15px;
+    flex: 1;
+}
+
+.project-details h4 {
+    color: #4CAF50;
+    font-family: 'Kindergarten', sans-serif;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+}
+
+.project-details p {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Lightbox pour images agrandies */
+.image-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 @keyframes fadeIn {

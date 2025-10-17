@@ -154,33 +154,55 @@
 
         const projectShowcase = document.getElementById('project-showcase');
         if (projectShowcase) {
-            projectShowcase.innerHTML = `
-            <div class="project-item active" data-project="${project.id}">
-                <div class="project-3d-viewer" ondblclick="portfolioManager.openProjectDetails(${project.id})">
-                    <div class="project-viewer-content">
-                        <div class="project-video-wrapper">
-                            <video class="project-main-video" autoplay muted loop>
+            // Affichage spécial pour le projet Circus (premier projet uniquement)
+            if (this.currentProject === 0 && project.title === 'Projet Circus 3D') {
+                projectShowcase.innerHTML = `
+                <div class="project-item active circus-project" data-project="${project.id}">
+                    <div class="circus-video-container">
+                        <div class="circus-video-wrapper" ondblclick="portfolioManager.openProjectDetails(${project.id})">
+                            <video class="circus-main-video" autoplay muted loop>
                                 <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
                                 Votre navigateur ne supporte pas la lecture de vidéos.
                             </video>
-                            <div class="project-overlay">
-                                <div class="project-overlay-text">
-                                    <span>[3D] Projet 3D : ${project.title}</span>
-                                    <p>Double-clic pour accéder au viewer Marmoset</p>
+                            <div class="circus-video-overlay">
+                                <div class="circus-overlay-text">
+                                    <span>🎪 Double-cliquez pour explorer en 3D</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="project-info">
-                    <h3>${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    <div class="project-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    <div class="circus-info-container">
+                        <h3>${project.title}</h3>
+                        <p class="circus-description">${project.description}</p>
+                        <div class="circus-tags">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="circus-hint">
+                            <small>💡 Double-cliquez sur la vidéo pour accéder au viewer 3D interactif</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+                `;
+            } else {
+                // Affichage standard pour les autres projets
+                projectShowcase.innerHTML = `
+                <div class="project-item active" data-project="${project.id}">
+                    <div class="project-3d-viewer">
+                        <div class="project-placeholder">
+                            <p>Projet ${project.title}</p>
+                            <span>En développement...</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
         }
     }
 
@@ -505,7 +527,7 @@
     showMarmosetViewerInline(project) {
         console.log('[MARMOSET] Affichage du viewer Marmoset inline pour Circus');
         
-        // Créer une modal simple et minimaliste
+        // Créer une modal avec galerie, viewer et infos
         const modal = document.createElement('div');
         modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
@@ -514,21 +536,99 @@
                     <h2>${project.title}</h2>
                     <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">×</button>
                 </div>
-                <div class="marmoset-viewer-container">
-                    <iframe id="marmoset-viewer-inline" 
-                            src="assets/images/Cirucs/Circus_Viewer.html" 
-                            width="100%" 
-                            height="100%" 
-                            frameborder="0"
-                            allowfullscreen>
-                        <p>Chargement du viewer Marmoset...</p>
-                    </iframe>
+                <div class="marmoset-main-container">
+                    <div class="marmoset-gallery-panel">
+                        <h3>Galerie</h3>
+                        <div class="gallery-scroll-container" id="circus-gallery">
+                            <!-- Images seront ajoutées ici -->
+                        </div>
+                    </div>
+                    <div class="marmoset-viewer-container">
+                        <iframe id="marmoset-viewer-inline" 
+                                src="assets/images/Cirucs/Circus_Viewer.html" 
+                                width="100%" 
+                                height="100%" 
+                                frameborder="0"
+                                allowfullscreen>
+                            <p>Chargement du viewer Marmoset...</p>
+                        </iframe>
+                    </div>
+                    <div class="marmoset-info-panel">
+                        <h3>Informations</h3>
+                        <div class="project-software">
+                            <h4>Logiciels utilisés</h4>
+                            <div class="software-list">
+                                ${project.tags.map(tag => `<div class="software-item">${tag}</div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h4>Description</h4>
+                            <p>${project.description}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
+        
+        // Charger les images de la galerie
+        this.loadCircusGallery();
+        
         console.log('[MARMOSET] Viewer chargé depuis Circus_Viewer.html');
+    }
+
+    // Charger les images du dossier Circus
+    loadCircusGallery() {
+        const galleryContainer = document.getElementById('circus-gallery');
+        if (!galleryContainer) return;
+
+        // Liste des images Circus
+        const circusImages = [
+            'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
+            'Neulinger_Clara_3B3D_Circus_References.jpg',
+            'Neulinger_Clara_3B3D_Circus_References_2.jpg'
+        ];
+
+        galleryContainer.innerHTML = circusImages.map(imageName => `
+            <div class="gallery-item" onclick="portfolioManager.openImageLightbox('assets/images/Cirucs/${imageName}')">
+                <img src="assets/images/Cirucs/${imageName}" alt="${imageName}" loading="lazy">
+                <div class="gallery-overlay">${imageName.replace('Neulinger_Clara_3B3D_Circus_', '').replace('.jpg', '')}</div>
+            </div>
+        `).join('');
+    }
+
+    // Ouvrir une image en lightbox
+    openImageLightbox(imageSrc) {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'image-lightbox';
+        lightbox.innerHTML = `
+            <div class="lightbox-content">
+                <button class="lightbox-close" onclick="this.closest('.image-lightbox').remove()">×</button>
+                <img src="${imageSrc}" alt="Image agrandie">
+            </div>
+        `;
+        lightbox.onclick = (e) => {
+            if (e.target === lightbox) {
+                lightbox.remove();
+            }
+        };
+        document.body.appendChild(lightbox);
     }
 }
 
