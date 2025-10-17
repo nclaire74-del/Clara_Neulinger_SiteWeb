@@ -3787,10 +3787,63 @@ body {
 
 /* ======= SECTION PORTFOLIO COLLECTIBLES ======= */
 
+/* Navigation projets en haut */
+.project-navigation-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0;
+    padding: 15px;
+}
+
+.project-nav-btn {
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.project-nav-btn:hover {
+    background: linear-gradient(145deg, #3a3a4e, #2a2a3e);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.project-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.project-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.project-dot.active {
+    background: white;
+}
+
 /* Layout spécial pour le projet Circus */
 .circus-project {
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     display: flex !important;
-    gap: 20px;
+    gap: 25px;
     align-items: flex-start;
     width: 100%;
     max-width: 1200px;
@@ -3798,8 +3851,8 @@ body {
 }
 
 .circus-video-container {
-    flex: 1;
-    max-width: 400px;
+    flex: 1.2;
+    max-width: 500px;
 }
 
 .circus-video-wrapper {
@@ -3813,8 +3866,8 @@ body {
 }
 
 .circus-video-wrapper:hover {
-    border-color: #4CAF50;
-    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+    border-color: #ccc;
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
 }
 
 .circus-main-video {
@@ -3834,14 +3887,14 @@ body {
 }
 
 .circus-overlay-text span {
-    color: #4CAF50;
+    color: white;
     font-family: 'Kindergarten', sans-serif;
     font-size: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .circus-info-container {
-    flex: 2;
+    flex: 1;
     padding-left: 20px;
     color: white;
 }
@@ -3849,7 +3902,7 @@ body {
 .circus-info-container h3 {
     font-family: 'Kindergarten', sans-serif;
     font-size: 2rem;
-    color: #4CAF50;
+    color: white;
     margin: 0 0 15px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -3869,9 +3922,9 @@ body {
 }
 
 .circus-tags .tag {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid #4CAF50;
-    color: #4CAF50;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
     padding: 6px 12px;
     border-radius: 15px;
     font-family: 'Kindergarten', sans-serif;
@@ -4428,38 +4481,35 @@ body {
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.3s ease;
+    padding: 20px;
 }
 
 .marmoset-modal-content {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border: 2px solid white;
-    border-radius: 8px;
-    max-width: 95vw;
-    max-height: 95vh;
-    width: 1400px;
-    height: 800px;
+    width: 100%;
+    max-width: 1400px;
+    height: 90vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-    overflow: hidden;
+    gap: 20px;
 }
 
 .marmoset-header {
-    background: #333;
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
     color: white;
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
-    border-bottom: 2px solid white;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .marmoset-header h2 {
     margin: 0;
     font-size: 1.3rem;
     font-family: 'Kindergarten', sans-serif;
-    color: #4CAF50;
+    color: white;
 }
 
 .close-marmoset-viewer {
@@ -4480,27 +4530,30 @@ body {
 .marmoset-main-container {
     flex: 1;
     display: flex;
+    gap: 20px;
     min-height: 0;
-    gap: 2px;
 }
 
 /* Panneau galerie (gauche) */
 .marmoset-gallery-panel {
-    width: 250px;
-    background: rgba(255, 255, 255, 0.05);
-    border-right: 2px solid white;
+    width: 280px;
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .marmoset-gallery-panel h3 {
-    background: rgba(76, 175, 80, 0.2);
-    color: #4CAF50;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     margin: 0;
     padding: 10px 15px;
     font-family: 'Kindergarten', sans-serif;
     font-size: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px 6px 0 0;
 }
 
 .gallery-scroll-container {
@@ -4520,8 +4573,8 @@ body {
 }
 
 .gallery-item:hover {
-    border-color: #4CAF50;
-    box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+    border-color: white;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 .gallery-item img {
@@ -4545,11 +4598,15 @@ body {
 /* Viewer central */
 .marmoset-viewer-container {
     flex: 1;
-    background: #f5f5f5;
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    padding: 10px;
 }
 
 #marmoset-viewer-inline {
@@ -4557,26 +4614,30 @@ body {
     height: 100%;
     border: none;
     background: white;
+    border-radius: 6px;
 }
 
 /* Panneau infos (droite) */
 .marmoset-info-panel {
     width: 300px;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 2px solid white;
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border: 2px solid white;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     color: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .marmoset-info-panel h3 {
-    background: rgba(76, 175, 80, 0.2);
-    color: #4CAF50;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     margin: 0;
     padding: 10px 15px;
     font-family: 'Kindergarten', sans-serif;
     font-size: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px 6px 0 0;
 }
 
 .project-software {
@@ -4585,7 +4646,7 @@ body {
 }
 
 .project-software h4 {
-    color: #4CAF50;
+    color: white;
     font-family: 'Kindergarten', sans-serif;
     margin: 0 0 10px 0;
     font-size: 0.9rem;
@@ -4598,9 +4659,9 @@ body {
 }
 
 .software-item {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid #4CAF50;
-    color: #4CAF50;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
     padding: 5px 10px;
     border-radius: 15px;
     font-size: 0.8rem;
@@ -4614,7 +4675,7 @@ body {
 }
 
 .project-details h4 {
-    color: #4CAF50;
+    color: white;
     font-family: 'Kindergarten', sans-serif;
     margin: 0 0 10px 0;
     font-size: 0.9rem;
