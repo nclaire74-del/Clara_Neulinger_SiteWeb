@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewer 3D Alternatif - Clara Neulinger</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(0,0,0,0.4);
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            background: linear-gradient(45deg, #fff, #a8edea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .viewer-section {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 25px 0;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .method-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .method-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .method-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        .method-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .viewer-container {
+            width: 100%;
+            height: 650px;
+            background: #000;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-info {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .status-light {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e74c3c;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+        
+        .status-light.ok {
+            background: #27ae60;
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.5);
+        }
+        
+        .status-light.warning {
+            background: #f39c12;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+        
+        .btn.danger {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+        }
+        
+        .btn.success {
+            background: linear-gradient(135deg, #2ed573, #7bed9f);
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fallback-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #1a1a1a;
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .log-section {
+            margin-top: 30px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .log-console {
+            background: #1a1a1a;
+            color: #00ff88;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            padding: 20px;
+            border-radius: 10px;
+            height: 220px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .method-info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎭 Viewer 3D Circus - Clara Neulinger</h1>
+    </div>
+    
+    <div class="container">
+        <div class="viewer-section">
+            <h2>🚀 Sélectionnez une méthode de chargement</h2>
+            
+            <div class="method-selector">
+                <button class="method-btn active" onclick="selectMethod('iframe')" id="btn-iframe">
+                    📺 iFrame Direct
+                </button>
+                <button class="method-btn" onclick="selectMethod('marmoset-new')" id="btn-marmoset-new">
+                    🔧 Marmoset Nouveau
+                </button>
+                <button class="method-btn" onclick="selectMethod('marmoset-old')" id="btn-marmoset-old">
+                    ⚙️ Marmoset Ancien
+                </button>
+                <button class="method-btn" onclick="selectMethod('download')" id="btn-download">
+                    💾 Téléchargement
+                </button>
+            </div>
+            
+            <div class="method-info" id="method-info">
+                <strong>📺 iFrame Direct :</strong> Charge le fichier .mview directement dans un iframe. 
+                Méthode la plus simple et compatible.
+            </div>
+            
+            <div class="status-bar">
+                <div class="status-info">
+                    <div class="status-light" id="status-light"></div>
+                    <span id="status-text">Prêt à charger</span>
+                    <span id="file-info">📁 ok.mview (139 MB)</span>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn success" onclick="loadModel()">🚀 Charger Modèle</button>
+                    <button class="btn" onclick="testFile()">✅ Test Fichier</button>
+                    <button class="btn danger" onclick="resetViewer()">🔄 Reset</button>
+                </div>
+            </div>
+            
+            <div class="viewer-container" id="viewer-container">
+                <div class="loading-overlay" id="loading-overlay" style="display: none;">
+                    <div class="spinner"></div>
+                    <div>Chargement du modèle 3D...</div>
+                    <div style="font-size: 14px; margin-top: 15px; opacity: 0.8;">
+                        Méthode: <span id="loading-method">iFrame</span>
+                    </div>
+                </div>
+                
+                <div class="error-message">
+                    <h3>🎭 Viewer 3D Prêt</h3>
+                    <p>Cliquez sur "Charger Modèle" pour afficher votre modèle 3D</p>
+                    <p style="font-size: 14px; opacity: 0.7;">Fichier: assets/images/Cirucs/ok.mview</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="log-section">
+            <h3>📋 Console de Debug</h3>
+            <div class="log-console" id="log-console"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentMethod = 'iframe';
+        let isLoading = false;
+        const mviewPath = 'assets/images/Cirucs/ok.mview';
+        
+        const methodInfo = {
+            'iframe': {
+                title: '📺 iFrame Direct',
+                description: 'Charge le fichier .mview directement dans un iframe. Méthode la plus simple et compatible.'
+            },
+            'marmoset-new': {
+                title: '🔧 Marmoset Nouveau',
+                description: 'Utilise la version récente du script Marmoset. Plus de fonctionnalités mais peut être instable.'
+            },
+            'marmoset-old': {
+                title: '⚙️ Marmoset Ancien',
+                description: 'Utilise la version originale du script Marmoset. Plus stable mais fonctionnalités limitées.'
+            },
+            'download': {
+                title: '💾 Téléchargement',
+                description: 'Propose de télécharger le fichier .mview pour l\'ouvrir avec Marmoset Viewer standalone.'
+            }
+        };
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const console = document.getElementById('log-console');
+            const colors = {
+                info: '#00ff88',
+                error: '#ff4757',
+                warning: '#ffa502',
+                success: '#2ed573'
+            };
+            
+            console.innerHTML += `<span style="color: ${colors[type] || '#00ff88'}">[${timestamp}] ${message}</span>\n`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        function updateStatus(text, type = 'normal') {
+            document.getElementById('status-text').textContent = text;
+            const light = document.getElementById('status-light');
+            
+            light.className = 'status-light';
+            if (type === 'ok') light.classList.add('ok');
+            else if (type === 'warning') light.classList.add('warning');
+        }
+        
+        function selectMethod(method) {
+            currentMethod = method;
+            
+            // Update button states
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${method}`).classList.add('active');
+            
+            // Update info
+            const info = methodInfo[method];
+            document.getElementById('method-info').innerHTML = 
+                `<strong>${info.title} :</strong> ${info.description}`;
+            
+            log(`Méthode sélectionnée: ${info.title}`, 'info');
+            updateStatus(`Méthode: ${method}`, 'normal');
+        }
+        
+        function showLoading(method) {
+            document.getElementById('loading-overlay').style.display = 'flex';
+            document.getElementById('loading-method').textContent = method;
+            isLoading = true;
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading-overlay').style.display = 'none';
+            isLoading = false;
+        }
+        
+        function testFile() {
+            updateStatus('Test du fichier...', 'warning');
+            log('Test d\'accessibilité du fichier .mview', 'info');
+            
+            fetch(mviewPath, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        const size = response.headers.get('content-length');
+                        const sizeMB = Math.round(size / 1024 / 1024);
+                        updateStatus(`✅ Fichier OK (${sizeMB} MB)`, 'ok');
+                        log(`SUCCESS: Fichier accessible - ${sizeMB} MB`, 'success');
+                    } else {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    updateStatus('❌ Fichier inaccessible', 'error');
+                    log(`ERROR: ${error.message}`, 'error');
+                });
+        }
+        
+        function loadModel() {
+            if (isLoading) return;
+            
+            const container = document.getElementById('viewer-container');
+            const methodTitle = methodInfo[currentMethod].title;
+            
+            updateStatus(`Chargement via ${currentMethod}...`, 'warning');
+            log(`Début du chargement - Méthode: ${methodTitle}`, 'info');
+            showLoading(methodTitle);
+            
+            // Clear container
+            container.innerHTML = '';
+            container.appendChild(document.getElementById('loading-overlay'));
+            
+            switch(currentMethod) {
+                case 'iframe':
+                    loadWithIframe(container);
+                    break;
+                case 'marmoset-new':
+                    loadWithMarmosetNew(container);
+                    break;
+                case 'marmoset-old':
+                    loadWithMarmosetOld(container);
+                    break;
+                case 'download':
+                    offerDownload();
+                    break;
+            }
+        }
+        
+        function loadWithIframe(container) {
+            log('Création d\'un iframe pour le fichier .mview', 'info');
+            
+            const iframe = document.createElement('iframe');
+            iframe.className = 'fallback-viewer';
+            iframe.src = mviewPath;
+            
+            iframe.onload = function() {
+                hideLoading();
+                updateStatus('✅ iFrame chargé', 'ok');
+                log('SUCCESS: iFrame chargé avec succès', 'success');
+            };
+            
+            iframe.onerror = function() {
+                hideLoading();
+                updateStatus('❌ Erreur iFrame', 'error');
+                log('ERROR: Impossible de charger via iFrame', 'error');
+                showFallbackMessage(container, 'iFrame incompatible avec ce fichier');
+            };
+            
+            container.appendChild(iframe);
+            
+            // Timeout
+            setTimeout(() => {
+                if (isLoading) {
+                    hideLoading();
+                    updateStatus('✅ iFrame initialisé', 'ok');
+                    log('iFrame initialisé (timeout atteint)', 'warning');
+                }
+            }, 5000);
+        }
+        
+        function loadWithMarmosetNew(container) {
+            log('Chargement avec le nouveau script Marmoset', 'info');
+            
+            // Load new script
+            const script = document.createElement('script');
+            script.src = 'js/marmoset-new.js';
+            
+            script.onload = function() {
+                log('Nouveau script Marmoset chargé', 'success');
+                setTimeout(() => tryMarmosetEmbed(container, 'nouveau'), 500);
+            };
+            
+            script.onerror = function() {
+                hideLoading();
+                updateStatus('❌ Script nouveau non trouvé', 'error');
+                log('ERROR: Impossible de charger marmoset-new.js', 'error');
+                showFallbackMessage(container, 'Script Marmoset nouveau introuvable');
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        function loadWithMarmosetOld(container) {
+            log('Chargement avec l\'ancien script Marmoset', 'info');
+            
+            if (typeof marmoset !== 'undefined' && marmoset.embed) {
+                tryMarmosetEmbed(container, 'ancien');
+            } else {
+                hideLoading();
+                updateStatus('❌ Marmoset ancien non disponible', 'error');
+                log('ERROR: Script Marmoset ancien non chargé', 'error');
+                showFallbackMessage(container, 'Script Marmoset ancien non disponible');
+            }
+        }
+        
+        function tryMarmosetEmbed(container, version) {
+            log(`Tentative d'embed Marmoset (${version})`, 'info');
+            
+            try {
+                if (typeof marmoset === 'undefined' || !marmoset.embed) {
+                    throw new Error('marmoset.embed non disponible');
+                }
+                
+                const viewer = marmoset.embed({
+                    src: mviewPath,
+                    width: '100%',
+                    height: '100%',
+                    autoStart: true,
+                    showUI: true,
+                    allowFullscreen: true,
+                    
+                    onLoad: function() {
+                        hideLoading();
+                        updateStatus(`✅ Marmoset ${version} OK`, 'ok');
+                        log(`SUCCESS: Marmoset ${version} chargé`, 'success');
+                    },
+                    
+                    onError: function(error) {
+                        hideLoading();
+                        updateStatus(`❌ Erreur Marmoset ${version}`, 'error');
+                        log(`ERROR Marmoset: ${error}`, 'error');
+                        showFallbackMessage(container, `Erreur Marmoset ${version}: ${error}`);
+                    }
+                });
+                
+                if (viewer && viewer.domElement) {
+                    container.appendChild(viewer.domElement);
+                }
+                
+            } catch (error) {
+                hideLoading();
+                updateStatus(`❌ Exception Marmoset ${version}`, 'error');
+                log(`EXCEPTION: ${error.message}`, 'error');
+                showFallbackMessage(container, `Exception: ${error.message}`);
+            }
+        }
+        
+        function offerDownload() {
+            hideLoading();
+            updateStatus('💾 Téléchargement proposé', 'ok');
+            log('Proposition de téléchargement du fichier', 'info');
+            
+            const container = document.getElementById('viewer-container');
+            container.innerHTML = `
+                <div class="error-message">
+                    <h3>💾 Téléchargement Direct</h3>
+                    <p>Cliquez sur le lien ci-dessous pour télécharger le fichier .mview</p>
+                    <p style="margin: 20px 0;">
+                        <a href="${mviewPath}" download="circus-model.mview" 
+                           style="color: #667eea; font-size: 18px; text-decoration: none; 
+                                  padding: 15px 30px; background: rgba(255,255,255,0.1); 
+                                  border-radius: 25px; display: inline-block;">
+                            📥 Télécharger ok.mview (139 MB)
+                        </a>
+                    </p>
+                    <p style="font-size: 14px; opacity: 0.7;">
+                        Ouvrez ensuite le fichier avec Marmoset Viewer ou Toolbag
+                    </p>
+                </div>
+            `;
+        }
+        
+        function showFallbackMessage(container, error) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <h3>❌ Chargement Échoué</h3>
+                    <p><strong>Erreur:</strong> ${error}</p>
+                    <p>Essayez une autre méthode de chargement ci-dessus</p>
+                    <p style="font-size: 14px; opacity: 0.7;">
+                        Ou téléchargez le fichier directement
+                    </p>
+                </div>
+            `;
+        }
+        
+        function resetViewer() {
+            hideLoading();
+            updateStatus('Reset effectué', 'normal');
+            log('Reset du viewer', 'info');
+            
+            const container = document.getElementById('viewer-container');
+            container.innerHTML = `
+                <div class="error-message">
+                    <h3>🎭 Viewer 3D Reset</h3>
+                    <p>Sélectionnez une méthode et cliquez sur "Charger Modèle"</p>
+                    <p style="font-size: 14px; opacity: 0.7;">Fichier: ${mviewPath}</p>
+                </div>
+            `;
+        }
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            log('=== VIEWER 3D ALTERNATIF INITIALISÉ ===', 'success');
+            log('Fichier cible: ' + mviewPath, 'info');
+            selectMethod('iframe'); // Default method
+            
+            // Auto test file
+            setTimeout(() => testFile(), 1000);
+        });
+    </script>
+</body>
+</html>

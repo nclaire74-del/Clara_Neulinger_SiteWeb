@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Paint - Collectible Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .luna-header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .luna-header h1 {
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .luna-workspace {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        .luna-toolbar {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .luna-canvas-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        #lunaCanvas {
+            border: 3px solid #333;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: crosshair;
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        
+        .tool-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tool-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .tool-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tool-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            transform: scale(1.05);
+        }
+        
+        .slider-container {
+            margin: 10px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin: 5px 0;
+        }
+        
+        input[type="color"] {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .preset-colors {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .preset-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #333;
+        }
+        
+        .danger-btn {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #333;
+        }
+        
+        .reference-panel {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .reference-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .reference-img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .reference-img:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .canvas-info {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* Nouveaux styles pour l'interface professionnelle */
+        .interactive-elements {
+            margin: 15px 0;
+        }
+        
+        .element-category {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(240, 240, 240, 0.5);
+            border-radius: 8px;
+        }
+        
+        .element-category h4 {
+            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .element-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .element-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 4px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .element-btn:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .element-btn.active {
+            border-color: #ff6b6b;
+            background: #ffe6e6;
+        }
+        
+        .element-preview {
+            width: 30px;
+            height: 20px;
+            margin-bottom: 4px;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        /* Prévisualisations des éléments */
+        .tape-clear {
+            background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9));
+            border: 1px solid rgba(200,200,200,0.5);
+        }
+        
+        .tape-masking {
+            background: #F5DEB3;
+            border: 1px solid #D2B48C;
+        }
+        
+        .tape-duct {
+            background: #C0C0C0;
+            border: 1px solid #A0A0A0;
+        }
+        
+        .washi-tape {
+            background: linear-gradient(45deg, #FFB6C1, #FFC0CB);
+            border: 1px solid #FF69B4;
+        }
+        
+        .paperclip-silver {
+            background: #C0C0C0;
+            clip-path: polygon(20% 0%, 80% 0%, 90% 50%, 80% 100%, 20% 100%, 10% 50%);
+        }
+        
+        .paperclip-gold {
+            background: #FFD700;
+            clip-path: polygon(20% 0%, 80% 0%, 90% 50%, 80% 100%, 20% 100%, 10% 50%);
+        }
+        
+        .binder-clip {
+            background: #2F2F2F;
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .staple {
+            background: #A0A0A0;
+            clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%);
+        }
+        
+        .sticky-yellow {
+            background: #FFFF88;
+            border: 1px solid #FFFF00;
+        }
+        
+        .sticky-pink {
+            background: #FFB6C1;
+            border: 1px solid #FF69B4;
+        }
+        
+        .label-vintage {
+            background: #F5DEB3;
+            border: 1px solid #8B4513;
+            position: relative;
+        }
+        
+        .label-vintage::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid #8B4513;
+        }
+        
+        .stamp {
+            background: radial-gradient(circle, #8B0000, #DC143C);
+            border-radius: 50%;
+        }
+        
+        .coffee-stain {
+            background: radial-gradient(circle, rgba(101,67,33,0.6), rgba(101,67,33,0.2));
+            border-radius: 50%;
+        }
+        
+        .ink-blot {
+            background: radial-gradient(circle, rgba(0,0,139,0.6), rgba(0,0,139,0.2));
+            border-radius: 50%;
+        }
+        
+        .burn-mark {
+            background: radial-gradient(circle, rgba(139,69,19,0.8), rgba(160,82,45,0.3));
+            border-radius: 50%;
+        }
+        
+        .water-damage {
+            background: radial-gradient(circle, rgba(173,216,230,0.6), rgba(173,216,230,0.2));
+            border-radius: 50%;
+        }
+        
+        /* Système de calques */
+        .layers-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .layer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .layer-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .layer-item.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .layer-controls {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .layer-controls button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 3px;
+        }
+        
+        .layer-controls button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Mode interactif */
+        .interactive-mode #lunaCanvas {
+            cursor: crosshair;
+        }
+        
+        .mode-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .mode-indicator.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="luna-header">
+        <h1>🌙 Luna Paint - Collectible Creator</h1>
+        <p>Créez vos collectibles vintage avec style !</p>
+    </div>
+    
+    <div class="luna-workspace">
+        <div class="luna-toolbar">
+            <!-- Générateur de papiers -->
+            <div class="tool-section">
+                <h3>📜 Générateur de Papiers</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" onclick="generatePaper('vintage')">Papier Vintage</button>
+                    <button class="tool-btn" onclick="generatePaper('parchment')">Parchemin</button>
+                    <button class="tool-btn" onclick="generatePaper('notebook')">Cahier Ligné</button>
+                    <button class="tool-btn" onclick="generatePaper('blueprint')">Blueprint</button>
+                    <button class="tool-btn" onclick="generatePaper('newspaper')">Journal</button>
+                    <button class="tool-btn" onclick="generatePaper('cardboard')">Carton</button>
+                </div>
+            </div>
+            
+            <!-- Éléments interactifs -->
+            <div class="tool-section">
+                <h3>📎 Éléments Interactifs</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Cliquez sur le canvas pour placer</p>
+                <div class="interactive-elements">
+                    <div class="element-category">
+                        <h4>Scotch & Adhésifs</h4>
+                        <div class="element-grid">
+                            <button class="element-btn" onclick="setInteractiveMode('tape-clear')">
+                                <div class="element-preview tape-clear"></div>
+                                Scotch Transparent
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('tape-masking')">
+                                <div class="element-preview tape-masking"></div>
+                                Masking Tape
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('tape-duct')">
+                                <div class="element-preview tape-duct"></div>
+                                Duct Tape
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('washi-tape')">
+                                <div class="element-preview washi-tape"></div>
+                                Washi Tape
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="element-category">
+                        <h4>Attaches Métalliques</h4>
+                        <div class="element-grid">
+                            <button class="element-btn" onclick="setInteractiveMode('paperclip-silver')">
+                                <div class="element-preview paperclip-silver"></div>
+                                Trombone Argenté
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('paperclip-gold')">
+                                <div class="element-preview paperclip-gold"></div>
+                                Trombone Doré
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('binder-clip')">
+                                <div class="element-preview binder-clip"></div>
+                                Pince à Dessin
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('staple')">
+                                <div class="element-preview staple"></div>
+                                Agrafe
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="element-category">
+                        <h4>Notes & Étiquettes</h4>
+                        <div class="element-grid">
+                            <button class="element-btn" onclick="setInteractiveMode('sticky-yellow')">
+                                <div class="element-preview sticky-yellow"></div>
+                                Post-it Jaune
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('sticky-pink')">
+                                <div class="element-preview sticky-pink"></div>
+                                Post-it Rose
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('label-vintage')">
+                                <div class="element-preview label-vintage"></div>
+                                Étiquette Vintage
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('stamp')">
+                                <div class="element-preview stamp"></div>
+                                Tampon
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="element-category">
+                        <h4>Effets de Dégradation</h4>
+                        <div class="element-grid">
+                            <button class="element-btn" onclick="setInteractiveMode('coffee-stain')">
+                                <div class="element-preview coffee-stain"></div>
+                                Tache de Café
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('ink-blot')">
+                                <div class="element-preview ink-blot"></div>
+                                Tache d'Encre
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('burn-mark')">
+                                <div class="element-preview burn-mark"></div>
+                                Brûlure
+                            </button>
+                            <button class="element-btn" onclick="setInteractiveMode('water-damage')">
+                                <div class="element-preview water-damage"></div>
+                                Dégât d'Eau
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Effets de bordure -->
+            <div class="tool-section">
+                <h3>✂️ Bordures & Déchirures</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" onclick="addTornEdge('top')">Déchirer Haut</button>
+                    <button class="tool-btn" onclick="addTornEdge('bottom')">Déchirer Bas</button>
+                    <button class="tool-btn" onclick="addTornEdge('left')">Déchirer Gauche</button>
+                    <button class="tool-btn" onclick="addTornEdge('right')">Déchirer Droite</button>
+                    <button class="tool-btn" onclick="addBurnedEdge()">Bordure Brûlée</button>
+                    <button class="tool-btn" onclick="addFoldedCorner()">Coin Corné</button>
+                </div>
+            </div>
+            
+            <!-- Calques et organisation -->
+            <div class="tool-section">
+                <h3>� Calques</h3>
+                <div id="layersList" class="layers-list">
+                    <div class="layer-item active" data-layer="0">
+                        <span>Fond</span>
+                        <div class="layer-controls">
+                            <button onclick="toggleLayerVisibility(0)">👁️</button>
+                            <button onclick="deleteLayer(0)">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="action-btn secondary-btn" onclick="addNewLayer()">+ Nouveau Calque</button>
+            </div>
+            
+            <!-- Outils de dessin -->
+            <div class="tool-section">
+                <h3>🎨 Outils de Dessin</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn active" onclick="setTool('brush')" id="brush-tool">Pinceau</button>
+                    <button class="tool-btn" onclick="setTool('pencil')" id="pencil-tool">Crayon</button>
+                    <button class="tool-btn" onclick="setTool('eraser')" id="eraser-tool">Gomme</button>
+                    <button class="tool-btn" onclick="setTool('line')" id="line-tool">Ligne</button>
+                    <button class="tool-btn" onclick="setTool('rectangle')" id="rect-tool">Rectangle</button>
+                    <button class="tool-btn" onclick="setTool('circle')" id="circle-tool">Cercle</button>
+                </div>
+            </div>
+            
+            <!-- Paramètres -->
+            <div class="tool-section">
+                <h3>⚙️ Paramètres</h3>
+                <div class="slider-container">
+                    <label for="brushSize">Taille: <span id="brushSizeValue">5</span>px</label>
+                    <input type="range" id="brushSize" min="1" max="50" value="5" oninput="updateBrushSize()">
+                </div>
+                <div class="slider-container">
+                    <label for="opacity">Opacité: <span id="opacityValue">100</span>%</label>
+                    <input type="range" id="opacity" min="10" max="100" value="100" oninput="updateOpacity()">
+                </div>
+            </div>
+            
+            <!-- Couleurs -->
+            <div class="tool-section">
+                <h3>🎨 Couleurs</h3>
+                <input type="color" id="colorPicker" value="#8B4513" onchange="updateColor()">
+                <div class="preset-colors">
+                    <div class="preset-color" style="background: #8B4513" onclick="setPresetColor('#8B4513')"></div>
+                    <div class="preset-color" style="background: #2c1810" onclick="setPresetColor('#2c1810')"></div>
+                    <div class="preset-color" style="background: #654321" onclick="setPresetColor('#654321')"></div>
+                    <div class="preset-color" style="background: #A0522D" onclick="setPresetColor('#A0522D')"></div>
+                    <div class="preset-color" style="background: #f5f2e8" onclick="setPresetColor('#f5f2e8')"></div>
+                    <div class="preset-color" style="background: #000000" onclick="setPresetColor('#000000')"></div>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="tool-section">
+                <h3>💾 Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn primary-btn" onclick="generateQuickCollectible()">⚡ Collectible Rapide</button>
+                    <button class="action-btn secondary-btn" onclick="exportLayers()">� Exporter Calques</button>
+                    <button class="action-btn primary-btn" onclick="saveImage()">💾 Sauvegarder PNG</button>
+                    <button class="action-btn danger-btn" onclick="clearCanvas()">🗑️ Nouveau Document</button>
+                </div>
+                
+                <div class="canvas-info">
+                    <div>Mode: <span id="currentMode">Dessin</span></div>
+                    <div>Outil: <span id="currentTool">Pinceau</span></div>
+                    <div>Position: <span id="mousePos">-</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="luna-canvas-area">
+            <canvas id="lunaCanvas" width="1920" height="1080"></canvas>
+        </div>
+    </div>
+    
+    <!-- Indicateur de mode -->
+    <div id="modeIndicator" class="mode-indicator">
+        <span id="modeText">Mode Placement Actif</span>
+    </div>
+
+    <script>
+        // Variables globales
+        const canvas = document.getElementById('lunaCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let currentTool = 'brush';
+        let currentColor = '#8B4513';
+        let currentSize = 5;
+        let currentOpacity = 1;
+        let startX, startY;
+        
+        // Initialisation
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        // Événements de dessin
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        canvas.addEventListener('mousemove', updateMousePosition);
+        
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+            
+            if (currentTool === 'brush' || currentTool === 'pencil') {
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+            }
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.globalAlpha = currentOpacity;
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize;
+            
+            switch(currentTool) {
+                case 'brush':
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'pencil':
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.lineWidth = Math.max(1, currentSize / 2);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'eraser':
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'line':
+                    redrawCanvas();
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'rectangle':
+                    redrawCanvas();
+                    ctx.strokeRect(startX, startY, x - startX, y - startY);
+                    break;
+                    
+                case 'circle':
+                    redrawCanvas();
+                    const radius = Math.sqrt(Math.pow(x - startX, 2) + Math.pow(y - startY, 2));
+                    ctx.beginPath();
+                    ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    break;
+            }
+        }
+        
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.beginPath();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.globalAlpha = 1;
+            saveCanvasState();
+        }
+        
+        function updateMousePosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+            document.getElementById('mousePos').textContent = `${x}, ${y}`;
+        }
+        
+        // Gestion des outils
+        function setTool(tool) {
+            // Retirer la classe active de tous les boutons
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Ajouter la classe active au bouton sélectionné
+            document.getElementById(tool + '-tool').classList.add('active');
+            
+            currentTool = tool;
+            document.getElementById('currentTool').textContent = tool.charAt(0).toUpperCase() + tool.slice(1);
+            
+            // Changer le curseur selon l'outil
+            switch(tool) {
+                case 'eraser':
+                    canvas.style.cursor = 'crosshair';
+                    break;
+                case 'brush':
+                case 'pencil':
+                    canvas.style.cursor = 'crosshair';
+                    break;
+                default:
+                    canvas.style.cursor = 'crosshair';
+            }
+        }
+        
+        function updateBrushSize() {
+            currentSize = document.getElementById('brushSize').value;
+            document.getElementById('brushSizeValue').textContent = currentSize;
+            document.getElementById('currentSize').textContent = currentSize + 'px';
+        }
+        
+        function updateOpacity() {
+            const opacityPercent = document.getElementById('opacity').value;
+            currentOpacity = opacityPercent / 100;
+            document.getElementById('opacityValue').textContent = opacityPercent;
+        }
+        
+        function updateColor() {
+            currentColor = document.getElementById('colorPicker').value;
+        }
+        
+        function setPresetColor(color) {
+            currentColor = color;
+            document.getElementById('colorPicker').value = color;
+        }
+        
+        // Templates et génération
+        function loadTemplate(type) {
+            clearCanvas();
+            
+            // Fond vintage
+            ctx.fillStyle = '#f5f2e8';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture de papier
+            addPaperTexture();
+            
+            switch(type) {
+                case 'vintage':
+                    drawVintageBorder();
+                    drawVintageLayout();
+                    break;
+                case 'torn':
+                    drawTornBorder();
+                    drawVintageLayout();
+                    break;
+                case 'ornate':
+                    drawOrnateBorder();
+                    drawVintageLayout();
+                    break;
+            }
+            
+            saveCanvasState();
+        }
+        
+        function addRealisticElements() {
+            // Combinaison de tous les éléments réalistes
+            addTornPaper();
+            addTapeAndClips();
+            addWrinklesAndFolds();
+            addStainsAndMarks();
+            addShadowsAndDepth();
+            saveCanvasState();
+        }
+        
+        function addTornPaper() {
+            // Bordures déchirées réalistes
+            ctx.save();
+            
+            // Créer un masque pour les bords déchirés
+            const edges = [
+                { side: 'top', start: 0, end: canvas.width },
+                { side: 'bottom', start: 0, end: canvas.width },
+                { side: 'left', start: 0, end: canvas.height },
+                { side: 'right', start: 0, end: canvas.height }
+            ];
+            
+            edges.forEach(edge => {
+                drawTornEdge(edge);
+            });
+            
+            // Trous et déchirures dans le papier
+            for (let i = 0; i < 8; i++) {
+                const x = Math.random() * (canvas.width - 200) + 100;
+                const y = Math.random() * (canvas.height - 200) + 100;
+                drawPaperTear(x, y);
+            }
+            
+            // Coins cornés
+            drawFoldedCorners();
+            
+            ctx.restore();
+        }
+        
+        function drawTornEdge(edge) {
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            const roughness = 15;
+            const frequency = 20;
+            
+            switch(edge.side) {
+                case 'top':
+                    ctx.moveTo(0, roughness);
+                    for (let x = 0; x < canvas.width; x += frequency) {
+                        const variation = Math.random() * roughness * 2 - roughness;
+                        ctx.lineTo(x, Math.max(0, variation + 5));
+                    }
+                    break;
+                    
+                case 'bottom':
+                    ctx.moveTo(0, canvas.height - roughness);
+                    for (let x = 0; x < canvas.width; x += frequency) {
+                        const variation = Math.random() * roughness * 2 - roughness;
+                        ctx.lineTo(x, Math.min(canvas.height, canvas.height - 5 + variation));
+                    }
+                    break;
+                    
+                case 'left':
+                    ctx.moveTo(roughness, 0);
+                    for (let y = 0; y < canvas.height; y += frequency) {
+                        const variation = Math.random() * roughness * 2 - roughness;
+                        ctx.lineTo(Math.max(0, variation + 5), y);
+                    }
+                    break;
+                    
+                case 'right':
+                    ctx.moveTo(canvas.width - roughness, 0);
+                    for (let y = 0; y < canvas.height; y += frequency) {
+                        const variation = Math.random() * roughness * 2 - roughness;
+                        ctx.lineTo(Math.min(canvas.width, canvas.width - 5 + variation), y);
+                    }
+                    break;
+            }
+            
+            ctx.stroke();
+            
+            // Effet d'ombre sur les bords déchirés
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+        
+        function drawPaperTear(x, y) {
+            const tearLength = Math.random() * 60 + 30;
+            const tearWidth = Math.random() * 8 + 3;
+            const angle = Math.random() * Math.PI * 2;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Forme de la déchirure
+            ctx.fillStyle = 'rgba(240, 235, 220, 0.8)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, tearLength/2, tearWidth/2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Bords irréguliers de la déchirure
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            
+            for (let i = 0; i < 20; i++) {
+                const t = (i / 19) * Math.PI * 2;
+                const radius = (tearLength/2) * (1 + Math.random() * 0.3 - 0.15);
+                const px = Math.cos(t) * radius;
+                const py = Math.sin(t) * (tearWidth/2) * (1 + Math.random() * 0.5 - 0.25);
+                
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function drawFoldedCorners() {
+            const corners = [
+                [50, 50], [canvas.width - 50, 50],
+                [50, canvas.height - 50], [canvas.width - 50, canvas.height - 50]
+            ];
+            
+            corners.forEach(([x, y], index) => {
+                if (Math.random() < 0.6) { // 60% de chance d'avoir un coin corné
+                    drawFoldedCorner(x, y, index);
+                }
+            });
+        }
+        
+        function drawFoldedCorner(x, y, cornerIndex) {
+            const foldSize = Math.random() * 30 + 20;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            
+            // Ombre du pli
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.beginPath();
+            switch(cornerIndex) {
+                case 0: // Top-left
+                    ctx.moveTo(-foldSize, 0);
+                    ctx.lineTo(0, -foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 1: // Top-right
+                    ctx.moveTo(foldSize, 0);
+                    ctx.lineTo(0, -foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 2: // Bottom-left
+                    ctx.moveTo(-foldSize, 0);
+                    ctx.lineTo(0, foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 3: // Bottom-right
+                    ctx.moveTo(foldSize, 0);
+                    ctx.lineTo(0, foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Ligne de pli
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.5)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function addTapeAndClips() {
+            // Morceaux de scotch
+            addTapeStrips();
+            
+            // Trombones
+            addPaperClips();
+            
+            // Agrafes
+            addStaples();
+            
+            // Post-it
+            addStickyNotes();
+        }
+        
+        function addTapeStrips() {
+            const tapePositions = [
+                { x: 200, y: 100, width: 120, angle: -15 },
+                { x: canvas.width - 250, y: 150, width: 100, angle: 20 },
+                { x: 180, y: canvas.height - 180, width: 140, angle: 8 },
+                { x: canvas.width - 200, y: canvas.height - 120, width: 110, angle: -25 },
+                { x: canvas.width / 2, y: 200, width: 90, angle: 45 }
+            ];
+            
+            tapePositions.forEach(tape => {
+                drawTapeStrip(tape.x, tape.y, tape.width, tape.angle);
+            });
+        }
+        
+        function drawTapeStrip(x, y, width, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            
+            const height = 25;
+            
+            // Fond du scotch (transparent)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillRect(-width/2, -height/2, width, height);
+            
+            // Brillance du scotch
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(-width/2, -height/2 + 3, width, 6);
+            
+            // Bordures du scotch
+            ctx.strokeStyle = 'rgba(200, 200, 200, 0.8)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(-width/2, -height/2, width, height);
+            
+            // Reflets
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(-width/2 + 10, -height/2 + 2);
+            ctx.lineTo(width/2 - 10, -height/2 + 2);
+            ctx.stroke();
+            
+            // Texture du scotch
+            for (let i = 0; i < 3; i++) {
+                const lineY = -height/2 + (i + 1) * height/4;
+                ctx.strokeStyle = 'rgba(220, 220, 220, 0.3)';
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(-width/2, lineY);
+                ctx.lineTo(width/2, lineY);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+        
+        function addPaperClips() {
+            const clipPositions = [
+                { x: 300, y: 80, angle: -30, size: 'large' },
+                { x: canvas.width - 150, y: 300, angle: 45, size: 'medium' },
+                { x: 120, y: canvas.height - 250, angle: 0, size: 'small' },
+                { x: canvas.width - 300, y: canvas.height - 80, angle: 60, size: 'medium' }
+            ];
+            
+            clipPositions.forEach(clip => {
+                drawPaperClip(clip.x, clip.y, clip.angle, clip.size);
+            });
+        }
+        
+        function drawPaperClip(x, y, angle, size) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            
+            const scale = size === 'large' ? 1.2 : size === 'medium' ? 1 : 0.8;
+            ctx.scale(scale, scale);
+            
+            // Couleur métallique du trombone
+            ctx.strokeStyle = '#C0C0C0';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            
+            // Forme du trombone
+            ctx.beginPath();
+            ctx.moveTo(-25, -15);
+            ctx.lineTo(-25, 10);
+            ctx.arc(-15, 10, 10, Math.PI, 0, false);
+            ctx.lineTo(15, 0);
+            ctx.arc(15, 10, 10, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(-5, 20);
+            ctx.stroke();
+            
+            // Ombre du trombone
+            ctx.save();
+            ctx.translate(2, 2);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-25, -15);
+            ctx.lineTo(-25, 10);
+            ctx.arc(-15, 10, 10, Math.PI, 0, false);
+            ctx.lineTo(15, 0);
+            ctx.arc(15, 10, 10, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(-5, 20);
+            ctx.stroke();
+            ctx.restore();
+            
+            // Reflets sur le métal
+            ctx.strokeStyle = '#E8E8E8';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(-23, -13);
+            ctx.lineTo(-23, 8);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function addStaples() {
+            const staplePositions = [
+                { x: 400, y: 200, angle: 15 },
+                { x: canvas.width - 400, y: 500, angle: -20 },
+                { x: 250, y: canvas.height - 300, angle: 0 }
+            ];
+            
+            staplePositions.forEach(staple => {
+                drawStaple(staple.x, staple.y, staple.angle);
+            });
+        }
+        
+        function drawStaple(x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            
+            // Corps de l'agrafe
+            ctx.strokeStyle = '#A0A0A0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-8, -3);
+            ctx.lineTo(-8, 3);
+            ctx.lineTo(8, 3);
+            ctx.lineTo(8, -3);
+            ctx.stroke();
+            
+            // Pattes de l'agrafe
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(-6, 3);
+            ctx.lineTo(-6, 8);
+            ctx.moveTo(6, 3);
+            ctx.lineTo(6, 8);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function addStickyNotes() {
+            const notePositions = [
+                { x: canvas.width - 200, y: 200, color: '#FFFF88', text: 'URGENT!' },
+                { x: 150, y: 400, color: '#88FF88', text: 'TODO' },
+                { x: canvas.width - 150, y: canvas.height - 300, color: '#FF8888', text: 'FINI' }
+            ];
+            
+            notePositions.forEach(note => {
+                drawStickyNote(note.x, note.y, note.color, note.text);
+            });
+        }
+        
+        function drawStickyNote(x, y, color, text) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate((Math.random() - 0.5) * 0.3); // Rotation aléatoire
+            
+            const width = 80;
+            const height = 80;
+            
+            // Ombre du post-it
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(2, 2, width, height);
+            
+            // Corps du post-it
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Coin décollé
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.beginPath();
+            ctx.moveTo(width - 15, 0);
+            ctx.lineTo(width, 0);
+            ctx.lineTo(width, 15);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Bordure légère
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(0, 0, width, height);
+            
+            // Texte
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, width/2, height/2 + 4);
+            
+            ctx.restore();
+        }
+        
+        function addWrinklesAndFolds() {
+            // Plis et froissements réalistes
+            for (let i = 0; i < 15; i++) {
+                const startX = Math.random() * canvas.width;
+                const startY = Math.random() * canvas.height;
+                const length = Math.random() * 200 + 50;
+                const angle = Math.random() * Math.PI * 2;
+                
+                drawWrinkle(startX, startY, length, angle);
+            }
+        }
+        
+        function drawWrinkle(x, y, length, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Ligne de pli principale
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            
+            for (let i = 0; i < length; i += 10) {
+                const variation = Math.sin(i * 0.1) * 3 + (Math.random() - 0.5) * 2;
+                ctx.lineTo(i, variation);
+            }
+            
+            ctx.stroke();
+            
+            // Ombre du pli
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function addStainsAndMarks() {
+            // Taches de café
+            for (let i = 0; i < 5; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                drawCoffeeStain(x, y);
+            }
+            
+            // Traces de doigts
+            for (let i = 0; i < 8; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                drawFingerprint(x, y);
+            }
+            
+            // Traces d'encre
+            for (let i = 0; i < 6; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                drawInkBlot(x, y);
+            }
+        }
+        
+        function drawCoffeeStain(x, y) {
+            const size = Math.random() * 40 + 20;
+            
+            // Tache principale
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.3)';
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Anneaux de la tache
+            for (let i = 1; i < 4; i++) {
+                ctx.strokeStyle = `rgba(101, 67, 33, ${0.1 / i})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, size + i * 8, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Éclaboussures
+            for (let i = 0; i < 5; i++) {
+                const splashX = x + (Math.random() - 0.5) * size * 2;
+                const splashY = y + (Math.random() - 0.5) * size * 2;
+                const splashSize = Math.random() * 5 + 2;
+                
+                ctx.fillStyle = 'rgba(101, 67, 33, 0.2)';
+                ctx.beginPath();
+                ctx.arc(splashX, splashY, splashSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawFingerprint(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(Math.random() * Math.PI * 2);
+            
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.1)';
+            ctx.lineWidth = 0.5;
+            
+            // Empreinte digitale simplifiée
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 8 + i * 3, 12 + i * 2, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawInkBlot(x, y) {
+            const size = Math.random() * 15 + 5;
+            
+            ctx.fillStyle = 'rgba(0, 0, 139, 0.2)';
+            
+            // Forme irrégulière de la tache d'encre
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = size * (0.7 + Math.random() * 0.6);
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                ctx.lineTo(px, py);
+            }
+            
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        function addShadowsAndDepth() {
+            // Ombres portées pour donner de la profondeur
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            
+            // Ombre générale du document
+            ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+            
+            // Zones d'ombre dans les coins
+            const corners = [
+                [0, 0, 100, 100],
+                [canvas.width - 100, 0, 100, 100],
+                [0, canvas.height - 100, 100, 100],
+                [canvas.width - 100, canvas.height - 100, 100, 100]
+            ];
+            
+            corners.forEach(([x, y, w, h]) => {
+                const gradient = ctx.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, Math.max(w, h));
+                gradient.addColorStop(0, 'rgba(0, 0, 0, 0.1)');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, w, h);
+            });
+        }
+        
+        function generateReference4Style() {
+            clearCanvas();
+            
+            // Fond parchemin vintage crème
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f5f1e8');
+            gradient.addColorStop(0.3, '#f0ead5');
+            gradient.addColorStop(0.7, '#ebe3c8');
+            gradient.addColorStop(1, '#e6dcb8');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture de papier ancien
+            addAdvancedPaperTexture();
+            
+            // Bordure ornée style manuscrit ancien
+            drawManuscriptBorder();
+            
+            // Titre principal style calligraphie
+            drawCalligraphyTitle();
+            
+            // Zone centrale avec bordure décorative
+            drawDecorativeCentralFrame();
+            
+            // Ornements dans les coins
+            drawCornerOrnaments();
+            
+            // Texte décoratif en bas
+            drawBottomInscription();
+            
+            // Effets d'âge et patine
+            addAncientEffects();
+            
+            // Sceau ou cachet
+            drawWaxSeal();
+            
+            saveCanvasState();
+        }
+        
+        function addAdvancedPaperTexture() {
+            // Texture de parchemin plus sophistiquée
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                // Grain de papier
+                if (Math.random() < 0.05) {
+                    const noise = Math.random() * 30 - 15;
+                    data[i] = Math.max(0, Math.min(255, data[i] + noise));
+                    data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise));
+                    data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise));
+                }
+                
+                // Fibres du papier
+                if (Math.random() < 0.002) {
+                    data[i] = Math.max(0, data[i] - 40);
+                    data[i + 1] = Math.max(0, data[i + 1] - 30);
+                    data[i + 2] = Math.max(0, data[i + 2] - 20);
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            
+            // Lignes de pliure subtiles
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 3, 0);
+            ctx.lineTo(canvas.width / 3, canvas.height);
+            ctx.moveTo(2 * canvas.width / 3, 0);
+            ctx.lineTo(2 * canvas.width / 3, canvas.height);
+            ctx.stroke();
+        }
+        
+        function drawManuscriptBorder() {
+            const margin = 80;
+            const borderWidth = 6;
+            
+            // Bordure principale
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = borderWidth;
+            ctx.strokeRect(margin, margin, canvas.width - 2*margin, canvas.height - 2*margin);
+            
+            // Bordure intérieure
+            ctx.lineWidth = 2;
+            ctx.strokeRect(margin + 20, margin + 20, canvas.width - 2*margin - 40, canvas.height - 2*margin - 40);
+            
+            // Motifs décoratifs sur les bordures
+            const patternSpacing = 60;
+            ctx.fillStyle = '#8B4513';
+            
+            // Bordure supérieure
+            for (let x = margin + patternSpacing; x < canvas.width - margin; x += patternSpacing) {
+                drawSmallOrnament(x, margin);
+            }
+            
+            // Bordure inférieure
+            for (let x = margin + patternSpacing; x < canvas.width - margin; x += patternSpacing) {
+                drawSmallOrnament(x, canvas.height - margin);
+            }
+            
+            // Bordures latérales
+            for (let y = margin + patternSpacing; y < canvas.height - margin; y += patternSpacing) {
+                drawSmallOrnament(margin, y);
+                drawSmallOrnament(canvas.width - margin, y);
+            }
+        }
+        
+        function drawSmallOrnament(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.fillStyle = '#8B4513';
+            
+            // Petit motif en losange
+            ctx.beginPath();
+            ctx.moveTo(0, -8);
+            ctx.lineTo(6, 0);
+            ctx.lineTo(0, 8);
+            ctx.lineTo(-6, 0);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Point central
+            ctx.beginPath();
+            ctx.arc(0, 0, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+        
+        function drawCalligraphyTitle() {
+            ctx.fillStyle = '#2c1810';
+            ctx.textAlign = 'center';
+            
+            // Titre principal en style gothique
+            ctx.font = 'bold 72px serif';
+            ctx.fillText('PORTFOLIO', canvas.width/2, 200);
+            
+            // Sous-titre élégant
+            ctx.font = 'italic 36px serif';
+            ctx.fillText('Clara Neulinger', canvas.width/2, 260);
+            
+            // Ligne décorative sous le titre
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2 - 200, 280);
+            ctx.lineTo(canvas.width/2 + 200, 280);
+            ctx.stroke();
+            
+            // Ornements de part et d'autre du titre
+            drawTitleOrnaments();
+        }
+        
+        function drawTitleOrnaments() {
+            const centerX = canvas.width / 2;
+            const y = 230;
+            
+            // Ornement gauche
+            drawScrollOrnament(centerX - 300, y);
+            // Ornement droit
+            drawScrollOrnament(centerX + 300, y);
+        }
+        
+        function drawScrollOrnament(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = '#8B4513';
+            
+            // Volute décorative
+            ctx.beginPath();
+            ctx.arc(0, 0, 15, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(0, 0, 8, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Feuillage stylisé
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                const leafX = Math.cos(angle) * 25;
+                const leafY = Math.sin(angle) * 25;
+                
+                ctx.beginPath();
+                ctx.ellipse(leafX, leafY, 8, 4, angle, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawDecorativeCentralFrame() {
+            const frameX = 200;
+            const frameY = 350;
+            const frameWidth = canvas.width - 400;
+            const frameHeight = 500;
+            
+            // Fond de la zone centrale
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fillRect(frameX, frameY, frameWidth, frameHeight);
+            
+            // Bordure de la zone centrale
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(frameX, frameY, frameWidth, frameHeight);
+            
+            // Motifs décoratifs sur les côtés
+            drawFrameDecorations(frameX, frameY, frameWidth, frameHeight);
+            
+            // Texte dans la zone centrale
+            ctx.fillStyle = '#2c1810';
+            ctx.font = '28px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('PROJETS 3D & DESIGN', canvas.width/2, frameY + 60);
+            
+            ctx.font = '18px serif';
+            ctx.fillText('Environment Art • Character Design • Technical Art', canvas.width/2, frameY + 100);
+            
+            // Zone pour le contenu principal
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.2)';
+            ctx.fillRect(frameX + 50, frameY + 150, frameWidth - 100, 250);
+            
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([10, 5]);
+            ctx.strokeRect(frameX + 50, frameY + 150, frameWidth - 100, 250);
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#666';
+            ctx.font = '16px serif';
+            ctx.fillText('ZONE DE CONTENU INTERACTIF', canvas.width/2, frameY + 280);
+            ctx.fillText('(Modèles 3D, Vidéos, Galeries)', canvas.width/2, frameY + 310);
+        }
+        
+        function drawFrameDecorations(x, y, w, h) {
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            
+            // Coins décoratifs
+            const cornerSize = 30;
+            const corners = [
+                [x, y], [x + w, y], 
+                [x, y + h], [x + w, y + h]
+            ];
+            
+            corners.forEach(([cx, cy]) => {
+                ctx.save();
+                ctx.translate(cx, cy);
+                
+                // Motif en éventail dans chaque coin
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * Math.PI) / 8;
+                    const startX = Math.cos(angle) * 10;
+                    const startY = Math.sin(angle) * 10;
+                    const endX = Math.cos(angle) * cornerSize;
+                    const endY = Math.sin(angle) * cornerSize;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(endX, endY);
+                    ctx.stroke();
+                }
+                
+                ctx.restore();
+            });
+        }
+        
+        function drawCornerOrnaments() {
+            const corners = [
+                [150, 150], [canvas.width - 150, 150],
+                [150, canvas.height - 150], [canvas.width - 150, canvas.height - 150]
+            ];
+            
+            corners.forEach(([x, y]) => {
+                drawLargeOrnament(x, y);
+            });
+        }
+        
+        function drawLargeOrnament(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.fillStyle = '#8B4513';
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            
+            // Rosace décorative
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                const petalLength = 25;
+                
+                ctx.save();
+                ctx.rotate(angle);
+                
+                // Pétale
+                ctx.beginPath();
+                ctx.ellipse(petalLength/2, 0, petalLength/2, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+            
+            // Centre de la rosace
+            ctx.beginPath();
+            ctx.arc(0, 0, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+        
+        function drawBottomInscription() {
+            ctx.fillStyle = '#2c1810';
+            ctx.font = 'italic 24px serif';
+            ctx.textAlign = 'center';
+            
+            const y = canvas.height - 180;
+            ctx.fillText('« Créativité • Innovation • Excellence »', canvas.width/2, y);
+            
+            // Date
+            ctx.font = '18px serif';
+            ctx.fillText('Anno Domini 2025', canvas.width/2, y + 40);
+            
+            // Ligne décorative
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2 - 150, y + 60);
+            ctx.lineTo(canvas.width/2 + 150, y + 60);
+            ctx.stroke();
+        }
+        
+        function addAncientEffects() {
+            // Taches d'âge
+            for (let i = 0; i < 30; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 20 + 5;
+                const opacity = Math.random() * 0.2 + 0.05;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Effet de vieillissement général
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.02)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Bordures usées
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.3)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const length = Math.random() * 30 + 10;
+                const angle = Math.random() * Math.PI * 2;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + Math.cos(angle) * length, y + Math.sin(angle) * length);
+                ctx.stroke();
+            }
+        }
+        
+        function drawWaxSeal() {
+            const sealX = canvas.width - 200;
+            const sealY = canvas.height - 200;
+            const sealRadius = 40;
+            
+            // Base du sceau
+            ctx.fillStyle = '#8B0000';
+            ctx.beginPath();
+            ctx.arc(sealX, sealY, sealRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Reflets sur le sceau
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath();
+            ctx.arc(sealX - 10, sealY - 10, sealRadius * 0.7, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Motif central du sceau
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 20px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('CN', sealX, sealY + 5);
+            
+            // Bordure du sceau
+            ctx.strokeStyle = '#600000';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(sealX, sealY, sealRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        function generateCollectibleBase() {
+            loadTemplate('vintage');
+            
+            // Ajouter le titre
+            ctx.fillStyle = '#2c1810';
+            ctx.font = 'bold 28px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('CIRCUS PROJECT', canvas.width/2, 80);
+            
+            // Sous-titre
+            ctx.font = '16px serif';
+            ctx.fillText('3D Environment & Character Design', canvas.width/2, 105);
+            
+            // Zone modèle 3D
+            drawModelArea();
+            
+            // Informations techniques
+            drawTechInfo();
+            
+            saveCanvasState();
+        }
+        
+        function addPaperTexture() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                if (Math.random() < 0.02) {
+                    const noise = Math.random() * 40 - 20;
+                    data[i] = Math.max(0, Math.min(255, data[i] + noise));
+                    data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise));
+                    data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise));
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+        }
+        
+        function drawVintageBorder() {
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 6;
+            ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
+            
+            ctx.lineWidth = 2;
+            ctx.strokeRect(25, 25, canvas.width - 50, canvas.height - 50);
+            
+            // Coins décoratifs
+            const cornerSize = 20;
+            const corners = [[35, 35], [canvas.width - 35, 35], [35, canvas.height - 35], [canvas.width - 35, canvas.height - 35]];
+            
+            corners.forEach(([x, y]) => {
+                ctx.fillStyle = '#8B4513';
+                ctx.fillRect(x - cornerSize/2, y - 2, cornerSize, 4);
+                ctx.fillRect(x - 2, y - cornerSize/2, 4, cornerSize);
+            });
+        }
+        
+        function drawTornBorder() {
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            
+            // Bordure supérieure déchirée
+            ctx.moveTo(15, 15);
+            for (let x = 15; x < canvas.width - 15; x += 10) {
+                const variation = Math.random() * 8 - 4;
+                ctx.lineTo(x, 15 + variation);
+            }
+            ctx.lineTo(canvas.width - 15, 15);
+            
+            // Bordures latérales et inférieure similaires
+            for (let y = 15; y < canvas.height - 15; y += 10) {
+                const variation = Math.random() * 8 - 4;
+                ctx.lineTo(canvas.width - 15 + variation, y);
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawOrnateBorder() {
+            drawVintageBorder();
+            
+            // Décorations dans les coins
+            const decorations = [
+                [50, 50], [canvas.width - 50, 50], 
+                [50, canvas.height - 50], [canvas.width - 50, canvas.height - 50]
+            ];
+            
+            decorations.forEach(([x, y]) => {
+                ctx.fillStyle = '#8B4513';
+                // Motif en étoile
+                ctx.beginPath();
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i * Math.PI) / 4;
+                    const radius = i % 2 === 0 ? 12 : 6;
+                    const px = x + Math.cos(angle) * radius;
+                    const py = y + Math.sin(angle) * radius;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+            });
+        }
+        
+        function drawVintageLayout() {
+            // Zone de contenu principale
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillRect(60, 130, canvas.width - 120, 500);
+            
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(60, 130, canvas.width - 120, 500);
+        }
+        
+        function drawModelArea() {
+            // Zone pour le modèle 3D
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
+            ctx.fillRect(80, 150, canvas.width - 160, 200);
+            
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.strokeRect(80, 150, canvas.width - 160, 200);
+            ctx.setLineDash([]);
+            
+            // Texte placeholder
+            ctx.fillStyle = '#666';
+            ctx.font = '14px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('MODÈLE 3D INTERACTIF', canvas.width/2, 240);
+            ctx.fillText('(Marmoset Viewer)', canvas.width/2, 260);
+        }
+        
+        function drawTechInfo() {
+            ctx.fillStyle = '#2c1810';
+            ctx.font = '12px serif';
+            ctx.textAlign = 'left';
+            
+            const specs = [
+                'SPÉCIFICATIONS TECHNIQUES:',
+                '• Logiciels: Blender, ZBrush, Substance Painter',
+                '• Techniques: Sculpting, Retopologie, UV Mapping',
+                '• Format 3D: .mview (Marmoset Viewer)',
+                '• Textures: 4K PBR Materials',
+                '• Polycount: Optimisé pour temps réel'
+            ];
+            
+            specs.forEach((text, index) => {
+                const y = 400 + (index * 18);
+                if (index === 0) {
+                    ctx.font = 'bold 12px serif';
+                    ctx.fillText(text, 80, y);
+                    ctx.font = '12px serif';
+                } else {
+                    ctx.fillText(text, 80, y);
+                }
+            });
+            
+            // Signature
+            ctx.textAlign = 'right';
+            ctx.font = 'italic 11px serif';
+            ctx.fillText('Clara Neulinger - Portfolio 2025', canvas.width - 80, canvas.height - 60);
+        }
+        
+        function addVintageEffects() {
+            // Taches d'âge
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 15 + 3;
+                const opacity = Math.random() * 0.3 + 0.1;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Effet de vieillissement
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.03)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            saveCanvasState();
+        }
+        
+        function addText() {
+            const text = prompt('Entrez le texte à ajouter:');
+            if (!text) return;
+            
+            ctx.fillStyle = currentColor;
+            ctx.font = '18px serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(text, 100, 300);
+            
+            saveCanvasState();
+        }
+        
+        function loadReference(src) {
+            const img = new Image();
+            img.onload = function() {
+                ctx.save();
+                ctx.globalAlpha = 0.2;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.restore();
+                saveCanvasState();
+            };
+            img.src = src;
+        }
+        
+        function saveImage() {
+            const link = document.createElement('a');
+            link.download = 'luna-paint-collectible-' + Date.now() + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveCanvasState();
+        }
+        
+        // Système d'historique simple
+        let canvasHistory = [];
+        let historyStep = -1;
+        
+        function saveCanvasState() {
+            historyStep++;
+            if (historyStep < canvasHistory.length) {
+                canvasHistory.length = historyStep;
+            }
+            canvasHistory.push(canvas.toDataURL());
+        }
+        
+        function redrawCanvas() {
+            if (historyStep >= 0 && historyStep < canvasHistory.length) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = canvasHistory[historyStep];
+            }
+        }
+        
+        // Raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        saveImage();
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        // Undo functionality could be added here
+                        break;
+                }
+            }
+            
+            // Raccourcis outils
+            switch(e.key) {
+                case 'b': setTool('brush'); break;
+                case 'p': setTool('pencil'); break;
+                case 'e': setTool('eraser'); break;
+                case 'l': setTool('line'); break;
+                case 'r': setTool('rectangle'); break;
+                case 'c': setTool('circle'); break;
+            }
+        });
+        
+        // Initialisation avec un template de base
+        window.onload = function() {
+            clearCanvas();
+            generateCollectibleBase();
+        };
+    </script>
+</body>
+</html>

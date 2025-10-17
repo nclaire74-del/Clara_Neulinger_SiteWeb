@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Neulinger - Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Marmoset Viewer pour les fichiers .mview -->
+    <script src="js/marmoset.js"></script>
+</head>
+<body>
+    <!-- Écran de chargement avec fond noir -->
+    <div id="loading-screen">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <!-- Vidéo en arrière-plan -->
+    <video id="background-video" autoplay muted loop>
+        <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+
+    <!-- Effet de vignettage noir -->
+    <div id="video-vignette-overlay"></div>
+
+    <!-- Interface utilisateur principale (style jeu vidéo) -->
+    <div id="main-ui" style="display: none;">
+        <div class="ui-overlay">
+            <!-- Logo/Titre -->
+            <div class="game-title">
+                <h1>Clara Neulinger</h1>
+                <p class="subtitle">Portfolio 3D</p>
+            </div>
+
+            <!-- Menu principal -->
+            <div class="main-menu">
+                <button class="game-button" id="load-game" onclick="try { openPortfolioCollectibles(); } catch(e) { console.error('Erreur:', e); document.getElementById('main-ui').style.display='none'; document.getElementById('portfolio-window').style.display='flex'; }">
+                    <span class="button-text">Load Game</span>
+                    <span class="button-subtitle">Portfolio & Projets</span>
+                </button>
+                
+                <button class="game-button" id="contact">
+                    <span class="button-text">Contact</span>
+                    <span class="button-subtitle">Informations & Réseaux</span>
+                </button>
+                
+                <button class="game-button" id="options">
+                    <span class="button-text">Options</span>
+                    <span class="button-subtitle">Son & Langue</span>
+                </button>
+                
+                <button class="game-button" id="exit">
+                    <span class="button-text">Exit</span>
+                    <span class="button-subtitle">Quitter</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Window / Feuilles de papier superposées -->
+    <div id="contact-window" class="contact-overlay">
+        <div class="papers-container">
+            
+            <!-- CV - Grande feuille arrière -->
+            <div class="cv-paper" id="cv-paper">
+                <!-- Recto CV -->
+                <div class="cv-paper-side front">
+                    <iframe src="References_Papiers/CV/images/cv-jpg.html" class="cv-frame" id="cv-frame-fr"></iframe>
+                    <iframe src="References_Papiers/CV/images/cv-jpg.html" class="cv-frame" id="cv-frame-en" style="display: none;"></iframe>
+                    
+                    <!-- Couche interactive transparente par-dessus le CV -->
+                    <div class="cv-interactive-overlay"></div>
+                    
+                    <div class="cv-vintage-overlay"></div>
+
+                    <!-- Déchirures CV -->
+                    <div class="paper-tear cv-tear-1"></div>
+                    <div class="paper-tear cv-tear-2"></div>
+
+                    <!-- Taches CV -->
+                    <div class="paper-stain cv-stain-1"></div>
+                </div><!-- Verso CV -->
+                <div class="cv-paper-side back">
+                    <div style="padding: 40px; font-family: 'Kindergarten', serif; color: #8B4513; background: transparent !important; display: none;">
+                        <h3 style="text-align: center; margin-bottom: 30px;">Notes personnelles</h3>
+                        <div style="line-height: 1.6; font-size: 1rem;">
+                            <p style="transform: rotate(-0.2deg); margin: 15px 0;">Objectifs 2025 :</p>
+                            <p style="transform: rotate(0.3deg); margin: 10px 0;">• Développer portfolio interactif</p>
+                            <p style="transform: rotate(-0.1deg); margin: 10px 0;">• Maîtriser Unreal Engine 5</p>
+                            <p style="transform: rotate(0.2deg); margin: 10px 0;">• Collaborations internationales</p>
+                            <p style="transform: rotate(-0.4deg); margin: 25px 0 15px 0;">Compétences à améliorer :</p>
+                            <p style="transform: rotate(0.1deg); margin: 10px 0;">• Motion capture</p>
+                            <p style="transform: rotate(-0.2deg); margin: 10px 0;">• Rendu temps réel</p>
+                            <p style="transform: rotate(0.3deg); margin: 10px 0;">• Programmation shaders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact - Petite feuille avant -->
+            <div class="contact-paper" id="contact-paper">
+                <!-- Recto Contact -->
+                <div class="contact-paper-side front">
+                    <div class="contact-content">
+                        <div class="contact-header">
+                            <h2>Contact</h2>
+                        </div>
+                        
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Email :</span>
+                                <span class="value">clara.neulinger@email.com</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">LinkedIn :</span>
+                                <span class="value">linkedin.com/in/clara-neulinger</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Portfolio :</span>
+                                <span class="value">clara-neulinger-3d.com</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Téléphone :</span>
+                                <span class="value">+33 6 12 34 56 78</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Localisation :</span>
+                                <span class="value">Lyon, France</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-note">
+                            <div class="note-text">Disponible pour projets freelance</div>
+                            <div class="note-text">Spécialisée en 3D & Animation</div>
+                            <div class="note-text">Réponse rapide garantie</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Déchirures contact -->
+                    <div class="paper-tear contact-tear-1"></div>
+                    <div class="paper-tear contact-tear-2"></div>
+                    
+                    <!-- Taches contact -->
+                    <div class="paper-stain contact-stain-1"></div>
+                    
+                    <!-- Scotch contact -->
+                    <div class="paper-tape contact-tape"></div>
+                </div>
+                
+                <!-- Verso Contact -->
+                <div class="contact-paper-side back">
+                    <div class="contact-content">
+                        <div class="contact-back-content">
+                            <div class="contact-back-line">Horaires préférés :</div>
+                            <div class="contact-back-line">9h - 18h (CET)</div>
+                            <div class="contact-back-line"></div>
+                            <div class="contact-back-line">Langues parlées :</div>
+                            <div class="contact-back-line">🇫🇷 Français (natif)</div>
+                            <div class="contact-back-line">🇬🇧 Anglais (courant)</div>
+                            <div class="contact-back-line">🇩🇪 Allemand (notions)</div>
+                            <div class="contact-back-line"></div>
+                            <div class="contact-back-line">Collaboration :</div>
+                            <div class="contact-back-line">• Sur site ou à distance</div>
+                            <div class="contact-back-line">• Équipes internationales</div>
+                            <div class="contact-back-line">• Projets courts/longs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions -->
+            <div class="papers-instructions">
+                <p>Chaque feuille est manipulable : Cliquez + glissez pour tourner • Double-clic pour retourner • Molette pour zoomer</p>
+            </div>
+            
+            <!-- Contrôle de la loupe -->
+            <div class="magnifier-control">
+                <button id="magnifier-toggle" class="magnifier-btn" data-active="false">
+                    <div class="rotating-traits">
+                        <div class="trait trait-1"></div>
+                        <div class="trait trait-2"></div>
+                        <div class="trait trait-3"></div>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1" fill="rgba(255,255,255,0.1)"/>
+                        <line x1="16" y1="16" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="magnifier-explanation">
+                    <p>Cliquez pour activer la loupe et zoomer sur les détails des papiers</p>
+                </div>
+            </div>
+            
+            <!-- Bouton reset des papiers -->
+            <button id="reset-papers" class="game-button reset-papers-btn">
+                <span class="button-text">Reset Papers</span>
+                <span class="button-subtitle">Remettre à zéro</span>
+            </button>
+            
+            <!-- Bouton retour accueil -->
+            <button id="back-to-home" class="game-button back-to-home-btn">
+                <span class="button-text">Retour Accueil</span>
+                <span class="button-subtitle">Page principale</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Portfolio Window - Style Collectibles Jeu Vidéo -->
+    <div id="portfolio-window" class="portfolio-overlay" style="display: none;">
+        <!-- En-tête style jeu vidéo -->
+        <div class="collectibles-header">
+            <button class="nav-arrow nav-arrow-left" id="prev-category">
+                <span class="arrow-symbol">◀</span>
+            </button>
+            
+            <div class="collectibles-title">
+                <h2>COLLECTIBLES</h2>
+                <div class="category-indicator">
+                    <span class="category-name" id="current-category">Projets 3D</span>
+                    <div class="category-counter">
+                        <span id="current-item">1</span> / <span id="total-items">5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-arrow nav-arrow-right" id="next-category">
+                <span class="arrow-symbol">▶</span>
+            </button>
+        </div>
+
+        <!-- Ligne blanche décorative -->
+        <div class="collectibles-separator"></div>
+
+        <!-- Zone d'affichage des projets 3D -->
+        <div class="collectibles-container">
+            <div class="project-showcase" id="project-showcase">
+                <!-- Les projets seront ajoutés ici dynamiquement -->
+                <div class="project-item active" data-project="1">
+                    <div class="project-3d-viewer">
+                        <div class="project-placeholder">
+                            <p>Projet 3D #1</p>
+                            <span>Cliquez pour voir en détail</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Titre du Projet</h3>
+                        <p class="project-description">Description du projet...</p>
+                        <div class="project-tags">
+                            <span class="tag">3D</span>
+                            <span class="tag">Animation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation des projets -->
+        <div class="project-navigation">
+            <button class="project-nav-btn" id="prev-project">
+                <span>◀ Précédent</span>
+            </button>
+            
+            <div class="project-dots" id="project-dots">
+                <!-- Les points de navigation seront ajoutés ici -->
+            </div>
+            
+            <button class="project-nav-btn" id="next-project">
+                <span>Suivant ▶</span>
+            </button>
+        </div>
+
+        <!-- Bouton retour -->
+        <button id="back-to-home-portfolio" class="game-button back-to-home-btn">
+            <span class="button-text">Retour Accueil</span>
+            <span class="button-subtitle">Page principale</span>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/loading-manager.js"></script>
+    <script src="js/video-manager.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/effects-manager-gribouillage.js"></script>
+    <script src="js/button-parallax-manager.js"></script>
+    <script src="js/dual-paper-manager.js"></script>
+    <script src="js/magnifier-manager.js"></script>
+    <script src="js/portfolio-manager.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Paint Simple - Test</title>
+    <style>
+        body { font-family: Arial; background: #667eea; margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 10px; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        .tools { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .btn { padding: 10px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn:hover { background: #5a67d8; }
+        .btn.active { background: #ff6b6b; }
+        #canvas { border: 2px solid #333; background: white; display: block; margin: 20px auto; }
+        .status { text-align: center; margin: 10px 0; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌙 Luna Paint - Test Simple</h1>
+        
+        <div class="status" id="status">Prêt - Testez les boutons ci-dessous</div>
+        
+        <div class="tools">
+            <button class="btn" onclick="testButton('Papier Vintage')">📜 Papier Vintage</button>
+            <button class="btn" onclick="testButton('Parchemin')">📜 Parchemin</button>
+            <button class="btn" onclick="testButton('Scotch')">📎 Scotch</button>
+            <button class="btn" onclick="testButton('Trombone')">📎 Trombone</button>
+            <button class="btn" onclick="testButton('Post-it')">📝 Post-it</button>
+            <button class="btn" onclick="testButton('Tache Café')">☕ Tache Café</button>
+            <button class="btn" onclick="clearCanvas()">🗑️ Effacer</button>
+            <button class="btn" onclick="saveImage()">💾 Sauvegarder</button>
+        </div>
+        
+        <canvas id="canvas" width="1200" height="800"></canvas>
+        
+        <div class="tools">
+            <button class="btn" onclick="generateFullCollectible()">⚡ Collectible Complet</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const status = document.getElementById('status');
+        
+        // Initialisation
+        clearCanvas();
+        
+        function testButton(name) {
+            status.textContent = `Bouton "${name}" cliqué !`;
+            status.style.color = '#28a745';
+            
+            switch(name) {
+                case 'Papier Vintage':
+                    generateVintagePaper();
+                    break;
+                case 'Parchemin':
+                    generateParchment();
+                    break;
+                case 'Scotch':
+                    addTapeAtRandomPosition();
+                    break;
+                case 'Trombone':
+                    addPaperclipAtRandomPosition();
+                    break;
+                case 'Post-it':
+                    addStickyNoteAtRandomPosition();
+                    break;
+                case 'Tache Café':
+                    addCoffeeStainAtRandomPosition();
+                    break;
+            }
+            
+            setTimeout(() => {
+                status.textContent = 'Prêt - Testez les boutons ci-dessous';
+                status.style.color = '#333';
+            }, 2000);
+        }
+        
+        function clearCanvas() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            status.textContent = 'Canvas effacé';
+        }
+        
+        function generateVintagePaper() {
+            // Fond vintage
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f5f1e8');
+            gradient.addColorStop(0.5, '#f0ead5');
+            gradient.addColorStop(1, '#ebe3c8');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture
+            addPaperTexture();
+            
+            // Bordure
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+            
+            status.textContent = 'Papier vintage généré !';
+        }
+        
+        function generateParchment() {
+            // Fond parchemin
+            ctx.fillStyle = '#f4f1e1';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Bordures brûlées
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.8)';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            
+            // Bordure supérieure irrégulière
+            ctx.moveTo(0, 10);
+            for (let x = 0; x < canvas.width; x += 20) {
+                const variation = Math.random() * 15 + 5;
+                ctx.lineTo(x, variation);
+            }
+            ctx.stroke();
+            
+            addPaperTexture();
+            status.textContent = 'Parchemin généré !';
+        }
+        
+        function addPaperTexture() {
+            // Texture de papier simple
+            for (let i = 0; i < 200; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 3 + 1;
+                const opacity = Math.random() * 0.3 + 0.1;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addTapeAtRandomPosition() {
+            const x = Math.random() * (canvas.width - 200) + 100;
+            const y = Math.random() * (canvas.height - 100) + 50;
+            const angle = (Math.random() - 0.5) * 0.5;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Scotch transparent
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillRect(-60, -12, 120, 24);
+            
+            ctx.strokeStyle = 'rgba(200, 200, 200, 0.8)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(-60, -12, 120, 24);
+            
+            // Brillance
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.fillRect(-60, -8, 120, 4);
+            
+            ctx.restore();
+            status.textContent = 'Scotch ajouté !';
+        }
+        
+        function addPaperclipAtRandomPosition() {
+            const x = Math.random() * (canvas.width - 100) + 50;
+            const y = Math.random() * (canvas.height - 100) + 50;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            
+            // Trombone argenté
+            ctx.strokeStyle = '#C0C0C0';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(-25, -15);
+            ctx.lineTo(-25, 10);
+            ctx.arc(-15, 10, 10, Math.PI, 0, false);
+            ctx.lineTo(15, 0);
+            ctx.arc(15, 10, 10, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(-5, 20);
+            ctx.stroke();
+            
+            ctx.restore();
+            status.textContent = 'Trombone ajouté !';
+        }
+        
+        function addStickyNoteAtRandomPosition() {
+            const x = Math.random() * (canvas.width - 150) + 75;
+            const y = Math.random() * (canvas.height - 150) + 75;
+            const colors = ['#FFFF88', '#FFB6C1', '#98FB98', '#DDA0DD'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            ctx.save();
+            ctx.translate(x, y);
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(2, 2, 80, 80);
+            
+            // Post-it
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 80, 80);
+            
+            // Coin décollé
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.beginPath();
+            ctx.moveTo(65, 0);
+            ctx.lineTo(80, 0);
+            ctx.lineTo(80, 15);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Texte
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('NOTE', 40, 45);
+            
+            ctx.restore();
+            status.textContent = 'Post-it ajouté !';
+        }
+        
+        function addCoffeeStainAtRandomPosition() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const size = Math.random() * 40 + 30;
+            
+            // Tache principale
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.4)';
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Anneaux
+            for (let i = 1; i < 4; i++) {
+                ctx.strokeStyle = `rgba(101, 67, 33, ${0.2 / i})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, size + i * 8, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            status.textContent = 'Tache de café ajoutée !';
+        }
+        
+        function generateFullCollectible() {
+            clearCanvas();
+            generateVintagePaper();
+            
+            setTimeout(() => addTapeAtRandomPosition(), 200);
+            setTimeout(() => addTapeAtRandomPosition(), 400);
+            setTimeout(() => addPaperclipAtRandomPosition(), 600);
+            setTimeout(() => addPaperclipAtRandomPosition(), 800);
+            setTimeout(() => addStickyNoteAtRandomPosition(), 1000);
+            setTimeout(() => addCoffeeStainAtRandomPosition(), 1200);
+            setTimeout(() => addCoffeeStainAtRandomPosition(), 1400);
+            
+            status.textContent = 'Collectible complet en cours de génération...';
+            
+            setTimeout(() => {
+                status.textContent = 'Collectible complet généré !';
+            }, 1600);
+        }
+        
+        function saveImage() {
+            const link = document.createElement('a');
+            link.download = 'luna-paint-collectible-' + Date.now() + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            status.textContent = 'Image sauvegardée !';
+        }
+        
+        // Test au chargement
+        console.log('Luna Paint Simple chargé !');
+        status.textContent = 'Luna Paint Simple chargé - Tous les boutons sont fonctionnels !';
+    </script>
+</body>
+</html>

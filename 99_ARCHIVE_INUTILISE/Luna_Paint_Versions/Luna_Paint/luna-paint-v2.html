@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Paint - Collectible Creator v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .workspace {
+            display: flex;
+            gap: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .toolbar {
+            width: 300px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            height: fit-content;
+        }
+        
+        .canvas-area {
+            flex: 1;
+            text-align: center;
+        }
+        
+        canvas {
+            border: 3px solid #333;
+            border-radius: 5px;
+            background: white;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .tool-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tool-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary {
+            background: #28a745;
+        }
+        
+        .btn-primary:hover {
+            background: #218838;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-full {
+            grid-column: 1 / -1;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .status {
+            margin: 15px 0;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌙 Luna Paint - Créateur de Collectibles</h1>
+            <p>Outil professionnel pour créer des collectibles vintage authentiques</p>
+        </div>
+        
+        <div class="workspace">
+            <div class="toolbar">
+                <div class="status" id="status">Prêt à créer des collectibles !</div>
+                
+                <!-- Papiers de base -->
+                <div class="tool-section">
+                    <h3>📜 Papiers de Base</h3>
+                    <div class="btn-grid">
+                        <button class="btn" onclick="createPaper('vintage')">Papier Vintage</button>
+                        <button class="btn" onclick="createPaper('parchment')">Parchemin</button>
+                        <button class="btn" onclick="createPaper('notebook')">Cahier</button>
+                        <button class="btn" onclick="createPaper('blueprint')">Blueprint</button>
+                        <button class="btn" onclick="createPaper('newspaper')">Journal</button>
+                        <button class="btn" onclick="createPaper('cardboard')">Carton</button>
+                    </div>
+                </div>
+                
+                <!-- Éléments à ajouter -->
+                <div class="tool-section">
+                    <h3>📎 Éléments Authentiques</h3>
+                    <div class="btn-grid">
+                        <button class="btn" onclick="addElement('tape')">Scotch</button>
+                        <button class="btn" onclick="addElement('paperclip')">Trombone</button>
+                        <button class="btn" onclick="addElement('staple')">Agrafe</button>
+                        <button class="btn" onclick="addElement('postit')">Post-it</button>
+                        <button class="btn" onclick="addElement('coffee')">Tache Café</button>
+                        <button class="btn" onclick="addElement('ink')">Tache Encre</button>
+                        <button class="btn" onclick="addElement('fold')">Pli</button>
+                        <button class="btn" onclick="addElement('tear')">Déchirure</button>
+                    </div>
+                </div>
+                
+                <!-- Effets spéciaux -->
+                <div class="tool-section">
+                    <h3>✨ Effets Spéciaux</h3>
+                    <div class="btn-grid">
+                        <button class="btn" onclick="addEffect('aging')">Vieillissement</button>
+                        <button class="btn" onclick="addEffect('wrinkles')">Froissement</button>
+                        <button class="btn" onclick="addEffect('burns')">Brûlures</button>
+                        <button class="btn" onclick="addEffect('water')">Dégât d'eau</button>
+                    </div>
+                </div>
+                
+                <!-- Actions principales -->
+                <div class="tool-section">
+                    <h3>🎯 Actions</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-primary btn-full" onclick="createFullCollectible()">⚡ Collectible Complet</button>
+                        <button class="btn" onclick="addRandomElements()">🎲 Éléments Aléatoires</button>
+                        <button class="btn" onclick="addMoreRealism()">🔥 Plus de Réalisme</button>
+                        <button class="btn btn-primary" onclick="saveCollectible()">💾 Sauvegarder</button>
+                        <button class="btn btn-danger" onclick="clearAll()">🗑️ Nouveau</button>
+                    </div>
+                </div>
+                
+                <!-- Info -->
+                <div class="tool-section">
+                    <h3>ℹ️ Informations</h3>
+                    <div style="font-size: 12px; color: #666;">
+                        <p><strong>Format :</strong> 1920x1080 PNG</p>
+                        <p><strong>Style :</strong> Vintage Collectible</p>
+                        <p><strong>Éléments :</strong> <span id="elementCount">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="canvas-area">
+                <canvas id="collectibleCanvas" width="1920" height="1080"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let canvas, ctx, elementCount = 0;
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            canvas = document.getElementById('collectibleCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Test initial
+            updateStatus('Luna Paint chargé avec succès !', 'success');
+            clearAll();
+            
+            console.log('Luna Paint initialisé');
+        });
+        
+        function updateStatus(message, type = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+            
+            if (type) {
+                setTimeout(() => {
+                    status.className = 'status';
+                    status.textContent = 'Prêt à créer des collectibles !';
+                }, 3000);
+            }
+        }
+        
+        function updateElementCount() {
+            document.getElementById('elementCount').textContent = elementCount;
+        }
+        
+        function clearAll() {
+            ctx.fillStyle = '#f5f1e8';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            elementCount = 0;
+            updateElementCount();
+            updateStatus('Nouveau document créé', 'success');
+        }
+        
+        function createPaper(type) {
+            clearAll();
+            
+            switch(type) {
+                case 'vintage':
+                    createVintagePaper();
+                    break;
+                case 'parchment':
+                    createParchmentPaper();
+                    break;
+                case 'notebook':
+                    createNotebookPaper();
+                    break;
+                case 'blueprint':
+                    createBlueprintPaper();
+                    break;
+                case 'newspaper':
+                    createNewspaperPaper();
+                    break;
+                case 'cardboard':
+                    createCardboardPaper();
+                    break;
+            }
+            
+            updateStatus(`Papier ${type} créé !`, 'success');
+        }
+        
+        function createVintagePaper() {
+            // Fond dégradé vintage
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f5f1e8');
+            gradient.addColorStop(0.3, '#f0ead5');
+            gradient.addColorStop(0.7, '#ebe3c8');
+            gradient.addColorStop(1, '#e6dcb8');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture de base
+            addBasicTexture();
+            
+            // Bordure vintage
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+            
+            ctx.lineWidth = 3;
+            ctx.strokeRect(60, 60, canvas.width - 120, canvas.height - 120);
+        }
+        
+        function createParchmentPaper() {
+            ctx.fillStyle = '#f4f1e1';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Bordures brûlées
+            addBurnedBorders();
+            addBasicTexture();
+        }
+        
+        function createNotebookPaper() {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Lignes du cahier
+            ctx.strokeStyle = '#b3d9ff';
+            ctx.lineWidth = 2;
+            
+            for (let y = 100; y < canvas.height; y += 60) {
+                ctx.beginPath();
+                ctx.moveTo(150, y);
+                ctx.lineTo(canvas.width - 150, y);
+                ctx.stroke();
+            }
+            
+            // Marge rouge
+            ctx.strokeStyle = '#ff9999';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(250, 80);
+            ctx.lineTo(250, canvas.height - 80);
+            ctx.stroke();
+        }
+        
+        function createBlueprintPaper() {
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Grille
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            
+            const gridSize = 80;
+            for (let x = 0; x <= canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function createNewspaperPaper() {
+            ctx.fillStyle = '#f8f8f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Colonnes
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 2;
+            
+            const columnWidth = canvas.width / 3;
+            for (let i = 1; i < 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * columnWidth, 50);
+                ctx.lineTo(i * columnWidth, canvas.height - 50);
+                ctx.stroke();
+            }
+            
+            addNewsContent();
+        }
+        
+        function createCardboardPaper() {
+            ctx.fillStyle = '#d2b48c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            addCardboardTexture();
+        }
+        
+        function addElement(type) {
+            const x = Math.random() * (canvas.width - 300) + 150;
+            const y = Math.random() * (canvas.height - 300) + 150;
+            
+            switch(type) {
+                case 'tape':
+                    drawTape(x, y);
+                    break;
+                case 'paperclip':
+                    drawPaperclip(x, y);
+                    break;
+                case 'staple':
+                    drawStaple(x, y);
+                    break;
+                case 'postit':
+                    drawPostit(x, y);
+                    break;
+                case 'coffee':
+                    drawCoffeeStain(x, y);
+                    break;
+                case 'ink':
+                    drawInkStain(x, y);
+                    break;
+                case 'fold':
+                    drawFold(x, y);
+                    break;
+                case 'tear':
+                    drawTear(x, y);
+                    break;
+            }
+            
+            elementCount++;
+            updateElementCount();
+            updateStatus(`${type} ajouté !`, 'success');
+        }
+        
+        function drawTape(x, y) {
+            const width = 180 + Math.random() * 100;
+            const height = 35;
+            const angle = (Math.random() - 0.5) * 0.8;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(-width/2 + 3, -height/2 + 3, width, height);
+            
+            // Corps du scotch
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillRect(-width/2, -height/2, width, height);
+            
+            // Bordures
+            ctx.strokeStyle = 'rgba(200, 200, 200, 0.9)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(-width/2, -height/2, width, height);
+            
+            // Brillance
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fillRect(-width/2, -height/2 + 5, width, 8);
+            
+            // Plis
+            for (let i = 0; i < 3; i++) {
+                ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(-width/2, -height/2 + (i + 1) * height/4);
+                ctx.lineTo(width/2, -height/2 + (i + 1) * height/4);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawPaperclip(x, y) {
+            const colors = ['#C0C0C0', '#FFD700', '#CD7F32'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = 0.8 + Math.random() * 0.6;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(size, size);
+            ctx.rotate((Math.random() - 0.5) * Math.PI);
+            
+            // Ombre
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(-23, -13);
+            ctx.lineTo(-23, 12);
+            ctx.arc(-13, 12, 12, Math.PI, 0, false);
+            ctx.lineTo(17, 2);
+            ctx.arc(17, 12, 12, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(-3, 22);
+            ctx.stroke();
+            
+            // Trombone principal
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(-25, -15);
+            ctx.lineTo(-25, 10);
+            ctx.arc(-15, 10, 10, Math.PI, 0, false);
+            ctx.lineTo(15, 0);
+            ctx.arc(15, 10, 10, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(-5, 20);
+            ctx.stroke();
+            
+            // Reflets
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(-23, -13);
+            ctx.lineTo(-23, 8);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function drawStaple(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate((Math.random() - 0.5) * 0.5);
+            
+            // Corps de l'agrafe
+            ctx.strokeStyle = '#A0A0A0';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-12, -5);
+            ctx.lineTo(-12, 5);
+            ctx.lineTo(12, 5);
+            ctx.lineTo(12, -5);
+            ctx.stroke();
+            
+            // Pattes
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-8, 5);
+            ctx.lineTo(-8, 12);
+            ctx.moveTo(8, 5);
+            ctx.lineTo(8, 12);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function drawPostit(x, y) {
+            const colors = ['#FFFF88', '#FFB6C1', '#98FB98', '#DDA0DD', '#F0E68C'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const texts = ['TODO', 'NOTE', 'URGENT', '!!!', 'MEMO', 'FINI'];
+            const text = texts[Math.floor(Math.random() * texts.length)];
+            const size = 120 + Math.random() * 40;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate((Math.random() - 0.5) * 0.3);
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(3, 3, size, size);
+            
+            // Corps du post-it
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Coin décollé
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.beginPath();
+            ctx.moveTo(size - 20, 0);
+            ctx.lineTo(size, 0);
+            ctx.lineTo(size, 20);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Bordure légère
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(0, 0, size, size);
+            
+            // Texte
+            ctx.fillStyle = '#333';
+            ctx.font = `bold ${Math.floor(size/8)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(text, size/2, size/2 + size/16);
+            
+            ctx.restore();
+        }
+        
+        function drawCoffeeStain(x, y) {
+            const size = 40 + Math.random() * 60;
+            
+            // Tache principale
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.5)';
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Anneaux concentriques
+            for (let i = 1; i < 5; i++) {
+                ctx.strokeStyle = `rgba(101, 67, 33, ${0.3 / i})`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(x, y, size + i * 12, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Éclaboussures
+            for (let i = 0; i < 8; i++) {
+                const splashX = x + (Math.random() - 0.5) * size * 3;
+                const splashY = y + (Math.random() - 0.5) * size * 3;
+                const splashSize = Math.random() * 8 + 3;
+                
+                ctx.fillStyle = 'rgba(101, 67, 33, 0.3)';
+                ctx.beginPath();
+                ctx.arc(splashX, splashY, splashSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawInkStain(x, y) {
+            const size = 20 + Math.random() * 30;
+            const colors = ['rgba(0, 0, 139, 0.4)', 'rgba(139, 0, 0, 0.4)', 'rgba(0, 139, 0, 0.4)'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            
+            // Forme irrégulière
+            const points = 12;
+            for (let i = 0; i < points; i++) {
+                const angle = (i / points) * Math.PI * 2;
+                const radius = size * (0.7 + Math.random() * 0.6);
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        function drawFold(x, y) {
+            const length = 100 + Math.random() * 200;
+            const angle = Math.random() * Math.PI * 2;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Ligne de pli
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-length/2, 0);
+            ctx.lineTo(length/2, 0);
+            ctx.stroke();
+            
+            // Ombre du pli
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(-length/2, 2);
+            ctx.lineTo(length/2, 2);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function drawTear(x, y) {
+            const length = 50 + Math.random() * 100;
+            const angle = Math.random() * Math.PI * 2;
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Déchirure irrégulière
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.6)';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            
+            ctx.moveTo(-length/2, 0);
+            for (let i = 0; i < 20; i++) {
+                const t = i / 19;
+                const px = -length/2 + t * length;
+                const py = (Math.random() - 0.5) * 8;
+                ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+        
+        function addEffect(type) {
+            switch(type) {
+                case 'aging':
+                    addAgingEffect();
+                    break;
+                case 'wrinkles':
+                    addWrinklesEffect();
+                    break;
+                case 'burns':
+                    addBurnsEffect();
+                    break;
+                case 'water':
+                    addWaterEffect();
+                    break;
+            }
+            
+            updateStatus(`Effet ${type} ajouté !`, 'success');
+        }
+        
+        function addBasicTexture() {
+            // Texture de papier de base
+            for (let i = 0; i < 500; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 4 + 1;
+                const opacity = Math.random() * 0.2 + 0.05;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addBurnedBorders() {
+            // Bordures brûlées sur les 4 côtés
+            const sides = [
+                {start: [0, 0], end: [canvas.width, 0], vertical: false},
+                {start: [0, canvas.height], end: [canvas.width, canvas.height], vertical: false},
+                {start: [0, 0], end: [0, canvas.height], vertical: true},
+                {start: [canvas.width, 0], end: [canvas.width, canvas.height], vertical: true}
+            ];
+            
+            sides.forEach(side => {
+                ctx.strokeStyle = 'rgba(101, 67, 33, 0.8)';
+                ctx.lineWidth = 8;
+                ctx.beginPath();
+                
+                if (!side.vertical) {
+                    ctx.moveTo(side.start[0], side.start[1]);
+                    for (let x = 0; x < canvas.width; x += 30) {
+                        const variation = Math.random() * 20 + 10;
+                        const y = side.start[1] === 0 ? variation : canvas.height - variation;
+                        ctx.lineTo(x, y);
+                    }
+                } else {
+                    ctx.moveTo(side.start[0], side.start[1]);
+                    for (let y = 0; y < canvas.height; y += 30) {
+                        const variation = Math.random() * 20 + 10;
+                        const x = side.start[0] === 0 ? variation : canvas.width - variation;
+                        ctx.lineTo(x, y);
+                    }
+                }
+                
+                ctx.stroke();
+            });
+        }
+        
+        function addNewsContent() {
+            // Faux texte de journal
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+            ctx.font = '12px Arial';
+            
+            for (let col = 0; col < 3; col++) {
+                const startX = col * (canvas.width / 3) + 30;
+                const endX = (col + 1) * (canvas.width / 3) - 30;
+                
+                for (let y = 100; y < canvas.height - 100; y += 20) {
+                    const lineWidth = Math.random() * (endX - startX) * 0.8 + (endX - startX) * 0.2;
+                    ctx.fillRect(startX, y, lineWidth, 3);
+                }
+            }
+        }
+        
+        function addCardboardTexture() {
+            // Texture ondulée du carton
+            ctx.strokeStyle = 'rgba(139, 115, 85, 0.4)';
+            ctx.lineWidth = 2;
+            
+            for (let y = 0; y < canvas.height; y += 8) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                for (let x = 0; x < canvas.width; x += 15) {
+                    const wave = Math.sin(x * 0.05) * 3;
+                    ctx.lineTo(x, y + wave);
+                }
+                ctx.stroke();
+            }
+            
+            // Taches et marques
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 25 + 5;
+                
+                ctx.fillStyle = `rgba(139, 115, 85, ${Math.random() * 0.3 + 0.1})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addAgingEffect() {
+            // Taches d'âge générales
+            for (let i = 0; i < 30; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 50 + 20;
+                const opacity = Math.random() * 0.3 + 0.1;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            elementCount++;
+            updateElementCount();
+        }
+        
+        function addWrinklesEffect() {
+            // Plis et froissements
+            for (let i = 0; i < 20; i++) {
+                const startX = Math.random() * canvas.width;
+                const startY = Math.random() * canvas.height;
+                const length = Math.random() * 300 + 100;
+                const angle = Math.random() * Math.PI * 2;
+                
+                ctx.save();
+                ctx.translate(startX, startY);
+                ctx.rotate(angle);
+                
+                ctx.strokeStyle = 'rgba(139, 69, 19, 0.15)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                
+                for (let j = 0; j < length; j += 15) {
+                    const variation = Math.sin(j * 0.1) * 5 + (Math.random() - 0.5) * 3;
+                    ctx.lineTo(j, variation);
+                }
+                
+                ctx.stroke();
+                ctx.restore();
+            }
+            
+            elementCount++;
+            updateElementCount();
+        }
+        
+        function addBurnsEffect() {
+            // Marques de brûlures
+            for (let i = 0; i < 8; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 60 + 30;
+                
+                ctx.fillStyle = 'rgba(101, 67, 33, 0.4)';
+                
+                // Forme irrégulière de brûlure
+                ctx.beginPath();
+                for (let j = 0; j < 16; j++) {
+                    const angle = (j / 16) * Math.PI * 2;
+                    const radius = size * (0.6 + Math.random() * 0.8);
+                    const px = x + Math.cos(angle) * radius;
+                    const py = y + Math.sin(angle) * radius;
+                    
+                    if (j === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            elementCount++;
+            updateElementCount();
+        }
+        
+        function addWaterEffect() {
+            // Dégâts d'eau
+            for (let i = 0; i < 12; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 80 + 40;
+                
+                // Tache d'eau principale
+                ctx.fillStyle = 'rgba(173, 216, 230, 0.3)';
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Auréole
+                ctx.strokeStyle = 'rgba(173, 216, 230, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(x, y, size + 15, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            elementCount++;
+            updateElementCount();
+        }
+        
+        function createFullCollectible() {
+            updateStatus('Création du collectible complet...', '');
+            
+            // Étape 1: Base
+            createPaper('vintage');
+            
+            // Étape 2: Éléments principaux
+            setTimeout(() => {
+                addElement('tape');
+                addElement('tape');
+                addElement('paperclip');
+                addElement('paperclip');
+            }, 200);
+            
+            // Étape 3: Notes et taches
+            setTimeout(() => {
+                addElement('postit');
+                addElement('coffee');
+                addElement('ink');
+            }, 400);
+            
+            // Étape 4: Détails
+            setTimeout(() => {
+                addElement('staple');
+                addElement('fold');
+                addElement('tear');
+            }, 600);
+            
+            // Étape 5: Effets finaux
+            setTimeout(() => {
+                addEffect('aging');
+                addEffect('wrinkles');
+                updateStatus('Collectible complet créé !', 'success');
+            }, 800);
+        }
+        
+        function addRandomElements() {
+            const elements = ['tape', 'paperclip', 'staple', 'postit', 'coffee', 'ink', 'fold', 'tear'];
+            const count = 5 + Math.floor(Math.random() * 5);
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const element = elements[Math.floor(Math.random() * elements.length)];
+                    addElement(element);
+                }, i * 100);
+            }
+            
+            updateStatus(`${count} éléments aléatoires ajoutés !`, 'success');
+        }
+        
+        function addMoreRealism() {
+            addEffect('aging');
+            addEffect('wrinkles');
+            
+            setTimeout(() => {
+                addElement('coffee');
+                addElement('fold');
+            }, 300);
+            
+            setTimeout(() => {
+                addEffect('burns');
+                updateStatus('Réalisme maximal ajouté !', 'success');
+            }, 600);
+        }
+        
+        function saveCollectible() {
+            try {
+                const link = document.createElement('a');
+                link.download = `collectible-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                updateStatus('Collectible sauvegardé avec succès !', 'success');
+            } catch (error) {
+                updateStatus('Erreur lors de la sauvegarde', 'error');
+                console.error('Erreur sauvegarde:', error);
+            }
+        }
+        
+        // Test de fonctionnement
+        console.log('Toutes les fonctions chargées !');
+    </script>
+</body>
+</html>

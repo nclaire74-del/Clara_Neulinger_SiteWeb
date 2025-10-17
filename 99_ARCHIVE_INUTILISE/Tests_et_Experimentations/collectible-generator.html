@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Collectible</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        #canvas {
+            border: 2px solid #333;
+            margin: 20px 0;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .control-group {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background: #007acc;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #005c99;
+        }
+        
+        .reference-images {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .reference-images img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .reference-images img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Générateur de Collectible Style Vintage</h1>
+        
+        <div class="reference-images">
+            <h3>Images de référence :</h3>
+            <img src="References_Papiers/Ref_Collectible/téléchargement.jpg" alt="Ref 1" onclick="loadReference(this.src)">
+            <img src="References_Papiers/Ref_Collectible/téléchargement (1).jpg" alt="Ref 2" onclick="loadReference(this.src)">
+            <img src="References_Papiers/Ref_Collectible/téléchargement (2).jpg" alt="Ref 3" onclick="loadReference(this.src)">
+        </div>
+        
+        <canvas id="canvas" width="600" height="800"></canvas>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="title">Titre du Collectible:</label>
+                <input type="text" id="title" value="CIRCUS PROJECT" placeholder="Titre...">
+                
+                <label for="subtitle">Sous-titre:</label>
+                <input type="text" id="subtitle" value="3D Environment & Character" placeholder="Sous-titre...">
+            </div>
+            
+            <div class="control-group">
+                <label for="bgColor">Couleur de fond:</label>
+                <input type="color" id="bgColor" value="#f5f2e8">
+                
+                <label for="textColor">Couleur du texte:</label>
+                <input type="color" id="textColor" value="#2c1810">
+            </div>
+            
+            <div class="control-group">
+                <label for="borderStyle">Style de bordure:</label>
+                <select id="borderStyle">
+                    <option value="vintage">Vintage</option>
+                    <option value="torn">Déchiré</option>
+                    <option value="simple">Simple</option>
+                    <option value="ornate">Orné</option>
+                </select>
+                
+                <label for="texture">Texture:</label>
+                <select id="texture">
+                    <option value="paper">Papier</option>
+                    <option value="parchment">Parchemin</option>
+                    <option value="aged">Vieilli</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <button onclick="generateCollectible()">🎨 Générer Collectible</button>
+                <button onclick="addVintageEffects()">✨ Effets Vintage</button>
+                <button onclick="downloadImage()">💾 Télécharger</button>
+                <button onclick="clearCanvas()">🗑️ Effacer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        
+        // Variables pour dessiner
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        
+        function startDrawing(e) {
+            isDrawing = true;
+            draw(e);
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#8B4513';
+            
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+        
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.beginPath();
+        }
+        
+        function loadReference(src) {
+            const img = new Image();
+            img.onload = function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Dessiner l'image de référence en transparence
+                ctx.globalAlpha = 0.3;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = 1.0;
+                
+                console.log('Référence chargée:', src);
+            };
+            img.src = src;
+        }
+        
+        function generateCollectible() {
+            const title = document.getElementById('title').value;
+            const subtitle = document.getElementById('subtitle').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const borderStyle = document.getElementById('borderStyle').value;
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Fond
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture de papier
+            addPaperTexture();
+            
+            // Bordure selon le style
+            drawBorder(borderStyle);
+            
+            // Zone centrale pour le contenu
+            drawContentArea();
+            
+            // Titre
+            ctx.fillStyle = textColor;
+            ctx.font = 'bold 32px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, canvas.width/2, 100);
+            
+            // Sous-titre
+            ctx.font = '18px serif';
+            ctx.fillText(subtitle, canvas.width/2, 130);
+            
+            // Zone pour l'image 3D (placeholder)
+            draw3DPlaceholder();
+            
+            // Informations de bas
+            drawBottomInfo();
+            
+            console.log('Collectible généré!');
+        }
+        
+        function addPaperTexture() {
+            // Ajouter des points pour simuler la texture du papier
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.05)';
+            for (let i = 0; i < 1000; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+        
+        function drawBorder(style) {
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 8;
+            
+            switch(style) {
+                case 'vintage':
+                    // Bordure double vintage
+                    ctx.strokeRect(10, 10, canvas.width-20, canvas.height-20);
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(20, 20, canvas.width-40, canvas.height-40);
+                    break;
+                    
+                case 'torn':
+                    // Bordure déchirée (simulation)
+                    drawTornBorder();
+                    break;
+                    
+                case 'ornate':
+                    // Bordure ornée
+                    drawOrnateBorder();
+                    break;
+                    
+                default:
+                    ctx.strokeRect(15, 15, canvas.width-30, canvas.height-30);
+            }
+        }
+        
+        function drawTornBorder() {
+            ctx.beginPath();
+            ctx.moveTo(10, 10);
+            
+            // Créer une bordure irrégulière
+            for (let i = 0; i <= canvas.width; i += 20) {
+                const variation = Math.random() * 10 - 5;
+                ctx.lineTo(i, 10 + variation);
+            }
+            
+            for (let i = 0; i <= canvas.height; i += 20) {
+                const variation = Math.random() * 10 - 5;
+                ctx.lineTo(canvas.width - 10 + variation, i);
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawOrnateBorder() {
+            // Coins décoratifs
+            const corners = [
+                [30, 30], [canvas.width-30, 30], 
+                [30, canvas.height-30], [canvas.width-30, canvas.height-30]
+            ];
+            
+            corners.forEach(([x, y]) => {
+                ctx.fillStyle = '#8B4513';
+                ctx.fillRect(x-5, y-5, 10, 10);
+                
+                // Petites décorations autour
+                ctx.fillRect(x-15, y-2, 8, 4);
+                ctx.fillRect(x-2, y-15, 4, 8);
+                ctx.fillRect(x+7, y-2, 8, 4);
+                ctx.fillRect(x-2, y+7, 4, 8);
+            });
+        }
+        
+        function drawContentArea() {
+            // Zone pour le contenu principal
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillRect(50, 150, canvas.width-100, 400);
+            
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 150, canvas.width-100, 400);
+        }
+        
+        function draw3DPlaceholder() {
+            // Placeholder pour le modèle 3D
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.5)';
+            ctx.fillRect(80, 180, canvas.width-160, 250);
+            
+            ctx.fillStyle = '#666';
+            ctx.font = '16px serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('MODÈLE 3D', canvas.width/2, 300);
+            ctx.fillText('(Viewer Interactif)', canvas.width/2, 320);
+        }
+        
+        function drawBottomInfo() {
+            // Informations en bas
+            ctx.fillStyle = '#8B4513';
+            ctx.font = 'bold 14px serif';
+            ctx.textAlign = 'left';
+            
+            const info = [
+                'Techniques: Sculpting, Retopologie, UV Mapping',
+                'Logiciels: Blender, ZBrush, Substance Painter',
+                'Format: .mview (Marmoset Viewer)',
+                'Résolution: 4K Textures'
+            ];
+            
+            info.forEach((text, index) => {
+                ctx.fillText(text, 80, 600 + (index * 25));
+            });
+            
+            // Signature/Date
+            ctx.font = '12px serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('Clara Neulinger - 2025', canvas.width-80, canvas.height-50);
+        }
+        
+        function addVintageEffects() {
+            // Taches d'âge
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 20 + 5;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${Math.random() * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Effet de vieillissement global
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'collectible-circus-3d.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // Générer un collectible par défaut au chargement
+        window.onload = function() {
+            generateCollectible();
+        };
+    </script>
+</body>
+</html>

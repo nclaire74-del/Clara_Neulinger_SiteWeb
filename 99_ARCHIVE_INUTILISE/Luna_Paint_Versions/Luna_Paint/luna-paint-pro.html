@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Paint Pro - Collectible Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .luna-header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            position: relative;
+        }
+        
+        .luna-header h1 {
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .luna-workspace {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        .luna-toolbar {
+            width: 350px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border-right: 3px solid #667eea;
+        }
+        
+        .luna-canvas-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        #lunaCanvas {
+            border: 3px solid #333;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: crosshair;
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        
+        .tool-section {
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tool-section h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin: 10px 0;
+        }
+        
+        .tool-btn {
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tool-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            transform: scale(1.05);
+        }
+        
+        /* Éléments interactifs */
+        .element-category {
+            margin-bottom: 15px;
+            padding: 8px;
+            background: rgba(240, 240, 240, 0.8);
+            border-radius: 6px;
+        }
+        
+        .element-category h4 {
+            margin: 0 0 8px 0;
+            font-size: 0.85rem;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+        }
+        
+        .element-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        
+        .element-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 4px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+        
+        .element-btn:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .element-btn.active {
+            border-color: #ff6b6b;
+            background: #ffe6e6;
+        }
+        
+        .element-preview {
+            width: 25px;
+            height: 15px;
+            margin-bottom: 3px;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        /* Prévisualisations */
+        .tape-clear { background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9)); border: 1px solid rgba(200,200,200,0.5); }
+        .tape-masking { background: #F5DEB3; border: 1px solid #D2B48C; }
+        .tape-duct { background: #C0C0C0; border: 1px solid #A0A0A0; }
+        .washi-tape { background: linear-gradient(45deg, #FFB6C1, #FFC0CB); }
+        .paperclip-silver { background: #C0C0C0; clip-path: polygon(20% 0%, 80% 0%, 90% 50%, 80% 100%, 20% 100%, 10% 50%); }
+        .paperclip-gold { background: #FFD700; clip-path: polygon(20% 0%, 80% 0%, 90% 50%, 80% 100%, 20% 100%, 10% 50%); }
+        .binder-clip { background: #2F2F2F; border-radius: 3px 3px 0 0; }
+        .staple { background: #A0A0A0; clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%); }
+        .sticky-yellow { background: #FFFF88; }
+        .sticky-pink { background: #FFB6C1; }
+        .coffee-stain { background: radial-gradient(circle, rgba(101,67,33,0.6), rgba(101,67,33,0.2)); border-radius: 50%; }
+        .ink-blot { background: radial-gradient(circle, rgba(0,0,139,0.6), rgba(0,0,139,0.2)); border-radius: 50%; }
+        
+        .slider-container {
+            margin: 8px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin: 4px 0;
+        }
+        
+        input[type="color"] {
+            width: 100%;
+            height: 35px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .preset-colors {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            margin: 8px 0;
+        }
+        
+        .preset-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #333;
+        }
+        
+        .danger-btn {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #333;
+        }
+        
+        .canvas-info {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        
+        /* Indicateur de mode */
+        .mode-indicator {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: rgba(255, 107, 107, 0.95);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .mode-indicator.active {
+            display: block;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Layers system */
+        .layers-list {
+            max-height: 120px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .layer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .layer-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .layer-item.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .layer-controls {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .layer-controls button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="luna-header">
+        <h1>🌙 Luna Paint Pro - Collectible Creator</h1>
+        <p>Créateur professionnel de collectibles vintage avec placement interactif</p>
+    </div>
+    
+    <div class="luna-workspace">
+        <div class="luna-toolbar">
+            <!-- Générateur de papiers -->
+            <div class="tool-section">
+                <h3>📜 Générateur de Papiers</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" onclick="generatePaper('vintage')">Papier Vintage</button>
+                    <button class="tool-btn" onclick="generatePaper('parchment')">Parchemin</button>
+                    <button class="tool-btn" onclick="generatePaper('notebook')">Cahier Ligné</button>
+                    <button class="tool-btn" onclick="generatePaper('blueprint')">Blueprint</button>
+                    <button class="tool-btn" onclick="generatePaper('newspaper')">Journal</button>
+                    <button class="tool-btn" onclick="generatePaper('cardboard')">Carton</button>
+                </div>
+            </div>
+            
+            <!-- Éléments interactifs -->
+            <div class="tool-section">
+                <h3>📎 Éléments Interactifs</h3>
+                <p style="font-size: 11px; color: #666; margin-bottom: 8px;">Cliquez sur un élément puis sur le canvas pour le placer</p>
+                
+                <div class="element-category">
+                    <h4>Scotch & Adhésifs</h4>
+                    <div class="element-grid">
+                        <button class="element-btn" onclick="setInteractiveMode('tape-clear')">
+                            <div class="element-preview tape-clear"></div>
+                            Scotch Transparent
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('tape-masking')">
+                            <div class="element-preview tape-masking"></div>
+                            Masking Tape
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('tape-duct')">
+                            <div class="element-preview tape-duct"></div>
+                            Duct Tape
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('washi-tape')">
+                            <div class="element-preview washi-tape"></div>
+                            Washi Tape
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="element-category">
+                    <h4>Attaches Métalliques</h4>
+                    <div class="element-grid">
+                        <button class="element-btn" onclick="setInteractiveMode('paperclip-silver')">
+                            <div class="element-preview paperclip-silver"></div>
+                            Trombone Argenté
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('paperclip-gold')">
+                            <div class="element-preview paperclip-gold"></div>
+                            Trombone Doré
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('binder-clip')">
+                            <div class="element-preview binder-clip"></div>
+                            Pince à Dessin
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('staple')">
+                            <div class="element-preview staple"></div>
+                            Agrafe
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="element-category">
+                    <h4>Notes & Étiquettes</h4>
+                    <div class="element-grid">
+                        <button class="element-btn" onclick="setInteractiveMode('sticky-yellow')">
+                            <div class="element-preview sticky-yellow"></div>
+                            Post-it Jaune
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('sticky-pink')">
+                            <div class="element-preview sticky-pink"></div>
+                            Post-it Rose
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('label-vintage')">
+                            <div class="element-preview"></div>
+                            Étiquette Vintage
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('stamp')">
+                            <div class="element-preview"></div>
+                            Tampon
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="element-category">
+                    <h4>Effets de Dégradation</h4>
+                    <div class="element-grid">
+                        <button class="element-btn" onclick="setInteractiveMode('coffee-stain')">
+                            <div class="element-preview coffee-stain"></div>
+                            Tache de Café
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('ink-blot')">
+                            <div class="element-preview ink-blot"></div>
+                            Tache d'Encre
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('burn-mark')">
+                            <div class="element-preview"></div>
+                            Brûlure
+                        </button>
+                        <button class="element-btn" onclick="setInteractiveMode('water-damage')">
+                            <div class="element-preview"></div>
+                            Dégât d'Eau
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Effets de bordure -->
+            <div class="tool-section">
+                <h3>✂️ Bordures & Déchirures</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" onclick="addTornEdge('top')">Déchirer Haut</button>
+                    <button class="tool-btn" onclick="addTornEdge('bottom')">Déchirer Bas</button>
+                    <button class="tool-btn" onclick="addTornEdge('left')">Déchirer Gauche</button>
+                    <button class="tool-btn" onclick="addTornEdge('right')">Déchirer Droite</button>
+                    <button class="tool-btn" onclick="addBurnedEdge()">Bordure Brûlée</button>
+                    <button class="tool-btn" onclick="addFoldedCorner()">Coin Corné</button>
+                </div>
+            </div>
+            
+            <!-- Outils de dessin -->
+            <div class="tool-section">
+                <h3>🎨 Outils de Dessin</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn active" onclick="setTool('brush')" id="brush-tool">Pinceau</button>
+                    <button class="tool-btn" onclick="setTool('pencil')" id="pencil-tool">Crayon</button>
+                    <button class="tool-btn" onclick="setTool('eraser')" id="eraser-tool">Gomme</button>
+                    <button class="tool-btn" onclick="setTool('line')" id="line-tool">Ligne</button>
+                </div>
+            </div>
+            
+            <!-- Paramètres -->
+            <div class="tool-section">
+                <h3>⚙️ Paramètres</h3>
+                <div class="slider-container">
+                    <label for="brushSize">Taille: <span id="brushSizeValue">5</span>px</label>
+                    <input type="range" id="brushSize" min="1" max="50" value="5" oninput="updateBrushSize()">
+                </div>
+                <div class="slider-container">
+                    <label for="opacity">Opacité: <span id="opacityValue">100</span>%</label>
+                    <input type="range" id="opacity" min="10" max="100" value="100" oninput="updateOpacity()">
+                </div>
+            </div>
+            
+            <!-- Couleurs -->
+            <div class="tool-section">
+                <h3>🎨 Couleurs</h3>
+                <input type="color" id="colorPicker" value="#8B4513" onchange="updateColor()">
+                <div class="preset-colors">
+                    <div class="preset-color" style="background: #8B4513" onclick="setPresetColor('#8B4513')"></div>
+                    <div class="preset-color" style="background: #2c1810" onclick="setPresetColor('#2c1810')"></div>
+                    <div class="preset-color" style="background: #654321" onclick="setPresetColor('#654321')"></div>
+                    <div class="preset-color" style="background: #A0522D" onclick="setPresetColor('#A0522D')"></div>
+                    <div class="preset-color" style="background: #f5f2e8" onclick="setPresetColor('#f5f2e8')"></div>
+                    <div class="preset-color" style="background: #000000" onclick="setPresetColor('#000000')"></div>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="tool-section">
+                <h3>💾 Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn primary-btn" onclick="generateQuickCollectible()">⚡ Collectible Complet</button>
+                    <button class="action-btn secondary-btn" onclick="addRandomElements()">🎲 Éléments Aléatoires</button>
+                    <button class="action-btn primary-btn" onclick="saveImage()">💾 Sauvegarder PNG</button>
+                    <button class="action-btn danger-btn" onclick="clearCanvas()">🗑️ Nouveau</button>
+                </div>
+                
+                <div class="canvas-info">
+                    <div>Mode: <span id="currentMode">Dessin</span></div>
+                    <div>Outil: <span id="currentTool">Pinceau</span></div>
+                    <div>Position: <span id="mousePos">-</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="luna-canvas-area">
+            <canvas id="lunaCanvas" width="1920" height="1080"></canvas>
+        </div>
+    </div>
+    
+    <!-- Indicateur de mode -->
+    <div id="modeIndicator" class="mode-indicator">
+        <span id="modeText">Mode Placement Actif - Cliquez pour placer</span>
+    </div>
+
+    <script>
+        // Variables globales
+        const canvas = document.getElementById('lunaCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let currentTool = 'brush';
+        let currentColor = '#8B4513';
+        let currentSize = 5;
+        let currentOpacity = 1;
+        let startX, startY;
+        let interactiveMode = null;
+        let layers = [];
+        let currentLayer = 0;
+        
+        // Initialisation
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        initCanvas();
+        
+        function initCanvas() {
+            // Fond blanc par défaut
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveCanvasState();
+        }
+        
+        // Gestion des événements
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('mouseout', handleMouseUp);
+        canvas.addEventListener('mousemove', updateMousePosition);
+        
+        function handleMouseDown(e) {
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+            
+            if (interactiveMode) {
+                placeElement(startX, startY, interactiveMode);
+                return;
+            }
+            
+            isDrawing = true;
+            if (currentTool === 'brush' || currentTool === 'pencil') {
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+            }
+        }
+        
+        function handleMouseMove(e) {
+            if (!isDrawing || interactiveMode) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.globalAlpha = currentOpacity;
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize;
+            
+            switch(currentTool) {
+                case 'brush':
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'pencil':
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.lineWidth = Math.max(1, currentSize / 2);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'eraser':
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+                    
+                case 'line':
+                    redrawCanvas();
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    break;
+            }
+        }
+        
+        function handleMouseUp() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.beginPath();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.globalAlpha = 1;
+            saveCanvasState();
+        }
+        
+        function updateMousePosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+            document.getElementById('mousePos').textContent = `${x}, ${y}`;
+        }
+        
+        // Mode interactif
+        function setInteractiveMode(elementType) {
+            // Désactiver l'ancien mode
+            document.querySelectorAll('.element-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (interactiveMode === elementType) {
+                // Désactiver si c'est le même
+                interactiveMode = null;
+                document.getElementById('modeIndicator').classList.remove('active');
+                document.getElementById('currentMode').textContent = 'Dessin';
+            } else {
+                // Activer le nouveau mode
+                interactiveMode = elementType;
+                event.target.closest('.element-btn').classList.add('active');
+                document.getElementById('modeIndicator').classList.add('active');
+                document.getElementById('modeText').textContent = `Mode: ${getElementName(elementType)} - Cliquez pour placer`;
+                document.getElementById('currentMode').textContent = `Placement: ${getElementName(elementType)}`;
+            }
+        }
+        
+        function getElementName(type) {
+            const names = {
+                'tape-clear': 'Scotch Transparent',
+                'tape-masking': 'Masking Tape',
+                'tape-duct': 'Duct Tape',
+                'washi-tape': 'Washi Tape',
+                'paperclip-silver': 'Trombone Argenté',
+                'paperclip-gold': 'Trombone Doré',
+                'binder-clip': 'Pince à Dessin',
+                'staple': 'Agrafe',
+                'sticky-yellow': 'Post-it Jaune',
+                'sticky-pink': 'Post-it Rose',
+                'coffee-stain': 'Tache de Café',
+                'ink-blot': 'Tache d\'Encre'
+            };
+            return names[type] || type;
+        }
+        
+        function placeElement(x, y, elementType) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate((Math.random() - 0.5) * 0.5); // Rotation aléatoire
+            
+            switch(elementType) {
+                case 'tape-clear':
+                    drawTapeStrip(0, 0, 120, 0, 'clear');
+                    break;
+                case 'tape-masking':
+                    drawTapeStrip(0, 0, 100, 0, 'masking');
+                    break;
+                case 'tape-duct':
+                    drawTapeStrip(0, 0, 110, 0, 'duct');
+                    break;
+                case 'washi-tape':
+                    drawTapeStrip(0, 0, 90, 0, 'washi');
+                    break;
+                case 'paperclip-silver':
+                    drawPaperClip(0, 0, 0, 'silver');
+                    break;
+                case 'paperclip-gold':
+                    drawPaperClip(0, 0, 0, 'gold');
+                    break;
+                case 'binder-clip':
+                    drawBinderClip(0, 0);
+                    break;
+                case 'staple':
+                    drawStaple(0, 0, 0);
+                    break;
+                case 'sticky-yellow':
+                    drawStickyNote(0, 0, '#FFFF88', 'Note');
+                    break;
+                case 'sticky-pink':
+                    drawStickyNote(0, 0, '#FFB6C1', 'Todo');
+                    break;
+                case 'coffee-stain':
+                    drawCoffeeStain(0, 0);
+                    break;
+                case 'ink-blot':
+                    drawInkBlot(0, 0);
+                    break;
+            }
+            
+            ctx.restore();
+            saveCanvasState();
+        }
+        
+        // Générateurs de papier
+        function generatePaper(type) {
+            clearCanvas();
+            
+            switch(type) {
+                case 'vintage':
+                    generateVintagePaper();
+                    break;
+                case 'parchment':
+                    generateParchment();
+                    break;
+                case 'notebook':
+                    generateNotebook();
+                    break;
+                case 'blueprint':
+                    generateBlueprint();
+                    break;
+                case 'newspaper':
+                    generateNewspaper();
+                    break;
+                case 'cardboard':
+                    generateCardboard();
+                    break;
+            }
+            saveCanvasState();
+        }
+        
+        function generateVintagePaper() {
+            // Fond vintage
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f5f1e8');
+            gradient.addColorStop(0.5, '#f0ead5');
+            gradient.addColorStop(1, '#ebe3c8');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Texture de papier
+            addPaperTexture();
+            addVintageStains();
+        }
+        
+        function generateParchment() {
+            // Fond parchemin
+            ctx.fillStyle = '#f4f1e1';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Bordures brûlées
+            addBurnedEdges();
+            addParchmentTexture();
+        }
+        
+        function generateNotebook() {
+            // Fond blanc
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Lignes du cahier
+            ctx.strokeStyle = '#b3d9ff';
+            ctx.lineWidth = 1;
+            for (let y = 100; y < canvas.height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(100, y);
+                ctx.lineTo(canvas.width - 100, y);
+                ctx.stroke();
+            }
+            
+            // Marge
+            ctx.strokeStyle = '#ff9999';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(200, 50);
+            ctx.lineTo(200, canvas.height - 50);
+            ctx.stroke();
+        }
+        
+        function generateBlueprint() {
+            // Fond bleu
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Grille
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            const gridSize = 50;
+            
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+        
+        function generateNewspaper() {
+            // Fond journal
+            ctx.fillStyle = '#f8f8f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Colonnes
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 1;
+            const columnWidth = canvas.width / 3;
+            
+            for (let i = 1; i < 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * columnWidth, 0);
+                ctx.lineTo(i * columnWidth, canvas.height);
+                ctx.stroke();
+            }
+            
+            addNewsPrint();
+        }
+        
+        function generateCardboard() {
+            // Fond carton
+            ctx.fillStyle = '#d2b48c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            addCardboardTexture();
+        }
+        
+        // Fonctions de dessin d'éléments
+        function drawTapeStrip(x, y, width, angle, type) {
+            const height = 25;
+            
+            let fillColor, borderColor;
+            switch(type) {
+                case 'clear':
+                    fillColor = 'rgba(255, 255, 255, 0.7)';
+                    borderColor = 'rgba(200, 200, 200, 0.8)';
+                    break;
+                case 'masking':
+                    fillColor = '#F5DEB3';
+                    borderColor = '#D2B48C';
+                    break;
+                case 'duct':
+                    fillColor = '#C0C0C0';
+                    borderColor = '#A0A0A0';
+                    break;
+                case 'washi':
+                    fillColor = '#FFB6C1';
+                    borderColor = '#FF69B4';
+                    break;
+            }
+            
+            // Corps du scotch
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(x - width/2, y - height/2, width, height);
+            
+            // Bordures
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x - width/2, y - height/2, width, height);
+            
+            // Brillance
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(x - width/2, y - height/2 + 3, width, 6);
+        }
+        
+        function drawPaperClip(x, y, angle, color) {
+            const clipColor = color === 'gold' ? '#FFD700' : '#C0C0C0';
+            
+            ctx.strokeStyle = clipColor;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            
+            // Forme du trombone
+            ctx.beginPath();
+            ctx.moveTo(x - 25, y - 15);
+            ctx.lineTo(x - 25, y + 10);
+            ctx.arc(x - 15, y + 10, 10, Math.PI, 0, false);
+            ctx.lineTo(x + 15, y);
+            ctx.arc(x + 15, y + 10, 10, -Math.PI/2, Math.PI/2, false);
+            ctx.lineTo(x - 5, y + 20);
+            ctx.stroke();
+            
+            // Ombre
+            ctx.save();
+            ctx.translate(2, 2);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.stroke();
+            ctx.restore();
+        }
+        
+        function drawBinderClip(x, y) {
+            // Corps de la pince
+            ctx.fillStyle = '#2F2F2F';
+            ctx.fillRect(x - 15, y - 8, 30, 16);
+            
+            // Bras de la pince
+            ctx.strokeStyle = '#2F2F2F';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x - 10, y - 8);
+            ctx.lineTo(x - 10, y - 20);
+            ctx.moveTo(x + 10, y - 8);
+            ctx.lineTo(x + 10, y - 20);
+            ctx.stroke();
+        }
+        
+        function drawStaple(x, y, angle) {
+            ctx.strokeStyle = '#A0A0A0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x - 8, y - 3);
+            ctx.lineTo(x - 8, y + 3);
+            ctx.lineTo(x + 8, y + 3);
+            ctx.lineTo(x + 8, y - 3);
+            ctx.stroke();
+            
+            // Pattes
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x - 6, y + 3);
+            ctx.lineTo(x - 6, y + 8);
+            ctx.moveTo(x + 6, y + 3);
+            ctx.lineTo(x + 6, y + 8);
+            ctx.stroke();
+        }
+        
+        function drawStickyNote(x, y, color, text) {
+            const width = 80;
+            const height = 80;
+            
+            // Ombre
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(x + 2, y + 2, width, height);
+            
+            // Corps du post-it
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            
+            // Coin décollé
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.beginPath();
+            ctx.moveTo(x + width - 15, y);
+            ctx.lineTo(x + width, y);
+            ctx.lineTo(x + width, y + 15);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Texte
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, x + width/2, y + height/2 + 4);
+        }
+        
+        function drawCoffeeStain(x, y) {
+            const size = Math.random() * 40 + 30;
+            
+            // Tache principale
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.4)';
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Anneaux
+            for (let i = 1; i < 4; i++) {
+                ctx.strokeStyle = `rgba(101, 67, 33, ${0.2 / i})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, size + i * 8, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+        
+        function drawInkBlot(x, y) {
+            const size = Math.random() * 20 + 10;
+            
+            ctx.fillStyle = 'rgba(0, 0, 139, 0.3)';
+            ctx.beginPath();
+            
+            // Forme irrégulière
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = size * (0.7 + Math.random() * 0.6);
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Fonctions utilitaires
+        function addPaperTexture() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                if (Math.random() < 0.03) {
+                    const noise = Math.random() * 30 - 15;
+                    data[i] = Math.max(0, Math.min(255, data[i] + noise));
+                    data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise));
+                    data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise));
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+        }
+        
+        function addVintageStains() {
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 30 + 10;
+                const opacity = Math.random() * 0.2 + 0.05;
+                
+                ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addBurnedEdges() {
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.8)';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            
+            // Bordure supérieure brûlée
+            ctx.moveTo(0, 0);
+            for (let x = 0; x < canvas.width; x += 20) {
+                const variation = Math.random() * 15 + 5;
+                ctx.lineTo(x, variation);
+            }
+            ctx.stroke();
+            
+            // Autres bordures
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            for (let x = 0; x < canvas.width; x += 20) {
+                const variation = Math.random() * 15 + 5;
+                ctx.lineTo(x, canvas.height - variation);
+            }
+            ctx.stroke();
+        }
+        
+        function addParchmentTexture() {
+            addPaperTexture();
+            // Taches d'âge spécifiques au parchemin
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 50 + 20;
+                
+                ctx.fillStyle = `rgba(160, 130, 90, ${Math.random() * 0.1 + 0.05})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addNewsPrint() {
+            // Simule du texte de journal
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.font = '8px Arial';
+            
+            for (let y = 50; y < canvas.height - 50; y += 12) {
+                for (let col = 0; col < 3; col++) {
+                    const x = col * (canvas.width / 3) + 20;
+                    const textWidth = (canvas.width / 3) - 40;
+                    
+                    // Lignes de texte simulées
+                    for (let line = 0; line < Math.random() * 5 + 2; line++) {
+                        const lineY = y + line * 12;
+                        const lineWidth = Math.random() * textWidth * 0.8 + textWidth * 0.2;
+                        
+                        ctx.fillRect(x, lineY, lineWidth, 2);
+                    }
+                }
+            }
+        }
+        
+        function addCardboardTexture() {
+            // Texture de carton ondulé
+            ctx.strokeStyle = 'rgba(139, 115, 85, 0.3)';
+            ctx.lineWidth = 1;
+            
+            for (let y = 0; y < canvas.height; y += 5) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                for (let x = 0; x < canvas.width; x += 10) {
+                    const wave = Math.sin(x * 0.1) * 2;
+                    ctx.lineTo(x, y + wave);
+                }
+                ctx.stroke();
+            }
+            
+            // Taches et marques
+            for (let i = 0; i < 30; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 20 + 5;
+                
+                ctx.fillStyle = `rgba(139, 115, 85, ${Math.random() * 0.2 + 0.05})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function addBurnedEdge() {
+            // Bordure brûlée sur un côté aléatoire
+            const sides = ['top', 'bottom', 'left', 'right'];
+            const side = sides[Math.floor(Math.random() * sides.length)];
+            
+            ctx.strokeStyle = 'rgba(101, 67, 33, 0.8)';
+            ctx.fillStyle = 'rgba(101, 67, 33, 0.3)';
+            ctx.lineWidth = 3;
+            
+            const burnDepth = 20;
+            
+            switch(side) {
+                case 'top':
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    for (let x = 0; x < canvas.width; x += 15) {
+                        const depth = Math.random() * burnDepth + 5;
+                        ctx.lineTo(x, depth);
+                    }
+                    ctx.lineTo(canvas.width, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    break;
+                    
+                case 'bottom':
+                    ctx.beginPath();
+                    ctx.moveTo(0, canvas.height);
+                    for (let x = 0; x < canvas.width; x += 15) {
+                        const depth = Math.random() * burnDepth + 5;
+                        ctx.lineTo(x, canvas.height - depth);
+                    }
+                    ctx.lineTo(canvas.width, canvas.height);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    break;
+            }
+            
+            saveCanvasState();
+        }
+        
+        function addFoldedCorner() {
+            // Ajoute un coin plié aléatoire
+            const corners = [
+                {x: 50, y: 50, corner: 'top-left'},
+                {x: canvas.width - 50, y: 50, corner: 'top-right'},
+                {x: 50, y: canvas.height - 50, corner: 'bottom-left'},
+                {x: canvas.width - 50, y: canvas.height - 50, corner: 'bottom-right'}
+            ];
+            
+            const corner = corners[Math.floor(Math.random() * corners.length)];
+            const foldSize = Math.random() * 40 + 30;
+            
+            ctx.save();
+            ctx.translate(corner.x, corner.y);
+            
+            // Ombre du pli
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.beginPath();
+            
+            switch(corner.corner) {
+                case 'top-left':
+                    ctx.moveTo(-foldSize, 0);
+                    ctx.lineTo(0, -foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 'top-right':
+                    ctx.moveTo(foldSize, 0);
+                    ctx.lineTo(0, -foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 'bottom-left':
+                    ctx.moveTo(-foldSize, 0);
+                    ctx.lineTo(0, foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+                case 'bottom-right':
+                    ctx.moveTo(foldSize, 0);
+                    ctx.lineTo(0, foldSize);
+                    ctx.lineTo(0, 0);
+                    break;
+            }
+            
+            ctx.closePath();
+            ctx.fill();
+            
+            // Ligne de pli
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.restore();
+            saveCanvasState();
+        }
+        
+        // Actions rapides
+        function generateQuickCollectible() {
+            generatePaper('vintage');
+            setTimeout(() => addRandomElements(), 100);
+        }
+        
+        function addRandomElements() {
+            const elements = [
+                'tape-clear', 'paperclip-silver', 'sticky-yellow', 
+                'coffee-stain', 'ink-blot', 'staple'
+            ];
+            
+            for (let i = 0; i < 8; i++) {
+                const element = elements[Math.floor(Math.random() * elements.length)];
+                const x = Math.random() * (canvas.width - 200) + 100;
+                const y = Math.random() * (canvas.height - 200) + 100;
+                placeElement(x, y, element);
+            }
+        }
+        
+        function addTornEdge(side) {
+            // Implementation simplifiée
+            ctx.strokeStyle = 'rgba(139, 69, 19, 0.5)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            const roughness = 20;
+            const frequency = 30;
+            
+            switch(side) {
+                case 'top':
+                    for (let x = 0; x < canvas.width; x += frequency) {
+                        const variation = Math.random() * roughness;
+                        ctx.lineTo(x, variation);
+                    }
+                    break;
+                case 'bottom':
+                    for (let x = 0; x < canvas.width; x += frequency) {
+                        const variation = Math.random() * roughness;
+                        ctx.lineTo(x, canvas.height - variation);
+                    }
+                    break;
+            }
+            ctx.stroke();
+            saveCanvasState();
+        }
+        
+        // Gestion des outils
+        function setTool(tool) {
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tool + '-tool').classList.add('active');
+            
+            currentTool = tool;
+            document.getElementById('currentTool').textContent = tool.charAt(0).toUpperCase() + tool.slice(1);
+            
+            // Désactiver le mode interactif
+            interactiveMode = null;
+            document.getElementById('modeIndicator').classList.remove('active');
+            document.getElementById('currentMode').textContent = 'Dessin';
+        }
+        
+        function updateBrushSize() {
+            currentSize = document.getElementById('brushSize').value;
+            document.getElementById('brushSizeValue').textContent = currentSize;
+        }
+        
+        function updateOpacity() {
+            const opacityPercent = document.getElementById('opacity').value;
+            currentOpacity = opacityPercent / 100;
+            document.getElementById('opacityValue').textContent = opacityPercent;
+        }
+        
+        function updateColor() {
+            currentColor = document.getElementById('colorPicker').value;
+        }
+        
+        function setPresetColor(color) {
+            currentColor = color;
+            document.getElementById('colorPicker').value = color;
+        }
+        
+        function saveImage() {
+            const link = document.createElement('a');
+            link.download = 'luna-paint-collectible-' + Date.now() + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveCanvasState();
+        }
+        
+        // Système d'historique
+        let canvasHistory = [];
+        let historyStep = -1;
+        
+        function saveCanvasState() {
+            historyStep++;
+            if (historyStep < canvasHistory.length) {
+                canvasHistory.length = historyStep;
+            }
+            canvasHistory.push(canvas.toDataURL());
+        }
+        
+        function redrawCanvas() {
+            if (historyStep >= 0 && historyStep < canvasHistory.length) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = canvasHistory[historyStep];
+            }
+        }
+        
+        // Raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveImage();
+            }
+            
+            // Désactiver le mode interactif avec Escape
+            if (e.key === 'Escape') {
+                interactiveMode = null;
+                document.querySelectorAll('.element-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('modeIndicator').classList.remove('active');
+                document.getElementById('currentMode').textContent = 'Dessin';
+            }
+        });
+        
+        // Initialisation
+        window.onload = function() {
+            initCanvas();
+        };
+    </script>
+</body>
+</html>

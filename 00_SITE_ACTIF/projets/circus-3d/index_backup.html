@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Circus 3D - Clara Neulinger</title>
+    <style>
+        @font-face {
+            font-family: 'Kindergarten';
+            src: url('../../font/kindergarten.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kindergarten', Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0,0,0,0.8);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1fr;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
+            align-items: start;
+        }
+
+        /* GALERIE À GAUCHE */
+        .gallery-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .gallery-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .gallery-container {
+            height: 70vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .gallery-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .gallery-container::-webkit-scrollbar-track {
+            background: #222;
+            border-radius: 4px;
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+
+        .image-item {
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-item:hover {
+            transform: scale(1.02);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .image-info {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .image-title {
+            font-size: 1em;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .image-desc {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        /* WRAPPER VIEWER */
+        .viewer-wrapper {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #ff6b6b;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* VIEWER 3D AU CENTRE */
+        .viewer-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* FORCER LE CANVAS MARMOSET À RESTER DANS SON CONTENEUR */
+        canvas[width="600"][height="400"] {
+            position: relative !important;
+            left: 0 !important;
+            top: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            margin: 0 auto !important;
+            display: block !important;
+            transform: none !important;
+        }
+
+        /* Zone de capture pour Marmoset */
+        #marmoset-capture {
+            background: rgba(0,0,0,0.8);
+            border-radius: 10px;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        /* Forcer TOUS les canvas dans la zone de capture */
+        #marmoset-capture canvas {
+            position: relative !important;
+            left: 0 !important;
+            top: 0 !important;
+            margin: 0 auto !important;
+            display: block !important;
+        }
+
+        /* COLONNE INFORMATIONS À DROITE */
+        .info-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .info-toggle {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+            font-family: 'Kindergarten', Arial, sans-serif;
+        }
+
+        .info-toggle:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .info-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .info-toggle.active .info-arrow {
+            transform: rotate(180deg);
+        }
+
+        .info-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .info-content.active {
+            max-height: 300px;
+        }
+
+        .info-inner {
+            padding: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-item strong {
+            color: #fff;
+        }
+
+        .info-item span {
+            color: #ccc;
+        }
+
+
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .circus-lightbox-close {
+            position: fixed !important;
+            top: 30px !important;
+            right: 30px !important;
+            color: white !important;
+            font-size: 40px !important;
+            cursor: pointer !important;
+            background: rgba(200,0,0,0.9) !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            backdrop-filter: blur(10px) !important;
+            transition: all 0.3s ease !important;
+            z-index: 99999999 !important;
+            border: 3px solid rgba(255,255,255,0.7) !important;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9) !important;
+        }
+
+        .circus-lightbox-close:hover {
+            background: rgba(255,0,0,1) !important;
+            transform: scale(1.1) !important;
+            border-color: rgba(255,255,255,1) !important;
+        }
+
+        /* MASQUER TOUS LES AUTRES BOUTONS QUAND LIGHTBOX OUVERTE */
+        body.lightbox-open button:not(.lightbox-nav),
+        body.lightbox-open .close-btn,
+        body.lightbox-open iframe + button,
+        body.lightbox-open .section button {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* S'ASSURER QUE SEULS LES BOUTONS LIGHTBOX SONT VISIBLES */
+        body.lightbox-open .lightbox-nav {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            z-index: 10000 !important;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 30px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(0,0,0,0.8);
+            border-color: rgba(255,255,255,0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 2fr 1fr;
+                gap: 15px;
+            }
+            
+            .info-section {
+                display: none; /* Masquer les infos sur écrans moyens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .viewer-container {
+                height: 250px;
+            }
+            
+            .gallery-container {
+                height: 50vh;
+            }
+            
+            .info-section {
+                display: block; /* Réafficher en bas sur mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Projet Circus 3D</h1>
+        <p>Modélisation 3D complète avec Blender</p>
+    </div>
+
+    <div class="main-container">
+        <!-- GALERIE À GAUCHE -->
+        <div class="gallery-section">
+            <div class="gallery-title">Galerie Images</div>
+            <div class="gallery-container" id="galleryContainer">
+                <!-- Images ajoutées par JavaScript -->
+            </div>
+        </div>
+
+        <!-- VIEWER 3D AU CENTRE -->
+        <div class="viewer-wrapper">
+            <div class="viewer-container" id="mviewer">
+                <div id="marmoset-capture" style="width: 600px; height: 400px; position: relative; margin: 0 auto; border: 2px solid #4CAF50;">
+                    <!-- Le viewer sera déplacé ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- INFORMATIONS COMPLÈTEMENT À DROITE -->
+        <div class="info-section">
+            <button class="info-toggle" onclick="toggleInfo()">
+                Informations
+                <span class="info-arrow">▼</span>
+            </button>
+            <div class="info-content" id="infoContent">
+                <div class="info-inner">
+                    <div class="info-item">
+                        <strong>Logiciel:</strong> <span>Blender 3D</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Technique:</strong> <span>Modélisation 3D</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Année:</strong> <span>2024</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Images:</strong> <span>18 fichiers</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Types:</strong> <span>Renders, UV, Sculpt</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>3D:</strong> <span>.mview</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</button>
+            <img id="lightboxImage" class="lightbox-image" src="" alt="">
+            <button class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <script src="../../js/marmoset.js"></script>
+
+    <script>
+        // CAPTURE FORCÉE DU CANVAS MARMOSET
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                if (typeof marmoset !== 'undefined' && marmoset.embed) {
+                    console.log('🎪 Initialisation Marmoset...');
+                    
+                    // Créer le viewer
+                    var viewerHTML = marmoset.embed('../../assets/images/Cirucs/ok.mview', {
+                        width: 600,
+                        height: 400,
+                        autoStart: true,
+                        fullFrame: false
+                    });
+                    
+                    // Injecter dans notre zone
+                    var captureZone = document.getElementById('marmoset-capture');
+                    if (captureZone && viewerHTML) {
+                        captureZone.innerHTML = viewerHTML;
+                        console.log('✅ HTML injecté');
+                    }
+                    
+                    // FONCTION DE REPOSITIONNEMENT CANVAS (SANS LE DÉPLACER)
+                    function repositionCanvas() {
+                        // Chercher le canvas problématique en position absolute
+                        var canvasElements = document.querySelectorAll('canvas[width="600"][height="400"]');
+                        var repositioned = false;
+                        
+                        console.log('🔍 Recherche canvas 600x400...', canvasElements.length);
+                        
+                        canvasElements.forEach(function(canvas, index) {
+                            var style = window.getComputedStyle(canvas);
+                            console.log(`Canvas ${index}: position=${style.position}, left=${style.left}, top=${style.top}`);
+                            
+                            // Si le canvas est en position absolute (donc mal placé)
+                            if (style.position === 'absolute') {
+                                console.log('🎯 Canvas mal positionné détecté !');
+                                
+                                // REPOSITIONNER SANS LE DÉPLACER (pour garder le contexte)
+                                var captureRect = captureZone.getBoundingClientRect();
+                                
+                                // Calculer la position pour centrer dans la zone de capture
+                                var centerX = captureRect.left + (captureRect.width / 2) - 300; // 300 = moitié de 600px
+                                var centerY = captureRect.top + (captureRect.height / 2) - 200; // 200 = moitié de 400px
+                                
+                                canvas.style.left = centerX + 'px';
+                                canvas.style.top = centerY + 'px';
+                                canvas.style.zIndex = '1000';
+                                canvas.style.borderRadius = '10px';
+                                canvas.style.border = '2px solid #4CAF50';
+                                
+                                console.log(`📦 Canvas repositionné à: ${centerX}px, ${centerY}px`);
+                                repositioned = true;
+                                console.log('✅ Canvas repositionné SANS déplacement !');
+                            }
+                        });
+                        
+                        return repositioned;
+                    }
+                    
+                    // Essayer de repositionner immédiatement
+                    setTimeout(function() {
+                        if (!repositionCanvas()) {
+                            console.log('⏳ Canvas pas encore créé, surveillance en cours...');
+                            
+                            // Surveillance continue pour repositionner dès que le canvas apparaît
+                            var attempts = 0;
+                            var maxAttempts = 20;
+                            
+                            var repositionInterval = setInterval(function() {
+                                attempts++;
+                                console.log(`Tentative ${attempts}/${maxAttempts} de repositionnement...`);
+                                
+                                if (repositionCanvas() || attempts >= maxAttempts) {
+                                    clearInterval(repositionInterval);
+                                    if (attempts >= maxAttempts) {
+                                        console.log('❌ Canvas non trouvé après 20 tentatives');
+                                        captureZone.innerHTML = '<div style="color: red; padding: 50px; text-align: center;">Canvas Marmoset non détecté</div>';
+                                    }
+                                }
+                            }, 250); // Vérifier toutes les 250ms
+                        }
+                    }, 500);
+                    
+                } else {
+                    console.log('❌ Marmoset non disponible');
+                    document.getElementById('marmoset-capture').innerHTML = '<div style="color: red; padding: 50px; text-align: center;">Script Marmoset non chargé</div>';
+                }
+            }, 500);
+        });
+                    
+                    // Créer le viewer (il va apparaître en bas à gauche)
+                    var viewerHTML = marmoset.embed('../../assets/images/Cirucs/ok.mview', {
+                        width: 600,
+                        height: 400,
+                        autoStart: true,
+                        fullFrame: false
+                    });
+                    
+                    console.log('📦 Viewer HTML généré:', typeof viewerHTML);
+                    
+                    // D'abord l'injecter quelque part pour le créer
+                    document.body.insertAdjacentHTML('beforeend', '<div id="temp-marmoset" style="position: absolute; left: -9999px;">' + viewerHTML + '</div>');
+                    
+                    // Attendre que Marmoset se créé réellement dans la page
+                    setTimeout(function() {
+                        // Chercher TOUS les éléments Marmoset créés (souvent des div avec position absolute)
+                        var marmosetElements = document.querySelectorAll('div[style*="position: absolute"]');
+                        var captureZone = document.getElementById('marmoset-capture');
+                        var found = false;
+                        
+                        console.log('🔍 Recherche éléments Marmoset créés...', marmosetElements.length);
+                        
+                        marmosetElements.forEach(function(el, index) {
+                            // Si l'élément semble être un viewer Marmoset (contient canvas ou des controls)
+                            if (el.querySelector('canvas') || el.innerHTML.includes('marmoset') || el.style.width.includes('px')) {
+                                console.log('🎯 Viewer Marmoset trouvé ! Index:', index);
+                                console.log('� Position actuelle:', el.style.left, el.style.top);
+                                
+                                // Le DÉPLACER physiquement dans notre zone
+                                el.style.position = 'relative';
+                                el.style.left = '0';
+                                el.style.top = '0';
+                                el.style.transform = 'none';
+                                
+                                // L'ajouter à notre zone de capture
+                                captureZone.appendChild(el);
+                                found = true;
+                                
+                                console.log('✅ Viewer déplacé dans la zone de capture !');
+                            }
+                        });
+                        
+                        if (!found) {
+                            console.log('❌ Aucun viewer Marmoset trouvé');
+                            captureZone.innerHTML = '<div style="color: red; text-align: center; padding: 50px;">Viewer non trouvé</div>';
+                        }
+                        
+                        // Nettoyer l'élément temporaire
+                        var temp = document.getElementById('temp-marmoset');
+                        if (temp) temp.remove();
+                        
+    </script>
+
+    <script>
+        // LISTE DES VRAIES IMAGES
+        const circusImages = [
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_References.jpg',
+            '../../assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_References_2.jpg'
+        ];
+
+        let currentImageIndex = 0;
+
+        // GÉNÉRATION DE LA GALERIE
+        function generateGallery() {
+            const container = document.getElementById('galleryContainer');
+            
+            circusImages.forEach((imagePath, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.onclick = () => openLightbox(index);
+                
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `Circus Image ${index + 1}`;
+                img.loading = 'lazy';
+                
+                const info = document.createElement('div');
+                info.className = 'image-info';
+                
+                const title = document.createElement('div');
+                title.className = 'image-title';
+                title.textContent = getImageTitle(imagePath);
+                
+                const desc = document.createElement('div');
+                desc.className = 'image-desc';
+                desc.textContent = getImageDescription(imagePath);
+                
+                info.appendChild(title);
+                info.appendChild(desc);
+                imageItem.appendChild(img);
+                imageItem.appendChild(info);
+                container.appendChild(imageItem);
+            });
+        }
+
+        // TITRES ET DESCRIPTIONS
+        function getImageTitle(path) {
+            if (path.includes('Chara_Renders')) return 'Rendu Personnage';
+            if (path.includes('Chara_Sculpt')) return 'Sculpture Personnage';
+            if (path.includes('Chara_Topology')) return 'Topologie Personnage';
+            if (path.includes('Chara_Uv')) return 'UV Mapping Personnage';
+            if (path.includes('Enviro_Renders')) return 'Rendu Environnement';
+            if (path.includes('Enviro_Sculpt')) return 'Sculpture Environnement';
+            if (path.includes('Enviro_Topology')) return 'Topologie Environnement';
+            if (path.includes('Enviro_Uv')) return 'UV Mapping Environnement';
+            if (path.includes('References')) return 'Références';
+            return 'Image Circus';
+        }
+
+        function getImageDescription(path) {
+            const fileName = path.split('/').pop();
+            return fileName.replace('.jpg', '').replace('Neulinger_Clara_3B3D_Circus_', '');
+        }
+
+        // ONGLET INFORMATIONS
+        function toggleInfo() {
+            const toggle = document.querySelector('.info-toggle');
+            const content = document.getElementById('infoContent');
+            
+            toggle.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // LIGHTBOX
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            
+            lightboxImage.src = circusImages[currentImageIndex];
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            document.body.classList.add('lightbox-open');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.body.classList.remove('lightbox-open');
+        }
+
+        // FONCTION POUR FERMER LA MODAL ET RETOURNER À L'OVERLAY
+        function closeCircusModal() {
+            // Fermer la lightbox si elle est ouverte
+            closeLightbox();
+            
+            // Fermer la modal circus
+            const modal = document.querySelector('.circus-project-modal');
+            if (modal) {
+                modal.remove();
+            }
+            
+            // Retourner à la page principale - recharger ou rediriger
+            if (window.parent && window.parent !== window) {
+                // Si c'est dans une iframe, communiquer avec le parent
+                window.parent.postMessage('closeCircusModal', '*');
+            } else {
+                // Sinon, retourner à la page principale
+                window.location.href = '../index.html';
+            }
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex >= circusImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = circusImages.length - 1;
+            }
+            
+            const lightboxImage = document.getElementById('lightboxImage');
+            lightboxImage.src = circusImages[currentImageIndex];
+        }
+
+
+
+        // NAVIGATION CLAVIER
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'block') {
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        changeImage(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeImage(1);
+                        break;
+                }
+            }
+        });
+
+        // ÉCOUTER LES CLICS SUR LE BOUTON DE FERMETURE DE LA MODAL
+        document.addEventListener('click', function(e) {
+            // Si c'est le bouton de fermeture de la modal circus
+            if (e.target.textContent === '✕' && e.target.closest('.circus-project-modal')) {
+                // Si on est dans la lightbox, fermer seulement la lightbox
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox && lightbox.style.display === 'block') {
+                    closeLightbox();
+                } else {
+                    // Sinon fermer complètement la modal
+                    closeCircusModal();
+                }
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+        // FERMER LIGHTBOX EN CLIQUANT SUR L'ARRIÈRE-PLAN
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // INITIALISATION
+        document.addEventListener('DOMContentLoaded', function() {
+            generateGallery();
+        });
+    </script>
+</body>
+</html>

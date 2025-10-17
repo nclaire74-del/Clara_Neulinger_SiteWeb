@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Neulinger - Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Écran de chargement avec fond noir -->
+    <div id="loading-screen">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <!-- Vidéo en arrière-plan -->
+    <video id="background-video" autoplay muted loop>
+        <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+
+    <!-- Effet de vignettage noir -->
+    <div id="video-vignette-overlay"></div>
+
+    <!-- Interface utilisateur principale (style jeu vidéo) -->
+    <div id="main-ui" style="display: none;">
+        <div class="ui-overlay">
+            <!-- Logo/Titre -->
+            <div class="game-title">
+                <h1>Clara Neulinger</h1>
+                <p class="subtitle">Portfolio 3D</p>
+            </div>
+
+            <!-- Menu principal -->
+            <div class="main-menu">
+                <button class="game-button" id="load-game">
+                    <span class="button-text">Load Game</span>
+                    <span class="button-subtitle">Portfolio & Projets</span>
+                </button>
+                
+                <button class="game-button" id="contact">
+                    <span class="button-text">Contact</span>
+                    <span class="button-subtitle">Informations & Réseaux</span>
+                </button>
+                
+                <button class="game-button" id="options">
+                    <span class="button-text">Options</span>
+                    <span class="button-subtitle">Son & Langue</span>
+                </button>
+                
+                <button class="game-button" id="exit">
+                    <span class="button-text">Exit</span>
+                    <span class="button-subtitle">Quitter</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre Contact - Feuille de papier interactive -->
+    <div id="contact-window" class="contact-overlay">
+        <div class="paper-container">
+            <div class="paper-sheet" id="paper-sheet">
+                <!-- Recto de la feuille -->
+                <div class="paper-side front">
+                    <!-- Scotch en haut -->
+                    <div class="tape tape-top"></div>
+                    <div class="tape tape-bottom"></div>
+                    
+                    <!-- Contenu du recto -->
+                    <div class="paper-content">
+                        <div class="paper-header">
+                            <h2>Contact</h2>
+                            <div class="underline-sketch"></div>
+                        </div>
+                        
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Email :</span>
+                                <span class="value">clara.neulinger@exemple.com</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">LinkedIn :</span>
+                                <span class="value">linkedin.com/in/clara-neulinger</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Portfolio :</span>
+                                <span class="value">clara-neulinger-3d.com</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <span class="bullet">•</span>
+                                <span class="label">Téléphone :</span>
+                                <span class="value">+33 6 12 34 56 78</span>
+                            </div>
+                        </div>
+                        
+                        <div class="paper-note">
+                            <div class="note-text">Disponible pour projets freelance</div>
+                            <div class="note-text">Spécialisée en 3D & Animation</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Déchirures et taches -->
+                    <div class="tear tear-top-left"></div>
+                    <div class="tear tear-top-right"></div>
+                    <div class="tear tear-bottom-left"></div>
+                    <div class="stain stain-1"></div>
+                    <div class="stain stain-2"></div>
+                    <div class="stain stain-3"></div>
+                </div>
+                
+                <!-- Verso de la feuille -->
+                <div class="paper-side back">
+                    <div class="paper-content">
+                        <div class="paper-header">
+                            <h2>Notes</h2>
+                            <div class="underline-sketch"></div>
+                        </div>
+                        
+                        <div class="back-content">
+                            <div class="note-line">Expérience : 3+ ans en 3D</div>
+                            <div class="note-line">Logiciels : Blender, Maya, 3ds Max</div>
+                            <div class="note-line">Spécialités : Modeling, Animation</div>
+                            <div class="note-line">Langues : FR, EN, DE</div>
+                        </div>
+                        
+                        <div class="sketch-doodle">
+                            <div class="doodle-circle"></div>
+                            <div class="doodle-arrow"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Déchirures verso -->
+                    <div class="tear tear-back-1"></div>
+                    <div class="tear tear-back-2"></div>
+                    <div class="stain stain-back-1"></div>
+                </div>
+                
+                <!-- Support carton -->
+                <div class="cardboard-support"></div>
+            </div>
+            
+            <!-- CV sous la feuille -->
+            <div class="cv-container">
+                <div class="cv-wrapper" id="cv-french" data-lang="fr">
+                    <iframe src="References_Papiers/CV/Neulinger_Clara_Cv.pdf" class="cv-frame"></iframe>
+                    <div class="cv-vintage-overlay"></div>
+                </div>
+                <div class="cv-wrapper" id="cv-english" data-lang="en">
+                    <iframe src="References_Papiers/CV/Neulinger_Clara_Resume.pdf" class="cv-frame"></iframe>
+                    <div class="cv-vintage-overlay"></div>
+                </div>
+            </div>
+            
+            <!-- Instructions -->
+            <div class="paper-instructions">
+                <p>Cliquez et glissez pour faire tourner • Double-clic pour retourner • Molette pour zoomer • Échap pour fermer</p>
+            </div>
+            
+            <!-- Bouton fermer -->
+            <button id="close-contact" class="close-contact">&times;</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/loading-manager.js"></script>
+    <script src="js/video-manager.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/effects-manager-gribouillage.js"></script>
+    <script src="js/button-parallax-manager.js"></script>
+    <script src="js/paper-manager.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

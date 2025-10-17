@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Clara Neulinger</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Times New Roman', serif;
+            background: #faf8f2;
+            color: #333;
+            line-height: 1.4;
+        }
+        .cv-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin: 0;
+        }
+        .title {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 5px 0;
+        }
+        .contact-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #8B4513;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .experience-item, .education-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #f0f0f0;
+        }
+        .job-title {
+            font-weight: bold;
+            color: #333;
+        }
+        .company {
+            color: #8B4513;
+            font-style: italic;
+        }
+        .date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .description {
+            margin-top: 5px;
+            color: #555;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .skill-category {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .skill-category h4 {
+            margin: 0 0 10px 0;
+            color: #8B4513;
+        }
+        .skill-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .skill-list li {
+            padding: 2px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <div class="header">
+            <h1 class="name">Clara NEULINGER</h1>
+            <div class="title">Artiste 3D & Animatrice</div>
+            <div class="contact-info">
+                clara.neulinger@email.com • +33 6 12 34 56 78 • Lyon, France<br>
+                Portfolio: clara-neulinger-3d.com • LinkedIn: /in/clara-neulinger
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">PROFIL PROFESSIONNEL</h2>
+            <p>Artiste 3D passionnée avec 5+ années d'expérience dans la création de contenus visuels innovants. Spécialisée dans la modélisation, l'animation et le rendu 3D pour les secteurs du divertissement, de la publicité et de l'architecture. Maîtrise avancée des logiciels industry-standard et forte capacité d'adaptation aux nouvelles technologies.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">EXPÉRIENCE PROFESSIONNELLE</h2>
+            
+            <div class="experience-item">
+                <div class="job-title">Artiste 3D Senior</div>
+                <div class="company">Studio Visuel Lyon | <span class="date">2022 - Présent</span></div>
+                <div class="description">
+                    • Direction artistique de projets d'animation 3D pour clients internationaux<br>
+                    • Développement de pipelines de production optimisés<br>
+                    • Encadrement d'une équipe de 3 artistes juniors<br>
+                    • Création de contenus pour réalité virtuelle et augmentée
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-title">Animatrice 3D</div>
+                <div class="company">Pixel Dreams Studio | <span class="date">2020 - 2022</span></div>
+                <div class="description">
+                    • Animation de personnages pour films d'animation courts<br>
+                    • Collaboration avec équipes internationales (remote)<br>
+                    • Optimisation des rigs et systèmes d'animation<br>
+                    • Formation aux nouveaux outils et techniques
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-title">Modélisatrice 3D</div>
+                <div class="company">Archi Viz Pro | <span class="date">2019 - 2020</span></div>
+                <div class="description">
+                    • Modélisation architecturale haute précision<br>
+                    • Création de rendus photoréalistes<br>
+                    • Collaboration directe avec architectes et designers<br>
+                    • Gestion de projets en temps contraints
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">FORMATION</h2>
+            
+            <div class="education-item">
+                <div class="job-title">Master en Arts Numériques</div>
+                <div class="company">École Supérieure d'Art de Lyon | <span class="date">2017 - 2019</span></div>
+                <div class="description">Spécialisation en animation 3D et effets visuels</div>
+            </div>
+
+            <div class="education-item">
+                <div class="job-title">Licence en Design Graphique</div>
+                <div class="company">Université Lyon 2 | <span class="date">2014 - 2017</span></div>
+                <div class="description">Formation complète en design et communication visuelle</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">COMPÉTENCES TECHNIQUES</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Logiciels 3D</h4>
+                    <ul class="skill-list">
+                        <li>• Maya (Expert)</li>
+                        <li>• Blender (Avancé)</li>
+                        <li>• 3ds Max (Intermédiaire)</li>
+                        <li>• ZBrush (Avancé)</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Rendu & Compositing</h4>
+                    <ul class="skill-list">
+                        <li>• Arnold (Expert)</li>
+                        <li>• V-Ray (Avancé)</li>
+                        <li>• After Effects (Avancé)</li>
+                        <li>• Nuke (Intermédiaire)</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Programmation</h4>
+                    <ul class="skill-list">
+                        <li>• Python (Avancé)</li>
+                        <li>• MEL Script (Intermédiaire)</li>
+                        <li>• JavaScript (Base)</li>
+                        <li>• HLSL Shaders (Base)</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Autres</h4>
+                    <ul class="skill-list">
+                        <li>• Substance Painter</li>
+                        <li>• Unreal Engine 5</li>
+                        <li>• Git/Perforce</li>
+                        <li>• Photoshop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">PROJETS NOTABLES</h2>
+            
+            <div class="experience-item">
+                <div class="job-title">"Circus Dreams" - Court métrage d'animation</div>
+                <div class="company">Projet personnel | <span class="date">2023</span></div>
+                <div class="description">
+                    Animation complète de 3 minutes, de la conception à la post-production.<br>
+                    Sélectionné dans 5 festivals internationaux d'animation.
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-title">Campagne publicitaire "Tech Vision"</div>
+                <div class="company">Client: TechCorp International | <span class="date">2022</span></div>
+                <div class="description">
+                    Création de 12 visuels 3D pour campagne digitale mondiale.<br>
+                    +2M de vues sur les réseaux sociaux.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">LANGUES</h2>
+            <p><strong>Français:</strong> Langue maternelle | <strong>Anglais:</strong> Courant (C1) | <strong>Allemand:</strong> Notions (A2)</p>
+        </div>
+    </div>
+</body>
+</html>

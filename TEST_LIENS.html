@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Portfolio - Clara Neulinger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .success { border-color: #4CAF50; }
+        .error { border-color: #f44336; }
+        .warning { border-color: #ff9800; }
+        .test-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover { background: #555; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test des Liens - Portfolio Clara Neulinger</h1>
+    
+    <div class="test-section">
+        <h2>Tests des Assets</h2>
+        <button class="test-button" onclick="testAsset('00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg')">Test Image Circus</button>
+        <button class="test-button" onclick="testAsset('00_SITE_ACTIF/assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4')">Test Vidéo Circus</button>
+        <button class="test-button" onclick="testAsset('00_SITE_ACTIF/css/style.css')">Test CSS</button>
+        <button class="test-button" onclick="testAsset('00_SITE_ACTIF/js/portfolio-manager.js')">Test JS Portfolio</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Tests des Pages</h2>
+        <button class="test-button" onclick="testPage('index.html')">Test Page Principale</button>
+        <button class="test-button" onclick="testPage('00_SITE_ACTIF/projets/circus-3d/index.html')">Test Page Circus 3D</button>
+        <button class="test-button" onclick="testPage('00_SITE_ACTIF/References_Papiers/CV/images/cv-jpg.html')">Test CV</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(test, success, message) {
+            const div = document.createElement('div');
+            div.className = `test-section ${success ? 'success' : 'error'}`;
+            div.innerHTML = `
+                <strong>${success ? '✅' : '❌'} ${test}</strong><br>
+                ${message}
+            `;
+            results.appendChild(div);
+        }
+        
+        function testAsset(url) {
+            fetch(url, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        addResult(`Asset: ${url}`, true, `Fichier trouvé (${response.status})`);
+                    } else {
+                        addResult(`Asset: ${url}`, false, `Fichier introuvable (${response.status})`);
+                    }
+                })
+                .catch(error => {
+                    addResult(`Asset: ${url}`, false, `Erreur: ${error.message}`);
+                });
+        }
+        
+        function testPage(url) {
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        addResult(`Page: ${url}`, true, `Page accessible (${response.status})`);
+                    } else {
+                        addResult(`Page: ${url}`, false, `Page inaccessible (${response.status})`);
+                    }
+                })
+                .catch(error => {
+                    addResult(`Page: ${url}`, false, `Erreur: ${error.message}`);
+                });
+        }
+        
+        // Test automatique au chargement
+        setTimeout(() => {
+            console.log('🔧 Démarrage des tests automatiques...');
+            testAsset('00_SITE_ACTIF/css/style.css');
+            testPage('index.html');
+        }, 1000);
+    </script>
+</body>
+</html>
