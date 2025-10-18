@@ -4643,20 +4643,21 @@ body {
 
 /* Viewer central - DÉCALÉ DE 100PX VERS LA DROITE */
 .marmoset-viewer-container {
-    width: 1000px;
-    height: 1000px;
-    background: #000000 !important;
+    width: 1200px;
+    height: 900px;
+    background: #2a2a2a !important;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 0;
     border-radius: 15px;
-    border: 2px solid #333333;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 3px solid #666666;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
     position: relative;
     left: 100px;
     margin: 0 auto;
     flex-shrink: 0;
+    padding: 50px;
 }
 
 .viewer-wrapper {
