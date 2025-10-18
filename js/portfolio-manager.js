@@ -215,7 +215,7 @@
                                 ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
                             <div class="project-hint">
-                                <small>💡 Double-cliquez pour accéder au viewer 3D interactif</small>
+                                <small>💡 Double-cliquez sur l'image pour accéder au viewer 3D interactif</small>
                             </div>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                                 ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
                             <div class="project-hint">
-                                <small>💡 Double-cliquez pour accéder à la galerie et aux viewers 3D</small>
+                                <small>💡 Double-cliquez sur l'image pour accéder à la galerie et aux viewers 3D</small>
                             </div>
                         </div>
                     </div>
@@ -497,6 +497,40 @@
         `;
         
         document.body.appendChild(modal);
+        
+        // Ajouter les listeners pour la navigation clavier
+        this.keyboardHandler = (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                this.navigateImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                this.navigateImage(1);
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                modal.remove();
+            }
+        };
+        
+        document.addEventListener('keydown', this.keyboardHandler);
+        
+        // Nettoyer les listeners quand on ferme la modal
+        modal.addEventListener('remove', () => {
+            document.removeEventListener('keydown', this.keyboardHandler);
+        });
+        
+        // Observer pour nettoyer quand la modal est supprimée du DOM
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.removedNodes.forEach((node) => {
+                    if (node === modal) {
+                        document.removeEventListener('keydown', this.keyboardHandler);
+                        observer.disconnect();
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true });
     }
 
     // Navigation entre les images
