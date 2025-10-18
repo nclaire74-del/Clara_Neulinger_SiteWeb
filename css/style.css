@@ -4644,7 +4644,7 @@ body {
 /* Viewer central - DÉCALÉ DE 100PX VERS LA DROITE */
 .marmoset-viewer-container {
     width: 1000px;
-    height: 2000px;
+    height: 1000px;
     background: #000000 !important;
     display: flex;
     align-items: center;
