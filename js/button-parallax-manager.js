@@ -15,8 +15,21 @@ class ButtonParallaxManager {
     }
 
     setup() {
-        // Trouver tous les boutons de jeu
+        // Supprimer les anciens event listeners
+        if (this.isActive && this.buttons) {
+            this.buttons.forEach(button => {
+                if (button._parallaxHandlers) {
+                    button.removeEventListener('mousemove', button._parallaxHandlers.mouseMoveHandler);
+                    button.removeEventListener('mouseenter', button._parallaxHandlers.mouseEnterHandler);
+                    button.removeEventListener('mouseleave', button._parallaxHandlers.mouseLeaveHandler);
+                    delete button._parallaxHandlers;
+                }
+            });
+        }
+        
+        // Trouver tous les boutons de jeu (incluant les nouveaux)
         this.buttons = document.querySelectorAll('.game-button');
+        console.log(`[PARALLAX] ${this.buttons.length} boutons détectés`);
         
         if (this.buttons.length > 0) {
             this.addParallaxEffects();
@@ -26,10 +39,30 @@ class ButtonParallaxManager {
 
     addParallaxEffects() {
         this.buttons.forEach(button => {
+            // Throttling pour limiter la fréquence des mises à jour
+            let lastUpdate = 0;
+            const throttleDelay = 16; // ~60fps
+            
+            // Créer des fonctions liées pour pouvoir les supprimer plus tard
+            const mouseMoveHandler = (e) => {
+                const now = Date.now();
+                if (now - lastUpdate > throttleDelay) {
+                    this.handleMouseMove(e, button);
+                    lastUpdate = now;
+                }
+            };
+            const mouseEnterHandler = (e) => this.handleMouseEnter(e, button);
+            const mouseLeaveHandler = (e) => this.handleMouseLeave(e, button);
+            
+            // Stocker les handlers sur l'élément pour pouvoir les supprimer
+            button._parallaxHandlers = { mouseMoveHandler, mouseEnterHandler, mouseLeaveHandler };
+            
             // Effet parallaxe au survol
-            button.addEventListener('mousemove', (e) => this.handleMouseMove(e, button));
-            button.addEventListener('mouseenter', (e) => this.handleMouseEnter(e, button));
-            button.addEventListener('mouseleave', (e) => this.handleMouseLeave(e, button));
+            button.addEventListener('mousemove', mouseMoveHandler);
+            button.addEventListener('mouseenter', mouseEnterHandler);
+            button.addEventListener('mouseleave', mouseLeaveHandler);
+            
+            console.log(`[PARALLAX] Effet ajouté au bouton:`, button.className);
         });
     }
 
@@ -42,28 +75,20 @@ class ButtonParallaxManager {
         const deltaX = event.clientX - centerX;
         const deltaY = event.clientY - centerY;
         
-        // Facteur de parallaxe (plus petit = plus subtil)
-        const parallaxFactor = 0.1;
+        // Facteur de parallaxe réduit pour plus de fluidité
+        const parallaxFactor = 0.05;
         
         // Calculer la transformation
         const translateX = deltaX * parallaxFactor;
         const translateY = deltaY * parallaxFactor;
         
-        // Appliquer la transformation avec le scale hover
-        button.style.transform = `scale(1.3) translate(${translateX}px, ${translateY}px)`;
-        
-        // Faire suivre les encadrements avec un léger décalage
-        if (button.querySelector('::before')) {
-            const beforeElement = window.getComputedStyle(button, '::before');
-        }
-        if (button.querySelector('::after')) {
-            const afterElement = window.getComputedStyle(button, '::after');
-        }
+        // Appliquer la transformation avec un scale plus subtil
+        button.style.transform = `scale(1.1) translate(${translateX}px, ${translateY}px)`;
     }
 
     handleMouseEnter(event, button) {
-        // Transition plus rapide pour l'entrée
-        button.style.transition = 'transform 0.1s ease-out';
+        // Pas de transition pendant le mouvement pour éviter les conflits
+        button.style.transition = 'none';
     }
 
     handleMouseLeave(event, button) {

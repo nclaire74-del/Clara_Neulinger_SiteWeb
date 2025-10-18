@@ -533,7 +533,7 @@
         modal.innerHTML = `
             <div class="marmoset-modal-content">
                 <div class="marmoset-header">
-                    <button class="back-to-collectibles" onclick="this.closest('.marmoset-viewer-modal').remove(); portfolioManager.showPortfolioCollectibles()">
+                    <button class="back-to-collectibles game-button" onclick="this.closest('.marmoset-viewer-modal').remove(); portfolioManager.showPortfolioCollectibles()">
                         <span class="button-text">← Retour Collectibles</span>
                         <span class="button-subtitle">Portfolio principal</span>
                     </button>
@@ -563,11 +563,25 @@
                     
                     <!-- Panneau d'informations -->
                     <div class="marmoset-info-panel">
-                        <h3 class="info-title">Informations</h3>
+                        <h3 class="info-title">Logiciels utilisés</h3>
                         <div class="info-content">
-                            <p>Modélisation 3D d'un environnement et personnage de cirque.</p>
-                            <p>Projet réalisé en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.</p>
-                            <p>Logiciels utilisés : Blender, Substance Painter, Marmoset Toolbag</p>
+                            <div class="logos-container">
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Maya.png" alt="Maya" class="logo-item" title="Autodesk Maya">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/zbrush.png" alt="ZBrush" class="logo-item" title="ZBrush">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Marmoset.png" alt="Marmoset" class="logo-item" title="Marmoset Toolbag">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Unreal.png" alt="Unreal Engine" class="logo-item" title="Unreal Engine">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Painter.png" alt="Substance Painter" class="logo-item" title="Substance Painter">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -594,6 +608,13 @@
         // Charger les images de la galerie
         this.loadCircusGallery();
         
+        // Réinitialiser l'effet parallaxe pour le nouveau bouton
+        if (window.buttonParallaxManager) {
+            setTimeout(() => {
+                window.buttonParallaxManager.setup();
+            }, 100);
+        }
+        
         console.log('[MARMOSET] Viewer chargé depuis Circus_Viewer.html');
     }
 
@@ -602,26 +623,26 @@
         const galleryContainer = document.getElementById('circus-gallery');
         if (!galleryContainer) return;
 
-        // Liste des images Circus - stocker comme propriété de classe
+        // Liste des images Circus - stocker comme propriété de classe - ORDRE SPÉCIFIQUE
         this.circusImages = [
+            'Neulinger_Clara_3B3D_Circus_References.jpg',
+            'Neulinger_Clara_3B3D_Circus_References_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
-            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
             'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
-            'Neulinger_Clara_3B3D_Circus_References.jpg',
-            'Neulinger_Clara_3B3D_Circus_References_2.jpg'
+            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
+            'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg'
         ];
 
         galleryContainer.innerHTML = this.circusImages.map(imageName => `
@@ -759,3 +780,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Ajouter la fonction manquante showPortfolioCollectibles
+PortfolioManager.prototype.showPortfolioCollectibles = function() {
+    console.log('[PORTFOLIO] Retour aux collectibles');
+    
+    // Afficher le portfolio principal
+    const portfolioWindow = document.getElementById('portfolio-window');
+    if (portfolioWindow) {
+        portfolioWindow.style.display = 'flex';
+        portfolioWindow.style.visibility = 'visible';
+        portfolioWindow.style.opacity = '1';
+    }
+    
+    // Masquer le menu principal si visible
+    const mainUI = document.getElementById('main-ui');
+    if (mainUI) {
+        mainUI.style.display = 'none';
+    }
+};
+
+

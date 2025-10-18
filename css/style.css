@@ -4474,19 +4474,20 @@ body {
     background: transparent !important;
     border: none;
     color: #ffffff;
-    padding: 15px 25px;
-    font-size: 1rem;
+    padding: 25px 35px;
+    font-size: 1.3rem;
     font-family: 'Kindergarten', sans-serif;
     cursor: pointer;
-    min-width: 200px;
+    min-width: 320px;
     text-align: left;
     position: relative;
     text-shadow: none;
     z-index: 3;
     outline: none;
     box-shadow: none;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.15s ease-out;
     transform-origin: left center;
+    margin-left: -500px;
 }
 
 /* Encadrement gribouillé pour le bouton retour - Première couche */
@@ -4502,6 +4503,7 @@ body {
     pointer-events: none;
     border-radius: 2px 0.5px 2.5px 1px;
     transform: rotate(-0.3deg);
+    transition: all 0.1s ease-out;
 }
 
 /* Encadrement gribouillé pour le bouton retour - Deuxième couche */
@@ -4517,11 +4519,28 @@ body {
     pointer-events: none;
     border-radius: 1px 2.5px 0.5px 1.5px;
     transform: rotate(0.2deg);
+    transition: all 0.1s ease-out;
 }
 
 .back-to-collectibles:hover {
     background: transparent !important;
-    transform: scale(1.02) translate(2px, -1px);
+}
+
+.back-to-collectibles:active {
+    background: transparent !important;
+    transform: scale(1.05);
+}
+
+.back-to-collectibles:hover::before {
+    border-color: rgba(255, 255, 255, 0.4);
+    border-width: 0.7px;
+    transform: rotate(-0.5deg);
+}
+
+.back-to-collectibles:hover::after {
+    border-color: rgba(255, 255, 255, 0.5);
+    border-width: 0.7px;
+    transform: rotate(0.4deg);
 }
 
 .back-to-collectibles .button-text {
@@ -4561,7 +4580,7 @@ body {
     flex-direction: column;
     box-shadow: none;
     position: fixed;
-    left: 100px;
+    left: 83px;
     top: 300px;
     transform: translateX(0);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -4741,7 +4760,7 @@ body {
     border-radius: 0px;
     box-shadow: none;
     position: fixed;
-    left: 1016px;
+    left: 999px;
     top: 300px;
     margin: 0 auto;
     flex-shrink: 0;
@@ -4761,7 +4780,7 @@ body {
     border-radius: 4px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     position: fixed;
-    left: 1147px;
+    left: 1140px;
     top: 865px;
     padding: 20px;
     font-family: 'Kindergarten', serif;
@@ -4769,6 +4788,36 @@ body {
     transform: scale(0.9);
     transform-origin: top left;
     overflow: hidden;
+}
+
+/* Bordures blanches style game-button pour le panneau infos - Première couche */
+.marmoset-info-panel::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 2px 0.5px 2.5px 1px;
+    transform: rotate(-0.3deg);
+}
+
+/* Bordures blanches style game-button pour le panneau infos - Deuxième couche */
+.marmoset-info-panel::after {
+    content: '';
+    position: absolute;
+    top: -0.5px;
+    left: -0.5px;
+    right: -0.5px;
+    bottom: -0.5px;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 1px 2.5px 0.5px 1.5px;
+    transform: rotate(0.2deg);
 }
 
 /* Lignes de feuille de papier */
@@ -4792,16 +4841,14 @@ body {
 .marmoset-info-panel .info-title {
     background: transparent;
     color: white;
-    margin: 0 0 15px 0;
+    margin: 6px 0 15px 0;
     padding: 0 0 8px 0;
     font-size: 1.2rem;
     font-weight: bold;
     border: none;
-    border-bottom: 2px solid white;
-    text-align: left;
+    text-align: center;
     position: relative;
     z-index: 10;
-    margin-left: 80px;
 }
 
 .marmoset-info-panel .info-content {
@@ -4825,6 +4872,65 @@ body {
 .marmoset-info-panel .info-content p:nth-child(even) {
     transform: rotate(0.1deg);
 }
+
+/* Logos dans le panneau d'informations */
+.marmoset-info-panel .logos-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    transform: translate(-45px, 5px);
+    overflow: hidden;
+}
+
+.marmoset-info-panel .logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 auto;
+    min-width: 85px;
+    max-width: 90px;
+}
+
+.marmoset-info-panel .logo-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.marmoset-info-panel .logo-item {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+    transition: transform 0.3s ease;
+}
+
+.marmoset-info-panel .logo-item:hover {
+    transform: scale(1.05);
+}
+
+.marmoset-info-panel .logo-name {
+    font-size: 0.65rem;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    opacity: 1;
+    line-height: 1.1;
+}
+
+
 
 /* Encadrement gribouillé - Première couche fine */
 .marmoset-viewer-container::before {
@@ -5197,7 +5303,7 @@ iframe[src*="Circus_Viewer.html"] * {
     border-radius: 0px;
     box-shadow: none;
     position: fixed;
-    left: 1882px;
+    left: 1865px;
     top: 300px;
     margin: 0 auto;
     flex-shrink: 0;
@@ -5209,7 +5315,7 @@ iframe[src*="Circus_Viewer.html"] * {
     transform-origin: top left;
 }
 
-/* Encadrement gribouillé pour le deuxième viewer */
+/* Encadrement gribouillé pour le deuxième viewer - Style game-button première couche */
 .marmoset-chara-viewer-container::before {
     content: '';
     position: absolute;
@@ -5217,28 +5323,33 @@ iframe[src*="Circus_Viewer.html"] * {
     left: -1px;
     right: -1px;
     bottom: -1px;
-    border: 0.5px solid rgba(255, 255, 255, 0.4);
-    z-index: 1;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    z-index: -1;
     pointer-events: none;
-    border-radius: 0;
+    border-radius: 2px 0.5px 2.5px 1px;
+    transform: rotate(-0.3deg);
 }
 
+/* Encadrement gribouillé pour le deuxième viewer - Style game-button deuxième couche */
 .marmoset-chara-viewer-container::after {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 0;
+    top: -0.5px;
+    left: -0.5px;
+    right: -0.5px;
+    bottom: -0.5px;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: -1;
     pointer-events: none;
-    border-radius: 0;
+    border-radius: 1px 2.5px 0.5px 1.5px;
+    transform: rotate(0.2deg);
 }
 
 .marmoset-chara-viewer-container .viewer-wrapper {
     width: 100%;
-    height: 100%;
+    height: 800px;
+    max-height: 800px;
+    overflow: hidden;
 }
 
 
