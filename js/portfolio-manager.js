@@ -5,21 +5,58 @@
         this.currentProject = 0;
         this.currentCategory = 0;
         
-        // Configuration des dossiers de projets
+        // Configuration des projets avec template Marmoset
         this.projectFolders = [
             { 
                 folder: 'Cirucs', 
-                title: 'Projet Circus 3D',
-                description: 'ModÃ©lisation 3D d\'un environnement et personnage de cirque. Projet rÃ©alisÃ© en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.',
-                tags: ['Blender', 'ZBrush', 'Substance Painter'],
-                category: '3D'
+                title: 'Projet Circus',
+                description: 'Modélisation 3D d\'un environnement et personnage de cirque. Projet réalisé en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.',
+                tags: ['Maya', 'ZBrush', 'Substance Painter', 'Marmoset'],
+                category: '3D',
+                viewerFiles: {
+                    environment: 'Circus_Viewer.html',
+                    character: 'Chara_Circus_Viewer.html'
+                }
             },
             { 
                 folder: 'Arch', 
-                title: 'Architecture 3D',
-                description: 'Projet architectural avec modÃ©lisation d\'intÃ©rieurs et extÃ©rieurs.',
-                tags: ['3ds Max', 'Archicad', 'Corona'],
-                category: '3D'
+                title: 'Architecture',
+                description: 'Projet architectural avec modélisation d\'intérieurs et d\'environnements détaillés.',
+                tags: ['Maya', 'Substance Painter', 'Marmoset'],
+                category: '3D',
+                viewerFiles: {
+                    environment: 'Arch_Viewer.html'
+                }
+            },
+            { 
+                folder: 'Gun', 
+                title: 'Arme Sci-Fi',
+                description: 'Modélisation d\'une arme futuriste avec texturing PBR complet.',
+                tags: ['Maya', 'Substance Painter', 'Marmoset'],
+                category: '3D',
+                viewerFiles: {
+                    environment: 'Gun_Viewer.html'
+                }
+            },
+            { 
+                folder: 'Room', 
+                title: 'Environnement',
+                description: 'Création d\'un environnement 3D immersif avec éclairage dynamique.',
+                tags: ['Maya', 'Substance Painter', 'Marmoset'],
+                category: '3D',
+                viewerFiles: {
+                    environment: 'Room_Viewer.html'
+                }
+            },
+            { 
+                folder: 'Telephone', 
+                title: 'Téléphone Vintage',
+                description: 'Modélisation d\'un téléphone rétro avec matériaux réalistes.',
+                tags: ['Maya', 'Substance Painter', 'Marmoset'],
+                category: '3D',
+                viewerFiles: {
+                    environment: 'Phone_Viewer.html'
+                }
             }
         ];
         
@@ -38,28 +75,13 @@
                 description: folderConfig.description,
                 tags: folderConfig.tags,
                 category: folderConfig.category,
-                mainImage: `00_SITE_ACTIF/assets/images/${folderConfig.folder}/placeholder.jpg`,
-                tbsceneFile: `00_SITE_ACTIF/assets/images/Cirucs/ok.mview`,
-                gallery: []
+                folder: folderConfig.folder,
+                viewerFiles: folderConfig.viewerFiles,
+                mainImage: `assets/images/${folderConfig.folder}/preview.jpg`
             };
 
-            // Pour Circus, on a les vrais noms de fichiers
-            if (folderConfig.folder === "Cirucs") {
-                project.mainImage = "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg";
-                project.gallery = [
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg",
-                    "00_SITE_ACTIF/assets/images/Cirucs/Neulinger_Clara_3B3D_Circus_References.jpg"
-                ];
-                console.log('[OK] Galerie Cirucs configurÃ©e avec', project.gallery.length, 'images');
-            }
-
             this.projects.push(project);
-            console.log(`[OK] Projet ${project.title} ajoutÃ© depuis le dossier ${folderConfig.folder}`);
+            console.log(`[OK] Projet ${project.title} configuré avec template Marmoset`);
         }
     }
 
@@ -124,18 +146,33 @@
     previousProject() {
         this.currentProject = (this.currentProject - 1 + this.projects.length) % this.projects.length;
         this.updateProjectDisplay();
-        console.log(`[PROJECT] Projet prÃ©cÃ©dent: ${this.projects[this.currentProject].title}`);
+        this.updatePageCounter(); // Ajout de la mise à jour du compteur
+        console.log(`[PROJECT] Projet précédent: ${this.projects[this.currentProject].title}`);
     }
 
     nextProject() {
         this.currentProject = (this.currentProject + 1) % this.projects.length;
         this.updateProjectDisplay();
+        this.updatePageCounter(); // Ajout de la mise à jour du compteur
         console.log(`[PROJECT] Projet suivant: ${this.projects[this.currentProject].title}`);
+    }
+
+    // Nouvelle méthode pour mettre à jour le compteur de pages
+    updatePageCounter() {
+        const currentItemElement = document.getElementById('current-item');
+        const totalItemsElement = document.getElementById('total-items');
+        
+        if (currentItemElement && totalItemsElement) {
+            currentItemElement.textContent = this.currentProject + 1;
+            totalItemsElement.textContent = this.projects.length;
+            console.log(`[COUNTER] Page ${this.currentProject + 1}/${this.projects.length}`);
+        }
     }
 
     updateDisplay() {
         this.updateCategoryDisplay();
         this.updateProjectDisplay();
+        this.updatePageCounter(); // Initialiser le compteur de pages
         this.createProjectDots();
     }
 
@@ -211,92 +248,212 @@
         if (!project) return;
 
         console.log(`[OPEN] Ouverture de la page du projet: ${project.title}`);
-        console.log('[DEBUG] Debug galerie:', project.gallery);
-        console.log('[DEBUG] Nombre d\'images:', project.gallery ? project.gallery.length : 'undefined');
+        
+        // Utiliser le template Marmoset pour tous les projets
+        this.showMarmosetViewerTemplate(project);
+    }
 
-        // Pour le projet Circus, afficher le viewer Marmoset inline
-        if (project.title === 'Projet Circus 3D') {
-            this.showMarmosetViewerInline(project);
-            return;
-        }
-
-        // CrÃ©er la modal des dÃ©tails avec animation de livre qui s'ouvre
+    // Template Marmoset générique pour tous les projets
+    showMarmosetViewerTemplate(project) {
+        console.log(`[MARMOSET] Affichage du template pour: ${project.title}`);
+        
+        // Créer une modal avec galerie, viewer et infos
         const modal = document.createElement('div');
-        modal.className = 'project-details-modal page-opening';
+        modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>${project.title}</h2>
-                    <button class="close-modal" onclick="this.closest('.project-details-modal').remove()">Ã—</button>
+            <div class="marmoset-modal-content">
+                <div class="marmoset-page-title">
+                    <h1>Projet : ${project.title.replace('Projet ', '')}</h1>
                 </div>
-                <div class="modal-body">
-                    <div class="project-3d-container">
-                        <div id="tbscene-viewer-${project.id}" class="tbscene-viewer">
-                            <p>Chargement du viewer 3D Marmoset...</p>
+                <div class="marmoset-header">
+                    <button class="back-to-collectibles game-button" onclick="this.closest('.marmoset-viewer-modal').remove(); portfolioManager.showPortfolioCollectibles()">
+                        <span class="button-text">← Retour Collectibles</span>
+                        <span class="button-subtitle">Portfolio principal</span>
+                    </button>
+                </div>
+                <div class="marmoset-main-container">
+                    <div class="marmoset-gallery-panel">
+                        <h3>Galerie</h3>
+                        <p class="gallery-instructions">Cliquez sur une image pour l'agrandir • Utilisez les flèches pour naviguer</p>
+                        <div class="gallery-scroll-container" id="${project.folder.toLowerCase()}-gallery">
+                            <!-- Images seront ajoutées ici -->
+                        </div>
+                    </div>
+                    <div class="marmoset-viewer-container">
+                        <h3 class="viewer-title">Viewer 3D - ${project.title}</h3>
+                        <div class="viewer-wrapper">
+                            <iframe id="marmoset-viewer-inline" 
+                                    src="assets/images/${project.folder}/${project.viewerFiles?.environment || 'placeholder.html'}" 
+                                    width="100%" 
+                                    height="100%" 
+                                    frameborder="0"
+                                    allowfullscreen>
+                                <p>Chargement du viewer Marmoset...</p>
+                            </iframe>
                         </div>
                     </div>
                     
-                    <div class="project-info-section">
-                        <div class="project-full-description">
-                            <h3>${project.title}</h3>
-                            <p>${project.description}</p>
-                            
-                            <div class="project-specs">
-                                <h4>[TECH] SpÃ©cifications</h4>
-                                <div class="specs-grid">
-                                    <div class="spec-item">
-                                        <strong>[TOOLS] Logiciels:</strong> ${project.tags.join(', ')}
-                                    </div>
-                                    <div class="spec-item">
-                                        <strong>[3D] Fichier 3D:</strong> ${project.tbsceneFile}
-                                    </div>
-                                    <div class="spec-item">
-                                        <strong>[IMAGES] Images:</strong> ${project.gallery.length} assets
-                                    </div>
-                                    <div class="spec-item">
-                                        <strong>[CATEGORY] CatÃ©gorie:</strong> ${project.category}
-                                    </div>
+                    <!-- Panneau d'informations -->
+                    <div class="marmoset-info-panel">
+                        <h3 class="info-title">Logiciels utilisés</h3>
+                        <div class="info-content">
+                            <div class="logos-container">
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Maya.png" alt="Maya" class="logo-item" title="Autodesk Maya">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/zbrush.png" alt="ZBrush" class="logo-item" title="ZBrush">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Marmoset.png" alt="Marmoset" class="logo-item" title="Marmoset Toolbag">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Unreal.png" alt="Unreal Engine" class="logo-item" title="Unreal Engine">
+                                </div>
+                                <div class="logo-wrapper">
+                                    <img src="assets/images/Logos/Painter.png" alt="Substance Painter" class="logo-item" title="Substance Painter">
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="project-gallery">
-                            <h3>Portfolio d'images</h3>
-                            <div class="gallery-grid">
-                                ${project.gallery.map(img => `
-                                    <img src="${img}" alt="${project.title}" class="gallery-image" 
-                                         onclick="this.classList.toggle('fullscreen')">
-                                `).join('')}
-                            </div>
+                    </div>
+                    
+                    ${project.viewerFiles?.character ? `
+                    <!-- Deuxième viewer 3D pour le personnage (si existe) -->
+                    <div class="marmoset-chara-viewer-container">
+                        <h3 class="viewer-title">Viewer 3D - Personnage</h3>
+                        <div class="viewer-wrapper">
+                            <iframe id="marmoset-chara-viewer-inline" 
+                                    src="assets/images/${project.folder}/${project.viewerFiles.character}" 
+                                    width="100%" 
+                                    height="100%" 
+                                    frameborder="0"
+                                    allowfullscreen>
+                                <p>Chargement du viewer Marmoset personnage...</p>
+                            </iframe>
                         </div>
                     </div>
+                    ` : ''}
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
         
-        // Forcer l'affichage au premier plan avec des styles inline
-        modal.style.zIndex = '99999';
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.display = 'flex';
+        // Charger les images de la galerie pour ce projet
+        this.loadProjectGallery(project);
         
-        console.log('[MODAL] Modal ajoutÃ©e avec z-index 99999');
-        
-        // Animation d'ouverture de page
-        setTimeout(() => {
-            modal.classList.remove('page-opening');
-            modal.classList.add('page-opened');
-        }, 100);
-
-        // Initialiser le viewer 3D si le fichier tbscene existe
-        if (project.tbsceneFile) {
-            this.initTbsceneViewer(project.id, project.tbsceneFile);
+        // Réinitialiser l'effet parallaxe pour le nouveau bouton
+        if (window.buttonParallaxManager) {
+            setTimeout(() => {
+                window.buttonParallaxManager.setup();
+            }, 100);
         }
+        
+        console.log(`[MARMOSET] Template chargé pour ${project.title}`);
+    }
+
+    // Méthode pour charger les images de galerie d'un projet
+    loadProjectGallery(project) {
+        const galleryContainer = document.getElementById(`${project.folder.toLowerCase()}-gallery`);
+        if (!galleryContainer) return;
+
+        console.log(`[GALLERY] Chargement de la galerie pour ${project.title}`);
+        
+        // Images réelles pour chaque projet
+        const projectImages = {
+            'cirucs': [
+                'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
+                'Neulinger_Clara_3B3D_Circus_References.jpg',
+                'Neulinger_Clara_3B3D_Circus_References_2.jpg'
+            ],
+            'arch': [
+                'Neulinger_Clara_3B3D_Archway_Renders.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_3.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_3.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_4.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_5.jpg',
+                'Neulinger_Clara_3B3D_pORTFOLIO.jpg'
+            ],
+            'gun': [
+                '1.png',
+                '2.png',
+                '3.png',
+                '4.png',
+                '5.png',
+                '6.png',
+                'totale.jpg',
+                'Neulinger_Clara_3B3D_pORTFOLIO2.jpg'
+            ],
+            'room': [
+                'Neulinger_Clara_Room_Render.png',
+                'Neulinger_Clara_Room_Renders_1.jpg',
+                'Neulinger_Clara_Room_Renders_2.jpg',
+                'Neulinger_Clara_Room_Renders_3.jpg'
+            ],
+            'telephone': [
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_1.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_2.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_3.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_4.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_5.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_6.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_7.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_8.jpg',
+                '1.png',
+                '2.png',
+                '3.png',
+                '4.png',
+                '5.png',
+                'Neulinger_Clara_3B3D_pORTFOLIO3.jpg'
+            ]
+        };
+
+        const images = projectImages[project.folder.toLowerCase()] || [];
+        
+        if (images.length === 0) {
+            galleryContainer.innerHTML = '<p class="no-images">Images en cours de préparation...</p>';
+            return;
+        }
+
+        // Créer les éléments d'image
+        const imageElements = images.map((imageName, index) => {
+            const imagePath = `assets/images/${project.folder}/${imageName}`;
+            return `
+                <div class="gallery-item" onclick="this.classList.toggle('enlarged')">
+                    <img src="${imagePath}" alt="${project.title} - Image ${index + 1}" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
+                         title="Cliquez pour agrandir">
+                    <div class="image-placeholder" style="display:none">
+                        <p>Image ${index + 1}<br>En cours de chargement</p>
+                    </div>
+                    <div class="image-info">
+                        <span class="image-name">${imageName}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        galleryContainer.innerHTML = imageElements;
+        console.log(`[GALLERY] ${images.length} images ajoutées pour ${project.title}`);
     }
 
     initTbsceneViewer(projectId, tbsceneFile) {
@@ -532,12 +689,14 @@
         modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
             <div class="marmoset-modal-content">
+                <div class="marmoset-page-title">
+                    <h1>Projet : Circus</h1>
+                </div>
                 <div class="marmoset-header">
                     <button class="back-to-collectibles game-button" onclick="this.closest('.marmoset-viewer-modal').remove(); portfolioManager.showPortfolioCollectibles()">
                         <span class="button-text">← Retour Collectibles</span>
                         <span class="button-subtitle">Portfolio principal</span>
                     </button>
-                    <h2>${project.title}</h2>
                 </div>
                 <div class="marmoset-main-container">
                     <div class="marmoset-gallery-panel">

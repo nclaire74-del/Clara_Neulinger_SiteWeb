@@ -4447,6 +4447,26 @@ body {
     margin-left: 0;
 }
 
+/* Titre principal centré en haut de la page */
+.marmoset-page-title {
+    position: fixed;
+    top: 30px;
+    left: calc(50% + 35px);
+    transform: translateX(-50%);
+    z-index: 10001;
+    text-align: center;
+}
+
+.marmoset-page-title h1 {
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: none;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
 .marmoset-header {
     background: transparent;
     border: none;
@@ -4455,7 +4475,7 @@ body {
     padding: 15px 20px;
     font-family: 'Kindergarten', Arial, sans-serif;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     box-shadow: none;
     position: relative;
@@ -4732,6 +4752,53 @@ body {
     width: 100%;
     height: auto;
     display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Style pour les images agrandies */
+.gallery-item.enlarged {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+.gallery-item.enlarged img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+/* Informations sur les images */
+.image-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 5px 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .image-info {
+    opacity: 1;
+}
+
+.image-name {
+    font-size: 0.7rem;
+    text-align: center;
+    display: block;
+    font-family: 'Kindergarten', serif;
 }
 
 .gallery-overlay {
