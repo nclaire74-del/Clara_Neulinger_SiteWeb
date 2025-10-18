@@ -452,7 +452,7 @@
         const imageElements = images.map((imageName, index) => {
             const imagePath = `assets/images/${project.folder}/${imageName}`;
             return `
-                <div class="gallery-item" onclick="this.classList.toggle('enlarged')">
+                <div class="gallery-item" onclick="portfolioManager.openImageViewer('${imagePath}', ${index}, ${images.length}, '${project.title}')">
                     <img src="${imagePath}" alt="${project.title} - Image ${index + 1}" 
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"
                          title="Cliquez pour agrandir">
@@ -465,6 +465,135 @@
 
         galleryContainer.innerHTML = imageElements;
         console.log(`[GALLERY] ${images.length} images ajoutées pour ${project.title}`);
+    }
+
+    // Viewer d'images avec navigation par flèches
+    openImageViewer(imagePath, currentIndex, totalImages, projectTitle) {
+        // Stocker les données pour la navigation
+        this.currentImageIndex = currentIndex;
+        this.totalGalleryImages = totalImages;
+        this.currentProjectTitle = projectTitle;
+        
+        // Récupérer toutes les images du projet actuel
+        const project = this.projects.find(p => p.title === projectTitle);
+        if (project) {
+            const projectImages = this.getProjectImages(project.folder.toLowerCase());
+            this.currentGalleryImages = projectImages.map(img => `assets/images/${project.folder}/${img}`);
+        }
+
+        const modal = document.createElement('div');
+        modal.className = 'image-viewer-modal';
+        modal.innerHTML = `
+            <div class="image-viewer-overlay" onclick="this.closest('.image-viewer-modal').remove()"></div>
+            <div class="image-viewer-content">
+                <button class="image-viewer-close" onclick="this.closest('.image-viewer-modal').remove()">×</button>
+                <button class="image-nav-btn prev" onclick="portfolioManager.navigateImage(-1)" ${currentIndex === 0 ? 'disabled' : ''}>‹</button>
+                <img src="${imagePath}" alt="${projectTitle} - Image ${currentIndex + 1}" class="image-viewer-img">
+                <button class="image-nav-btn next" onclick="portfolioManager.navigateImage(1)" ${currentIndex === totalImages - 1 ? 'disabled' : ''}>›</button>
+                <div class="image-viewer-info">
+                    <span>${currentIndex + 1} / ${totalImages}</span>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+
+    // Navigation entre les images
+    navigateImage(direction) {
+        this.currentImageIndex += direction;
+        
+        // Limiter les indices
+        if (this.currentImageIndex < 0) this.currentImageIndex = 0;
+        if (this.currentImageIndex >= this.totalGalleryImages) this.currentImageIndex = this.totalGalleryImages - 1;
+        
+        // Mettre à jour l'affichage
+        const modal = document.querySelector('.image-viewer-modal');
+        if (modal && this.currentGalleryImages) {
+            const img = modal.querySelector('.image-viewer-img');
+            const info = modal.querySelector('.image-viewer-info span');
+            const prevBtn = modal.querySelector('.prev');
+            const nextBtn = modal.querySelector('.next');
+            
+            img.src = this.currentGalleryImages[this.currentImageIndex];
+            img.alt = `${this.currentProjectTitle} - Image ${this.currentImageIndex + 1}`;
+            info.textContent = `${this.currentImageIndex + 1} / ${this.totalGalleryImages}`;
+            
+            // Gérer les boutons
+            prevBtn.disabled = this.currentImageIndex === 0;
+            nextBtn.disabled = this.currentImageIndex === this.totalGalleryImages - 1;
+        }
+    }
+
+    // Méthode helper pour récupérer les images d'un projet
+    getProjectImages(folderName) {
+        const projectImages = {
+            'cirucs': [
+                'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
+                'Neulinger_Clara_3B3D_Circus_References.jpg',
+                'Neulinger_Clara_3B3D_Circus_References_2.jpg'
+            ],
+            'arch': [
+                'Neulinger_Clara_3B3D_Archway_Renders.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_1.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_2.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Topology_3.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_1.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_2.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_3.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_4.jpg',
+                'Neulinger_Clara_3B3D_Archway_Renders_Uv_5.jpg',
+                'Neulinger_Clara_3B3D_pORTFOLIO.jpg'
+            ],
+            'gun': [
+                '1.png',
+                '2.png',
+                '3.png',
+                '4.png',
+                '5.png',
+                '6.png',
+                'totale.jpg',
+                'Neulinger_Clara_3B3D_pORTFOLIO2.jpg'
+            ],
+            'room': [
+                'Neulinger_Clara_Room_Render.png',
+                'Neulinger_Clara_Room_Renders_1.jpg',
+                'Neulinger_Clara_Room_Renders_2.jpg',
+                'Neulinger_Clara_Room_Renders_3.jpg'
+            ],
+            'telephone': [
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_1.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_2.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_3.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_4.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_5.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_6.jpg',
+                'NEULINGER_CLARA_2B3DART_TELEPHONE_7.jpg',
+                'NEULINGER_Clara_2B3DART_TELEPHONE_8.jpg',
+                '1.png',
+                '2.png',
+                '3.png',
+                '4.png',
+                '5.png',
+                'Neulinger_Clara_3B3D_pORTFOLIO3.jpg'
+            ]
+        };
+        return projectImages[folderName] || [];
     }
 
     initTbsceneViewer(projectId, tbsceneFile) {
