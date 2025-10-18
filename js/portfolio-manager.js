@@ -192,7 +192,7 @@
         const projectShowcase = document.getElementById('project-showcase');
         if (projectShowcase) {
             // Affichage spécial pour le projet Circus (premier projet uniquement)
-            if (this.currentProject === 0 && project.title === 'Projet Circus 3D') {
+            if (this.currentProject === 0 && project.title === 'Projet Circus') {
                 projectShowcase.innerHTML = `
                 <div class="project-item active circus-project" data-project="${project.id}">
                     <div class="circus-video-container">
@@ -221,13 +221,25 @@
                 </div>
                 `;
             } else {
-                // Affichage standard pour les autres projets
+                // Affichage standard pour les autres projets avec double-clic
                 projectShowcase.innerHTML = `
                 <div class="project-item active" data-project="${project.id}">
-                    <div class="project-3d-viewer">
+                    <div class="project-3d-viewer" ondblclick="portfolioManager.openProjectDetails(${project.id})">
                         <div class="project-placeholder">
-                            <p>Projet ${project.title}</p>
-                            <span>En développement...</span>
+                            <div class="project-preview-image">
+                                <img src="assets/images/${project.folder}/preview.jpg" 
+                                     alt="${project.title}" 
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="placeholder-fallback" style="display:none">
+                                    <p>Projet ${project.title}</p>
+                                    <span>Preview en cours...</span>
+                                </div>
+                            </div>
+                            <div class="project-overlay">
+                                <div class="project-overlay-text">
+                                    <span>🎯 Double-cliquez pour explorer</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="project-info">
@@ -235,6 +247,9 @@
                         <p class="project-description">${project.description}</p>
                         <div class="project-tags">
                             ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="project-hint">
+                            <small>💡 Double-cliquez pour accéder à la galerie et aux viewers 3D</small>
                         </div>
                     </div>
                 </div>
