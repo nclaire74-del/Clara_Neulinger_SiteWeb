@@ -3390,26 +3390,29 @@ body {
 }
 
 .project-container {
-    position: relative;
+    display: flex;
     width: 1000px;
-    height: 600px;
-    background: #1a1a1a;
-    border-radius: 12px;
+    height: 800px;
+    background: #2a2a2a;
+    border-radius: 15px;
     overflow: hidden;
+    /* Style bordure blanche comme game-button */
+    border: 3px solid #ffffff;
     box-shadow: 
-        0 0 30px rgba(0, 170, 255, 0.3),
-        0 0 60px rgba(0, 170, 255, 0.1),
-        inset 0 0 50px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(0, 170, 255, 0.4);
+        0 0 15px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
     margin-bottom: 20px;
 }
 
 .project-media-wrapper {
     position: relative;
-    width: 100%;
+    width: 50%;
     height: 100%;
     cursor: pointer;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .project-media {
@@ -3462,6 +3465,45 @@ body {
     text-align: center;
     max-width: 1000px;
     padding: 20px;
+}
+
+/* Informations latérales dans le container */
+.project-info-side {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #2a2a2a;
+}
+
+.project-info-side h3 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    font-family: 'Kindergarten', serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-align: left;
+}
+
+.project-info-side .project-description {
+    color: #cccccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.project-info-side .project-tags {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.project-info-side .project-hint {
+    text-align: left;
 }
 
 .project-info-container h3 {
@@ -4985,30 +5027,6 @@ body {
     max-width: 100%;
     max-height: 80vh;
     object-fit: contain;
-}
-
-/* Informations sur les images */
-.image-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-    color: white;
-    padding: 5px 8px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .image-info {
-    opacity: 1;
-}
-
-.image-name {
-    font-size: 0.7rem;
-    text-align: center;
-    display: block;
-    font-family: 'Kindergarten', serif;
 }
 
 .gallery-overlay {

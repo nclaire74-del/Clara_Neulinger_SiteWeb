@@ -208,15 +208,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="project-info-container">
-                        <h3>${project.title}</h3>
-                        <p class="project-description">${project.description}</p>
-                        <div class="project-tags">
-                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <div class="project-hint">
-                            <small>💡 Double-cliquez pour accéder au viewer 3D interactif</small>
+                        <div class="project-info-side">
+                            <h3>${project.title}</h3>
+                            <p class="project-description">${project.description}</p>
+                            <div class="project-tags">
+                                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="project-hint">
+                                <small>💡 Double-cliquez pour accéder au viewer 3D interactif</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -240,15 +240,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="project-info-container">
-                        <h3>${project.title}</h3>
-                        <p class="project-description">${project.description}</p>
-                        <div class="project-tags">
-                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <div class="project-hint">
-                            <small>💡 Double-cliquez pour accéder à la galerie et aux viewers 3D</small>
+                        <div class="project-info-side">
+                            <h3>${project.title}</h3>
+                            <p class="project-description">${project.description}</p>
+                            <div class="project-tags">
+                                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="project-hint">
+                                <small>💡 Double-cliquez pour accéder à la galerie et aux viewers 3D</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -458,9 +458,6 @@
                          title="Cliquez pour agrandir">
                     <div class="image-placeholder" style="display:none">
                         <p>Image ${index + 1}<br>En cours de chargement</p>
-                    </div>
-                    <div class="image-info">
-                        <span class="image-name">${imageName}</span>
                     </div>
                 </div>
             `;
