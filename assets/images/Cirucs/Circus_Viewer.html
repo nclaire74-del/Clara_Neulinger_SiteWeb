@@ -5,69 +5,74 @@
     <title>Circus_Viewer</title>
     <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
     <style>
-        * {
-            background-color: rgb(42, 42, 42) !important;
-            box-shadow: none !important;
-        }
-        
         body {
             background-color: rgb(42, 42, 42) !important;
             margin: 0 !important;
             padding: 0 !important;
         }
         
-        canvas {
+        /* Forcer seulement le conteneur principal */
+        body > div:first-child {
+            background-color: rgb(42, 42, 42) !important;
+            box-shadow: none !important;
+        }
+        
+        /* NE PAS toucher au canvas et à l'UI Marmoset */
+        canvas, 
+        #marmosetUI, 
+        #marmosetUI *, 
+        div[style*="width: 800px; height: 600px"] {
             background-color: transparent !important;
+            background: transparent !important;
+        }
+        
+        /* Forcer seulement les divs avec box-shadow à être gris */
+        div[style*="box-shadow"] {
+            background-color: rgb(42, 42, 42) !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
 <body>
     <script>
-        // Modifier le prototype de marmoset avant l'embedding
-        if (window.marmoset) {
-            const originalEmbed = marmoset.embed;
-            marmoset.embed = function(file, options) {
-                // Ajouter des options pour forcer le style
-                options = options || {};
-                options.backgroundColor = 'rgb(42, 42, 42)';
-                options.transparentBackground = false;
-                
-                // Appeler la fonction originale
-                const result = originalEmbed.call(this, file, options);
-                
-                // Forcer les styles après l'embedding
-                setTimeout(() => {
-                    document.querySelectorAll('div').forEach(div => {
-                        div.style.backgroundColor = 'rgb(42, 42, 42)';
-                        div.style.boxShadow = 'none';
-                    });
-                    
-                    // Appliquer un style global sur le document
-                    const style = document.createElement('style');
-                    style.innerHTML = `
-                        * { 
-                            background-color: rgb(42, 42, 42) !important; 
-                            box-shadow: none !important; 
-                        }
-                        canvas { 
-                            background-color: transparent !important; 
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }, 100);
-                
-                return result;
-            };
-        }
-        
         marmoset.embed( 'Circus_Viewer.mview', { 
             width: 800, 
             height: 600, 
             autoStart: true, 
             fullFrame: false, 
-            pagePreset: true,
-            backgroundColor: 'rgb(42, 42, 42)'
+            pagePreset: true
         });
+        
+        // Ajustement fin après l'embedding
+        setTimeout(() => {
+            // Forcer seulement le conteneur extérieur
+            const outerDiv = document.querySelector('div[style*="background-color: rgb(228, 231, 228)"]');
+            if (outerDiv) {
+                outerDiv.style.backgroundColor = 'rgb(42, 42, 42)';
+                outerDiv.style.boxShadow = 'none';
+            }
+            
+            // Préserver le canvas et l'UI
+            const canvas = document.querySelector('canvas');
+            const marmosetUI = document.getElementById('marmosetUI');
+            
+            if (canvas) {
+                canvas.style.backgroundColor = 'transparent';
+                canvas.style.background = 'transparent';
+            }
+            
+            if (marmosetUI) {
+                marmosetUI.style.backgroundColor = 'transparent';
+                marmosetUI.style.background = 'transparent';
+                // Préserver tous les enfants de l'UI
+                marmosetUI.querySelectorAll('*').forEach(el => {
+                    if (el.tagName !== 'CANVAS') {
+                        el.style.backgroundColor = 'transparent';
+                        el.style.background = 'transparent';
+                    }
+                });
+            }
+        }, 200);
     </script>
 </body>
 </html>
