@@ -2774,12 +2774,231 @@ body {
     color: #aaa;
 }
 
-/* Ligne blanche décorative */
+/* Ligne blanche décorative - Style gribouillé simple */
 .collectibles-separator {
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, white 20%, white 80%, transparent 100%);
+    position: relative;
+    height: 8px;
     margin: 0 50px 30px 50px;
-    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    overflow: visible;
+}
+
+.collectibles-separator::before,
+.collectibles-separator::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: white;
+    box-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
+
+.collectibles-separator::before {
+    top: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        white 15%, 
+        transparent 18%, 
+        white 22%, 
+        white 78%, 
+        transparent 82%, 
+        white 85%, 
+        transparent 100%
+    );
+    transform: skew(-0.5deg) translateY(1px);
+    clip-path: polygon(
+        0% 0%, 15% 80%, 18% 20%, 22% 100%, 25% 0%, 
+        30% 70%, 35% 30%, 40% 90%, 45% 10%, 50% 60%, 
+        55% 40%, 60% 80%, 65% 20%, 70% 100%, 75% 0%, 
+        78% 70%, 82% 30%, 85% 90%, 100% 0%
+    );
+}
+
+.collectibles-separator::after {
+    top: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        white 20%, 
+        transparent 23%, 
+        white 25%, 
+        white 75%, 
+        transparent 77%, 
+        white 80%, 
+        transparent 100%
+    );
+    transform: skew(0.3deg) translateY(-1px);
+    clip-path: polygon(
+        0% 100%, 20% 30%, 23% 80%, 25% 0%, 28% 60%, 
+        33% 40%, 38% 90%, 43% 20%, 48% 70%, 53% 50%, 
+        58% 30%, 63% 80%, 68% 10%, 73% 90%, 75% 40%, 
+        77% 60%, 80% 20%, 100% 100%
+    );
+}
+
+
+
+/* Bonhomme simple qui marche et court */
+.collectibles-separator .stick-figure {
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 30px;
+    height: 45px;
+    animation: simpleWalk 15s infinite linear;
+    transform-origin: center bottom;
+    z-index: 10;
+    font-size: 35px;
+    filter: brightness(0) invert(1);
+}
+
+.collectibles-separator .stick-figure::before {
+    content: '🚶';
+    display: block;
+    animation: walkRun 1s infinite ease-in-out;
+    text-align: center;
+    transform: scaleX(-1);
+}
+
+
+
+/* Animation simple - traversée du séparateur */
+@keyframes simpleWalk {
+    0% { 
+        left: -40px; 
+        top: -40px;
+    }
+    25% { 
+        left: 25%; 
+        top: -40px;
+    }
+    50% { 
+        left: 50%; 
+        top: -40px;
+    }
+    75% { 
+        left: 75%; 
+        top: -40px;
+    }
+    100% { 
+        left: calc(100% + 40px); 
+        top: -40px;
+    }
+}
+
+/* Animation équilibrée - ni trop rapide ni trop lente */
+@keyframes walkRun {
+    /* MARCHE - Jambe droite */
+    0% { 
+        content: '🚶';
+        transform: scaleX(-1) translateY(0px) rotate(0deg) scale(1);
+    }
+    /* MARCHE - Jambe gauche */
+    33% { 
+        content: '🏃';
+        transform: scaleX(-1) translateY(-1px) rotate(0deg) scale(1.02);
+    }
+    /* COURSE - Jambe droite */
+    66% { 
+        content: '🚶';
+        transform: scaleX(-1) translateY(-1px) rotate(0deg) scale(1.02);
+    }
+    /* RETOUR MARCHE */
+    100% { 
+        content: '🚶';
+        transform: scaleX(-1) translateY(0px) rotate(0deg) scale(1);
+    }
+}
+
+/* Animation du corps - marche mystérieuse style Limbo */
+@keyframes limboBody {
+    0% { 
+        transform: translateX(-50%) rotate(0deg);
+        box-shadow: 
+            -8px 6px 0 -2px black, 8px 6px 0 -2px black,
+            -8px 6px 2px 0 rgba(255,255,255,0.3), 8px 6px 2px 0 rgba(255,255,255,0.3),
+            -4px 22px 0 -1px black, 4px 22px 0 -1px black,
+            -4px 22px 2px 0 rgba(255,255,255,0.2), 4px 22px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    12% { 
+        /* Marche - jambe gauche en avant */
+        transform: translateX(-50%) rotate(-2deg);
+        box-shadow: 
+            -10px 4px 0 -2px black, 6px 8px 0 -2px black,
+            -10px 4px 2px 0 rgba(255,255,255,0.3), 6px 8px 2px 0 rgba(255,255,255,0.3),
+            -6px 20px 0 -1px black, 2px 24px 0 -1px black,
+            -6px 20px 2px 0 rgba(255,255,255,0.2), 2px 24px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    25% { 
+        /* Marche - jambe droite en avant */
+        transform: translateX(-50%) rotate(2deg);
+        box-shadow: 
+            -6px 8px 0 -2px black, 10px 4px 0 -2px black,
+            -6px 8px 2px 0 rgba(255,255,255,0.3), 10px 4px 2px 0 rgba(255,255,255,0.3),
+            -2px 24px 0 -1px black, 6px 20px 0 -1px black,
+            -2px 24px 2px 0 rgba(255,255,255,0.2), 6px 20px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    37% { 
+        /* Regarde vers le bas - penche la tête */
+        transform: translateX(-50%) rotate(8deg);
+        box-shadow: 
+            -12px 8px 0 -2px black, 4px 6px 0 -2px black,
+            -12px 8px 3px 0 rgba(255,255,255,0.4), 4px 6px 3px 0 rgba(255,255,255,0.4),
+            -6px 23px 0 -1px black, 2px 25px 0 -1px black,
+            -6px 23px 3px 0 rgba(255,255,255,0.3), 2px 25px 3px 0 rgba(255,255,255,0.3),
+            0 0 10px rgba(255,255,255,0.3);
+    }
+    50% { 
+        /* Position neutre */
+        transform: translateX(-50%) rotate(0deg);
+        box-shadow: 
+            -8px 6px 0 -2px black, 8px 6px 0 -2px black,
+            -8px 6px 2px 0 rgba(255,255,255,0.3), 8px 6px 2px 0 rgba(255,255,255,0.3),
+            -4px 22px 0 -1px black, 4px 22px 0 -1px black,
+            -4px 22px 2px 0 rgba(255,255,255,0.2), 4px 22px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    62% { 
+        /* Course accélérée */
+        transform: translateX(-50%) rotate(-4deg);
+        box-shadow: 
+            -12px 2px 0 -2px black, 4px 10px 0 -2px black,
+            -12px 2px 2px 0 rgba(255,255,255,0.3), 4px 10px 2px 0 rgba(255,255,255,0.3),
+            -8px 18px 0 -1px black, 0px 26px 0 -1px black,
+            -8px 18px 2px 0 rgba(255,255,255,0.2), 0px 26px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    75% { 
+        /* Saut préparatoire */
+        transform: translateX(-50%) rotate(-8deg) scaleY(0.9);
+        box-shadow: 
+            -10px 5px 0 -2px black, 10px 5px 0 -2px black,
+            -10px 5px 3px 0 rgba(255,255,255,0.4), 10px 5px 3px 0 rgba(255,255,255,0.4),
+            -6px 20px 0 -1px black, 6px 20px 0 -1px black,
+            -6px 20px 3px 0 rgba(255,255,255,0.3), 6px 20px 3px 0 rgba(255,255,255,0.3),
+            0 0 12px rgba(255,255,255,0.4);
+    }
+    87% { 
+        /* Atterrissage */
+        transform: translateX(-50%) rotate(3deg) scaleY(1.1);
+        box-shadow: 
+            -6px 8px 0 -2px black, 12px 4px 0 -2px black,
+            -6px 8px 2px 0 rgba(255,255,255,0.3), 12px 4px 2px 0 rgba(255,255,255,0.3),
+            -2px 24px 0 -1px black, 8px 22px 0 -1px black,
+            -2px 24px 2px 0 rgba(255,255,255,0.2), 8px 22px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
+    100% { 
+        transform: translateX(-50%) rotate(0deg);
+        box-shadow: 
+            -8px 6px 0 -2px black, 8px 6px 0 -2px black,
+            -8px 6px 2px 0 rgba(255,255,255,0.3), 8px 6px 2px 0 rgba(255,255,255,0.3),
+            -4px 22px 0 -1px black, 4px 22px 0 -1px black,
+            -4px 22px 2px 0 rgba(255,255,255,0.2), 4px 22px 2px 0 rgba(255,255,255,0.2),
+            0 0 8px rgba(255,255,255,0.2);
+    }
 }
 
 /* Container des projets */
@@ -2807,6 +3026,7 @@ body {
 .project-item {
     position: relative;
     width: 100%;
+    height: auto;
     min-height: 400px;
     display: flex;
     background: rgba(255, 255, 255, 0.05);
@@ -2818,6 +3038,7 @@ body {
     transition: all 0.6s ease;
     backdrop-filter: blur(10px);
     margin-bottom: 10px;
+    flex-grow: 1; /* Permet de grandir pour remplir l'espace disponible */
 }
 
 /* Tous les project-item sont maintenant visibles par défaut */
@@ -3425,8 +3646,10 @@ body {
 
 .project-container {
     display: flex;
-    width: 1000px;
-    height: 800px;
+    flex-direction: row; /* Alignement horizontal pour tous les projets */
+    align-items: center; /* Centrage vertical des éléments pour tous les projets */
+    width: 100%;
+    height: 100%;
     background: transparent;
     border-radius: 15px;
     overflow: hidden;
@@ -3434,13 +3657,14 @@ body {
     border: none;
     box-shadow: none;
     margin-bottom: 20px;
+    min-height: 400px; /* Hauteur minimum pour éviter que ça soit trop petit */
 }
 
 .project-media-wrapper {
     position: relative;
-    width: calc(50% - 30px);
+    width: calc(60% - 10px); /* Plus grande comme le projet Circus */
     height: calc(100% - 60px);
-    margin: 30px 0 30px 30px;
+    margin: 30px 0 30px 10px; /* Décalé vers la gauche comme le projet Circus */
     cursor: pointer;
     overflow: hidden;
     flex-shrink: 0;
@@ -3456,6 +3680,46 @@ body {
 
 .project-media-wrapper:hover .project-media {
     transform: scale(1.05);
+}
+
+/* Style spécifique pour le projet Circus */
+.circus-project .project-container {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: row !important; /* Alignement horizontal */
+    align-items: center !important; /* Centrage vertical des éléments */
+}
+
+.circus-project .project-media-wrapper {
+    width: calc(60% - 10px); /* Plus grande */
+    margin-left: 10px; /* Décalée de 20px vers la gauche (30px - 20px = 10px) */
+}
+
+/* Style spécifique pour le texte du projet Circus - positionné à droite du media wrapper */
+.circus-project .project-info-side {
+    position: static !important; /* Positionnement normal dans le flux */
+    flex: 1 !important; /* Prend l'espace restant */
+    margin-left: 30px !important; /* Padding entre la vidéo et le texte */
+    width: auto !important; /* Largeur automatique */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.circus-project .project-info-side h3 {
+    text-align: center !important;
+}
+
+.circus-project .project-info-side .project-description {
+    text-align: center !important;
+}
+
+.circus-project .project-info-side .project-tags {
+    justify-content: center !important;
+}
+
+.circus-project .project-info-side .project-hint {
+    text-align: center !important;
 }
 
 /* Overlay uniforme pour tous les projets */
@@ -3501,9 +3765,10 @@ body {
 
 /* Informations latérales dans le container */
 .project-info-side {
-    width: calc(50% - 50px);
-    margin: 30px 50px 30px 20px;
-    padding: 0;
+    position: static; /* Positionnement normal dans le flux */
+    flex: 1; /* Prend l'espace restant */
+    margin-left: 30px; /* Padding entre la vidéo et le texte */
+    width: auto; /* Largeur automatique */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3518,7 +3783,7 @@ body {
     margin-bottom: 20px;
     font-family: 'Kindergarten', serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    text-align: left;
+    text-align: center; /* Centré comme le projet Circus */
 }
 
 .project-info-side .project-description {
@@ -3526,19 +3791,19 @@ body {
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 25px;
-    text-align: left;
+    text-align: center; /* Centré comme le projet Circus */
 }
 
 .project-info-side .project-tags {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center; /* Centré comme le projet Circus */
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
 .project-info-side .project-hint {
-    text-align: left;
+    text-align: center; /* Centré comme le projet Circus */
 }
 
 .project-info-container h3 {
@@ -3763,17 +4028,20 @@ body {
     height: 100%;
     overflow: hidden;
     border-radius: 8px;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20" fill="white">💡</text></svg>') 12 12, pointer;
 }
 
 .project-preview-image img {
-    width: 100%;
-    height: 100%;
+    width: 110%;
+    height: 110%;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.3s ease;
+    transform: scale(1.1);
 }
 
 .project-3d-viewer:hover .project-preview-image img {
-    transform: scale(1.05);
+    transform: scale(1.2);
 }
 
 .placeholder-fallback {
@@ -5785,8 +6053,3 @@ iframe[src*="Circus_Viewer.html"] * {
     overflow: hidden;
 }
 
-/* Emoji ampoule blanc */
-.white-bulb {
-    filter: grayscale(100%) brightness(200%) contrast(100%);
-    color: #ffffff !important;
-}
