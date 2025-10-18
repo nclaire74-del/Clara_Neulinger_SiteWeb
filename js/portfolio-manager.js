@@ -215,7 +215,7 @@
                                 ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
                             <div class="project-hint">
-                                <small>💡 Double-cliquez sur l'image pour accéder au viewer 3D interactif</small>
+                                <small><span class="white-bulb">💡</span> Double-cliquez sur l'image pour accéder au viewer 3D interactif</small>
                             </div>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                                 ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
                             <div class="project-hint">
-                                <small>💡 Double-cliquez sur l'image pour accéder à la galerie et aux viewers 3D</small>
+                                <small><span class="white-bulb">💡</span> Double-cliquez sur l'image pour accéder à la galerie et aux viewers 3D</small>
                             </div>
                         </div>
                     </div>
@@ -498,14 +498,19 @@
         
         document.body.appendChild(modal);
         
-        // Ajouter les listeners pour la navigation clavier
+        // Navigation clavier fluide avec throttling
+        let keyboardThrottle = false;
         this.keyboardHandler = (e) => {
-            if (e.key === 'ArrowLeft') {
+            if (e.key === 'ArrowLeft' && !keyboardThrottle) {
                 e.preventDefault();
+                keyboardThrottle = true;
                 this.navigateImage(-1);
-            } else if (e.key === 'ArrowRight') {
+                setTimeout(() => { keyboardThrottle = false; }, 100); // Navigation très fluide
+            } else if (e.key === 'ArrowRight' && !keyboardThrottle) {
                 e.preventDefault();
+                keyboardThrottle = true;
                 this.navigateImage(1);
+                setTimeout(() => { keyboardThrottle = false; }, 100); // Navigation très fluide
             } else if (e.key === 'Escape') {
                 e.preventDefault();
                 modal.remove();
