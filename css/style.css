@@ -2720,40 +2720,6 @@ body {
     background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
 }
 
-/* Titre et compteur centrés en haut à ~500px */
-.collectibles-top-header {
-    position: fixed;
-    top: 500px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 100;
-}
-
-.collectibles-top-header h2 {
-    color: #ffffff;
-    font-family: 'Kindergarten', serif;
-    font-size: 3rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    margin: 0 0 15px 0;
-    letter-spacing: 2px;
-}
-
-.collectibles-top-header .category-counter {
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    padding: 8px 20px;
-    display: inline-block;
-}
-
-.collectibles-top-header .category-counter span {
-    color: #ffffff;
-    font-family: 'Kindergarten', serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
 .nav-arrow {
     background: transparent;
     border: 2px solid white;
