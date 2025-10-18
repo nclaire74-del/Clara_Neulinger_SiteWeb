@@ -5,42 +5,69 @@
     <title>Circus_Viewer</title>
     <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
     <style>
-        /* Force la couleur de fond générale */
-        body {
+        * {
             background-color: rgb(42, 42, 42) !important;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Cibler uniquement la zone du viewer avec background-color */
-        div[style*="background-color"] {
-            background-color: rgb(42, 42, 42) !important;
-        }
-        
-        /* Cibler spécifiquement le div avec rgb(228, 231, 228) */
-        div[style*="rgb(228, 231, 228)"] {
-            background-color: rgb(42, 42, 42) !important;
-        }
-        
-        /* Supprimer toutes les box-shadow */
-        div[style*="box-shadow"] {
             box-shadow: none !important;
         }
         
-        /* Forcer tous les divs à avoir le bon background */
-        div {
+        body {
             background-color: rgb(42, 42, 42) !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
         
-        /* Exception pour le canvas et l'UI qui doivent rester transparents */
-        canvas, #marmosetUI, #marmosetUI * {
+        canvas {
             background-color: transparent !important;
         }
     </style>
 </head>
 <body>
     <script>
-        marmoset.embed( 'Circus_Viewer.mview', { width: 800, height: 600, autoStart: true, fullFrame: false, pagePreset: true } );
+        // Modifier le prototype de marmoset avant l'embedding
+        if (window.marmoset) {
+            const originalEmbed = marmoset.embed;
+            marmoset.embed = function(file, options) {
+                // Ajouter des options pour forcer le style
+                options = options || {};
+                options.backgroundColor = 'rgb(42, 42, 42)';
+                options.transparentBackground = false;
+                
+                // Appeler la fonction originale
+                const result = originalEmbed.call(this, file, options);
+                
+                // Forcer les styles après l'embedding
+                setTimeout(() => {
+                    document.querySelectorAll('div').forEach(div => {
+                        div.style.backgroundColor = 'rgb(42, 42, 42)';
+                        div.style.boxShadow = 'none';
+                    });
+                    
+                    // Appliquer un style global sur le document
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        * { 
+                            background-color: rgb(42, 42, 42) !important; 
+                            box-shadow: none !important; 
+                        }
+                        canvas { 
+                            background-color: transparent !important; 
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }, 100);
+                
+                return result;
+            };
+        }
+        
+        marmoset.embed( 'Circus_Viewer.mview', { 
+            width: 800, 
+            height: 600, 
+            autoStart: true, 
+            fullFrame: false, 
+            pagePreset: true,
+            backgroundColor: 'rgb(42, 42, 42)'
+        });
     </script>
 </body>
 </html>
