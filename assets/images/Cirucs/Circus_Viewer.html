@@ -4,56 +4,43 @@
 <head>
     <title>Circus_Viewer</title>
     <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
-</head>
-<body style="background: transparent; margin: 0; padding: 0;">
-    <script>
-        marmoset.embed( 'Circus_Viewer.mview', { width: 800, height: 600, autoStart: true, fullFrame: false, pagePreset: true } );
-        
-        // Fonction pour modifier agressivement tous les styles
-        function forceBackgroundChange() {
-            // Modifier tous les divs avec background-color
-            document.querySelectorAll('div').forEach(div => {
-                const style = div.getAttribute('style');
-                if (style) {
-                    // Remplacer rgb(228, 231, 228) par rgb(42, 42, 42)
-                    if (style.includes('background-color: rgb(228, 231, 228)')) {
-                        const newStyle = style
-                            .replace('background-color: rgb(228, 231, 228)', 'background-color: rgb(42, 42, 42)')
-                            .replace(/box-shadow:[^;]+;/g, '');
-                        div.setAttribute('style', newStyle);
-                    }
-                }
-                
-                // Forcer via propriété CSS
-                const computedStyle = window.getComputedStyle(div);
-                if (computedStyle.backgroundColor === 'rgb(228, 231, 228)') {
-                    div.style.backgroundColor = 'rgb(42, 42, 42)';
-                    div.style.boxShadow = 'none';
-                }
-            });
+    <style>
+        /* Force la couleur de fond générale */
+        body {
+            background-color: rgb(42, 42, 42) !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cibler uniquement la zone du viewer avec background-color */
+        div[style*="background-color"] {
+            background-color: rgb(42, 42, 42) !important;
         }
         
-        // Exécuter plusieurs fois avec différents délais
-        setTimeout(forceBackgroundChange, 50);
-        setTimeout(forceBackgroundChange, 100);
-        setTimeout(forceBackgroundChange, 200);
-        setTimeout(forceBackgroundChange, 500);
-        setTimeout(forceBackgroundChange, 1000);
-        setTimeout(forceBackgroundChange, 2000);
+        /* Cibler spécifiquement le div avec rgb(228, 231, 228) */
+        div[style*="rgb(228, 231, 228)"] {
+            background-color: rgb(42, 42, 42) !important;
+        }
         
-        // Observer continu
-        const observer = new MutationObserver(() => {
-            forceBackgroundChange();
-        });
-        observer.observe(document.body, { 
-            childList: true, 
-            subtree: true, 
-            attributes: true, 
-            attributeFilter: ['style'] 
-        });
+        /* Supprimer toutes les box-shadow */
+        div[style*="box-shadow"] {
+            box-shadow: none !important;
+        }
         
-        // Forcer immédiatement
-        forceBackgroundChange();
+        /* Forcer tous les divs à avoir le bon background */
+        div {
+            background-color: rgb(42, 42, 42) !important;
+        }
+        
+        /* Exception pour le canvas et l'UI qui doivent rester transparents */
+        canvas, #marmosetUI, #marmosetUI * {
+            background-color: transparent !important;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        marmoset.embed( 'Circus_Viewer.mview', { width: 800, height: 600, autoStart: true, fullFrame: false, pagePreset: true } );
     </script>
 </body>
 </html>
