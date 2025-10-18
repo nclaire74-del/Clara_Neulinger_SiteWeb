@@ -4,10 +4,47 @@
 <head>
     <title>Circus_Viewer</title>
     <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
+    <style>
+        body {
+            background: transparent !important;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Style personnalisé pour forcer l'apparence */
+        * {
+            box-shadow: none !important;
+        }
+        
+        /* Cibler spécifiquement le conteneur principal */
+        body > div:first-child {
+            background-color: rgb(42, 42, 42) !important;
+            background: rgb(42, 42, 42) !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
+        /* Forcer tous les divs à avoir le bon background */
+        div {
+            background-color: rgb(42, 42, 42) !important;
+        }
+        
+        /* Exception pour le canvas et l'UI */
+        canvas, #marmosetUI, #marmosetUI * {
+            background: transparent !important;
+            background-color: transparent !important;
+        }
+    </style>
 </head>
 <body>
-    <script>
-        marmoset.embed( 'Circus_Viewer.mview', { width: 800, height: 600, autoStart: true, fullFrame: false, pagePreset: true } );
-    </script>
+    <div style="position: relative; background-color: rgb(42, 42, 42); width: 812px; height: 622px; margin: auto; border: none; resize: both; overflow: hidden;">
+        <div style="position: relative; left: 6px; top: 6px;">
+            <div style="width: 800px; height: 600px; background-color: rgb(42, 42, 42);">
+                <script>
+                    marmoset.embed( 'Circus_Viewer.mview', { width: 800, height: 600, autoStart: true, fullFrame: false, pagePreset: true } );
+                </script>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

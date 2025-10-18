@@ -527,41 +527,44 @@
     showMarmosetViewerInline(project) {
         console.log('[MARMOSET] Affichage du viewer Marmoset inline pour Circus');
         
-        // Créer une modal avec uniquement galerie, viewer et infos
+        // Créer une modal avec galerie, viewer et infos
         const modal = document.createElement('div');
         modal.className = 'marmoset-viewer-modal';
         modal.innerHTML = `
             <div class="marmoset-modal-content">
+                <div class="marmoset-header">
+                    <button class="back-to-collectibles" onclick="this.closest('.marmoset-viewer-modal').remove(); portfolioManager.showPortfolioCollectibles()">
+                        <span class="button-text">← Retour Collectibles</span>
+                        <span class="button-subtitle">Portfolio principal</span>
+                    </button>
+                    <h2>${project.title}</h2>
+                </div>
                 <div class="marmoset-main-container">
                     <div class="marmoset-gallery-panel">
-                        <h3>Galerie Images</h3>
+                        <h3>Galerie</h3>
                         <div class="gallery-scroll-container" id="circus-gallery">
                             <!-- Images seront ajoutées ici -->
                         </div>
                     </div>
                     <div class="marmoset-viewer-container">
-                        <iframe id="marmoset-viewer-inline" 
-                                src="assets/images/Cirucs/Circus_Viewer.html" 
-                                width="100%" 
-                                height="100%" 
-                                frameborder="0"
-                                allowfullscreen>
-                            <p>Chargement du viewer Marmoset...</p>
-                        </iframe>
+                        <div class="viewer-wrapper">
+                            <iframe id="marmoset-viewer-inline" 
+                                    src="assets/images/Cirucs/Circus_Viewer.html" 
+                                    width="100%" 
+                                    height="100%" 
+                                    frameborder="0"
+                                    allowfullscreen>
+                                <p>Chargement du viewer Marmoset...</p>
+                            </iframe>
+                        </div>
                     </div>
                     <div class="marmoset-info-panel">
-                        <h3>Informations Techniques</h3>
-                        <div class="project-software">
-                            <h4>Logiciels utilisés</h4>
-                            <div class="software-list">
-                                ${project.tags.map(tag => `<div class="software-item">${tag}</div>`).join('')}
+                        <h3 onclick="this.parentElement.classList.toggle('expanded')">📋 Informations</h3>
+                        <div class="marmoset-info-content">
+                            <div class="project-details">
+                                <p>${project.description}</p>
                             </div>
                         </div>
-                        <div class="project-details">
-                            <h4>À propos du projet</h4>
-                            <p>Modélisation complète d'un environnement et personnage de cirque réalisée dans le cadre d'un cours de 3D. Le projet comprend le sculpting haute résolution, la retopologie, l'UV mapping et le rendu final.</p>
-                        </div>
-                        <button class="close-marmoset-viewer" onclick="this.closest('.marmoset-viewer-modal').remove()">Fermer ×</button>
                     </div>
                 </div>
             </div>
