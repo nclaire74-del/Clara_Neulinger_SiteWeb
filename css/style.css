@@ -4555,11 +4555,11 @@ body {
     width: 800px;
     height: 850px;
     background: #1a1a1a;
-    border: 2px solid #333333;
-    border-radius: 15px;
+    border: 3px solid #ffffff;
+    border-radius: 0px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
     position: fixed;
     left: 100px;
     top: 300px;
@@ -4650,8 +4650,8 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 0;
-    border-radius: 15px;
-    border: 3px solid #666666;
+    border-radius: 0px;
+    border: 3px solid #ffffff;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
     position: relative;
     left: 100px;
@@ -4740,9 +4740,9 @@ iframe[src*="Circus_Viewer.html"] * {
     width: 350px;
     height: 400px;
     background: #1a1a1a;
-    border: 2px solid #333333;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 3px solid #ffffff;
+    border-radius: 0px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
     overflow: hidden;
     right: 100px;
     top: 300px;
