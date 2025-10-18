@@ -4550,10 +4550,10 @@ body {
     overflow: visible;
 }
 
-/* Panneau galerie (gauche) - STYLE GAME-BUTTON SANS ANIMATION */
+/* Panneau galerie (gauche) - STYLE GAME-BUTTON AVEC ANIMATIONS */
 .marmoset-gallery-panel {
-    width: 800px;
-    height: 850px;
+    width: 900px;
+    height: 800px;
     background: #1a1a1a;
     border: none;
     border-radius: 0px;
@@ -4563,6 +4563,9 @@ body {
     position: fixed;
     left: 100px;
     top: 300px;
+    transform: translateX(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
     transform: none;
     flex-shrink: 0;
     z-index: 10000;
@@ -4577,9 +4580,9 @@ body {
     right: -1px;
     bottom: -1px;
     border: 0.5px solid rgba(255, 255, 255, 0.4);
-    z-index: -1;
+    z-index: 1;
     pointer-events: none;
-    border-radius: 2px 0.5px 2.5px 1px;
+    border-radius: 0;
     transform: rotate(-0.3deg);
 }
 
@@ -4592,9 +4595,9 @@ body {
     right: -0.5px;
     bottom: -0.5px;
     border: 0.5px solid rgba(255, 255, 255, 0.5);
-    z-index: -1;
+    z-index: 2;
     pointer-events: none;
-    border-radius: 1px 2.5px 0.5px 1.5px;
+    border-radius: 0;
     transform: rotate(0.2deg);
 }
 
@@ -4607,8 +4610,58 @@ body {
     font-size: 1.1rem;
     font-weight: bold;
     border-bottom: 1px solid #333333;
-    border-radius: 13px 13px 0 0;
+    border-radius: 0;
     text-shadow: none;
+    text-align: center;
+}
+
+/* Instructions pour la galerie */
+.gallery-instructions {
+    background: rgba(42, 42, 42, 0.9);
+    color: #cccccc;
+    margin: 0;
+    padding: 12px 20px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 0.75rem;
+    border-bottom: 1px solid #333333;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.3px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Instructions pour les infos */
+.info-instructions {
+    background: rgba(42, 42, 42, 0.9);
+    color: #cccccc;
+    margin: 0;
+    padding: 10px 25px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 0.7rem;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid #333333;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Titre du viewer 3D */
+.viewer-title {
+    background: #2a2a2a;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+    padding: 12px 20px;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-bottom: 1px solid #333333;
+    border-radius: 0;
+    text-shadow: none;
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 .gallery-scroll-container {
@@ -4644,13 +4697,16 @@ body {
     border-radius: 0;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+    opacity: 0.9;
 }
 
 .gallery-item:hover {
     border: none;
-    box-shadow: none;
-    transform: none;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+    opacity: 1;
 }
 
 .gallery-item img {
@@ -4671,23 +4727,103 @@ body {
     text-align: center;
 }
 
-/* Viewer central - STYLE GAME-BUTTON SANS ANIMATION */
+/* Viewer central - STYLE GAME-BUTTON AVEC ANIMATIONS */
 .marmoset-viewer-container {
-    width: 900px;
-    height: 700px;
+    width: 850px;
+    height: 550px;
     background: #2a2a2a !important;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 0;
     border: none;
     border-radius: 0px;
     box-shadow: none;
-    position: relative;
-    left: 100px;
+    position: fixed;
+    left: 1016px;
+    top: 300px;
     margin: 0 auto;
     flex-shrink: 0;
-    padding: 50px;
+    padding: 20px;
+    transform: translateX(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(0.9);
+}
+
+/* Panneau d'informations - STYLE FEUILLE LIGNÉE */
+.marmoset-info-panel {
+    width: 600px;
+    height: 200px;
+    background: #2a2a2a;
+    border: 2px solid #666;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    left: 1147px;
+    top: 865px;
+    padding: 20px;
+    font-family: 'Kindergarten', serif;
+    color: white;
+    transform: scale(0.9);
+    transform-origin: top left;
+    overflow: hidden;
+}
+
+/* Lignes de feuille de papier */
+.marmoset-info-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        transparent 24px,
+        rgba(255, 255, 255, 0.3) 24px,
+        rgba(255, 255, 255, 0.3) 26px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.marmoset-info-panel .info-title {
+    background: transparent;
+    color: white;
+    margin: 0 0 15px 0;
+    padding: 0 0 8px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid white;
+    text-align: left;
+    position: relative;
+    z-index: 10;
+    margin-left: 80px;
+}
+
+.marmoset-info-panel .info-content {
+    position: relative;
+    z-index: 10;
+    line-height: 1.8;
+    font-size: 0.9rem;
+    margin-left: 80px;
+}
+
+.marmoset-info-panel .info-content p {
+    margin: 0 0 23px 0;
+    position: relative;
+}
+
+/* Effet d'écriture manuscrite */
+.marmoset-info-panel .info-content p:nth-child(odd) {
+    transform: rotate(-0.1deg);
+}
+
+.marmoset-info-panel .info-content p:nth-child(even) {
+    transform: rotate(0.1deg);
 }
 
 /* Encadrement gribouillé - Première couche fine */
@@ -4699,9 +4835,9 @@ body {
     right: -1px;
     bottom: -1px;
     border: 0.5px solid rgba(255, 255, 255, 0.4);
-    z-index: -1;
+    z-index: 1;
     pointer-events: none;
-    border-radius: 2px 0.5px 2.5px 1px;
+    border-radius: 0;
     transform: rotate(-0.3deg);
 }
 
@@ -4714,38 +4850,54 @@ body {
     right: -0.5px;
     bottom: -0.5px;
     border: 0.5px solid rgba(255, 255, 255, 0.5);
-    z-index: -1;
+    z-index: 2;
     pointer-events: none;
-    border-radius: 1px 2.5px 0.5px 1.5px;
+    border-radius: 0;
     transform: rotate(0.2deg);
 }
 
 .viewer-wrapper {
     width: 100%;
-    height: 100%;
+    height: 450px;
     background: transparent;
     border: none;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 #marmoset-viewer-inline {
     width: 100%;
     height: 100%;
     border: none;
-    background: #000000 !important;
-    background-color: #000000 !important;
-    overflow: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    background: #2a2a2a !important;
+    background-color: #2a2a2a !important;
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 
 #marmoset-viewer-inline::-webkit-scrollbar {
-    display: none;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
-/* Forcer TOUT en noir pour éliminer le blanc */
-.marmoset-viewer-container * {
-    background: #000000 !important;
+/* Forcer la suppression des barres de défilement sur tous les éléments du viewer */
+.viewer-wrapper * {
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.viewer-wrapper *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Forcer le fond gris pour le conteneur */
+.marmoset-viewer-container .viewer-wrapper {
+    background: #2a2a2a !important;
 }
 
 .marmoset-viewer-container::before {
@@ -4755,158 +4907,30 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #000000;
+    background: #2a2a2a;
     z-index: -1;
 }
 
-/* Cacher le texte de chargement blanc dans l'iframe et forcer le background noir */
+/* Cacher le texte de chargement blanc dans l'iframe et forcer le background gris */
 #marmoset-viewer-inline p {
     display: none !important;
-    background: #000000 !important;
+    background: #2a2a2a !important;
 }
 
-/* Forcer le background noir pour tout le contenu de l'iframe */
+/* Forcer le background gris pour tout le contenu de l'iframe */
 iframe[src*="Circus_Viewer.html"] {
-    background: #000000 !important;
+    background: #2a2a2a !important;
 }
 
 iframe[src*="Circus_Viewer.html"] * {
-    background: #000000 !important;
+    background: #2a2a2a !important;
 }
 
-/* Panneau infos (droite) - ALIGNÉ À LA MÊME DISTANCE QUE LA GALERIE */
-.marmoset-info-panel {
-    width: 350px;
-    height: 50px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-    color: white;
-    overflow: visible;
-    position: fixed;
-    right: 100px;
-    top: 300px;
-    transform: translateZ(0);
-    flex-shrink: 0;
-    transition: height 0.2s ease-out;
-    z-index: 10000;
-    will-change: height;
-}
 
-.marmoset-info-panel.expanded {
-    width: 350px;
-    height: 400px;
-    background: #1a1a1a;
-    border: none;
-    border-radius: 0px;
-    box-shadow: none;
-    overflow: hidden;
-    right: 100px;
-    top: 300px;
-}
 
-/* Encadrement gribouillé - Première couche fine */
-.marmoset-info-panel.expanded::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    border: 0.5px solid rgba(255, 255, 255, 0.4);
-    z-index: -1;
-    pointer-events: none;
-    border-radius: 2px 0.5px 2.5px 1px;
-    transform: rotate(-0.3deg);
-}
 
-/* Encadrement gribouillé - Deuxième couche fine superposée */
-.marmoset-info-panel.expanded::after {
-    content: '';
-    position: absolute;
-    top: -0.5px;
-    left: -0.5px;
-    right: -0.5px;
-    bottom: -0.5px;
-    border: 0.5px solid rgba(255, 255, 255, 0.5);
-    z-index: -1;
-    pointer-events: none;
-    border-radius: 1px 2.5px 0.5px 1.5px;
-    transform: rotate(0.2deg);
-}
 
-.marmoset-info-panel h3 {
-    background: #2a2a2a;
-    color: #ffffff;
-    margin: 0;
-    padding: 15px 25px;
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 1.1rem;
-    border-radius: 15px;
-    border: 3px solid #333333;
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    white-space: nowrap;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
-.marmoset-info-panel.expanded h3 {
-    border-radius: 13px 13px 0 0;
-    border-bottom: 1px solid #333333;
-    box-shadow: none;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #2a2a2a;
-    color: #ffffff;
-    margin: 0;
-    padding: 15px 25px;
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 1.1rem;
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-    border: 3px solid #333333;
-}
-
-.marmoset-info-panel h3:hover {
-    background: #3a3a3a;
-}
-
-/* Contenu du menu déroulant - OPTIMISÉ POUR PERFORMANCE */
-.marmoset-info-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    padding: 0 15px;
-    will-change: max-height;
-    transform: translateZ(0);
-}
-
-.marmoset-info-panel.expanded .marmoset-info-content {
-    max-height: 300px;
-    padding: 15px;
-}
 
 .project-software {
     padding: 10px 0;
@@ -4999,13 +5023,15 @@ iframe[src*="Circus_Viewer.html"] * {
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s ease;
+    animation: fadeInLightbox 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(5px);
 }
 
 .lightbox-content {
     position: relative;
     max-width: 60vw;
     max-height: 60vh;
+    animation: scaleInContent 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lightbox-content img {
@@ -5013,27 +5039,208 @@ iframe[src*="Circus_Viewer.html"] * {
     max-height: 100%;
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lightbox-close {
     position: absolute;
-    top: -40px;
-    right: 0;
+    top: 10px;
+    right: -60px;
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
     font-size: 2rem;
     cursor: pointer;
-    padding: 5px 15px;
-    border-radius: 5px;
-    transition: background 0.3s ease;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 30000;
+    backdrop-filter: blur(5px);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .lightbox-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* Boutons de navigation lightbox */
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scale(1);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    opacity: 0.7;
+}
+
+.lightbox-prev {
+    left: -80px;
+    animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.lightbox-next {
+    right: -80px;
+    animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+}
+
+/* Compteur d'images */
+.lightbox-counter {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 20px;
+    border-radius: 8px;
+    z-index: 30000;
+    backdrop-filter: blur(5px);
+}
+
+/* Animation pour les instructions */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animations pour les boutons de navigation */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-30px);
+    }
+    to {
+        opacity: 0.7;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(30px);
+    }
+    to {
+        opacity: 0.7;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+/* Animations fluides pour les éléments Marmoset */
+@keyframes fadeInLightbox {
+    from { 
+        opacity: 0; 
+        backdrop-filter: blur(0px);
+    }
+    to { 
+        opacity: 1; 
+        backdrop-filter: blur(5px);
+    }
+}
+
+@keyframes scaleInContent {
+    from { 
+        opacity: 0; 
+        transform: scale(0.8) translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1) translateY(0);
+    }
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 }
+
+/* DEUXIÈME VIEWER 3D CHARA CIRCUS - À DROITE */
+.marmoset-chara-viewer-container {
+    width: 700px;
+    height: 900px;
+    background: #2a2a2a !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 0;
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+    position: fixed;
+    left: 1882px;
+    top: 300px;
+    margin: 0 auto;
+    flex-shrink: 0;
+    padding: 20px;
+    transform: translateX(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(0.9);
+    transform-origin: top left;
+}
+
+/* Encadrement gribouillé pour le deuxième viewer */
+.marmoset-chara-viewer-container::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 0;
+}
+
+.marmoset-chara-viewer-container::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 0;
+}
+
+.marmoset-chara-viewer-container .viewer-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+

@@ -542,11 +542,13 @@
                 <div class="marmoset-main-container">
                     <div class="marmoset-gallery-panel">
                         <h3>Galerie</h3>
+                        <p class="gallery-instructions">Cliquez sur une image pour l'agrandir • Utilisez les flèches pour naviguer</p>
                         <div class="gallery-scroll-container" id="circus-gallery">
                             <!-- Images seront ajoutées ici -->
                         </div>
                     </div>
                     <div class="marmoset-viewer-container">
+                        <h3 class="viewer-title">Viewer 3D - Environnement</h3>
                         <div class="viewer-wrapper">
                             <iframe id="marmoset-viewer-inline" 
                                     src="assets/images/Cirucs/Circus_Viewer.html" 
@@ -558,12 +560,29 @@
                             </iframe>
                         </div>
                     </div>
+                    
+                    <!-- Panneau d'informations -->
                     <div class="marmoset-info-panel">
-                        <h3 onclick="this.parentElement.classList.toggle('expanded')">📋 Informations</h3>
-                        <div class="marmoset-info-content">
-                            <div class="project-details">
-                                <p>${project.description}</p>
-                            </div>
+                        <h3 class="info-title">Informations</h3>
+                        <div class="info-content">
+                            <p>Modélisation 3D d'un environnement et personnage de cirque.</p>
+                            <p>Projet réalisé en cours de 3D, comprenant sculpting, retopologie, UV mapping et rendu.</p>
+                            <p>Logiciels utilisés : Blender, Substance Painter, Marmoset Toolbag</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Deuxième viewer 3D pour le personnage -->
+                    <div class="marmoset-chara-viewer-container">
+                        <h3 class="viewer-title">Viewer 3D - Personnage</h3>
+                        <div class="viewer-wrapper">
+                            <iframe id="marmoset-chara-viewer-inline" 
+                                    src="assets/images/Cirucs/Chara_Circus_Viewer.html" 
+                                    width="100%" 
+                                    height="100%" 
+                                    frameborder="0"
+                                    allowfullscreen>
+                                <p>Chargement du viewer Marmoset personnage...</p>
+                            </iframe>
                         </div>
                     </div>
                 </div>
@@ -583,8 +602,8 @@
         const galleryContainer = document.getElementById('circus-gallery');
         if (!galleryContainer) return;
 
-        // Liste des images Circus
-        const circusImages = [
+        // Liste des images Circus - stocker comme propriété de classe
+        this.circusImages = [
             'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
             'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
@@ -605,30 +624,123 @@
             'Neulinger_Clara_3B3D_Circus_References_2.jpg'
         ];
 
-        galleryContainer.innerHTML = circusImages.map(imageName => `
+        galleryContainer.innerHTML = this.circusImages.map(imageName => `
             <div class="gallery-item" onclick="portfolioManager.openImageLightbox('assets/images/Cirucs/${imageName}')">
                 <img src="assets/images/Cirucs/${imageName}" alt="${imageName}" loading="lazy">
-                <div class="gallery-overlay">${imageName.replace('Neulinger_Clara_3B3D_Circus_', '').replace('.jpg', '')}</div>
             </div>
         `).join('');
     }
 
-    // Ouvrir une image en lightbox
+    // Ouvrir une image en lightbox avec navigation
     openImageLightbox(imageSrc) {
+        // Trouver l'index de l'image actuelle
+        const imageName = imageSrc.split('/').pop();
+        const currentIndex = this.circusImages.findIndex(img => img === imageName);
+        
+        this.currentLightboxIndex = currentIndex;
+        this.createLightbox(imageSrc);
+    }
+
+    // Créer la lightbox avec navigation
+    createLightbox(imageSrc) {
+        // Supprimer toute lightbox existante
+        const existingLightbox = document.querySelector('.image-lightbox');
+        if (existingLightbox) {
+            existingLightbox.remove();
+        }
+
         const lightbox = document.createElement('div');
         lightbox.className = 'image-lightbox';
         lightbox.innerHTML = `
             <div class="lightbox-content">
-                <button class="lightbox-close" onclick="this.closest('.image-lightbox').remove()">×</button>
-                <img src="${imageSrc}" alt="Image agrandie">
+                <button class="lightbox-close" onclick="portfolioManager.closeLightbox()">×</button>
+                <button class="lightbox-prev" onclick="portfolioManager.previousImage()">‹</button>
+                <button class="lightbox-next" onclick="portfolioManager.nextImage()">›</button>
+                <img src="${imageSrc}" alt="Image agrandie" id="lightbox-image">
+                <div class="lightbox-counter">${this.currentLightboxIndex + 1} / ${this.circusImages.length}</div>
             </div>
         `;
+        
+        // Fermer en cliquant sur le fond
         lightbox.onclick = (e) => {
             if (e.target === lightbox) {
-                lightbox.remove();
+                this.closeLightbox();
             }
         };
+
+        // Navigation au clavier
+        document.addEventListener('keydown', this.handleKeyNavigation.bind(this));
+        
         document.body.appendChild(lightbox);
+    }
+
+    // Navigation au clavier
+    handleKeyNavigation(e) {
+        if (!document.querySelector('.image-lightbox')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                this.closeLightbox();
+                break;
+            case 'ArrowLeft':
+                this.previousImage();
+                break;
+            case 'ArrowRight':
+                this.nextImage();
+                break;
+        }
+    }
+
+    // Image précédente
+    previousImage() {
+        if (this.currentLightboxIndex > 0) {
+            this.currentLightboxIndex--;
+        } else {
+            this.currentLightboxIndex = this.circusImages.length - 1; // Boucle vers la fin
+        }
+        this.updateLightboxImage();
+    }
+
+    // Image suivante
+    nextImage() {
+        if (this.currentLightboxIndex < this.circusImages.length - 1) {
+            this.currentLightboxIndex++;
+        } else {
+            this.currentLightboxIndex = 0; // Boucle vers le début
+        }
+        this.updateLightboxImage();
+    }
+
+    // Mettre à jour l'image de la lightbox avec animation fluide
+    updateLightboxImage() {
+        const img = document.getElementById('lightbox-image');
+        const counter = document.querySelector('.lightbox-counter');
+        
+        if (img && counter) {
+            // Animation de sortie
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                const newImageSrc = `assets/images/Cirucs/${this.circusImages[this.currentLightboxIndex]}`;
+                img.src = newImageSrc;
+                counter.textContent = `${this.currentLightboxIndex + 1} / ${this.circusImages.length}`;
+                
+                // Animation d'entrée
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+            }, 150);
+        }
+    }
+
+    // Fermer la lightbox
+    closeLightbox() {
+        const lightbox = document.querySelector('.image-lightbox');
+        if (lightbox) {
+            lightbox.remove();
+        }
+        // Supprimer l'écouteur d'événements du clavier
+        document.removeEventListener('keydown', this.handleKeyNavigation.bind(this));
     }
 }
 
