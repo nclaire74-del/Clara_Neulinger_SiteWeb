@@ -3379,6 +3379,161 @@ body {
     transform: translateY(0);
 }
 
+/* STYLES UNIFORMES POUR TOUS LES PROJETS - 1000x600px */
+.uniform-project {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-container {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px rgba(0, 170, 255, 0.3),
+        0 0 60px rgba(0, 170, 255, 0.1),
+        inset 0 0 50px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 170, 255, 0.4);
+    margin-bottom: 20px;
+}
+
+.project-media-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.project-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-media-wrapper:hover .project-media {
+    transform: scale(1.05);
+}
+
+/* Overlay uniforme pour tous les projets */
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.project-media-wrapper:hover .project-overlay {
+    opacity: 1;
+}
+
+.project-overlay-text {
+    text-align: center;
+    color: white;
+}
+
+.project-overlay-text span {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    font-family: 'Kindergarten', serif;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Informations du projet uniformisées */
+.project-info-container {
+    text-align: center;
+    max-width: 1000px;
+    padding: 20px;
+}
+
+.project-info-container h3 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-family: 'Kindergarten', serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.project-description {
+    color: #cccccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.project-tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.project-tags .tag {
+    background: rgba(0, 170, 255, 0.2);
+    color: #00aaff;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(0, 170, 255, 0.3);
+    font-family: 'Kindergarten', serif;
+}
+
+.project-hint {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.project-hint small {
+    color: #cccccc;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-family: 'Kindergarten', serif;
+}
+
+/* Fallback pour images manquantes */
+.placeholder-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: #2a2a2a;
+    color: #ffffff;
+    text-align: center;
+}
+
+.placeholder-fallback p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-family: 'Kindergarten', serif;
+}
+
+.placeholder-fallback span {
+    font-size: 1rem;
+    color: #cccccc;
+}
+
 
 
 /* PROTECTION CONTRE COMING SOON SEULEMENT */

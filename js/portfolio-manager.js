@@ -191,49 +191,48 @@
 
         const projectShowcase = document.getElementById('project-showcase');
         if (projectShowcase) {
-            // Affichage spécial pour le projet Circus (premier projet uniquement)
+            // Affichage uniforme pour tous les projets (1000x600px)
             if (this.currentProject === 0 && project.title === 'Projet Circus') {
+                // Projet Circus avec vidéo
                 projectShowcase.innerHTML = `
-                <div class="project-item active circus-project" data-project="${project.id}">
-                    <div class="circus-video-container">
-                        <div class="circus-video-wrapper" ondblclick="portfolioManager.openProjectDetails(${project.id})">
-                            <video class="circus-main-video" autoplay muted loop>
+                <div class="project-item active uniform-project" data-project="${project.id}">
+                    <div class="project-container">
+                        <div class="project-media-wrapper" ondblclick="portfolioManager.openProjectDetails(${project.id})">
+                            <video class="project-media" autoplay muted loop>
                                 <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
                                 Votre navigateur ne supporte pas la lecture de vidéos.
                             </video>
-                            <div class="circus-video-overlay">
-                                <div class="circus-overlay-text">
-                                    <span>🎪 Double-cliquez pour explorer en 3D</span>
+                            <div class="project-overlay">
+                                <div class="project-overlay-text">
+                                    <span>� Double-cliquez pour explorer</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="circus-info-container">
+                    <div class="project-info-container">
                         <h3>${project.title}</h3>
-                        <p class="circus-description">${project.description}</p>
-                        <div class="circus-tags">
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
                             ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
-                        <div class="circus-hint">
-                            <small>💡 Double-cliquez sur la vidéo pour accéder au viewer 3D interactif</small>
+                        <div class="project-hint">
+                            <small>💡 Double-cliquez pour accéder au viewer 3D interactif</small>
                         </div>
                     </div>
                 </div>
                 `;
             } else {
-                // Affichage standard pour les autres projets avec double-clic
+                // Autres projets avec image preview
                 projectShowcase.innerHTML = `
-                <div class="project-item active" data-project="${project.id}">
-                    <div class="project-3d-viewer" ondblclick="portfolioManager.openProjectDetails(${project.id})">
-                        <div class="project-placeholder">
-                            <div class="project-preview-image">
-                                <img src="assets/images/${project.folder}/preview.jpg" 
-                                     alt="${project.title}" 
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                                <div class="placeholder-fallback" style="display:none">
-                                    <p>Projet ${project.title}</p>
-                                    <span>Preview en cours...</span>
-                                </div>
+                <div class="project-item active uniform-project" data-project="${project.id}">
+                    <div class="project-container">
+                        <div class="project-media-wrapper" ondblclick="portfolioManager.openProjectDetails(${project.id})">
+                            <img class="project-media" src="assets/images/${project.folder}/preview.jpg" 
+                                 alt="${project.title}" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="placeholder-fallback" style="display:none">
+                                <p>Projet ${project.title}</p>
+                                <span>Preview en cours...</span>
                             </div>
                             <div class="project-overlay">
                                 <div class="project-overlay-text">
@@ -242,7 +241,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="project-info">
+                    <div class="project-info-container">
                         <h3>${project.title}</h3>
                         <p class="project-description">${project.description}</p>
                         <div class="project-tags">
