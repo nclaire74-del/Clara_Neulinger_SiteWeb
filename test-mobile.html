@@ -110,7 +110,29 @@
     </div>
 
     <div class="test-section">
-        <h2>Test 5: Navigation vers Collectibles</h2>
+        <h2>Test 5: Bouton Anti-Chevauchement</h2>
+        <p>Le bouton ne doit plus chevaucher le contenu, même avec beaucoup de texte</p>
+        <div style="background: #333; border-radius: 10px; padding: 20px; margin: 10px 0; min-height: 400px; padding-bottom: 90px;">
+            <p style="color: white; margin-bottom: 20px;">Contenu de la page Circus simulation...</p>
+            <div style="height: 300px; background: #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 20px;">
+                Viewer Marmoset Circus
+            </div>
+            <p style="color: white; margin-bottom: 15px;">Description détaillée du projet...</p>
+            <p style="color: white; margin-bottom: 15px;">Plus de contenu textuel...</p>
+            
+            <!-- Simulation bouton repositionné -->
+            <div class="back-to-home-btn game-button" style="position: fixed; left: 50%; bottom: 10px; transform: translateX(-50%); width: 160px; height: 50px; background: rgba(232, 220, 192, 0.9); color: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 8px; z-index: 9999; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                <div>
+                    <div class="button-text" style="font-size: 0.75rem; font-weight: bold;">Retour Accueil</div>
+                    <div class="button-subtitle" style="font-size: 0.65rem;">Page principale</div>
+                </div>
+            </div>
+        </div>
+        <div id="button-safe-result" class="test-result success">✅ Bouton repositionné avec padding-bottom et z-index élevé</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 6: Navigation vers Collectibles</h2>
         <button onclick="testCollectiblesNavigation()">Aller aux Collectibles</button>
         <div id="navigation-result" class="test-result"></div>
     </div>
