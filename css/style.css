@@ -3656,14 +3656,15 @@ body {
     flex-direction: row;
     align-items: stretch; /* Les éléments occupent toute la hauteur */
     width: 100%;
-    height: auto; /* Hauteur s'adapte naturellement au contenu */
+    height: 500px; /* Hauteur fixe pour uniformiser tous les projets */
     background: transparent;
     border-radius: 1vw; /* Border-radius proportionnel à l'écran */
     overflow: visible;
     border: none;
     box-shadow: none;
     margin-bottom: 0;
-    min-height: auto;
+    min-height: 500px; /* Hauteur minimum identique */
+    max-height: 500px; /* Hauteur maximum identique */
     gap: 2vw; /* Espacement naturel entre média et texte */
     padding: 1vw; /* Padding uniforme et responsive */
     box-sizing: border-box;
@@ -3672,8 +3673,9 @@ body {
 .project-media-wrapper {
     position: relative;
     width: 60%; /* Largeur proportionnelle simple */
-    height: auto; /* Hauteur s'adapte au contenu */
-    min-height: 25vh; /* Minimum basé sur la hauteur d'écran */
+    height: 100%; /* Utilise toute la hauteur du container pour uniformité */
+    min-height: 480px; /* Hauteur minimum uniforme */
+    max-height: 480px; /* Hauteur maximum uniforme */
     margin: 0;
     cursor: pointer;
     overflow: hidden;
@@ -7358,6 +7360,18 @@ iframe[src*="Circus_Viewer.html"] * {
     .project-media-wrapper:active {
         transform: scale(0.98);
     }
+    
+    /* Repositionner le bouton back-to-home sur tablette */
+    .back-to-home-btn {
+        position: fixed !important;
+        left: 30px !important;
+        bottom: 30px !important;
+        top: auto !important;
+        transform: none !important;
+        width: 190px !important;
+        height: 65px !important;
+        z-index: 1000 !important;
+    }
 }
 
 /* Optimisations spécifiques pour smartphones */
@@ -7400,6 +7414,27 @@ iframe[src*="Circus_Viewer.html"] * {
     .page-counter {
         font-size: 0.8em !important;
         padding: 4px 8px !important;
+    }
+    
+    /* Repositionner le bouton back-to-home pour éviter les chevauchements */
+    .back-to-home-btn {
+        position: fixed !important;
+        left: 50% !important;
+        bottom: 20px !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+        width: 180px !important;
+        height: 60px !important;
+        z-index: 1000 !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .back-to-home-btn .button-text {
+        font-size: 0.9rem !important;
+    }
+    
+    .back-to-home-btn .button-subtitle {
+        font-size: 0.7rem !important;
     }
 }
 
