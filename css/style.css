@@ -7479,23 +7479,26 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 4px 8px !important;
     }
     
-    /* Bouton identique au desktop mais positionné dans le flux en bas de page */
+    /* Bouton EXACTEMENT comme spécifié avec transitions et transform */
     .back-to-home-btn {
-        /* Reprendre EXACTEMENT les styles desktop */
+        /* Positionnement en bas de page dans le flux */
         position: static !important;
         left: auto !important;
         top: auto !important;
-        transform: none !important;
         width: 200px !important;
         height: 70px !important;
         font-size: 0.9rem !important;
         
-        /* Positionnement en bas de page sans chevauchement */
+        /* Positionnement et espacement */
         display: block !important;
         margin: 30px auto 20px auto !important;
         
-        /* Garder tous les styles game-button natifs (pas de surcharge) */
-        /* Les styles game-button, ::before et ::after s'appliquent automatiquement */
+        /* Transitions et transforms EXACTEMENT comme demandé */
+        transition: transform 0.3s ease-out !important;
+        transform: scale(1) translate(0px, 0px) !important;
+        
+        /* Garder tous les styles game-button natifs */
+        /* Les classes game-button, ::before et ::after s'appliquent automatiquement */
     }
     
     /* Styles des textes identiques au desktop */
@@ -7505,6 +7508,15 @@ iframe[src*="Circus_Viewer.html"] * {
 
     .back-to-home-btn .button-subtitle {
         font-size: 0.75rem !important;
+    }
+    
+    /* Assurer que les interactions fonctionnent avec les transforms */
+    .back-to-home-btn:hover {
+        transform: scale(1.05) translate(0px, 0px) !important;
+    }
+    
+    .back-to-home-btn:active {
+        transform: scale(0.95) translate(0px, 0px) !important;
     }
     
     /* Retirer le padding-bottom supplémentaire car le bouton est maintenant dans le flux */
