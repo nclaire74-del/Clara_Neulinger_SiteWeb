@@ -7274,17 +7274,27 @@ iframe[src*="Circus_Viewer.html"] * {
         transform: scale(0.98);
     }
     
-    /* Repositionner le bouton back-to-home sur tablette */
+    /* Repositionner le bouton back-to-home sur tablette - taille réduite */
     .back-to-home-btn {
         position: fixed !important;
         left: 20px !important;
         bottom: 20px !important;
         top: auto !important;
         transform: none !important;
-        width: 170px !important;
-        height: 55px !important;
+        width: 140px !important;
+        height: 45px !important;
         z-index: 1000 !important;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2) !important;
+        font-size: 0.75rem !important;
+    }
+    
+    /* Réduire aussi les textes du bouton sur tablette */
+    .back-to-home-btn .button-text {
+        font-size: 0.8rem !important;
+    }
+
+    .back-to-home-btn .button-subtitle {
+        font-size: 0.6rem !important;
     }
     
     /* Ajouter de l'espace pour éviter le chevauchement sur tablette */
@@ -7377,15 +7387,15 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 4px 8px !important;
     }
     
-    /* Bouton EXACTEMENT comme spécifié avec transitions et transform */
+    /* Bouton mobile - taille réduite avec transitions */
     .back-to-home-btn {
         /* Positionnement en bas de page dans le flux */
         position: static !important;
         left: auto !important;
         top: auto !important;
-        width: 200px !important;
-        height: 70px !important;
-        font-size: 0.9rem !important;
+        width: 160px !important;
+        height: 55px !important;
+        font-size: 0.75rem !important;
         
         /* Positionnement 30% plus bas que project-showcase */
         display: block !important;
@@ -7399,13 +7409,13 @@ iframe[src*="Circus_Viewer.html"] * {
         /* Les classes game-button, ::before et ::after s'appliquent automatiquement */
     }
     
-    /* Styles des textes identiques au desktop */
+    /* Styles des textes réduits pour mobile */
     .back-to-home-btn .button-text {
-        font-size: 1rem !important;
+        font-size: 0.8rem !important;
     }
 
     .back-to-home-btn .button-subtitle {
-        font-size: 0.75rem !important;
+        font-size: 0.6rem !important;
     }
     
     /* Assurer que les interactions fonctionnent avec les transforms */
