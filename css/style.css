@@ -2733,7 +2733,7 @@ body {
     font-family: 'Kindergarten', sans-serif;
     font-size: 1.5rem;
     transition: all 0.3s ease;
-    position: relative;
+    /* SUPPRESSION : position: relative; */
 }
 
 .nav-arrow:hover {
@@ -2749,6 +2749,7 @@ body {
     text-align: center;
     color: white;
     font-family: 'Kindergarten', sans-serif;
+    flex: 1; /* Prend l'espace central disponible */
 }
 
 .collectibles-title h2 {
@@ -2774,7 +2775,7 @@ body {
     color: #aaa;
 }
 
-/* Ligne blanche décorative - Style gribouillé simple */
+/* Ligne blanche décorative - Style gribouillé simple avec layout naturel */
 .collectibles-separator {
     position: relative;
     height: 8px;
@@ -2837,7 +2838,7 @@ body {
 
 
 
-/* Bonhomme simple qui marche et court */
+/* Bonhomme simple qui marche - Position relative au séparateur */
 .collectibles-separator .stick-figure {
     position: absolute;
     top: -40px;
@@ -2849,6 +2850,8 @@ body {
     z-index: 10;
     font-size: 35px;
     filter: brightness(0) invert(1);
+    /* Animation décorative - ne peut pas affecter le layout */
+    pointer-events: none; /* Évite les interactions accidentelles */
 }
 
 .collectibles-separator .stick-figure::before {
@@ -4347,7 +4350,249 @@ body {
     }
 }
 
-/* ======= SECTION PORTFOLIO COLLECTIBLES ======= */
+/* ======= RESPONSIVE COLLECTIBLES - MOBILE & TABLETTE ======= */
+
+@media (max-width: 1024px) {
+    /* Header collectibles responsive */
+    .collectibles-header {
+        padding: 20px 30px;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .collectibles-title {
+        order: 1;
+        margin-bottom: 10px;
+    }
+    
+    .collectibles-title h2 {
+        font-size: 2rem;
+    }
+    
+    /* Navigation responsive */
+    .nav-arrow {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    /* Container principal */
+    .collectibles-container {
+        padding: 20px;
+        gap: 30px;
+    }
+    
+    /* Projet showcase responsive */
+    .project-showcase {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .uniform-project {
+        max-width: 100%;
+    }
+    
+    .project-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .project-media-wrapper {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        min-height: 30vh;
+    }
+    
+    .project-info-side {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .project-info-side h3 {
+        font-size: 1.8rem;
+    }
+    
+    .project-description {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .project-tags .tag {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Navigation projet responsive */
+    .project-navigation {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+    
+    .project-nav-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        min-width: 150px;
+    }
+    
+    .project-dots {
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .project-dot {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header encore plus compact */
+    .collectibles-header {
+        padding: 15px 20px;
+    }
+    
+    .collectibles-title h2 {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+    }
+    
+    .category-name {
+        font-size: 1rem;
+    }
+    
+    .category-counter {
+        font-size: 0.9rem;
+    }
+    
+    /* Navigation plus petite */
+    .nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    /* Conteneur principal mobile */
+    .collectibles-container {
+        padding: 15px;
+        gap: 20px;
+    }
+    
+    /* Projet showcase mobile */
+    .project-showcase {
+        padding: 15px;
+    }
+    
+    .project-media-wrapper {
+        min-height: 25vh;
+        border-radius: 8px;
+    }
+    
+    .project-info-side {
+        padding: 15px;
+    }
+    
+    .project-info-side h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .project-description {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+    
+    .project-tags {
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .project-tags .tag {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .project-hint {
+        margin-top: 15px;
+    }
+    
+    .project-hint small {
+        font-size: 0.8rem;
+    }
+    
+    /* Navigation projet mobile */
+    .project-navigation {
+        padding: 20px 15px;
+        gap: 15px;
+    }
+    
+    .project-nav-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+    
+    .project-dots .project-dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Séparateur mobile */
+    .collectibles-separator {
+        margin: 0 20px 20px 20px;
+        height: 6px;
+    }
+    
+    /* Stick figure plus petit sur mobile */
+    .collectibles-separator .stick-figure {
+        font-size: 25px;
+        width: 25px;
+        height: 35px;
+        top: -35px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Très petits écrans */
+    .collectibles-header {
+        padding: 10px 15px;
+    }
+    
+    .collectibles-title h2 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .project-info-side h3 {
+        font-size: 1.3rem;
+    }
+    
+    .project-description {
+        font-size: 0.9rem;
+    }
+    
+    .project-tags .tag {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .project-nav-btn {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        min-width: 100px;
+    }
+}
+
+/* ======= FIN RESPONSIVE COLLECTIBLES ======= */
 
 /* Layout spécial pour le projet Circus */
 .circus-project {
@@ -5058,40 +5303,75 @@ body {
         margin: 0 auto !important; /* Centrage horizontal */
     }
     
-    /* Box info-panel RESTRUCTURÉE - 70% titre / 30% logos */
+    /* Box info-panel avec ENCADREMENTS BLANCS style marmoset-gallery-panel - 50% / 50% */
     .marmoset-info-panel {
         height: 20%; /* Hauteur normale */
-        padding: 0.8vw; /* Padding pour contenir le contenu */
+        padding: 1.5vw; /* Même padding que marmoset-gallery-panel */
         top: 70%; /* Position normale */
         overflow: hidden; /* Contient dans la box */
-        background: rgba(42, 42, 42, 1) !important; /* Fond gris foncé opaque */
+        background: #1a1a1a !important; /* Arrière-plan gris comme marmoset-gallery-panel */
         display: flex; /* Flex pour alignement horizontal */
         flex-direction: row; /* Direction horizontale */
         align-items: center; /* Centrage vertical */
         justify-content: space-between; /* Répartition équilibrée */
         gap: 0; /* Pas d'espacement - contrôle par width */
+        border: none !important;
+        position: relative !important;
+        box-sizing: border-box; /* Inclut le padding dans les dimensions */
     }
     
-    /* Zone titre - 70% de l'espace CENTRÉE */
+    /* Encadrement gribouillé style marmoset-gallery-panel - Première couche fine */
+    .marmoset-info-panel::before {
+        content: '';
+        position: absolute;
+        top: 0.05vw; /* Positif pour rester visible */
+        left: 0.05vw;
+        right: 0.05vw;
+        bottom: 0.05vw;
+        border: 0.05vw solid rgba(255, 255, 255, 0.4); /* Bordure responsive */
+        z-index: 1;
+        pointer-events: none;
+        border-radius: 0;
+        transform: rotate(-0.3deg);
+    }
+    
+    /* Encadrement gribouillé style marmoset-gallery-panel - Deuxième couche fine superposée */
+    .marmoset-info-panel::after {
+        content: '';
+        position: absolute;
+        top: 0.1vw; /* Positif pour rester visible */
+        left: 0.1vw;
+        right: 0.1vw;
+        bottom: 0.1vw;
+        border: 0.05vw solid rgba(255, 255, 255, 0.5); /* Bordure responsive */
+        z-index: 2;
+        pointer-events: none;
+        border-radius: 0;
+        transform: rotate(0.2deg);
+    }
+    
+    /* Zone titre - 50% de l'espace À GAUCHE */
     .marmoset-info-panel .title-zone {
-        width: 70% !important;
-        flex: 0 0 70% !important; /* Fixe à 70% */
+        width: 50% !important;
+        flex: 0 0 50% !important; /* Fixe à 50% */
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important; /* CENTRAGE du titre desktop */
+        justify-content: flex-start !important; /* Alignement à gauche du titre */
         padding: 0 1vw !important; /* Padding équilibré */
+        order: 1 !important; /* PREMIER - titre à gauche */
     }
     
-    /* Zone logos - 30% de l'espace à droite */
+    /* Zone logos - 50% de l'espace À DROITE */
     .marmoset-info-panel .logos-zone {
-        width: 30% !important;
-        flex: 0 0 30% !important; /* Fixe à 30% */
+        width: 50% !important;
+        flex: 0 0 50% !important; /* Fixe à 50% */
         display: flex !important;
         flex-wrap: wrap !important; /* Passage à la ligne si nécessaire */
         align-items: center !important;
-        justify-content: flex-start !important;
-        gap: 0.3vw !important; /* Espacement entre logos */
-        padding-right: 1vw !important;
+        justify-content: center !important; /* Centrage des logos */
+        gap: 0.4vw !important; /* Espacement entre logos */
+        padding: 0 1vw !important;
+        order: 2 !important; /* DEUXIÈME - logos à droite */
     }
     
     /* Titre H3 "Logiciels :" dans la zone titre - DESKTOP CENTRÉ */
@@ -5111,24 +5391,12 @@ body {
         width: 100% !important; /* Utilise toute la largeur pour centrage */
     }
     
-    /* SUPPRESSION COMPLÈTE du pseudo-élément ::before */
-    .marmoset-info-panel::before {
-        display: none !important;
-        content: none !important;
-    }
-    
     /* SUPPRESSION des anciens selectors incompatibles */
     .marmoset-info-panel .info-title,
     .marmoset-info-panel .info-content,
     .marmoset-info-panel .logos-container {
         display: none !important;
         border-radius: 0 !important;
-    }
-    
-    /* Supprime complètement le pseudo-élément ::after qui crée les lignes */
-    .marmoset-info-panel::after {
-        content: none !important;
-        display: none !important;
     }
     
     /* ANCIEN système logo-wrapper - REMPLACÉ par title-zone/logos-zone */
@@ -5718,23 +5986,7 @@ body {
     transform: rotate(0.2deg);
 }
 
-/* Lignes de feuille de papier */
-.marmoset-info-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        transparent 0px,
-        transparent 24px,
-        rgba(255, 255, 255, 0.3) 24px,
-        rgba(255, 255, 255, 0.3) 26px
-    );
-    pointer-events: none;
-    z-index: 0;
-}
+/* Ancienne règle de lignes supprimée - remplacée par l'encadrement gribouillé */
 
 .marmoset-info-panel .info-title {
     background: transparent;
@@ -6413,7 +6665,7 @@ iframe[src*="Circus_Viewer.html"] * {
         aspect-ratio: 1/1 !important; /* Ratio 1:1 parfait */
     }
     
-    /* Boutons navigation SOUS l'image - repositionnement mobile */
+    /* Boutons navigation mobile - SOUS l'image dans le flow */
     .image-viewer-modal .image-nav-btn.prev,
     .image-viewer-modal .image-nav-btn.next,
     .image-viewer-modal button[onclick*="navigateImage"] {
@@ -6439,27 +6691,27 @@ iframe[src*="Circus_Viewer.html"] * {
         aspect-ratio: 1/1 !important;
         background: rgba(255, 255, 255, 0.2) !important;
         color: white !important;
-        /* POSITIONNEMENT SOUS L'IMAGE */
-        position: absolute !important;
-        bottom: 80px !important; /* En bas mais au-dessus du footer */
-        transform: none !important;
+        /* POSITIONNEMENT RELATIF - dans le flow après l'image */
+        position: relative !important;
         z-index: 9999 !important;
         visibility: visible !important;
         opacity: 1 !important;
     }
     
-    /* Bouton PREV (gauche) positionné à gauche EN BAS */
-    .image-viewer-modal .image-nav-btn.prev,
-    .image-viewer-modal button[onclick*="navigateImage(-1)"] {
-        left: 50% !important;
-        transform: translateX(-40px) !important; /* Décale vers la gauche du centre */
+    /* Container pour les boutons - sous l'image */
+    .image-viewer-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
     
-    /* Bouton NEXT (droite) positionné à droite EN BAS */
-    .image-viewer-modal .image-nav-btn.next,
-    .image-viewer-modal button[onclick*="navigateImage(1)"] {
-        left: 50% !important;
-        transform: translateX(10px) !important; /* Décale vers la droite du centre */
+    /* Zone boutons navigation - après l'image */
+    .image-nav-buttons {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        margin-top: 10px !important;
+        width: 100% !important;
     }
     
     .image-viewer-modal .image-viewer-close {
@@ -6761,86 +7013,78 @@ iframe[src*="Circus_Viewer.html"] * {
         position: relative; /* Position relative dans le flex container */
         margin: 0 auto 5vh auto; /* Centré avec marge en bas pour séparation */
         transform: none;
-        background: rgba(42, 42, 42, 1); /* Fond opaque sur mobile */
+        background: #1a1a1a !important; /* Arrière-plan gris comme marmoset-gallery-panel */
         z-index: auto; /* Reset z-index */
         flex: none; /* Pas de contrainte flex */
         display: flex; /* Flex pour alignement horizontal */
         flex-direction: row; /* Direction horizontale */
         align-items: center; /* Centrage vertical */
-        justify-content: flex-start; /* Alignement à gauche */
-        gap: 2vw; /* Espacement entre titre et logos pour mobile */
-        padding: 2vw; /* Padding pour contenir le contenu */
+        justify-content: space-between; /* Répartition équilibrée */
+        gap: 0; /* Pas d'espacement - contrôle par width */
+        padding: 1.5vw; /* Même padding que marmoset-gallery-panel */
         overflow: hidden; /* Contient parfaitement */
+        border: none !important;
+        box-sizing: border-box; /* Inclut le padding dans les dimensions */
     }
     
-    /* Titre "Logiciels:" pour mobile aussi */
-    /* SUPPRESSION COMPLÈTE et DÉFINITIVE des pseudo-éléments sur mobile */
+    /* Encadrement gribouillé style marmoset-gallery-panel mobile - Première couche fine */
     .marmoset-info-panel::before {
-        display: none !important;
-        content: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
-        top: -9999px !important;
-        width: 0 !important;
-        height: 0 !important;
+        content: '';
+        position: absolute;
+        top: 0.05vw; /* Positif pour rester visible */
+        left: 0.05vw;
+        right: 0.05vw;
+        bottom: 0.05vw;
+        border: 0.05vw solid rgba(255, 255, 255, 0.4); /* Bordure responsive */
+        z-index: 1;
+        pointer-events: none;
+        border-radius: 0;
+        transform: rotate(-0.3deg);
     }
     
+    /* Encadrement gribouillé style marmoset-gallery-panel mobile - Deuxième couche fine superposée */
     .marmoset-info-panel::after {
-        display: none !important;
-        content: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
+        content: '';
+        position: absolute;
+        top: 0.1vw; /* Positif pour rester visible */
+        left: 0.1vw;
+        right: 0.1vw;
+        bottom: 0.1vw;
+        border: 0.05vw solid rgba(255, 255, 255, 0.5); /* Bordure responsive */
+        z-index: 2;
+        pointer-events: none;
+        border-radius: 0;
+        transform: rotate(0.2deg);
     }
     
-    /* Panel mobile - structure claire et COMPACTE - SANS MARGES EXCESSIVES */
-    .marmoset-info-panel {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 0 !important;
-        padding: 1.5vw 1vw !important; /* Padding vertical réduit */
-        background: rgba(42, 42, 42, 1) !important;
-        height: auto !important; /* Hauteur AUTO pour s'adapter au contenu */
-        min-height: 8vh !important; /* Hauteur minimum raisonnable */
-        max-height: 12vh !important; /* Hauteur maximum pour éviter excès */
-        overflow: hidden !important;
-        /* SUPPRESSION du positionnement absolu sur mobile */
-        position: relative !important; /* Position relative au lieu d'absolue */
-        top: auto !important; /* Supprime le top: 70% */
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        margin: 0 auto 3vh auto !important; /* MARGE UNIFORMISÉE - cohérence avec les autres containers */
-        width: 100% !important; /* Largeur complète */
-    }
-    
-    /* Zone titre mobile - 70% avec centrage et taille optimisée */
+    /* Zone titre mobile - 50% À GAUCHE avec encadrements */
     .marmoset-info-panel .title-zone {
-        width: 70% !important;
-        flex: 0 0 70% !important;
+        width: 50% !important;
+        flex: 0 0 50% !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important; /* CENTRAGE du titre dans ses 70% */
+        justify-content: flex-start !important; /* Alignement à gauche du titre */
         padding: 0 1vw !important; /* Padding équilibré */
         height: 100% !important; /* Utilise toute la hauteur */
+        order: 1 !important; /* PREMIER - titre à gauche */
+        z-index: 2 !important; /* Au-dessus des encadrements */
+        position: relative !important;
     }
     
-    /* Zone logos mobile - 30% compacte et centrée */
+    /* Zone logos mobile - 50% À DROITE avec encadrements */
     .marmoset-info-panel .logos-zone {
-        width: 30% !important;
-        flex: 0 0 30% !important;
+        width: 50% !important;
+        flex: 0 0 50% !important;
         display: flex !important;
         flex-wrap: wrap !important;
         align-items: center !important;
-        justify-content: center !important; /* Centrage des logos aussi */
-        gap: 0.8vw !important; /* Espacement légèrement augmenté */
+        justify-content: center !important; /* Centrage des logos */
+        gap: 0.8vw !important; /* Espacement optimal */
         padding: 0 1vw !important; /* Padding équilibré */
         height: 100% !important; /* Utilise toute la hauteur */
+        order: 2 !important; /* DEUXIÈME - logos à droite */
+        z-index: 2 !important; /* Au-dessus des encadrements */
+        position: relative !important;
     }
     
     /* Titre H3 mobile - CENTRÉ et PLUS GRAND */
@@ -7074,6 +7318,88 @@ iframe[src*="Circus_Viewer.html"] * {
         right: 2vw;
         padding: 1vw;
         max-width: 80vw;
+    }
+}
+
+/* Instructions d'interaction pour mobile/desktop */
+.desktop-instruction {
+    display: inline;
+}
+
+.mobile-instruction {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .desktop-instruction {
+        display: none;
+    }
+    
+    .mobile-instruction {
+        display: inline;
+    }
+    
+    /* Améliorer l'overlay sur mobile pour être plus visible */
+    .project-overlay {
+        background: rgba(0, 0, 0, 0.7) !important;
+    }
+    
+    .project-overlay-text {
+        font-size: 1.1em !important;
+        font-weight: bold;
+    }
+    
+    /* Rendre l'interaction plus claire sur mobile */
+    .project-media-wrapper {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    
+    .project-media-wrapper:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Optimisations spécifiques pour smartphones */
+@media (max-width: 480px) {
+    /* S'assurer qu'aucun élément ne dépasse */
+    .collectibles-content {
+        padding: 10px !important;
+        gap: 15px !important;
+    }
+    
+    .project-media-wrapper {
+        max-width: 100% !important;
+        min-height: 200px !important;
+    }
+    
+    .project-overlay-text {
+        font-size: 0.9em !important;
+        padding: 8px !important;
+    }
+    
+    /* Navigation mobile - s'assurer qu'elle ne dépasse pas */
+    .mobile-nav-button {
+        max-width: calc(100vw - 40px) !important;
+        word-wrap: break-word;
+        white-space: normal !important;
+    }
+    
+    /* Contrôles de navigation */
+    .project-controls {
+        padding: 8px !important;
+        gap: 8px !important;
+    }
+    
+    .nav-arrow {
+        font-size: 1.2em !important;
+        padding: 8px !important;
+    }
+    
+    /* Compteur de pages */
+    .page-counter {
+        font-size: 0.8em !important;
+        padding: 4px 8px !important;
     }
 }
 

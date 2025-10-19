@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mobile Portfolio - Clara Neulinger</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #2d5a27;
+            border: 1px solid #4caf50;
+        }
+        .warning {
+            background: #5a4d27;
+            border: 1px solid #ff9800;
+        }
+        .mobile-info {
+            background: #27355a;
+            border: 1px solid #2196f3;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Mobile Portfolio</h1>
+    
+    <div class="mobile-info test-result">
+        <h3>Informations de l'appareil</h3>
+        <p>Largeur d'écran: <span id="screen-width"></span>px</p>
+        <p>Hauteur d'écran: <span id="screen-height"></span>px</p>
+        <p>Support tactile: <span id="touch-support"></span></p>
+        <p>Type d'appareil détecté: <span id="device-type"></span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 1: Compteur Automatique</h2>
+        <p>Le compteur doit afficher 1/6 (avec le projet Kitchen ajouté)</p>
+        <button onclick="testCounter()">Tester le compteur</button>
+        <div id="counter-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Gestion Mobile</h2>
+        <p>Instructions d'interaction adaptées selon l'appareil</p>
+        <div class="project-overlay" style="position: relative; background: rgba(0,0,0,0.5); padding: 20px; margin: 10px 0;">
+            <div class="project-overlay-text">
+                <span class="desktop-instruction">Double-cliquez pour explorer</span>
+                <span class="mobile-instruction">Touchez pour explorer</span>
+            </div>
+        </div>
+        <div id="mobile-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Navigation vers Collectibles</h2>
+        <button onclick="testCollectiblesNavigation()">Aller aux Collectibles</button>
+        <div id="navigation-result" class="test-result"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/portfolio-manager.js"></script>
+    <script>
+        // Informations de l'appareil
+        function updateDeviceInfo() {
+            document.getElementById('screen-width').textContent = window.innerWidth;
+            document.getElementById('screen-height').textContent = window.innerHeight;
+            document.getElementById('touch-support').textContent = 'ontouchstart' in window ? 'Oui' : 'Non';
+            
+            const isMobile = window.innerWidth <= 1024 || ('ontouchstart' in window);
+            document.getElementById('device-type').textContent = isMobile ? 'Mobile/Tablette' : 'Desktop';
+        }
+
+        // Test du compteur automatique
+        function testCounter() {
+            try {
+                // Initialiser le portfolio manager pour avoir accès aux projets
+                const tempManager = new PortfolioManager();
+                const projectCount = tempManager.projects.length;
+                
+                const result = document.getElementById('counter-result');
+                if (projectCount === 6) {
+                    result.innerHTML = `<div class="success">✅ Compteur correct: ${projectCount} projets détectés (incluant Kitchen)</div>`;
+                } else {
+                    result.innerHTML = `<div class="warning">⚠️ Problème compteur: ${projectCount} projets détectés (devrait être 6)</div>`;
+                }
+            } catch (error) {
+                document.getElementById('counter-result').innerHTML = `<div class="warning">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        // Test des instructions mobile
+        function checkMobileInstructions() {
+            const desktop = document.querySelector('.desktop-instruction');
+            const mobile = document.querySelector('.mobile-instruction');
+            const isMobileDevice = window.innerWidth <= 1024;
+            
+            const result = document.getElementById('mobile-result');
+            const desktopVisible = window.getComputedStyle(desktop).display !== 'none';
+            const mobileVisible = window.getComputedStyle(mobile).display !== 'none';
+            
+            if (isMobileDevice && mobileVisible && !desktopVisible) {
+                result.innerHTML = '<div class="success">✅ Instructions mobile correctes</div>';
+            } else if (!isMobileDevice && desktopVisible && !mobileVisible) {
+                result.innerHTML = '<div class="success">✅ Instructions desktop correctes</div>';
+            } else {
+                result.innerHTML = '<div class="warning">⚠️ Instructions incorrectes pour cet appareil</div>';
+            }
+        }
+
+        // Test navigation
+        function testCollectiblesNavigation() {
+            const result = document.getElementById('navigation-result');
+            result.innerHTML = '<div class="success">🔄 Redirection vers la page collectibles...</div>';
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // Initialisation
+        window.addEventListener('load', () => {
+            updateDeviceInfo();
+            checkMobileInstructions();
+        });
+
+        window.addEventListener('resize', () => {
+            updateDeviceInfo();
+            checkMobileInstructions();
+        });
+    </script>
+</body>
+</html>
