@@ -7479,27 +7479,29 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 4px 8px !important;
     }
     
-    /* Repositionner le bouton back-to-home pour éviter les chevauchements */
+    /* Repositionner le bouton back-to-home en bas de page (dans le flux) */
     .back-to-home-btn {
-        position: fixed !important;
-        left: 50% !important;
-        bottom: 10px !important;
+        position: static !important;
+        display: block !important;
+        margin: 30px auto 20px auto !important;
+        left: auto !important;
+        bottom: auto !important;
         top: auto !important;
-        transform: translateX(-50%) !important;
-        width: 160px !important;
-        height: 50px !important;
-        z-index: 9999 !important;
-        font-size: 0.75rem !important;
+        transform: none !important;
+        width: 200px !important;
+        height: 60px !important;
+        z-index: auto !important;
+        font-size: 0.8rem !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
     }
     
-    /* Ajouter du padding-bottom au contenu pour éviter le chevauchement */
+    /* Retirer le padding-bottom supplémentaire car le bouton est maintenant dans le flux */
     .collectibles-container {
-        padding-bottom: 80px !important;
+        padding-bottom: 20px !important;
     }
     
     .project-showcase {
-        padding-bottom: 80px !important;
+        padding-bottom: 20px !important;
     }
     
     .back-to-home-btn .button-text {
@@ -7510,18 +7512,18 @@ iframe[src*="Circus_Viewer.html"] * {
         font-size: 0.7rem !important;
     }
     
-    /* Espacement spécifique pour les modales et vues détaillées */
+    /* Le bouton est maintenant dans le flux normal - pas besoin de padding spécial */
     .marmoset-viewer-modal {
-        padding-bottom: 90px !important;
+        padding-bottom: 20px !important;
     }
     
     .circus-project {
-        padding-bottom: 90px !important;
+        padding-bottom: 20px !important;
     }
     
-    /* S'assurer que le contenu ne dépasse pas l'écran */
+    /* Retirer le padding-bottom du body */
     body {
-        padding-bottom: 80px !important;
+        padding-bottom: 0 !important;
     }
 }
 
