@@ -4421,17 +4421,17 @@ body {
     }
     
     .project-info-side h3 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     
     .project-description {
-        font-size: 1rem;
-        line-height: 1.5;
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
     
     .project-tags .tag {
-        padding: 8px 15px;
-        font-size: 0.9rem;
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
     
     /* Navigation projet responsive */
@@ -4511,14 +4511,14 @@ body {
     }
     
     .project-info-side h3 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
         color: #e8dcc0 !important;
     }
     
     .project-description {
-        font-size: 0.95rem;
-        margin-bottom: 15px;
+        font-size: 0.85rem;
+        margin-bottom: 12px;
     }
     
     .project-tags {
@@ -7328,29 +7328,29 @@ iframe[src*="Circus_Viewer.html"] * {
     }
     
     .project-info-side h3 {
-        font-size: 1.3rem !important;
-        margin-bottom: 10px !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 8px !important;
         color: #e8dcc0 !important;
         text-align: center !important;
     }
     
     .project-description {
-        font-size: 0.9rem !important;
-        line-height: 1.4 !important;
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
         color: #ffffff !important;
         text-align: left !important;
     }
     
     .project-tags {
-        font-size: 0.8rem !important;
-        margin-top: 10px !important;
+        font-size: 0.7rem !important;
+        margin-top: 8px !important;
         color: #e8dcc0 !important;
     }
     
     .project-hint {
-        font-size: 0.8rem !important;
+        font-size: 0.7rem !important;
         color: #cccccc !important;
-        margin-top: 8px !important;
+        margin-top: 6px !important;
     }
     
     /* Navigation mobile - s'assurer qu'elle ne dépasse pas */
