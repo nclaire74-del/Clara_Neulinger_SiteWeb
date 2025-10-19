@@ -7489,10 +7489,23 @@ iframe[src*="Circus_Viewer.html"] * {
         top: auto !important;
         transform: none !important;
         width: 200px !important;
-        height: 60px !important;
+        height: 70px !important;
         z-index: auto !important;
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
+        /* Garder tous les styles de game-button */
+        background: rgba(232, 220, 192, 0.9) !important;
+        color: #1a1a1a !important;
+        border: none !important;
+        border-radius: 15px !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+        /* Garder l'encadrement gribouillé */
+        position: relative !important;
+    }
+    
+    /* S'assurer que les pseudo-éléments fonctionnent sur mobile */
+    .back-to-home-btn::before,
+    .back-to-home-btn::after {
+        display: block !important;
     }
     
     /* Retirer le padding-bottom supplémentaire car le bouton est maintenant dans le flux */
