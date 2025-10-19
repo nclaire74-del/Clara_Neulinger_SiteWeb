@@ -4397,19 +4397,27 @@ body {
     .project-container {
         flex-direction: column;
         gap: 20px;
+        height: auto !important; /* Annuler la hauteur fixe sur mobile */
+        min-height: auto !important;
+        max-height: none !important;
     }
     
     .project-media-wrapper {
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
-        min-height: 30vh;
+        min-height: 250px !important; /* Hauteur réduite sur mobile */
+        max-height: 300px !important;
+        height: auto !important;
     }
     
     .project-info-side {
         width: 100%;
         text-align: center;
         padding: 20px;
+        display: block !important; /* S'assurer que le texte s'affiche */
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .project-info-side h3 {
@@ -4494,11 +4502,18 @@ body {
     
     .project-info-side {
         padding: 15px;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        background: rgba(26, 26, 26, 0.8); /* Fond pour améliorer la lisibilité */
+        border-radius: 8px;
+        margin-top: 10px;
     }
     
     .project-info-side h3 {
         font-size: 1.5rem;
         margin-bottom: 15px;
+        color: #e8dcc0 !important;
     }
     
     .project-description {
@@ -7385,11 +7400,49 @@ iframe[src*="Circus_Viewer.html"] * {
     .project-media-wrapper {
         max-width: 100% !important;
         min-height: 200px !important;
+        max-height: 250px !important;
     }
     
     .project-overlay-text {
         font-size: 0.9em !important;
         padding: 8px !important;
+    }
+    
+    /* Texte du projet sur smartphone */
+    .project-info-side {
+        padding: 12px !important;
+        margin-top: 15px !important;
+        background: rgba(26, 26, 26, 0.9) !important;
+        border-radius: 8px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .project-info-side h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 10px !important;
+        color: #e8dcc0 !important;
+        text-align: center !important;
+    }
+    
+    .project-description {
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+        color: #ffffff !important;
+        text-align: left !important;
+    }
+    
+    .project-tags {
+        font-size: 0.8rem !important;
+        margin-top: 10px !important;
+        color: #e8dcc0 !important;
+    }
+    
+    .project-hint {
+        font-size: 0.8rem !important;
+        color: #cccccc !important;
+        margin-top: 8px !important;
     }
     
     /* Navigation mobile - s'assurer qu'elle ne dépasse pas */

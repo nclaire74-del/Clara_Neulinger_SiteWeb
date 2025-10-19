@@ -84,7 +84,33 @@
     </div>
 
     <div class="test-section">
-        <h2>Test 4: Navigation vers Collectibles</h2>
+        <h2>Test 4: Affichage Texte Mobile</h2>
+        <p>Le texte doit être visible à côté/sous l'image sur mobile</p>
+        <div style="background: #333; border-radius: 10px; padding: 10px; margin: 10px 0;">
+            <!-- Simulation projet mobile -->
+            <div class="project-container" style="flex-direction: column; gap: 20px; height: auto;">
+                <div class="project-media-wrapper" style="width: 100%; height: 200px; background: #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                    Image du projet
+                </div>
+                <div class="project-info-side" style="background: rgba(26, 26, 26, 0.9); padding: 12px; border-radius: 8px; display: block; visibility: visible; opacity: 1;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 10px; color: #e8dcc0; text-align: center;">Titre du Projet</h3>
+                    <div class="project-description" style="font-size: 0.9rem; line-height: 1.4; color: #ffffff; text-align: left;">
+                        Description du projet qui doit être bien visible sur mobile avec un fond sombre pour la lisibilité.
+                    </div>
+                    <div class="project-tags" style="font-size: 0.8rem; margin-top: 10px; color: #e8dcc0;">
+                        Tags: 3D, Modeling, Texturing
+                    </div>
+                    <div class="project-hint" style="font-size: 0.8rem; color: #cccccc; margin-top: 8px;">
+                        Double-cliquez pour explorer (instruction mobile)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="text-result" class="test-result success">✅ Texte affiché avec fond sombre pour améliorer la lisibilité</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 5: Navigation vers Collectibles</h2>
         <button onclick="testCollectiblesNavigation()">Aller aux Collectibles</button>
         <div id="navigation-result" class="test-result"></div>
     </div>
