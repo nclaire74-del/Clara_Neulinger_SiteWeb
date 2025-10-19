@@ -4611,109 +4611,7 @@ body {
 
 /* ======= FIN RESPONSIVE COLLECTIBLES ======= */
 
-/* Layout spécial pour le projet Circus */
-.circus-project {
-    display: flex !important;
-    gap: 20px;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.circus-video-container {
-    flex: 1;
-    max-width: 400px;
-}
-
-.circus-video-wrapper {
-    position: relative;
-    border: 2px solid white;
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.8);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.circus-video-wrapper:hover {
-    border-color: #4CAF50;
-    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
-}
-
-.circus-main-video {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.circus-video-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-    padding: 15px;
-    text-align: center;
-}
-
-.circus-overlay-text span {
-    color: #4CAF50;
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.circus-info-container {
-    flex: 2;
-    padding-left: 20px;
-    color: white;
-}
-
-.circus-info-container h3 {
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 2rem;
-    color: #4CAF50;
-    margin: 0 0 15px 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.circus-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 0 0 20px 0;
-    color: #e0e0e0;
-}
-
-.circus-tags {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.circus-tags .tag {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid #4CAF50;
-    color: #4CAF50;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-family: 'Kindergarten', sans-serif;
-    font-size: 0.9rem;
-}
-
-.circus-hint {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-}
-
-.circus-hint small {
-    color: #ccc;
-    font-style: italic;
-}
+/* Styles spécifiques Circus supprimés - utilise maintenant le système universel */
 
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
@@ -7489,9 +7387,9 @@ iframe[src*="Circus_Viewer.html"] * {
         height: 70px !important;
         font-size: 0.9rem !important;
         
-        /* Positionnement et espacement */
+        /* Positionnement 30% plus bas que project-showcase */
         display: block !important;
-        margin: 30px auto 20px auto !important;
+        margin: 150px auto 20px auto !important;
         
         /* Transitions et transforms EXACTEMENT comme demandé */
         transition: transform 0.3s ease-out !important;
