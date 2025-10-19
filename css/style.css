@@ -7479,33 +7479,32 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 4px 8px !important;
     }
     
-    /* Repositionner le bouton back-to-home en bas de page (dans le flux) */
+    /* Bouton identique au desktop mais positionné dans le flux en bas de page */
     .back-to-home-btn {
+        /* Reprendre EXACTEMENT les styles desktop */
         position: static !important;
-        display: block !important;
-        margin: 30px auto 20px auto !important;
         left: auto !important;
-        bottom: auto !important;
         top: auto !important;
         transform: none !important;
         width: 200px !important;
         height: 70px !important;
-        z-index: auto !important;
         font-size: 0.9rem !important;
-        /* Garder tous les styles de game-button */
-        background: rgba(232, 220, 192, 0.9) !important;
-        color: #1a1a1a !important;
-        border: none !important;
-        border-radius: 15px !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
-        /* Garder l'encadrement gribouillé */
-        position: relative !important;
+        
+        /* Positionnement en bas de page sans chevauchement */
+        display: block !important;
+        margin: 30px auto 20px auto !important;
+        
+        /* Garder tous les styles game-button natifs (pas de surcharge) */
+        /* Les styles game-button, ::before et ::after s'appliquent automatiquement */
     }
     
-    /* S'assurer que les pseudo-éléments fonctionnent sur mobile */
-    .back-to-home-btn::before,
-    .back-to-home-btn::after {
-        display: block !important;
+    /* Styles des textes identiques au desktop */
+    .back-to-home-btn .button-text {
+        font-size: 1rem !important;
+    }
+
+    .back-to-home-btn .button-subtitle {
+        font-size: 0.75rem !important;
     }
     
     /* Retirer le padding-bottom supplémentaire car le bouton est maintenant dans le flux */
