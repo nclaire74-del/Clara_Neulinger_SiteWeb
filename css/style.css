@@ -1580,16 +1580,802 @@ body {
     font-size: 0.75rem;
 }
 
-/* === BOUTON RETOUR ACCUEIL === */
 .back-to-home-btn {
-    position: absolute;
-    left: 30px;
-    top: 55%; /* Plus proche du bouton reset */
-    transform: translateY(-50%);
-    width: 200px;
-    height: 70px;
-    z-index: 100;
+    /* Utiliser les styles de base du game-button, juste ajuster la taille si nécessaire */
     font-size: 0.9rem;
+    position: relative !important; /* Nécessaire pour les pseudo-éléments */
+}
+
+/* Forcer l'affichage des pseudo-éléments pour l'encadrement */
+.back-to-home-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 2px 0.5px 2.5px 1px !important;
+    transform: rotate(-0.3deg) !important;
+}
+
+.back-to-home-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -0.5px !important;
+    left: -0.5px !important;
+    right: -0.5px !important;
+    bottom: -0.5px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 1px 2.5px 0.5px 1.5px !important;
+    transform: rotate(0.2deg) !important;
+}
+
+.back-to-home-btn:hover::before {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    border-width: 0.7px !important;
+    transform: rotate(-0.5deg) !important;
+}
+
+.back-to-home-btn:hover::after {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-width: 0.7px !important;
+    transform: rotate(0.4deg) !important;
+}
+
+/* Styles spécifiques avec ID pour forcer l'encadrement sur le bouton portfolio */
+#back-to-home-portfolio::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.35) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 2px 0.5px 2.5px 1px !important;
+    transform: rotate(-0.3deg) !important;
+    display: block !important;
+}
+
+#back-to-home-portfolio::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -0.5px !important;
+    left: -0.5px !important;
+    right: -0.5px !important;
+    bottom: -0.5px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.4) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 1px 2.5px 0.5px 1.5px !important;
+    transform: rotate(0.2deg) !important;
+    display: block !important;
+}
+
+#back-to-home-portfolio {
+    position: relative !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+}
+
+#back-to-home-portfolio:hover::before {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-width: 0.8px !important;
+    transform: rotate(-0.5deg) !important;
+}
+
+#back-to-home-portfolio:hover::after {
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    border-width: 0.8px !important;
+    transform: rotate(0.4deg) !important;
+}
+
+
+/* === FORCE ULTIME : BOUTON RETOUR PORTFOLIO === */
+/* Sélecteurs très spécifiques pour écraser TOUS les autres styles */
+
+/* Desktop et styles généraux */
+#portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+    position: relative !important;
+    display: block !important;
+    margin: 80px auto 50px auto !important;
+    width: 250px !important;
+    max-width: 90% !important;
+    z-index: 999 !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    float: none !important;
+    clear: both !important;
+    text-align: center !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background: transparent !important;
+    overflow: visible !important;
+}
+
+/* Encadrement forcé */
+#portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -2px !important;
+    left: -2px !important;
+    right: -2px !important;
+    bottom: -2px !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 2px 1px 3px 0.5px !important;
+    pointer-events: none !important;
+    transform: rotate(-0.3deg) !important;
+    display: block !important;
+    z-index: 1 !important;
+}
+
+#portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 1px 2px 0.5px 3px !important;
+    pointer-events: none !important;
+    transform: rotate(0.2deg) !important;
+    display: block !important;
+    z-index: 1 !important;
+}
+/* Style de base pour desktop */
+#portfolio-window .project-item {
+    margin-bottom: 80px !important;
+    position: relative !important;
+}
+
+@media (max-width: 1024px) {
+    /* S'assurer que le project-item a assez d'espace en dessous */
+    #portfolio-window .project-item {
+        margin-bottom: 100px !important;
+        position: relative !important;
+    }
+    
+    /* Bouton FORCÉ en dessous, jamais par-dessus */
+    #portfolio-window #back-to-home-portfolio {
+        position: relative !important;
+        display: block !important;
+        margin: 50px auto 30px auto !important;
+        width: 200px !important;
+        max-width: 90% !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        float: none !important;
+        clear: both !important;
+        text-align: center !important;
+        z-index: 15 !important; /* Z-index haut pour être visible */
+    }
+    
+    /* S'assurer que le bouton a l'encadrement blanc */
+    #portfolio-window #back-to-home-portfolio.game-button {
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+    
+    /* Restaurer les pseudo-éléments pour l'encadrement gribouillé */
+    #portfolio-window #back-to-home-portfolio.game-button::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -2px !important;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        border-radius: 2px 1px 3px 0.5px !important;
+        pointer-events: none !important;
+        transform: rotate(-0.3deg) !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button::after {
+        content: '' !important;
+        position: absolute !important;
+        top: -3px !important;
+        left: -3px !important;
+        right: -3px !important;
+        bottom: -3px !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        pointer-events: none !important;
+        transform: rotate(0.2deg) !important;
+        display: block !important;
+    }
+}
+
+
+
+/* === SOLUTION PROPRE : LAYOUT MOBILE SIMPLE === */
+@media (max-width: 1024px) {
+    /* Header simple et centré */
+    #portfolio-window .collectibles-header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 20px !important;
+        margin-top: 70px !important;
+        gap: 20px !important;
+    }
+    
+    /* Titre en premier */
+    #portfolio-window .collectibles-header .collectibles-title {
+        order: 1 !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+    
+    /* Conteneur des boutons navigation */
+    #portfolio-window .collectibles-header .project-nav-btn {
+        order: 2 !important;
+        display: inline-block !important;
+        margin: 0 10px !important;
+        vertical-align: middle !important;
+    }
+}
+
+/* === RESPONSIVE PARFAIT POUR TOUS LES FORMATS === */
+
+/* TABLETTE GRANDE (769px - 1024px) */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+    /* ESPACE ULTRA-MINIMAL en bas */
+    body {
+        padding-bottom: 50px !important;
+        min-height: 100vh !important;
+    }
+    
+    /* CONTAINER PRINCIPAL - MARGE ULTRA-RÉDUITE */
+    #portfolio-window .collectibles-container {
+        margin-bottom: 50px !important;
+        padding-bottom: 5px !important;
+        max-height: calc(100vh - 60px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* ESPACEMENT ULTRA-MINIMAL POUR LES ÉLÉMENTS */
+    #portfolio-window .collectibles-container > * {
+        margin-bottom: 10px !important;
+        padding-bottom: 2px !important;
+    }
+    
+    /* Containers avec espacement minimal */
+    #portfolio-window .collectibles-container .project-container,
+    #portfolio-window .collectibles-container .project-info-side,
+    #portfolio-window .collectibles-container .project-tags,
+    #portfolio-window .collectibles-container .project-item {
+        margin-bottom: 20px !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Espace minimal après le dernier élément */
+    #portfolio-window .collectibles-container .project-item:last-child,
+    #portfolio-window .collectibles-container .project-container:last-child {
+        margin-bottom: 60px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    /* Boutons navigation côte à côte */
+    #portfolio-window .collectibles-header .project-nav-btn {
+        padding: 10px 18px !important;
+        font-size: 0.9rem !important;
+        min-width: 120px !important;
+        margin: 0 12px !important;
+    }
+    
+    /* Titre */
+    #portfolio-window .collectibles-header .collectibles-title h2 {
+        font-size: 1.8rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Bouton retour accueil - MARGE ORANGE RÉDUITE */
+    #portfolio-window #back-to-home-portfolio {
+        position: fixed !important;
+        bottom: 0px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 280px !important;
+        max-width: 90% !important;
+        height: 40px !important;
+        font-size: 0.9rem !important;
+        font-weight: bold !important;
+        margin: 0 !important;
+        padding: 4px 10px !important;
+        z-index: 9999999 !important;
+        /* STYLE ORANGE VOYANT MAIS PROPORTIONNÉ */
+        background: linear-gradient(90deg, #ff6600, #ff8800, #ffaa00) !important;
+        border: 3px solid #ffffff !important;
+        border-radius: 8px !important;
+        box-shadow: 0 -5px 15px rgba(255, 102, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2) !important;
+        color: #000000 !important;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+        overflow: visible !important;
+        top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        right: auto !important;
+    }
+}
+
+/* MOBILE GRAND (481px - 768px) */
+@media screen and (max-width: 768px) and (min-width: 481px) {
+    /* ESPACE ULTRA-MINIMAL en bas */
+    body {
+        padding-bottom: 45px !important;
+    }
+    
+    /* CONTAINER PRINCIPAL - MARGE ULTRA-RÉDUITE */
+    #portfolio-window .collectibles-container {
+        margin-bottom: 45px !important;
+        padding-bottom: 5px !important;
+        max-height: calc(100vh - 55px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* ESPACEMENT ULTRA-MINIMAL POUR LES ÉLÉMENTS */
+    #portfolio-window .collectibles-container > * {
+        margin-bottom: 8px !important;
+        padding-bottom: 2px !important;
+    }
+    
+    /* Containers avec espacement minimal */
+    #portfolio-window .collectibles-container .project-container,
+    #portfolio-window .collectibles-container .project-info-side,
+    #portfolio-window .collectibles-container .project-tags,
+    #portfolio-window .collectibles-container .project-item {
+        margin-bottom: 18px !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Espace minimal après le dernier élément */
+    #portfolio-window .collectibles-container .project-item:last-child,
+    #portfolio-window .collectibles-container .project-container:last-child {
+        margin-bottom: 55px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    /* Boutons navigation côte à côte */
+    #portfolio-window .collectibles-header .project-nav-btn {
+        padding: 9px 15px !important;
+        font-size: 0.85rem !important;
+        min-width: 100px !important;
+        margin: 0 10px !important;
+    }
+    
+    /* Titre */
+    #portfolio-window .collectibles-header .collectibles-title h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 12px !important;
+    }
+    
+    /* Bouton retour accueil - STYLE GAME-BUTTON */
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn,
+    #portfolio-window #back-to-home-portfolio {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 250px !important;
+        max-width: 90% !important;
+        height: auto !important;
+        font-size: 0.85rem !important;
+        font-weight: normal !important;
+        margin: 40px auto 30px auto !important;
+        padding: 12px 20px !important;
+        z-index: 9999999 !important;
+        /* STYLE GAME-BUTTON SANS ORANGE */
+        background: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 2px 0.5px 2.5px 1px !important;
+        box-shadow: none !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        overflow: visible !important;
+        top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        right: auto !important;
+    }
+    
+    /* Encadrement gribouillé comme les game-buttons */
+    #portfolio-window #back-to-home-portfolio::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -0.5px !important;
+        left: -0.5px !important;
+        right: -0.5px !important;
+        bottom: -0.5px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        transform: rotate(0.2deg) !important;
+    }
+    
+    /* Texte du bouton compact sur tablette */
+    #portfolio-window #back-to-home-portfolio .button-text {
+        font-size: 0.85rem !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle {
+        font-size: 0.7rem !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0.8 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle::before {
+        content: "\A" !important;
+        white-space: pre !important;
+    }
+}
+
+/* MOBILE MOYEN (361px - 480px) */
+@media screen and (max-width: 480px) and (min-width: 361px) {
+    /* ESPACE ULTRA-MINIMAL en bas */
+    body {
+        padding-bottom: 40px !important;
+    }
+    
+    /* CONTAINER PRINCIPAL - MARGE ULTRA-RÉDUITE */
+    #portfolio-window .collectibles-container {
+        margin-bottom: 40px !important;
+        padding-bottom: 5px !important;
+        max-height: calc(100vh - 50px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* ESPACEMENT ULTRA-MINIMAL POUR LES ÉLÉMENTS */
+    #portfolio-window .collectibles-container > * {
+        margin-bottom: 6px !important;
+        padding-bottom: 2px !important;
+    }
+    
+    /* Containers avec espacement minimal */
+    #portfolio-window .collectibles-container .project-container,
+    #portfolio-window .collectibles-container .project-info-side,
+    #portfolio-window .collectibles-container .project-tags,
+    #portfolio-window .collectibles-container .project-item {
+        margin-bottom: 15px !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Espace minimal après le dernier élément */
+    #portfolio-window .collectibles-container .project-item:last-child,
+    #portfolio-window .collectibles-container .project-container:last-child {
+        margin-bottom: 50px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    /* Boutons navigation côte à côte */
+    #portfolio-window .collectibles-header .project-nav-btn {
+        padding: 8px 12px !important;
+        font-size: 0.8rem !important;
+        min-width: 85px !important;
+        margin: 0 8px !important;
+    }
+    
+    /* Titre */
+    #portfolio-window .collectibles-header .collectibles-title h2 {
+        font-size: 1.3rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    /* Header plus compact */
+    #portfolio-window .collectibles-header {
+        padding: 15px 10px !important;
+        gap: 15px !important;
+    }
+    
+    /* Bouton retour accueil - STYLE GAME-BUTTON */
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn,
+    #portfolio-window #back-to-home-portfolio {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 220px !important;
+        max-width: 90% !important;
+        height: auto !important;
+        font-size: 0.8rem !important;
+        font-weight: normal !important;
+        margin: 35px auto 25px auto !important;
+        padding: 10px 16px !important;
+        z-index: 9999999 !important;
+        /* STYLE GAME-BUTTON SANS ORANGE */
+        background: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 2px 0.5px 2.5px 1px !important;
+        box-shadow: none !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        overflow: visible !important;
+        top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        right: auto !important;
+    }
+    
+    /* Encadrement gribouillé comme les game-buttons */
+    #portfolio-window #back-to-home-portfolio::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -0.5px !important;
+        left: -0.5px !important;
+        right: -0.5px !important;
+        bottom: -0.5px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        transform: rotate(0.2deg) !important;
+    }
+    
+    /* Texte du bouton compact sur mobile moyen */
+    #portfolio-window #back-to-home-portfolio .button-text {
+        font-size: 0.8rem !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle {
+        font-size: 0.65rem !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0.8 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle::before {
+        content: "\A" !important;
+        white-space: pre !important;
+    }
+}
+
+/* MOBILE PETIT (≤360px) */
+@media screen and (max-width: 360px) {
+    /* ESPACE ULTRA-MINIMAL en bas */
+    body {
+        padding-bottom: 35px !important;
+    }
+    
+    /* CONTAINER PRINCIPAL - MARGE ULTRA-RÉDUITE */
+    #portfolio-window .collectibles-container {
+        margin-bottom: 35px !important;
+        padding-bottom: 3px !important;
+        max-height: calc(100vh - 45px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* ESPACEMENT ULTRA-MINIMAL POUR LES ÉLÉMENTS */
+    #portfolio-window .collectibles-container > * {
+        margin-bottom: 5px !important;
+        padding-bottom: 1px !important;
+    }
+    
+    /* Containers avec espacement minimal */
+    #portfolio-window .collectibles-container .project-container,
+    #portfolio-window .collectibles-container .project-info-side,
+    #portfolio-window .collectibles-container .project-tags,
+    #portfolio-window .collectibles-container .project-item {
+        margin-bottom: 12px !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Espace minimal après le dernier élément */
+    #portfolio-window .collectibles-container .project-item:last-child,
+    #portfolio-window .collectibles-container .project-container:last-child {
+        margin-bottom: 45px !important;
+        padding-bottom: 8px !important;
+    }
+    
+    /* Boutons navigation côte à côte mais plus petits */
+    #portfolio-window .collectibles-header .project-nav-btn {
+        padding: 7px 10px !important;
+        font-size: 0.75rem !important;
+        min-width: 70px !important;
+        margin: 0 6px !important;
+    }
+    
+    /* Titre plus petit */
+    #portfolio-window .collectibles-header .collectibles-title h2 {
+        font-size: 1.1rem !important;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Header très compact */
+    #portfolio-window .collectibles-header {
+        padding: 12px 8px !important;
+        gap: 12px !important;
+    }
+    
+    /* Bouton retour accueil - STYLE GAME-BUTTON */
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn,
+    #portfolio-window #back-to-home-portfolio {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 200px !important;
+        max-width: 90% !important;
+        height: auto !important;
+        font-size: 0.75rem !important;
+        font-weight: normal !important;
+        margin: 30px auto 20px auto !important;
+        padding: 8px 14px !important;
+        z-index: 9999999 !important;
+        /* STYLE GAME-BUTTON SANS ORANGE */
+        background: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 2px 0.5px 2.5px 1px !important;
+        box-shadow: none !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        overflow: visible !important;
+        top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        right: auto !important;
+    }
+    
+    /* Encadrement gribouillé comme les game-buttons */
+    #portfolio-window #back-to-home-portfolio::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -0.5px !important;
+        left: -0.5px !important;
+        right: -0.5px !important;
+        bottom: -0.5px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        transform: rotate(0.2deg) !important;
+    }
+    
+    /* Texte du bouton compact sur mobile petit */
+    #portfolio-window #back-to-home-portfolio .button-text {
+        font-size: 0.75rem !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle {
+        font-size: 0.6rem !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0.8 !important;
+        display: block !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio .button-subtitle::before {
+        content: "\A" !important;
+        white-space: pre !important;
+    }
+}
+
+/* ANIMATION PULSANTE POUR LE BOUTON ORANGE */
+@keyframes pulseOrange {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 -10px 30px rgba(255, 0, 0, 1), inset 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 -15px 40px rgba(255, 100, 0, 1), inset 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 -10px 30px rgba(255, 0, 0, 1), inset 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Styles spécifiques avec ID pour forcer l'encadrement sur le bouton contact */
+#back-to-home::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.35) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 2px 0.5px 2.5px 1px !important;
+    transform: rotate(-0.3deg) !important;
+    display: block !important;
+}
+
+#back-to-home::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -0.5px !important;
+    left: -0.5px !important;
+    right: -0.5px !important;
+    bottom: -0.5px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.4) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 1px 2.5px 0.5px 1.5px !important;
+    transform: rotate(0.2deg) !important;
+    display: block !important;
+}
+
+#back-to-home {
+    position: relative !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+}
+
+/* Surcharge pour le bouton dans la page contact */
+#contact-window #back-to-home {
+    position: absolute !important;
+    left: 30px !important;
+    top: calc(45% + 80px) !important; /* Juste en dessous du Reset Papers */
+    transform: translateY(-50%) !important;
+    width: 200px !important;
+    height: 70px !important;
+    z-index: 100 !important;
+}
+
+#back-to-home:hover::before {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-width: 0.8px !important;
+    transform: rotate(-0.5deg) !important;
+}
+
+#back-to-home:hover::after {
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    border-width: 0.8px !important;
+    transform: rotate(0.4deg) !important;
 }
 
 .back-to-home-btn .button-text {
@@ -2715,7 +3501,7 @@ body {
 .collectibles-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Boutons aux extrémités, titre au centre */
     padding: 30px 50px;
     background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
 }
@@ -2763,12 +3549,7 @@ body {
     margin-top: 10px;
 }
 
-.category-name {
-    font-size: 1.2rem;
-    color: #f0f0f0;
-    display: block;
-    margin-bottom: 5px;
-}
+
 
 .category-counter {
     font-size: 1rem;
@@ -3082,14 +3863,14 @@ body {
 }
 
 .project-info h3 {
-    font-size: 1.8rem;
+    font-size: 1.3rem; /* Taille unifiée */
     margin-bottom: 20px;
     color: #f0f0f0;
 }
 
 .project-description {
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.4; /* Réduction de l'interligne pour moins d'espacement */
     color: #ccc;
     margin-bottom: 30px;
 }
@@ -3110,13 +3891,7 @@ body {
 }
 
 /* Navigation des projets */
-.project-navigation {
-    display: flex; /* Réactiver la navigation */
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    gap: 30px;
-}
+
 
 .project-nav-btn {
     background: transparent;
@@ -3785,7 +4560,7 @@ body {
 
 .project-info-side h3 {
     color: #ffffff;
-    font-size: 2.2rem;
+    font-size: 1.3rem; /* Taille unifiée */
     margin-bottom: 20px;
     font-family: 'Kindergarten', serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -3795,7 +4570,7 @@ body {
 .project-info-side .project-description {
     color: #cccccc;
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.4; /* Réduction de l'interligne pour cohérence */
     margin-bottom: 25px;
     text-align: center; /* Centré comme le projet Circus */
 }
@@ -3814,7 +4589,7 @@ body {
 
 .project-info-container h3 {
     color: #ffffff;
-    font-size: 2rem;
+    font-size: 1.3rem; /* Taille unifiée */
     margin-bottom: 15px;
     font-family: 'Kindergarten', serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -3823,7 +4598,7 @@ body {
 .project-description {
     color: #cccccc;
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.4; /* Réduction de l'interligne pour cohérence */
     margin-bottom: 20px;
     text-align: center;
 }
@@ -4435,11 +5210,7 @@ body {
     }
     
     /* Navigation projet responsive */
-    .project-navigation {
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
+
     
     .project-nav-btn {
         padding: 12px 25px;
@@ -4469,9 +5240,7 @@ body {
         letter-spacing: 2px;
     }
     
-    .category-name {
-        font-size: 1rem;
-    }
+
     
     .category-counter {
         font-size: 0.9rem;
@@ -4976,7 +5745,7 @@ body {
 .project-gallery h3 {
     color: #000;
     font-family: 'Kindergarten', sans-serif;
-    font-size: 3vw; /* Taille responsive naturelle */
+    font-size: 1.3rem; /* Taille unifiée */
     margin-bottom: 2vh; /* Marge verticale responsive */
     text-shadow: 0.1vw 0.1vw 0.2vw rgba(255, 255, 255, 0.8);
     transform: rotate(0.3deg);
@@ -5375,6 +6144,372 @@ body {
     }
 }
 
+/* ========================================
+   TEMPLATE RÉUTILISABLE : VISUALISATEUR DE MATÉRIAUX
+   ========================================
+   Components: .marmoset-extra-panel + .arch-slider-external
+   Usage: Archway (actuel) - Peut être étendu à d'autres projets
+   Features: Asset viewer avec slider interactif, encadrement gribouillé, responsive
+   ======================================== */
+
+/* Encadrement supplémentaire pour projets avec assets - À DROITE DE LA VIDÉO */
+.marmoset-extra-panel {
+    height: 55%; /* Hauteur agrandie */
+    padding: 1.3vw; /* Padding augmenté */
+    top: 15%; /* Position ajustée */
+    right: 2vw; /* Position maintenue */
+    width: 27%; /* Largeur agrandie */
+    overflow: hidden; /* Contenu contenu dans les limites */
+    background: #1a1a1a !important; /* Même arrière-plan gris */
+    border: none !important;
+    position: absolute !important; /* Position absolue DESKTOP seulement */
+    box-sizing: border-box;
+    z-index: 5; /* S'assure qu'il soit au-dessus */
+}
+
+/* Encadrement gribouillé - Première couche fine */
+.marmoset-extra-panel::before {
+    content: '';
+    position: absolute;
+    top: 0.05vw;
+    left: 0.05vw;
+    right: 0.05vw;
+    bottom: 0.05vw;
+    border: 0.05vw solid rgba(255, 255, 255, 0.4);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(-0.3deg);
+}
+
+/* Encadrement gribouillé - Deuxième couche fine superposée */
+.marmoset-extra-panel::after {
+    content: '';
+    position: absolute;
+    top: 0.1vw;
+    left: 0.1vw;
+    right: 0.1vw;
+    bottom: 0.1vw;
+    border: 0.05vw solid rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(0.2deg);
+}
+
+/* Contenu du panel supplémentaire */
+.marmoset-extra-panel h3 {
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 1.3rem; /* Taille demandée */
+    color: #ffffff;
+    margin: 0 0 1vw 0;
+    text-shadow: none;
+    font-weight: bold;
+    z-index: 3;
+    position: relative;
+    text-align: center; /* Centrer le titre */
+}
+
+.marmoset-extra-panel .extra-content {
+    z-index: 3;
+    position: relative;
+}
+
+.marmoset-extra-panel .extra-content p {
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 1vw;
+    color: #cccccc;
+    margin: 0.5vw 0;
+    line-height: 1.4;
+}
+
+.marmoset-extra-panel .extra-content strong {
+    color: #ffffff;
+}
+
+/* Styles pour le slider d'assets Archway */
+.asset-slider-container {
+    z-index: 3;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+}
+
+.asset-type-selector {
+    display: flex;
+    gap: 0.2vw;
+    margin-bottom: 0.5vw;
+    justify-content: center; /* Centrer les boutons */
+}
+
+.asset-type-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #cccccc;
+    padding: 0.18vw 0.35vw; /* Padding légèrement augmenté */
+    font-size: 0.55vw; /* Police légèrement plus grande */
+    font-family: 'Kindergarten', Arial, sans-serif;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.asset-type-btn.active,
+.asset-type-btn:hover {
+    background: rgba(255, 255, 255, 0.25); /* Moins visible */
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.3); /* Ombre réduite */
+    transform: scale(1.02); /* Scale plus petit */
+}
+
+.asset-preview-container {
+    width: 100%;
+    height: 78%; /* Hauteur augmentée pour profiter de l'espace */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin-bottom: 0.8vw; /* Marge légèrement augmentée */
+}
+
+.asset-preview-container img {
+    max-width: 95%; /* Légèrement réduit pour éviter les débordements */
+    max-height: 95%;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* Les styles pour asset-type-btn sont déjà définis plus haut dans le fichier pour Archway */
+/* Le panneau Gun/Plasma Pistol utilise les mêmes styles que Archway */
+
+.asset-sequence-slider {
+    display: flex;
+    align-items: center;
+    gap: 0.3vw;
+    margin: 0.5vw 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.slider-container {
+    flex: 1;
+    position: relative;
+    margin: 0.3vw 0;
+    max-width: calc(100% - 3vw); /* Assurer qu'il reste dans le cadre */
+}
+
+.sequence-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 0.18vw 0.35vw; /* Padding légèrement augmenté */
+    font-size: 0.65vw; /* Police légèrement plus grande */
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    min-width: 1.3vw; /* Largeur minimale légèrement augmentée */
+    flex-shrink: 0;
+}
+
+.sequence-btn:hover {
+    background: rgba(0, 170, 255, 0.2);
+    border-color: #00aaff;
+}
+
+#asset-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.4vw;
+    background: linear-gradient(to right, 
+        #333333 0%, #333333 25%, 
+        #666666 25%, #666666 50%, 
+        #999999 50%, #999999 75%, 
+        #cccccc 75%, #cccccc 100%
+    );
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#asset-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+}
+
+#asset-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+#asset-slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Styles identiques pour le slider Gun/Plasma Pistol */
+#gun-asset-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.4vw;
+    background: linear-gradient(to right, 
+        #ffffff 0%, #ffffff 16.67%, 
+        #cccccc 16.67%, #cccccc 33.33%, 
+        #999999 33.33%, #999999 50%, 
+        #666666 50%, #666666 66.67%, 
+        #333333 66.67%, #333333 83.33%, 
+        #000000 83.33%, #000000 100%
+    );
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#gun-asset-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+}
+
+#gun-asset-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+#gun-asset-slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Styles identiques pour le slider Telephone Booth */
+#telephone-asset-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.4vw;
+    background: linear-gradient(to right, 
+        #ffffff 0%, #ffffff 20%, 
+        #cccccc 20%, #cccccc 40%, 
+        #999999 40%, #999999 60%, 
+        #666666 60%, #666666 80%, 
+        #333333 80%, #333333 100%
+    );
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#telephone-asset-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+}
+
+#telephone-asset-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+#telephone-asset-slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.slider-zones {
+    display: none; /* Cacher complètement les zones */
+}
+
+.zone-label {
+    display: none; /* Cacher complètement les labels */
+}
+
+
+
+/* Slider externe pour projets avec assets - Template réutilisable */
+.arch-slider-external {
+    position: absolute;
+    top: 72%; /* Ajusté pour le panel plus grand */
+    right: 2vw; /* Même position que le panel */
+    width: 27%; /* Même largeur que le panel */
+    background: #1a1a1a !important;
+    border: none !important;
+    border-radius: 8px;
+    padding: 1vw; /* Padding augmenté */
+    z-index: 6;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Encadrement gribouillé pour le slider externe - IDENTIQUE au marmoset-extra-panel */
+.arch-slider-external::before {
+    content: '';
+    position: absolute;
+    top: 0.05vw;
+    left: 0.05vw;
+    right: 0.05vw;
+    bottom: 0.05vw;
+    border: 0.05vw solid rgba(255, 255, 255, 0.4);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(-0.3deg);
+}
+
+.arch-slider-external::after {
+    content: '';
+    position: absolute;
+    top: 0.1vw;
+    left: 0.1vw;
+    right: 0.1vw;
+    bottom: 0.1vw;
+    border: 0.05vw solid rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(0.2deg);
+}
+
 .marmoset-page-title h1 {
     font-family: 'Kindergarten', Arial, sans-serif;
     font-size: 2.2vw; /* Taille responsive */
@@ -5570,7 +6705,7 @@ body {
     margin: 0;
     padding: 1vw 1.5vw; /* Padding proportionnel */
     font-family: 'Kindergarten', sans-serif;
-    font-size: 1.3rem; /* Plus gros pour la galerie plus grosse */
+    font-size: 1.3rem; /* Taille unifiée */
     font-weight: bold;
     border-bottom: 1px solid #333333;
     border-radius: 0;
@@ -5618,7 +6753,7 @@ body {
     margin: 0 0 5px 0;
     padding: 12px 20px;
     font-family: 'Kindergarten', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Taille unifiée */
     font-weight: bold;
     border-bottom: 1px solid #333333;
     border-radius: 0;
@@ -5792,6 +6927,35 @@ body {
     cursor: not-allowed;
 }
 
+/* Container pour l'image dans la modal */
+.image-container-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bouton précédent à gauche de l'image - Version ordinateur */
+.image-nav-left {
+    position: absolute;
+    left: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 15;
+}
+
+/* Masquer les boutons mobile-only sur desktop */
+.mobile-only {
+    display: none;
+}
+
+
+
+/* Classe pour masquer sur mobile/tablette */
+.desktop-only {
+    display: flex;
+}
+
 .image-viewer-info {
     position: absolute;
     bottom: -40px;
@@ -5819,8 +6983,8 @@ body {
 
 /* Viewer central - Environnement au centre */
 .marmoset-viewer-container {
-    width: 40%; /* Largeur encore augmentée pour format plus rectangulaire */
-    height: 65%; /* Hauteur réduite pour accentuer le format rectangulaire */
+    width: 36%; /* Largeur légèrement réduite */
+    height: 60%; /* Hauteur légèrement réduite */
     background: #2a2a2a !important;
     display: flex;
     flex-direction: column;
@@ -6780,7 +7944,7 @@ iframe[src*="Circus_Viewer.html"] * {
     }
     
     .project-gallery h3 {
-        font-size: 5vw; /* Titre plus grand sur mobile */
+        font-size: 3.5vw; /* Taille ajustée pour mobile */
     }
     
     /* Panneaux Marmoset responsive sur mobile */
@@ -7096,6 +8260,27 @@ iframe[src*="Circus_Viewer.html"] * {
         right: 0;
         bottom: 0;
     }
+
+    /* Box visualisateur responsive tablette */
+    .marmoset-extra-panel {
+        position: relative !important; /* Changement vers relative */
+        top: auto !important;
+        right: auto !important;
+        width: 100% !important; /* Pleine largeur sur tablette */
+        height: auto !important;
+        margin: 15px 0 !important;
+        padding: 18px !important;
+    }
+
+    /* Slider externe tablette - Plus compact et proche du panel */
+    .arch-slider-external {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        margin: 8px 0 15px 0; /* Marge réduite en haut */
+        padding: 15px; /* Padding légèrement réduit */
+    }
     
     /* Correction flèches navigation galerie sur tablette */
     .nav-arrow {
@@ -7274,19 +8459,7 @@ iframe[src*="Circus_Viewer.html"] * {
         transform: scale(0.98);
     }
     
-    /* Repositionner le bouton back-to-home sur tablette - taille réduite */
-    .back-to-home-btn {
-        position: fixed !important;
-        left: 20px !important;
-        bottom: 20px !important;
-        top: auto !important;
-        transform: none !important;
-        width: 140px !important;
-        height: 45px !important;
-        z-index: 1000 !important;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2) !important;
-        font-size: 0.75rem !important;
-    }
+    /* Repositionner le bouton back-to-home sur tablette - SUPPRIMÉ - maintenant géré dans les nouvelles media queries */
     
     /* Réduire aussi les textes du bouton sur tablette */
     .back-to-home-btn .button-text {
@@ -7387,27 +8560,7 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 4px 8px !important;
     }
     
-    /* Bouton mobile - taille réduite avec transitions */
-    .back-to-home-btn {
-        /* Positionnement en bas de page dans le flux */
-        position: static !important;
-        left: auto !important;
-        top: auto !important;
-        width: 160px !important;
-        height: 55px !important;
-        font-size: 0.75rem !important;
-        
-        /* Positionnement 30% plus bas que project-showcase */
-        display: block !important;
-        margin: 150px auto 20px auto !important;
-        
-        /* Transitions et transforms EXACTEMENT comme demandé */
-        transition: transform 0.3s ease-out !important;
-        transform: scale(1) translate(0px, 0px) !important;
-        
-        /* Garder tous les styles game-button natifs */
-        /* Les classes game-button, ::before et ::after s'appliquent automatiquement */
-    }
+    /* Bouton mobile - SUPPRIMÉ - maintenant géré dans les nouvelles media queries d'échange */
     
     /* Styles des textes réduits pour mobile */
     .back-to-home-btn .button-text {
@@ -7418,14 +8571,7 @@ iframe[src*="Circus_Viewer.html"] * {
         font-size: 0.6rem !important;
     }
     
-    /* Assurer que les interactions fonctionnent avec les transforms */
-    .back-to-home-btn:hover {
-        transform: scale(1.05) translate(0px, 0px) !important;
-    }
-    
-    .back-to-home-btn:active {
-        transform: scale(0.95) translate(0px, 0px) !important;
-    }
+    /* Effet parallaxe géré par JavaScript - ne pas interférer avec les transformations */
     
     /* Retirer le padding-bottom supplémentaire car le bouton est maintenant dans le flux */
     .collectibles-container {
@@ -7457,5 +8603,395 @@ iframe[src*="Circus_Viewer.html"] * {
     body {
         padding-bottom: 0 !important;
     }
+}
+
+/* Media queries pour la gestion des boutons de navigation */
+@media (min-width: 1025px) {
+    
+    .back-to-home-btn {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+        margin: 50px auto 20px auto !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Masquer le bouton précédent à gauche sur mobile/tablette */
+    .image-nav-left {
+        display: none !important;
+    }
+    
+    /* Afficher le bouton précédent mobile en bas sur mobile/tablette */
+    .mobile-only {
+        display: flex !important;
+    }
+    
+
+    
+    /* Ajouter un padding-top au portfolio pour éviter l'empiètement */
+    .collectibles-header {
+        margin-top: 80px !important;
+        padding-top: 20px !important;
+    }
+    
+    /* Boutons de navigation projet - en bas de page après le contenu */
+
+    /* === CORRECTIONS PAGE CONTACT MOBILE/TABLETTE UNIQUEMENT === */
+    
+    /* Conteneur des papiers sur mobile/tablette seulement */
+    #contact-window .papers-container {
+        position: relative !important;
+        width: 100% !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+    }
+    
+    /* Repositionner le bouton Reset Papers en haut à gauche sur mobile/tablette */
+    #contact-window .reset-papers-btn {
+        position: absolute !important;
+        left: 30px !important;
+        top: 80px !important;
+        transform: none !important;
+        width: 180px !important;
+        height: 60px !important;
+        font-size: 0.8rem !important;
+        z-index: 5000 !important;
+    }
+    
+    /* Bouton Retour Accueil juste en dessous du Reset Papers sur mobile/tablette */
+    #contact-window #back-to-home {
+        position: absolute !important;
+        left: 30px !important;
+        top: 160px !important;
+        transform: none !important;
+        width: 180px !important;
+        height: 60px !important;
+        font-size: 0.8rem !important;
+        z-index: 5000 !important;
+    }
+    
+    /* Repositionner la loupe à droite, plus bas sur mobile/tablette */
+    #contact-window .magnifier-control {
+        position: absolute !important;
+        bottom: 150px !important;
+        right: 30px !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+        z-index: 5000 !important;
+    }
+    
+    /* Ajuster la taille de la loupe sur mobile/tablette */
+    #contact-window .magnifier-btn {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    /* Masquer l'explication de la loupe sur mobile/tablette */
+    #contact-window .magnifier-explanation {
+        display: none !important;
+    }
+    
+    /* Corriger le positionnement des papiers contact sur mobile/tablette - CENTRÉ */
+    #contact-window .contact-paper {
+        position: absolute !important;
+        width: 200px !important;
+        height: 250px !important;
+        left: 50% !important;
+        top: 50% !important;
+        margin-left: -100px !important;
+        margin-top: -125px !important;
+        z-index: 1000 !important;
+        max-width: 90vw !important;
+        max-height: 60vh !important;
+    }
+    
+    /* Ajuster la taille du CV sur mobile/tablette - CENTRÉ DERRIÈRE */
+    #contact-window .cv-paper {
+        position: absolute !important;
+        width: 220px !important;
+        height: 280px !important;
+        left: 50% !important;
+        top: 50% !important;
+        margin-left: -110px !important;
+        margin-top: -140px !important;
+        z-index: 900 !important;
+        max-width: 85vw !important;
+        max-height: 70vh !important;
+    }
+    
+    /* Garder les transformations 3D mais simplifiées sur mobile/tablette */
+    #contact-window .contact-paper,
+    #contact-window .cv-paper {
+        transform-style: preserve-3d !important;
+    }
+    
+    /* Restaurer les interactions sur mobile/tablette */
+    #contact-window .cv-interactive-overlay {
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+    }
+    
+    /* Ajuster le contenu des papiers sur mobile/tablette pour éviter le débordement */
+    #contact-window .contact-content {
+        padding: 20px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    #contact-window .contact-note {
+        margin-top: 15px !important;
+        padding-top: 10px !important;
+    }
+    
+    #contact-window .note-text {
+        font-size: 0.7rem !important;
+        margin: 4px 0 !important;
+        line-height: 1.2 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile : Ajustements de taille pour l'échange */
+    .back-to-home-btn {
+        width: 120px !important;
+        height: 40px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Ajustement du header mobile - TOUT CENTRÉ */
+    .collectibles-header {
+        margin-top: 70px !important;
+        padding: 15px 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+        text-align: center !important;
+    }
+    
+    /* Titre en premier et centré */
+    .collectibles-header .collectibles-title {
+        order: 1 !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+    
+    /* Boutons de navigation côte à côte et centrés */
+    .collectibles-header .project-nav-btn {
+        order: 2 !important;
+        padding: 8px 15px !important;
+        font-size: 0.8rem !important;
+        min-width: 100px !important;
+        margin: 0 8px !important;
+        display: inline-block !important;
+    }
+    
+
+    
+    .project-nav-btn {
+        padding: 8px 15px !important;
+        font-size: 0.8rem !important;
+        min-width: 100px !important;
+        flex: 0 0 auto !important;
+    }
+    
+    /* === AJUSTEMENTS CONTACT MOBILE UNIQUEMENT === */
+    
+    /* Bouton Reset Papers mobile - reste dans le conteneur */
+    #contact-window .reset-papers-btn {
+        width: 160px !important;
+        height: 50px !important;
+        font-size: 0.7rem !important;
+        left: 20px !important;
+        top: 60px !important;
+    }
+    
+    /* Bouton Retour Accueil mobile - juste en dessous */
+    #contact-window #back-to-home {
+        width: 160px !important;
+        height: 50px !important;
+        font-size: 0.7rem !important;
+        left: 20px !important;
+        top: 130px !important;
+    }
+    
+    /* Loupe mobile */
+    #contact-window .magnifier-control {
+        bottom: 120px !important;
+        right: 20px !important;
+    }
+    
+    #contact-window .magnifier-btn {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    /* Papiers plus petits sur mobile - RESTENT CENTRÉS SANS CHEVAUCHEMENT */
+    #contact-window .contact-paper {
+        width: 200px !important;
+        height: 250px !important;
+        max-width: 80vw !important;
+        max-height: 40vh !important;
+        left: 50% !important;
+        top: 45% !important;
+        margin-left: -100px !important;
+        margin-top: -125px !important;
+    }
+    
+    #contact-window .cv-paper {
+        width: 220px !important;
+        height: 280px !important;
+        max-width: 75vw !important;
+        max-height: 45vh !important;
+        left: 50% !important;
+        top: 55% !important;
+        margin-left: -110px !important;
+        margin-top: -140px !important;
+    }
+    
+    /* Réduire le contenu des papiers sur mobile */
+    #contact-window .contact-content {
+        padding: 15px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    #contact-window .contact-header h2 {
+        font-size: 1.2rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    #contact-window .contact-item {
+        margin-bottom: 5px !important;
+        line-height: 1.3 !important;
+    }
+    
+    #contact-window .cv-frame {
+        transform: scale(0.8) !important;
+        transform-origin: top left !important;
+    }
+}
+
+/* Media query spécifique pour les vraies tablettes et mobiles */
+@media (max-width: 768px) {
+    /* ÉCHANGE DES POSITIONS - Mobile et Tablette uniquement */
+    /* Bouton Retour Accueil va en HAUT */
+    .back-to-home-btn {
+        position: fixed !important;
+        top: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        bottom: auto !important;
+        z-index: 1000 !important;
+        width: 140px !important;
+        height: 45px !important;
+        font-size: 0.75rem !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Styles mobiles pour le slider d'assets */
+    .slider-container {
+        margin: 15px 0 10px 0;
+        max-width: calc(100% - 60px);
+    }
+
+    .asset-type-btn {
+        padding: 8px 12px; /* Padding mobile fixe */
+        font-size: 12px; /* Taille mobile fixe */
+    }
+
+    .asset-type-btn.active,
+    .asset-type-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 1px 6px rgba(255, 255, 255, 0.4);
+        transform: scale(1.03); /* Scale réduit sur mobile aussi */
+    }
+
+    #asset-slider {
+        height: 8px;
+        background: linear-gradient(to right, 
+            #333333 0%, #333333 25%, 
+            #666666 25%, #666666 50%, 
+            #999999 50%, #999999 75%, 
+            #cccccc 75%, #cccccc 100%
+        );
+    }
+
+    #asset-slider::-webkit-slider-thumb {
+        width: 22px;
+        height: 22px;
+    }
+
+    .slider-zones {
+        display: none;
+    }
+
+    .zone-label {
+        display: none;
+    }
+
+    /* Styles mobiles pour le slider Gun */
+    #gun-asset-slider {
+        height: 8px;
+        background: linear-gradient(to right, 
+            #ffffff 0%, #ffffff 16.67%, 
+            #cccccc 16.67%, #cccccc 33.33%, 
+            #999999 33.33%, #999999 50%, 
+            #666666 50%, #666666 66.67%, 
+            #333333 66.67%, #333333 83.33%, 
+            #000000 83.33%, #000000 100%
+        );
+    }
+
+    #gun-asset-slider::-webkit-slider-thumb {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Styles mobiles pour le slider Telephone */
+    #telephone-asset-slider {
+        height: 8px;
+        background: linear-gradient(to right, 
+            #ffffff 0%, #ffffff 20%, 
+            #cccccc 20%, #cccccc 40%, 
+            #999999 40%, #999999 60%, 
+            #666666 60%, #666666 80%, 
+            #333333 80%, #333333 100%
+        );
+    }
+
+    #telephone-asset-slider::-webkit-slider-thumb {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Box visualisateur responsive mobile/tablette */
+    .marmoset-extra-panel {
+        position: relative !important; /* Changement de absolute à relative */
+        top: auto !important;
+        right: auto !important;
+        width: 100% !important; /* Pleine largeur sur mobile */
+        height: auto !important; /* Hauteur automatique */
+        margin: 20px 0 !important; /* Marges verticales */
+        padding: 20px !important;
+    }
+
+    /* Slider externe mobile - Plus petit et collé au panel */
+    .arch-slider-external {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        margin: 5px 0 20px 0; /* Marge réduite en haut, normale en bas */
+        padding: 12px; /* Padding réduit */
+    }
+
+    /* Les styles mobiles pour asset-type-btn sont déjà définis plus haut dans cette media query */
+    /* Le panneau Gun/Plasma Pistol utilise les mêmes styles mobiles que Archway */
 }
 

@@ -62,9 +62,31 @@ class DualPaperManager {
 
         // Events globaux seulement s'ils ne sont pas déjà ajoutés
         if (!this.globalEventsAdded) {
+            // Événements souris (desktop)
             document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
             document.addEventListener('mouseup', () => this.handleMouseUp());
             document.addEventListener('keydown', (e) => this.handleKeyDown(e));
+            
+            // Événements tactiles globaux (mobile/tablette)
+            document.addEventListener('touchmove', (e) => {
+                if (this.isDragging) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    if (touch) {
+                        const mouseEvent = {
+                            clientX: touch.clientX,
+                            clientY: touch.clientY
+                        };
+                        this.handleMouseMove(mouseEvent);
+                    }
+                }
+            }, { passive: false });
+            
+            document.addEventListener('touchend', () => {
+                if (this.isDragging) {
+                    this.handleMouseUp();
+                }
+            });
             
             // Bouton reset
             const resetBtn = document.getElementById('reset-papers');
@@ -89,6 +111,13 @@ class DualPaperManager {
         paper.removeEventListener('wheel', paper._wheelHandler);
         paper.removeEventListener('dblclick', paper._dblClickHandler);
         paper.removeEventListener('contextmenu', paper._contextMenuHandler);
+        paper.removeEventListener('touchstart', paper._touchStartHandler);
+        paper.removeEventListener('touchmove', paper._touchMoveHandler);
+        paper.removeEventListener('touchend', paper._touchEndHandler);
+        
+        // Variables pour gérer le double-tap
+        let lastTapTime = 0;
+        const doubleTapDelay = 250; // Réduire le délai pour une meilleure réactivité
         
         // Créer les handlers et les stocker pour pouvoir les supprimer plus tard
         paper._mouseDownHandler = (e) => {
@@ -112,17 +141,73 @@ class DualPaperManager {
             this.resetPaper(paperType);
         };
         
-        // Ajouter les événements
+        // Gestionnaires tactiles
+        paper._touchStartHandler = (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const currentTime = new Date().getTime();
+            
+            // Détecter le double-tap
+            const timeDiff = currentTime - lastTapTime;
+            console.log(`⏱️ Time diff: ${timeDiff}ms (seuil: ${doubleTapDelay}ms)`);
+            
+            if (timeDiff < doubleTapDelay && timeDiff > 0) {
+                console.log(`📱 Double-tap CONFIRMÉ sur ${paperType}! Retournement...`);
+                this.flipPaper(paperType);
+                lastTapTime = 0; // Reset pour éviter les triple-taps
+                return;
+            }
+            lastTapTime = currentTime;
+            console.log(`👆 Simple tap sur ${paperType}, dernière time: ${lastTapTime}`);
+            
+            console.log(`👆 Touch start détecté sur ${paperType} - coordonnées: ${touch.clientX}, ${touch.clientY}`);
+            // Simuler un événement souris pour réutiliser la logique existante
+            const mouseEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY,
+                target: e.target,
+                preventDefault: () => e.preventDefault(),
+                stopPropagation: () => e.stopPropagation()
+            };
+            this.handleMouseDown(mouseEvent, paperType);
+        };
+        
+        paper._touchMoveHandler = (e) => {
+            e.preventDefault();
+            if (this.isDragging && this.currentPaper === paperType) {
+                const touch = e.touches[0];
+                const mouseEvent = {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                };
+                this.handleMouseMove(mouseEvent);
+            }
+        };
+        
+        paper._touchEndHandler = (e) => {
+            e.preventDefault();
+            if (this.isDragging && this.currentPaper === paperType) {
+                console.log(`👆 Touch end détecté sur ${paperType}`);
+                this.handleMouseUp();
+            }
+        };
+        
+        // Ajouter les événements souris (desktop)
         paper.addEventListener('mousedown', paper._mouseDownHandler);
         paper.addEventListener('wheel', paper._wheelHandler);
         paper.addEventListener('dblclick', paper._dblClickHandler);
         paper.addEventListener('contextmenu', paper._contextMenuHandler);
         
+        // Ajouter les événements tactiles (mobile/tablette)
+        paper.addEventListener('touchstart', paper._touchStartHandler, { passive: false });
+        paper.addEventListener('touchmove', paper._touchMoveHandler, { passive: false });
+        paper.addEventListener('touchend', paper._touchEndHandler, { passive: false });
+        
         // Empêcher la sélection
         paper.addEventListener('selectstart', (e) => e.preventDefault());
         paper.addEventListener('dragstart', (e) => e.preventDefault());
         
-        console.log(`🎯 Events ajoutés pour ${paperType}`);
+        console.log(`🎯 Events ajoutés pour ${paperType} (souris + tactile)`);
     }
 
     handleMouseDown(e, paperType) {
@@ -161,6 +246,17 @@ class DualPaperManager {
 
     handleMouseMove(e) {
         if (!this.isDragging || !this.currentPaper) return;
+
+        // Throttle pour améliorer les performances sur mobile
+        const isMobile = window.innerWidth <= 1024;
+        if (isMobile && !this.moveThrottle) {
+            this.moveThrottle = true;
+            requestAnimationFrame(() => {
+                this.moveThrottle = false;
+            });
+        } else if (isMobile) {
+            return; // Skip cette frame sur mobile si on est en throttle
+        }
 
         const deltaX = e.clientX - this.startX;
         const deltaY = e.clientY - this.startY;
@@ -356,22 +452,51 @@ class DualPaperManager {
             return;
         }
         
+        // Détecter si on est sur mobile/tablette
+        const isMobile = window.innerWidth <= 1024;
+        
         // Construire la transformation 3D complète
-        const transform = `
-            translateX(${paper.transX}px) 
-            translateY(${paper.transY}px) 
-            translateZ(${paper.transZ}px) 
-            rotateX(${paper.rotX}deg) 
-            rotateY(${paper.rotY}deg) 
-            rotateZ(${paper.rotZ}deg) 
-            scale(${paper.scale})
-        `;
+        let transform;
+        if (isMobile) {
+            // Sur mobile, forcer les transformations avec !important et ajuster les positions
+            const baseTransformContact = paperType === 'contact' ? 
+                'translate(-50%, -50%)' : 'translate(-50%, -50%)';
+            
+            transform = `${baseTransformContact} 
+                translateX(${paper.transX * 0.3}px) 
+                translateY(${paper.transY * 0.3}px) 
+                translateZ(${paper.transZ * 0.5}px) 
+                rotateX(${paper.rotX}deg) 
+                rotateY(${paper.rotY}deg) 
+                rotateZ(${paper.rotZ}deg) 
+                scale(${paper.scale})`;
+        } else {
+            // Desktop : transformation normale
+            transform = `
+                translateX(${paper.transX}px) 
+                translateY(${paper.transY}px) 
+                translateZ(${paper.transZ}px) 
+                rotateX(${paper.rotX}deg) 
+                rotateY(${paper.rotY}deg) 
+                rotateZ(${paper.rotZ}deg) 
+                scale(${paper.scale})
+            `;
+        }
         
-        paperElement.style.transform = transform.replace(/\s+/g, ' ').trim();
+        const cleanTransform = transform.replace(/\s+/g, ' ').trim();
+        paperElement.style.transform = cleanTransform;
         
-        // Debug info
-        console.log(`🎯 UPDATE ${paperType}: ${transform.replace(/\s+/g, ' ').trim()}`);
+        // Sur mobile, forcer avec setProperty pour éviter les conflits CSS et optimiser les performances
+        if (isMobile) {
+            paperElement.style.setProperty('transform', cleanTransform, 'important');
+            // Réduire la transition sur mobile pour améliorer les performances
+            paperElement.style.setProperty('transition', 'transform 0.05s ease-out', 'important');
+        } else {
+            // Desktop : transition plus fluide
+            paperElement.style.transition = 'transform 0.1s ease-out';
+        }
         
+        // Debug info réduite pour améliorer les performances
         if (paperType === this.currentPaper && this.isDragging) {
             console.log(`🎯 ${paperType}: rX=${paper.rotX.toFixed(1)}° rY=${paper.rotY.toFixed(1)}° scale=${paper.scale.toFixed(2)}`);
         }

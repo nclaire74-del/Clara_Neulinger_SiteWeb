@@ -31,6 +31,15 @@ class ButtonParallaxManager {
         this.buttons = document.querySelectorAll('.game-button');
         console.log(`[PARALLAX] ${this.buttons.length} boutons détectés`);
         
+        // Log détaillé de chaque bouton détecté
+        this.buttons.forEach((button, index) => {
+            console.log(`[PARALLAX] Bouton ${index + 1}:`, {
+                id: button.id,
+                classes: button.className,
+                visible: button.offsetWidth > 0 && button.offsetHeight > 0
+            });
+        });
+        
         if (this.buttons.length > 0) {
             this.addParallaxEffects();
             this.isActive = true;
@@ -82,8 +91,23 @@ class ButtonParallaxManager {
         const translateX = deltaX * parallaxFactor;
         const translateY = deltaY * parallaxFactor;
         
+        // Debug pour les boutons spécifiques
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
+            console.log(`[PARALLAX] ${button.id} button move:`, {
+                deltaX, deltaY, translateX, translateY
+            });
+        }
+        
         // Appliquer la transformation avec un scale plus subtil
-        button.style.transform = `scale(1.1) translate(${translateX}px, ${translateY}px)`;
+        const transform = `scale(1.1) translate(${translateX}px, ${translateY}px)`;
+        
+        // Pour les boutons avec des conflits CSS, forcer avec setProperty
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
+            button.style.setProperty('transform', transform, 'important');
+            console.log(`[PARALLAX] Transform applied with important for ${button.id}:`, transform);
+        } else {
+            button.style.transform = transform;
+        }
     }
 
     handleMouseEnter(event, button) {
@@ -94,7 +118,14 @@ class ButtonParallaxManager {
     handleMouseLeave(event, button) {
         // Retour à la position normale
         button.style.transition = 'transform 0.3s ease-out';
-        button.style.transform = 'scale(1) translate(0px, 0px)';
+        
+        // Pour les boutons avec des conflits CSS, forcer avec setProperty
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
+            button.style.setProperty('transform', 'scale(1) translate(0px, 0px)', 'important');
+            console.log(`[PARALLAX] ${button.id} button reset`);
+        } else {
+            button.style.transform = 'scale(1) translate(0px, 0px)';
+        }
     }
 
     destroy() {
