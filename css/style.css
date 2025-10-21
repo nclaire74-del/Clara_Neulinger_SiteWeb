@@ -1172,16 +1172,70 @@ body {
     justify-content: center;
     align-items: center;
     transform-style: preserve-3d; /* Active la 3D */
+    /* ZONE DE CONFINEMENT - Empêcher les débordements */
+    overflow: hidden; /* Le CV ne peut pas sortir de cette zone */
+    /* Créer un espace de sécurité pour le déplacement */
+    padding: 50px; /* Espace de marge interne pour les mouvements */
+    box-sizing: border-box;
+    /* Assurer que tous les enfants restent à l'intérieur */
+    contain: layout style;
+}
+
+/* Forcer tous les papiers à rester dans le container */
+.papers-container > .cv-paper,
+.papers-container > .contact-paper {
+    /* Limites maximales pour éviter tout débordement */
+    max-width: calc(100% - 20px);
+    max-height: calc(100% - 20px);
+    /* Confinement strict */
+    contain: layout;
+}
+
+/* Responsive papers-container */
+@media (max-width: 1024px) {
+    .papers-container {
+        padding: 30px; /* Padding réduit pour tablette */
+        box-sizing: border-box;
+        overflow: hidden; /* Maintenir le confinement */
+        /* Assurer que tous les enfants restent à l'intérieur */
+        contain: layout style;
+    }
+    
+    /* Ajuster les limites pour tablette */
+    .papers-container > .cv-paper,
+    .papers-container > .contact-paper {
+        max-width: calc(100% - 15px);
+        max-height: calc(100% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .papers-container {
+        padding: 20px; /* Padding encore plus réduit pour mobile */
+        box-sizing: border-box;
+        overflow: hidden; /* Maintenir le confinement */
+        /* Assurer que tous les enfants restent à l'intérieur */
+        contain: layout style;
+    }
+    
+    /* Ajuster les limites pour mobile */
+    .papers-container > .cv-paper,
+    .papers-container > .contact-paper {
+        max-width: calc(100% - 10px);
+        max-height: calc(100% - 10px);
+    }
 }
 
 /* === CV - GRANDE FEUILLE ARRIÈRE === */
 .cv-paper {
     position: absolute;
-    /* Dimensions proportionnelles à un CV A4 (ratio 0.707) */
-    width: 50vw;  
-    height: calc(50vw / 0.707); /* Hauteur calculée selon le ratio A4 */
-    max-width: 600px;  
-    max-height: calc(600px / 0.707); /* Hauteur max proportionnelle */
+    /* Dimensions réduites de 50% pour ordinateur seulement */
+    width: 25vw;  /* 50vw réduit de 50% */
+    height: calc(25vw / 0.707); /* Hauteur calculée selon le ratio A4 */
+    max-width: 300px;  /* 600px réduit de 50% */
+    max-height: calc(300px / 0.707); /* Hauteur max proportionnelle */
+    min-width: 150px; /* 300px réduit de 50% */
+    min-height: calc(150px / 0.707);
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
     z-index: 1;
@@ -1191,12 +1245,16 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    /* Position centrée en arrière-plan - descendu */
-    left: 50%;
-    top: 60%; /* Descendu pour être moins en haut */
-    margin-left: -25vw; /* -width/2 */
-    margin-top: calc(-25vw / 0.707 / 2); /* -height/2 */
-    transform: translateZ(-20px) rotateX(2deg) rotateY(-1deg);
+    /* POSITIONNEMENT AJUSTÉ : déplacé vers la droite et vers le bas */
+    left: 36%; /* 40% - 4% = déplacé de 4% vers la gauche */
+    top: 60%; /* 70% - 10% = remonté de 10% vers le haut */
+    /* Utiliser transform pour centrer SANS déborder des marges */
+    transform: translate(-50%, -50%) translateZ(-20px) rotateX(2deg) rotateY(-1deg);
+    /* S'assurer qu'il reste strictement dans les limites du container */
+    contain: layout style;
+    /* RESPECT STRICT des marges du container - AJUSTÉ pour la nouvelle taille réduite */
+    max-width: calc(50% - 30px); /* Ne pas dépasser la moitié moins les marges */
+    max-height: calc(100% - 60px); /* Respecter les marges top/bottom */
 }
 
 .cv-paper.dragging {
@@ -1219,24 +1277,28 @@ body {
 }
 
 .cv-paper-side.front {
-    background: 
-        /* Texture papier CV blanc vieilli */
-        radial-gradient(circle at 25% 40%, rgba(139, 69, 19, 0.04) 0%, transparent 35%),
-        radial-gradient(circle at 75% 70%, rgba(160, 82, 45, 0.03) 0%, transparent 30%),
-        linear-gradient(135deg, rgba(250, 248, 242, 0.9) 0%, rgba(245, 240, 232, 0.9) 20%, rgba(240, 234, 208, 0.9) 40%, rgba(235, 227, 200, 0.9) 100%),
-        /* Image de fond du CV français */
-        url('../References_Papiers/CV/Neulinger_Clara_Cv_page-0001.jpg');
+    background: transparent !important;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
 }
 
 .cv-paper-side.back {
-    background: url('../References_Papiers/CV/Neulinger_Clara_Resume_page-0001.jpg');
+    background: transparent !important;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     transform: rotateY(180deg);
+}
+
+/* Optimisation rendu SVG pour CV */
+.cv-paper-side img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: auto;
+    -ms-interpolation-mode: bicubic;
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
 }
 
 .cv-frame {
@@ -1250,9 +1312,12 @@ body {
     pointer-events: none;
     cursor: grab !important;
     user-select: none;
-    filter: none;
+    filter: contrast(1.1) brightness(1.05);
     background: transparent !important;
     opacity: 1;
+    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: bicubic;
 }
 
 /* Couche interactive transparente par-dessus le CV */
@@ -1270,6 +1335,85 @@ body {
 
 .cv-interactive-overlay:active {
     cursor: grabbing !important;
+}
+
+/* Responsive CV */
+@media (max-width: 1024px) {
+    .cv-paper {
+        /* CENTRÉ sur tablette - pas d'interactivité 3D */
+        width: 32vw !important; /* 45vw - 30% ≈ 32vw */
+        height: calc(32vw / 0.707) !important;
+        max-width: 280px !important; /* 400px - 30% = 280px */
+        max-height: calc(280px / 0.707) !important;
+        /* Position centrée fixe */
+        position: absolute !important;
+        left: 50% !important; /* Centré horizontalement */
+        top: 50% !important; /* Centré verticalement */
+        transform: translate(-50%, -50%) !important; /* Centrage parfait */
+        /* Pas de 3D sur tablette */
+        transform-style: flat !important;
+        pointer-events: auto !important; /* Pour le double-clic */
+        cursor: pointer !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    .cv-interactive-overlay {
+        display: block !important;
+        touch-action: manipulation !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* CENTRÉ sur mobile - pas d'interactivité 3D */
+    .cv-paper {
+        /* Réduire la taille pour mobile mais centrer */
+        width: 40vw !important;
+        height: calc(40vw / 0.707) !important;
+        max-width: 300px !important;
+        max-height: calc(300px / 0.707) !important;
+        /* Position centrée fixe */
+        position: absolute !important;
+        left: 50% !important; /* Centré horizontalement */
+        top: 50% !important; /* Centré verticalement */
+        transform: translate(-50%, -50%) !important; /* Centrage parfait */
+        /* Pas de 3D sur mobile */
+        transform-style: flat !important;
+        pointer-events: auto !important; /* Pour le double-clic */
+        cursor: pointer !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    /* Réactiver l'overlay pour les interactions tactiles */
+    .cv-interactive-overlay {
+        display: block !important;
+        /* Optimiser pour le tactile */
+        touch-action: manipulation !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
+    }
+
+    /* Optimiser le conteneur pour mobile avec 3D */
+    .papers-container {
+        /* Garder la perspective pour la 3D */
+        perspective: 1500px !important;
+        transform-style: preserve-3d !important;
+        /* Améliorer les performances */
+        will-change: transform !important;
+        /* Zone de confinement mobile plus stricte */
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important; /* Confinement strict sur mobile */
+        /* Indicateur visuel subtil de la zone (optionnel) */
+        /* border: 1px solid rgba(255,255,255,0.1); */
+    }
+
+    /* Désactiver les animations consommatrices mais garder la 3D */
+    .cv-paper * {
+        animation: none !important;
+        /* Garder les transitions courtes pour la 3D */
+        transition: transform 0.05s ease-out !important;
+    }
 }
 
 /* === CONTACT - PETITE FEUILLE AVANT === */
@@ -1299,9 +1443,8 @@ body {
     backface-visibility: hidden;
     border-radius: 3px;
     font-family: 'Kindergarten', serif;
-    box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 12px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: none !important; /* Supprime complètement l'ombre */
+    border: none !important; /* Supprime complètement les bordures */
 }
 
 .contact-paper-side.front {
@@ -1437,6 +1580,197 @@ body {
     font-size: 0.8rem;
     transform: rotate(0.2deg);
     line-height: 1.4;
+}
+
+.contact-back-line:nth-child(odd) {
+    transform: rotate(-0.3deg);
+}
+
+/* === NOUVEAUX STYLES POUR LA FEUILLE CONTACT PERSONNALISÉE === */
+
+/* Image de fond qui remplace complètement le fond de la feuille contact */
+.contact-paper-side.front,
+.contact-paper-side.back {
+    background: none !important; /* Supprime le fond jaune original */
+    padding: 0 !important; /* Supprime le padding pour que l'image prenne tout l'espace */
+    border: none !important; /* Supprime les bordures */
+}
+
+/* Rendre transparent/invisible le contour, scotch et effets vintage */
+.contact-paper .paper-tear,
+.contact-paper .paper-stain,
+.contact-paper .paper-tape {
+    opacity: 0 !important; /* Rend invisible */
+    pointer-events: none !important; /* Désactive les interactions */
+}
+
+.contact-paper-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.contact-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+    display: block;
+}
+
+/* Contenu superposé sur l'image - Container limité à la taille de la feuille */
+.contact-overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Z-index plus élevé pour être au-dessus */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px; /* Marges plus importantes pour éviter le débordement */
+    box-sizing: border-box;
+    overflow: hidden; /* Empêche le débordement du contenu */
+    border-radius: 3px; /* Suit la forme de la feuille */
+    pointer-events: auto; /* Permet les interactions */
+}
+
+/* Section Open to Work */
+.open-to-work-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.open-to-work-title {
+    font-family: 'Kindergarten', serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2c5aa0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    margin: 0 0 15px 0;
+    transform: rotate(-1deg);
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.skill-item {
+    background: rgba(44, 90, 160, 0.1);
+    border: 1px solid rgba(44, 90, 160, 0.3);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    color: #2c5aa0;
+    font-weight: bold;
+    transform: rotate(0.5deg);
+    transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+    background: rgba(44, 90, 160, 0.2);
+    transform: rotate(0deg) scale(1.05);
+}
+
+/* Logos sociaux */
+.social-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.social-link {
+    display: block;
+    transition: all 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.social-link:hover {
+    transform: rotate(-2deg) scale(1.1);
+}
+
+/* Informations de contact */
+.contact-info {
+    text-align: center;
+    margin-top: auto;
+}
+
+.contact-item {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transform: rotate(0.2deg);
+}
+
+.contact-label {
+    font-weight: bold;
+    color: #2c5aa0;
+    font-size: 0.8rem;
+}
+
+.contact-value {
+    color: #333;
+    font-size: 0.8rem;
+}
+
+/* Container pour le contenu du verso - limité à la taille de la feuille */
+.contact-back-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* Empêche le débordement du contenu */
+    border-radius: 3px; /* Suit la forme de la feuille */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.contact-back-content {
+    flex: 1;
+    overflow-y: auto; /* Scroll si nécessaire */
+    padding-right: 5px; /* Espace pour la scrollbar éventuelle */
+}
+
+/* Styles pour le verso */
+.contact-back-header {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2c5aa0; /* Couleur cohérente avec le recto */
+    text-align: center;
+    margin-bottom: 15px;
+    transform: rotate(-0.5deg);
+    border-bottom: 2px solid rgba(44, 90, 160, 0.3);
+    padding-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.contact-back-line {
+    margin-bottom: 8px;
+    color: #2c5aa0;
+    font-size: 0.8rem;
+    transform: rotate(0.2deg);
+    line-height: 1.4;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
 }
 
 .contact-back-line:nth-child(odd) {
@@ -2386,6 +2720,147 @@ body {
     font-size: 0.75rem;
 }
 
+/* === LOGOS SOCIAUX === */
+.social-logos-container {
+    position: absolute;
+    right: 914px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    z-index: 10;
+}
+
+.social-logo {
+    width: 156px;
+    height: 156px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.social-logo:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+.social-logo img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.social-logo:hover img {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* Couleurs spécifiques au hover */
+.social-logo[data-platform="artstation"]:hover,
+.social-logo[data-platform="linkedin"]:hover,
+.social-logo[data-platform="instagram"]:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* Phrase explicative pour les logos */
+.social-logos-instruction {
+    position: absolute;
+    right: 580px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-family: 'Kindergarten', sans-serif;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 16px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive pour les logos sociaux */
+@media (max-width: 1024px) {
+    .social-logos-container {
+        right: 30px !important;
+        gap: 25px;
+        position: fixed !important;
+        top: auto !important;
+        bottom: 20px !important;
+        transform: none !important;
+        flex-direction: row !important;
+    }
+    
+    .social-logo {
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+    }
+    
+    .social-logo img {
+        width: 85%;
+        height: 85%;
+    }
+    
+    .social-logos-instruction {
+        position: fixed !important;
+        right: 20px !important;
+        bottom: 100px !important;
+        top: auto !important;
+        transform: none !important;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        max-width: 250px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .social-logos-container {
+        position: fixed !important;
+        right: 20px !important;
+        bottom: 20px !important;
+        top: auto !important;
+        transform: none !important;
+        flex-direction: row !important;
+        gap: 15px;
+    }
+    
+    .social-logo {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+    }
+    
+    .social-logo img {
+        width: 85%;
+        height: 85%;
+    }
+    
+    .social-logos-instruction {
+        position: fixed !important;
+        right: 10px !important;
+        bottom: 90px !important;
+        top: auto !important;
+        transform: none !important;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        max-width: 200px;
+        text-align: center;
+    }
+}
+
 /* === INSTRUCTIONS === */
 .papers-instructions {
     position: absolute;
@@ -2400,7 +2875,20 @@ body {
     padding: 12px 24px;
     border-radius: 8px;
     backdrop-filter: blur(4px);
-    z-index: 10;
+    z-index: 1; /* Z-index bas pour ne pas se superposer */
+}
+
+/* Responsive instructions */
+@media (max-width: 1024px) {
+    .papers-instructions {
+        display: none !important; /* Masquer sur tablette pour éviter superposition */
+    }
+}
+
+@media (max-width: 768px) {
+    .papers-instructions {
+        display: none !important; /* Masquer sur mobile pour éviter superposition */
+    }
 }
 
 /* === ANIMATIONS === */
@@ -4575,6 +5063,19 @@ body {
     text-align: center; /* Centré comme le projet Circus */
 }
 
+.project-info-side .project-description-additional {
+    color: #cccccc;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.project-info-side .project-description-additional p {
+    margin: 0;
+    color: #cccccc;
+}
+
 .project-info-side .project-tags {
     display: flex;
     justify-content: center; /* Centré comme le projet Circus */
@@ -6302,6 +6803,8 @@ body {
     position: relative;
     margin: 0.3vw 0;
     max-width: calc(100% - 3vw); /* Assurer qu'il reste dans le cadre */
+    padding: 0.5vw; /* Zone de clic plus large autour du slider */
+    cursor: pointer; /* Indique que la zone est interactive */
 }
 
 .sequence-btn {
@@ -6326,34 +6829,40 @@ body {
     width: 100%;
     -webkit-appearance: none;
     appearance: none;
-    height: 0.4vw;
+    height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
-        #333333 0%, #333333 25%, 
-        #666666 25%, #666666 50%, 
-        #999999 50%, #999999 75%, 
-        #cccccc 75%, #cccccc 100%
-    );
+        #ffffff 0%, #ffffff 25%, 
+        #f0f0f0 25%, #f0f0f0 50%, 
+        #e0e0e0 50%, #e0e0e0 75%, 
+        #d0d0d0 75%, #d0d0d0 100%
+    ); /* Couleurs plus claires et visibles */
     outline: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 #asset-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 1vw;
-    height: 1vw;
+    width: 1.2vw; /* Plus grand pour être plus facile à saisir */
+    height: 1.2vw;
     background: #ffffff;
     cursor: pointer;
     border-radius: 50%;
-    border: 2px solid #333;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    transition: all 0.2s ease;
+    border: 3px solid #333;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    transition: all 0.15s ease; /* Transition plus rapide */
+    position: relative;
+    z-index: 100; /* S'assure qu'il est au-dessus */
 }
 
 #asset-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    transform: scale(1.15);
+    background: #f8f8f8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    border: 3px solid #555;
 }
 
 #asset-slider::-moz-range-thumb {
@@ -6366,40 +6875,45 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-/* Styles identiques pour le slider Gun/Plasma Pistol */
+/* Styles améliorés pour le slider Gun/Plasma Pistol */
 #gun-asset-slider {
     width: 100%;
     -webkit-appearance: none;
     appearance: none;
-    height: 0.4vw;
+    height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
         #ffffff 0%, #ffffff 16.67%, 
-        #cccccc 16.67%, #cccccc 33.33%, 
-        #999999 33.33%, #999999 50%, 
-        #666666 50%, #666666 66.67%, 
-        #333333 66.67%, #333333 83.33%, 
-        #000000 83.33%, #000000 100%
-    );
+        #f0f0f0 16.67%, #f0f0f0 33.33%, 
+        #e0e0e0 33.33%, #e0e0e0 50%, 
+        #d0d0d0 50%, #d0d0d0 66.67%, 
+        #c0c0c0 66.67%, #c0c0c0 83.33%, 
+        #b0b0b0 83.33%, #b0b0b0 100%
+    ); /* Couleurs plus claires et visibles */
     outline: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 #gun-asset-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 1vw;
-    height: 1vw;
+    width: 1.2vw; /* Plus grand pour être plus facile à saisir */
+    height: 1.2vw;
     background: #ffffff;
     cursor: pointer;
     border-radius: 50%;
-    border: 2px solid #333;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    transition: all 0.2s ease;
+    border: 3px solid #333;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    transition: all 0.15s ease; /* Transition plus rapide */
 }
 
 #gun-asset-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    background: #f8f8f8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    border: 3px solid #555;
 }
 
 #gun-asset-slider::-moz-range-thumb {
@@ -6457,12 +6971,96 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
+/* Styles pour le slider Room - Template Archway */
+#room-asset-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.4vw;
+    background: linear-gradient(to right, 
+        #ffffff 0%, #ffffff 16.67%, 
+        #cccccc 16.67%, #cccccc 33.33%, 
+        #999999 33.33%, #999999 50%, 
+        #666666 50%, #666666 66.67%, 
+        #333333 66.67%, #333333 83.33%, 
+        #000000 83.33%, #000000 100%
+    );
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#room-asset-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+}
+
+#room-asset-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+#room-asset-slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vw;
+    background: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
 .slider-zones {
     display: none; /* Cacher complètement les zones */
 }
 
 .zone-label {
     display: none; /* Cacher complètement les labels */
+}
+
+/* Repositionnement SPÉCIFIQUE pour éléments Telephone Booth - juste à côté de la galerie */
+#telephone-asset-preview {
+    /* Agrandir ÉNORMÉMENT l'image du visualisateur Telephone */
+    width: 200% !important;
+    height: 200% !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+/* Visualisateur décalé de 22.5% au total (38% - 0.5% vers la gauche) et agrandi de 15% au total */
+.marmoset-extra-panel:has(#telephone-asset-preview) {
+    left: 37.5% !important;
+    right: auto !important;
+    top: 15% !important;
+    position: absolute !important;
+    transform: scale(1.15) !important;
+    transform-origin: top left !important;
+}
+
+/* Slider décalé de 22.5% au total, même position que le visualisateur et agrandi de 15% au total */
+.arch-slider-external:has(#telephone-asset-slider) {
+    left: 37.5% !important;
+    right: auto !important;
+    top: 72% !important;
+    position: absolute !important;
+    transform: scale(1.15) !important;
+    transform-origin: top left !important;
+}
+
+/* Box logiciels reste à sa position par défaut */
+.marmoset-extra-panel:has(#telephone-asset-preview) ~ .marmoset-info-panel {
+    left: auto !important;
+    right: 2vw !important;
+    top: 15% !important;
+    position: absolute !important;
 }
 
 
@@ -6518,6 +7116,21 @@ body {
     text-shadow: none;
     font-weight: bold;
     letter-spacing: 2px;
+}
+
+/* Badge WIP très subtil pour projets en cours */
+.wip-badge {
+    display: inline-block;
+    margin-left: 1vw;
+    vertical-align: middle;
+}
+
+.wip-text {
+    font-family: 'Kindergarten', Arial, sans-serif;
+    font-size: 0.7vw;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: normal;
+    font-style: italic;
 }
 
 .marmoset-header {
@@ -7148,7 +7761,138 @@ body {
     line-height: 1.1;
 }
 
+/* === RÈGLE SPÉCIFIQUE KITCHEN - Éviter chevauchement === */
+/* Repositionner la box logiciels pour éviter le chevauchement avec la box histoire */
+.marmoset-modal-content:has([src*="Kitchen"]) .marmoset-info-panel {
+    left: 72% !important; /* Positionné après la box histoire (35% + 35% + 2% de marge) */
+    width: 26% !important; /* Largeur augmentée grâce à l'espace libéré */
+}
 
+/* === MARMOSET STORY PANEL - Panel Histoire spécifique Kitchen === */
+.marmoset-story-panel {
+    width: 35%; /* Largeur réduite pour économiser l'espace */
+    height: auto; /* Hauteur automatique selon le contenu */
+    min-height: 50vh; /* Hauteur minimum réduite */
+    background: #1a1a1a;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none; /* Retour à l'original pour ne pas agrandir */
+    position: absolute;
+    left: 35%; /* Positionné après la galerie */
+    top: 2.5%;
+    transform: translateX(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    flex-shrink: 0;
+    z-index: 10000;
+    padding: 1.5vw; /* Retour au padding original */
+    box-sizing: border-box;
+    overflow-y: auto; /* Scroll si le contenu dépasse */
+}
+
+/* Encadrement gribouillé pour story panel - Première couche */
+.marmoset-story-panel::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(-0.3deg);
+}
+
+/* Encadrement gribouillé pour story panel - Deuxième couche */
+.marmoset-story-panel::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 0;
+    transform: rotate(0.2deg);
+}
+
+.marmoset-story-panel .story-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.marmoset-story-panel h3 {
+    color: #ffffff;
+    font-family: 'Kindergarten', serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0 0 20px 0; /* Retour à la marge originale */
+    padding: 0;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    letter-spacing: 0.5px;
+}
+
+.marmoset-story-panel .story-text {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px; /* Espace pour la scrollbar */
+}
+
+.marmoset-story-panel .story-text p {
+    color: #ffffff;
+    font-family: 'Kindergarten', serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 18px 0; /* Retour à la marge originale */
+    text-align: justify;
+    text-indent: 20px; /* Indentation première ligne */
+}
+
+.marmoset-story-panel .story-text p:first-child {
+    margin-top: 0;
+}
+
+.marmoset-story-panel .story-text p:last-child {
+    margin-bottom: 0;
+}
+
+.marmoset-story-panel .story-text p strong {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Scrollbar personnalisée pour le story panel - Améliorée */
+.marmoset-story-panel .story-text::-webkit-scrollbar {
+    width: 8px; /* Plus large pour être plus facile à saisir */
+}
+
+.marmoset-story-panel .story-text::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marmoset-story-panel .story-text::-webkit-scrollbar-thumb {
+    background: #ffffff; /* Blanc pour être bien visible */
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.marmoset-story-panel .story-text::-webkit-scrollbar-thumb:hover {
+    background: #f0f0f0; /* Gris clair au survol */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
 
 /* Encadrement gribouillé - Première couche fine */
 .marmoset-viewer-container::before {
@@ -7864,8 +8608,10 @@ iframe[src*="Circus_Viewer.html"] * {
         flex: none; /* Pas de flex pour permettre expansion */
         height: auto; /* Hauteur automatique */
         overflow: visible; /* Permet le débordement pour scroll */
-        padding: 2vw; /* Padding uniforme */
-        gap: 3vh; /* Espacement entre les éléments */
+        padding: 1vw; /* Padding réduit pour éviter débordement */
+        gap: 2vh; /* Espacement réduit entre les éléments */
+        box-sizing: border-box; /* Inclut padding dans les dimensions */
+        max-width: 100%; /* Limite la largeur */
     }
     
     .marmoset-main-container {
@@ -7873,10 +8619,11 @@ iframe[src*="Circus_Viewer.html"] * {
         height: auto !important; /* Hauteur automatique pour permettre le scroll */
         min-height: 100vh !important; /* Au moins la hauteur de l'écran */
         margin: 0 !important; /* Aucune marge */
-        padding: 2vw !important; /* Padding réduit */
+        padding: 1vw !important; /* Padding encore plus réduit */
         transform: none !important; /* Pas de scale sur mobile */
         position: relative !important; /* Position relative pour le layout */
         display: flex !important;
+        box-sizing: border-box !important; /* Inclut padding dans les dimensions */
         flex-direction: column !important;
         gap: 4vh !important; /* Espacement entre les éléments */
         flex: none !important; /* Pas de contrainte flex */
@@ -8106,6 +8853,45 @@ iframe[src*="Circus_Viewer.html"] * {
         box-sizing: border-box; /* Inclut le padding dans les dimensions */
     }
     
+    /* Story Panel mobile - spécifique Kitchen */
+    .marmoset-story-panel {
+        width: 95% !important; /* Presque pleine largeur */
+        height: auto !important; /* Hauteur automatique */
+        min-height: 35vh !important; /* Hauteur minimum encore plus réduite */
+        max-height: 50vh !important; /* Hauteur maximum réduite pour économiser l'espace */
+        left: auto !important; /* Reset position */
+        top: auto !important; /* Reset position */
+        position: relative !important; /* Position relative dans le flex container */
+        margin: 2vh auto 3vh auto !important; /* MARGE UNIFORMISÉE avec les autres */
+        transform: none !important; /* Supprime le scale du container */
+        padding: 3vw !important; /* Padding augmenté pour mobile */
+        flex: none !important; /* Pas de contrainte flex */
+        overflow-y: auto !important; /* Permet le scroll */
+        box-sizing: border-box !important; /* Inclut padding dans dimensions */
+        display: block !important; /* Force l'affichage en bloc */
+    }
+    
+    .marmoset-story-panel h3 {
+        color: #ffffff !important; /* Blanc pour mobile */
+        font-family: 'Kindergarten', serif !important; /* Police du site */
+        font-size: 1.2rem !important; /* Taille réduite pour mobile */
+        margin-bottom: 15px !important;
+    }
+    
+    .marmoset-story-panel .story-text p {
+        color: #ffffff !important; /* Blanc pour mobile */
+        font-family: 'Kindergarten', serif !important; /* Police du site */
+        font-size: 0.85rem !important; /* Taille réduite pour mobile */
+        line-height: 1.5 !important;  
+        margin-bottom: 15px !important;
+        text-indent: 15px !important; /* Indentation réduite */
+    }
+    
+    .marmoset-story-panel .story-text p strong {
+        color: #ffffff !important; /* Blanc pour mobile */
+        font-weight: bold !important;
+    }
+    
     /* Encadrement gribouillé style marmoset-gallery-panel mobile - Première couche fine */
     .marmoset-info-panel::before {
         content: '';
@@ -8214,6 +9000,74 @@ iframe[src*="Circus_Viewer.html"] * {
     }
     
     /* SUPPRESSION des styles conflictuels - remplacés par title-zone/logos-zone */
+    
+    /* ORDRE RESTAURÉ POUR MOBILE/TABLETTE - Ne pas toucher PC */
+    .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-viewer-container {
+        order: 2 !important; /* 2ème: Viewer 3D */
+    }
+    
+    .marmoset-extra-panel {
+        order: 3 !important; /* 3ème: Visualiseur avec slider */
+    }
+    
+    .marmoset-story-panel {
+        order: 3 !important; /* 3ème: Histoire (spécifique Kitchen) */
+    }
+    
+    .arch-slider-external {
+        order: 4 !important; /* 3bis: Slider externe (partie du visualiseur) */
+    }
+    
+    .marmoset-info-panel {
+        order: 5 !important; /* 4ème: Logiciels */
+    }
+    
+    /* ORDRE SPÉCIFIQUE POUR CIRCUS - Mobile */
+    /* Circus n'a pas de marmoset-extra-panel ni de slider externe */
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-viewer-container {
+        order: 2 !important; /* 2ème: Viewer 3D environnement */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-chara-viewer-container {
+        order: 3 !important; /* 3ème: Viewer 3D personnage */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-info-panel {
+        order: 4 !important; /* 4ème: Logiciels */
+    }
+    
+    /* ORDRE SPÉCIFIQUE POUR KITCHEN - Mobile */
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-story-panel {
+        order: 2 !important; /* 2ème: Histoire (spécifique Kitchen) */
+    }
+    
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-info-panel {
+        order: 3 !important; /* 3ème: Logiciels Kitchen - DIRECTEMENT APRÈS HISTOIRE */
+        display: flex !important; /* Force l'affichage */
+        visibility: visible !important; /* Force la visibilité */
+        width: 85% !important; /* Largeur réduite pour éviter débordement */
+        max-width: 85% !important; /* Limite maximum pour éviter débordement */
+        margin: 1vh auto 2vh auto !important; /* Marges réduites */
+        left: auto !important; /* Reset position absolue */
+        top: auto !important; /* Reset position absolue */
+        position: relative !important; /* Position relative pour rester dans le flux */
+        transform: none !important; /* Supprime toute transformation */
+        box-sizing: border-box !important; /* Inclut padding dans la largeur */
+        overflow: hidden !important; /* Évite tout débordement de contenu */
+        padding: 1vw !important; /* Padding réduit */
+    }
 }
 
 /* VERSION TABLETTE SEULEMENT - Correction débordements marmoset */
@@ -8387,6 +9241,37 @@ iframe[src*="Circus_Viewer.html"] * {
         transform: none;
     }
     
+    /* Box logiciels Kitchen tablette - éviter chevauchement */
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-info-panel {
+        left: 75vw !important; /* Positionné après la story panel (33vw + 40vw + 2vw de marge) */
+        width: 23vw !important; /* Largeur ajustée pour s'adapter */
+    }
+    
+    /* Story Panel tablette - spécifique Kitchen */
+    .marmoset-story-panel {
+        width: 40vw !important; /* Largeur adaptée pour tablette */
+        height: auto !important; /* Hauteur automatique */
+        min-height: 50vh !important; /* Hauteur minimum pour tablette */
+        max-height: 70vh !important; /* Hauteur maximum */
+        left: 33vw !important; /* Positionné après la galerie */
+        top: 10vh !important; /* Aligné avec les autres panneaux */
+        position: absolute !important; /* Position absolue pour tablette */
+        margin: 0 !important; /* Pas de marge en mode absolu */
+        transform: scale(0.92) !important; /* Scale ajusté pour tablette */
+        padding: 2vw !important; /* Padding adapté pour tablette */
+        overflow-y: auto !important; /* Permet le scroll */
+        box-sizing: border-box !important;
+    }
+    
+    .marmoset-story-panel h3 {
+        font-size: 1.3rem !important; /* Taille adaptée pour tablette */
+    }
+    
+    .marmoset-story-panel .story-text p {
+        font-size: 0.9rem !important; /* Taille adaptée pour tablette */
+        line-height: 1.55 !important;
+    }
+    
     /* Adaptations curseur et éléments UI mobile */
     .custom-cursor {
         width: 3vw;
@@ -8418,6 +9303,74 @@ iframe[src*="Circus_Viewer.html"] * {
         right: 2vw;
         padding: 1vw;
         max-width: 80vw;
+    }
+    
+    /* ORDRE RESTAURÉ POUR TABLETTE - Ne pas toucher PC */
+    .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-viewer-container {
+        order: 2 !important; /* 2ème: Viewer 3D */
+    }
+    
+    .marmoset-extra-panel {
+        order: 3 !important; /* 3ème: Visualiseur avec slider */
+    }
+    
+    .marmoset-story-panel {
+        order: 3 !important; /* 3ème: Histoire (spécifique Kitchen) */
+    }
+    
+    .arch-slider-external {
+        order: 4 !important; /* 3bis: Slider externe (partie du visualiseur) */
+    }
+    
+    .marmoset-info-panel {
+        order: 5 !important; /* 4ème: Logiciels */
+    }
+    
+    /* ORDRE SPÉCIFIQUE POUR CIRCUS - Tablette */
+    /* Circus n'a pas de marmoset-extra-panel ni de slider externe */
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-viewer-container {
+        order: 2 !important; /* 2ème: Viewer 3D environnement */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-chara-viewer-container {
+        order: 3 !important; /* 3ème: Viewer 3D personnage */
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-info-panel {
+        order: 4 !important; /* 4ème: Logiciels */
+    }
+    
+    /* ORDRE SPÉCIFIQUE POUR KITCHEN - Tablette */
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-gallery-panel {
+        order: 1 !important; /* 1er: Galerie */
+    }
+    
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-story-panel {
+        order: 2 !important; /* 2ème: Histoire (spécifique Kitchen) */
+    }
+    
+    .marmoset-modal-content:has([src*="Kitchen"]) .marmoset-info-panel {
+        order: 3 !important; /* 3ème: Logiciels Kitchen - DIRECTEMENT APRÈS HISTOIRE */
+        display: flex !important; /* Force l'affichage */
+        visibility: visible !important; /* Force la visibilité */
+        width: 85% !important; /* Largeur réduite pour éviter débordement */
+        max-width: 85% !important; /* Limite maximum pour éviter débordement */
+        left: auto !important; /* Reset position absolue */
+        top: auto !important; /* Position dans le flux */
+        position: relative !important; /* Position relative sur tablette */
+        margin: 1vh auto !important; /* Marges réduites pour séparation et centrage */
+        transform: none !important; /* Supprime toute transformation */
+        box-sizing: border-box !important; /* Inclut padding dans la largeur */
+        overflow: hidden !important; /* Évite tout débordement de contenu */
+        padding: 1vw !important; /* Padding réduit */
     }
 }
 
@@ -8520,7 +9473,7 @@ iframe[src*="Circus_Viewer.html"] * {
     .project-description {
         font-size: 0.8rem !important;
         line-height: 1.3 !important;
-        color: #ffffff !important;
+        color: #cccccc !important;
         text-align: left !important;
     }
     
@@ -8970,15 +9923,99 @@ iframe[src*="Circus_Viewer.html"] * {
         height: 22px;
     }
 
+    /* Room slider responsive - même style qu'Archway */
+    #room-asset-slider {
+        height: 8px;
+        background: linear-gradient(to right, 
+            #ffffff 0%, #ffffff 16.67%, 
+            #cccccc 16.67%, #cccccc 33.33%, 
+            #999999 33.33%, #999999 50%, 
+            #666666 50%, #666666 66.67%, 
+            #333333 66.67%, #333333 83.33%, 
+            #000000 83.33%, #000000 100%
+        );
+    }
+
+    #room-asset-slider::-webkit-slider-thumb {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Boutons sequence plus gros sur mobile - template Archway pour tous */
+    .sequence-btn {
+        padding: 8px 12px; /* Taille fixe plus grande sur mobile */
+        font-size: 16px; /* Taille fixe plus lisible */
+        min-width: 40px; /* Largeur minimale plus grande */
+        height: 40px; /* Hauteur fixe */
+    }
+
     /* Box visualisateur responsive mobile/tablette */
     .marmoset-extra-panel {
         position: relative !important; /* Changement de absolute à relative */
         top: auto !important;
         right: auto !important;
+        left: auto !important; /* Reset left pour Telephone */
         width: 100% !important; /* Pleine largeur sur mobile */
         height: auto !important; /* Hauteur automatique */
         margin: 20px 0 !important; /* Marges verticales */
         padding: 20px !important;
+        transform: none !important; /* Reset transform pour Telephone */
+    }
+
+    /* Override spécifique pour Telephone sur mobile */
+    .marmoset-extra-panel:has(#telephone-asset-preview) {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+
+    /* Override spécifique pour slider Telephone sur mobile */
+    .arch-slider-external:has(#telephone-asset-slider) {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+
+    /* Container mobile pour Telephone - layout flex pour contrôler l'ordre */
+    .marmoset-main-container {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Galerie Telephone en haut sur mobile */
+    .marmoset-gallery-panel {
+        order: 1;
+    }
+
+    /* Viewer au milieu */
+    .marmoset-viewer-container {
+        order: 2;
+    }
+
+    /* Panel Telephone après le viewer */
+    .marmoset-extra-panel:has(#telephone-asset-preview) {
+        order: 3;
+    }
+
+    /* Slider Telephone après le panel */
+    .arch-slider-external:has(#telephone-asset-slider) {
+        order: 4;
+    }
+
+    /* Box logiciels Telephone tout en bas */
+    .marmoset-extra-panel:has(#telephone-asset-preview) ~ .marmoset-info-panel {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        order: 5; /* Tout en bas */
+        margin-top: 30px !important;
     }
 
     /* Slider externe mobile - Plus petit et collé au panel */
@@ -8991,7 +10028,89 @@ iframe[src*="Circus_Viewer.html"] * {
         padding: 12px; /* Padding réduit */
     }
 
+    /* Badge WIP plus visible sur mobile */
+    .wip-text {
+        font-size: 2vw; /* Plus gros sur mobile */
+        color: rgba(255, 255, 255, 0.8); /* Plus visible */
+    }
+
     /* Les styles mobiles pour asset-type-btn sont déjà définis plus haut dans cette media query */
     /* Le panneau Gun/Plasma Pistol utilise les mêmes styles mobiles que Archway */
+
+    /* Désactiver la loupe sur mobile pour éviter les problèmes de performance */
+    .magnifier-overlay {
+        display: none !important;
+    }
+
+    .magnifier-btn {
+        display: none !important;
+    }
+
+    .magnifier-control {
+        display: none !important;
+    }
+}
+
+/* Vue agrandie du CV pour mobile/tablette */
+.cv-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.cv-fullscreen-overlay.active {
+    display: flex;
+}
+
+.cv-fullscreen-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+}
+
+.cv-fullscreen-content img {
+    width: 100%;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.cv-close-button {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+    z-index: 10000;
+}
+
+.cv-close-button:hover {
+    transform: scale(1.1);
+    background: #f0f0f0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test JavaScript Clara Neulinger</title>
+</head>
+<body>
+    <h1>Test du site Clara Neulinger</h1>
+    <p>Si ce message apparaît, le site fonctionne :</p>
+    <div id="test-result">Chargement...</div>
+    
+    <script>
+        // Test de base
+        document.getElementById('test-result').innerHTML = '✅ JavaScript fonctionne !';
+        
+        // Test du dual-paper-manager
+        try {
+            const script = document.createElement('script');
+            script.src = 'js/dual-paper-manager.js';
+            script.onload = function() {
+                console.log('✅ dual-paper-manager.js chargé sans erreur');
+            };
+            script.onerror = function() {
+                console.error('❌ Erreur de chargement dual-paper-manager.js');
+            };
+            document.head.appendChild(script);
+        } catch(e) {
+            console.error('❌ Erreur:', e);
+        }
+    </script>
+</body>
+</html>

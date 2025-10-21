@@ -106,8 +106,55 @@ window.addEventListener('unhandledrejection', (event) => {
     App.handleError(event.reason, 'Promise');
 });
 
+// Gestionnaire des logos sociaux
+class SocialLogosManager {
+    constructor() {
+        this.links = {
+            artstation: 'https://www.artstation.com/neulinger_clara',
+            linkedin: 'https://www.linkedin.com/in/clara-neulinger-08a70a20b/',
+            instagram: 'https://www.therookies.co/u/ClaraNeulinger'
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        // Attendre que le DOM soit chargé
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.setupEventListeners();
+            });
+        } else {
+            this.setupEventListeners();
+        }
+    }
+    
+    setupEventListeners() {
+        const socialLogos = document.querySelectorAll('.social-logo');
+        
+        socialLogos.forEach(logo => {
+            logo.addEventListener('click', (e) => {
+                const platform = logo.getAttribute('data-platform');
+                if (this.links[platform]) {
+                    window.open(this.links[platform], '_blank');
+                }
+            });
+            
+            // Effet de rotation au hover
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    }
+}
+
 // Initialiser l'application
 const app = new App();
+const socialLogos = new SocialLogosManager();
 
 // Styles d'animation pour les notifications
 const notificationStyles = document.createElement('style');
