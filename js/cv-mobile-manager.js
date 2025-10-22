@@ -1,8 +1,7 @@
 /**
- * Gestionnaire du CV pour mobile et tablette
- * - Désactive l'interactivité 3D sur mobile/tablette
- * - Ajoute la fonctionnalité double-clic pour agrandissement
- * - Préserve l'interactivité 3D sur PC
+ * Gestionnaire pour l'interface CV mobile/tablette
+ * Gère la navigation entre les images côte à côte et le viewer fullscreen
+ * Compatible avec l'ancien système pour les écrans desktop
  */
 
 class CVMobileManager {
@@ -11,11 +10,18 @@ class CVMobileManager {
         this.isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
         this.isDesktop = window.innerWidth > 1024;
         
+        // Nouveau système mobile
+        this.currentImageIndex = 0;
+        this.images = [];
+        this.overlay = null;
+        this.fullscreenImage = null;
+        this.navButtons = {};
+        this.indicators = [];
+        
+        // Ancien système (compatibilité)
         this.cvPaper = document.getElementById('cv-paper');
         this.fullscreenOverlay = document.getElementById('cv-fullscreen-overlay');
         this.closeButton = document.getElementById('cv-close-button');
-        this.fullscreenImage = document.getElementById('cv-fullscreen-image');
-        
         this.doubleTapTimer = null;
         this.lastTap = 0;
         
@@ -23,13 +29,246 @@ class CVMobileManager {
     }
     
     init() {
-        if (!this.cvPaper) return;
+        // Attendre que le DOM soit prêt
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setup());
+        } else {
+            this.setup();
+        }
         
         // Écouter les changements de taille d'écran
         window.addEventListener('resize', () => this.handleResize());
+    }
+
+    setup() {
+        console.log('🖼️ CV Mobile Manager - Initialisation...');
         
         // Configurer selon le type d'appareil
-        this.setupDeviceSpecificBehavior();
+        if (this.isMobile || this.isTablet) {
+            this.setupNewMobileInterface();
+        } else {
+            this.setupDesktopBehavior();
+        }
+    }
+
+    setupNewMobileInterface() {
+        console.log('📱 Configuration nouveau interface mobile...');
+        
+        // Récupérer les éléments du nouveau système
+        this.images = Array.from(document.querySelectorAll('.cv-image-wrapper img'));
+        this.overlay = document.querySelector('.cv-fullscreen-overlay');
+        this.fullscreenImage = this.overlay ? this.overlay.querySelector('.cv-fullscreen-content img') : null;
+        
+        if (!this.images.length) {
+            console.warn('❌ Aucune image trouvée dans .cv-image-wrapper');
+            return;
+        }
+        
+        if (!this.overlay || !this.fullscreenImage) {
+            console.warn('❌ Overlay ou image fullscreen non trouvé');
+            return;
+        }
+
+        // Configurer les éléments de navigation
+        this.setupNavigation();
+        
+        // Attacher les événements
+        this.attachEvents();
+        
+        console.log('✅ Nouveau CV Mobile Manager initialisé avec', this.images.length, 'images');
+    }
+
+    setupNavigation() {
+        // Boutons de navigation
+        this.navButtons.prev = document.querySelector('.cv-nav-prev');
+        this.navButtons.next = document.querySelector('.cv-nav-next');
+        this.closeButton = document.querySelector('.cv-close-button');
+        
+        // Indicateurs de page
+        const indicatorsContainer = document.querySelector('.cv-page-indicators');
+        if (indicatorsContainer) {
+            // Nettoyer les anciens indicateurs
+            indicatorsContainer.innerHTML = '';
+            this.indicators = [];
+            
+            // Créer les nouveaux indicateurs
+            this.images.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'cv-page-indicator';
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => this.goToImage(index));
+                indicatorsContainer.appendChild(indicator);
+                this.indicators.push(indicator);
+            });
+        }
+    }
+
+    attachEvents() {
+        // Clic sur les images pour ouvrir le fullscreen
+        this.images.forEach((img, index) => {
+            const wrapper = img.closest('.cv-image-wrapper');
+            if (wrapper) {
+                wrapper.addEventListener('click', () => this.openFullscreen(index));
+            }
+        });
+
+        // Navigation
+        if (this.navButtons.prev) {
+            this.navButtons.prev.addEventListener('click', () => this.previousImage());
+        }
+        if (this.navButtons.next) {
+            this.navButtons.next.addEventListener('click', () => this.nextImage());
+        }
+
+        // Fermeture
+        if (this.closeButton) {
+            this.closeButton.addEventListener('click', () => this.closeFullscreen());
+        }
+
+        // Fermeture par clic sur l'overlay
+        if (this.overlay) {
+            this.overlay.addEventListener('click', (e) => {
+                if (e.target === this.overlay) {
+                    this.closeFullscreen();
+                }
+            });
+        }
+
+        // Gestion du clavier
+        document.addEventListener('keydown', (e) => {
+            if (!this.overlay || !this.overlay.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    this.closeFullscreen();
+                    break;
+                case 'ArrowLeft':
+                    this.previousImage();
+                    break;
+                case 'ArrowRight':
+                    this.nextImage();
+                    break;
+            }
+        });
+
+        // Gestion du swipe sur mobile
+        this.setupSwipeGestures();
+    }
+
+    setupSwipeGestures() {
+        if (!this.overlay) return;
+        
+        let startX = 0;
+        let startY = 0;
+        let isSwipe = false;
+
+        this.overlay.addEventListener('touchstart', (e) => {
+            if (!this.overlay.classList.contains('active')) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isSwipe = true;
+        });
+
+        this.overlay.addEventListener('touchmove', (e) => {
+            if (!isSwipe) return;
+            e.preventDefault(); // Empêcher le scroll
+        });
+
+        this.overlay.addEventListener('touchend', (e) => {
+            if (!isSwipe || !this.overlay.classList.contains('active')) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            // Vérifier si c'est un swipe horizontal
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    this.nextImage(); // Swipe vers la gauche
+                } else {
+                    this.previousImage(); // Swipe vers la droite
+                }
+            }
+            
+            isSwipe = false;
+        });
+    }
+
+    openFullscreen(index) {
+        console.log('🔍 Ouverture fullscreen - Image', index);
+        
+        this.currentImageIndex = index;
+        this.updateFullscreenImage();
+        this.updateNavigation();
+        this.updateIndicators();
+        
+        // Afficher l'overlay
+        if (this.overlay) {
+            this.overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Empêcher le scroll
+        }
+    }
+
+    closeFullscreen() {
+        console.log('❌ Fermeture fullscreen');
+        
+        if (this.overlay) {
+            this.overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restaurer le scroll
+        }
+    }
+
+    previousImage() {
+        if (this.currentImageIndex > 0) {
+            this.currentImageIndex--;
+            this.updateFullscreenImage();
+            this.updateNavigation();
+            this.updateIndicators();
+        }
+    }
+
+    nextImage() {
+        if (this.currentImageIndex < this.images.length - 1) {
+            this.currentImageIndex++;
+            this.updateFullscreenImage();
+            this.updateNavigation();
+            this.updateIndicators();
+        }
+    }
+
+    goToImage(index) {
+        if (index >= 0 && index < this.images.length) {
+            this.currentImageIndex = index;
+            this.updateFullscreenImage();
+            this.updateNavigation();
+            this.updateIndicators();
+        }
+    }
+
+    updateFullscreenImage() {
+        const currentImg = this.images[this.currentImageIndex];
+        if (currentImg && this.fullscreenImage) {
+            this.fullscreenImage.src = currentImg.src;
+            this.fullscreenImage.alt = currentImg.alt || `CV - Page ${this.currentImageIndex + 1}`;
+        }
+    }
+
+    updateNavigation() {
+        // Mise à jour des boutons
+        if (this.navButtons.prev) {
+            this.navButtons.prev.disabled = this.currentImageIndex === 0;
+        }
+        if (this.navButtons.next) {
+            this.navButtons.next.disabled = this.currentImageIndex === this.images.length - 1;
+        }
+    }
+
+    updateIndicators() {
+        // Mise à jour des indicateurs
+        this.indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === this.currentImageIndex);
+        });
     }
     
     handleResize() {
@@ -43,205 +282,40 @@ class CVMobileManager {
         
         // Si le type d'appareil a changé, reconfigurer
         if (oldIsMobile !== this.isMobile || oldIsTablet !== this.isTablet || oldIsDesktop !== this.isDesktop) {
-            this.setupDeviceSpecificBehavior();
+            this.setup();
         }
-    }
-    
-    setupDeviceSpecificBehavior() {
-        // Nettoyer les anciens événements
-        this.removeAllEventListeners();
-        
-        if (this.isMobile || this.isTablet) {
-            // Mobile/Tablette : pas d'interactivité 3D, double-clic pour agrandissement
-            this.setupMobileTabletBehavior();
-        } else {
-            // PC : garder l'interactivité 3D normale
-            this.setupDesktopBehavior();
-        }
-    }
-    
-    setupMobileTabletBehavior() {
-        console.log('🔧 Configuration mobile/tablette : CV centré, double-clic pour agrandissement');
-        
-        // Désactiver l'interactivité 3D
-        this.disableInteractivity();
-        
-        // Forcer la position du CV vers la droite
-        this.forcePosition();
-        
-        // Ajouter le double-clic/double-tap
-        this.cvPaper.addEventListener('click', (e) => this.handleDoubleTap(e));
-        this.cvPaper.addEventListener('touchend', (e) => this.handleDoubleTap(e));
-        
-        // Configurer la fermeture de la vue agrandie
-        this.closeButton.addEventListener('click', () => this.closeFullscreen());
-        this.fullscreenOverlay.addEventListener('click', (e) => {
-            if (e.target === this.fullscreenOverlay) {
-                this.closeFullscreen();
-            }
-        });
-        
-        // Empêcher le scroll pendant la vue agrandie
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.fullscreenOverlay.classList.contains('active')) {
-                this.closeFullscreen();
-            }
-        });
     }
     
     setupDesktopBehavior() {
-        console.log('🔧 Configuration desktop : interactivité 3D préservée');
+        console.log('� Configuration desktop : préservation fonctionnalités existantes');
         
-        // Nettoyer l'intervalle de force position
-        if (this.positionInterval) {
-            clearInterval(this.positionInterval);
-            this.positionInterval = null;
-        }
-        
-        // S'assurer que l'interactivité 3D est active
-        this.enableInteractivity();
-    }
-    
-    disableInteractivity() {
-        if (!this.cvPaper) return;
-        
-        // Désactiver le dragging
-        this.cvPaper.style.pointerEvents = 'auto'; // Garde les clics mais pas le drag
-        
-        // Ne forcer le cursor pointer que sur mobile/tablette
-        if (this.isMobile || this.isTablet) {
-            this.cvPaper.style.cursor = 'pointer';
-        }
-        
-        // Empêcher les interactions 3D
-        this.cvPaper.addEventListener('mousedown', this.preventDrag);
-        this.cvPaper.addEventListener('touchstart', this.preventDrag);
-        this.cvPaper.addEventListener('dragstart', this.preventDrag);
-    }
-    
-    enableInteractivity() {
-        if (!this.cvPaper) return;
-        
-        // Réactiver le dragging
-        this.cvPaper.style.pointerEvents = 'all';
-        
-        // Ne pas forcer le cursor sur desktop pour permettre l'effet loupe
-        // Le magnifier-manager gérera le cursor avec ses propres classes CSS
-        if (this.isMobile || this.isTablet) {
-            this.cvPaper.style.cursor = 'grab';
-        } else {
-            // Sur desktop, ne pas forcer le cursor pour permettre l'effet loupe
+        // Sur desktop, maintenir la compatibilité avec l'ancien système
+        if (this.cvPaper) {
+            // S'assurer que l'interactivité 3D est active
+            this.cvPaper.style.pointerEvents = 'all';
             this.cvPaper.style.cursor = '';
         }
-        
-        // Retirer les blocages d'interaction
-        this.cvPaper.removeEventListener('mousedown', this.preventDrag);
-        this.cvPaper.removeEventListener('touchstart', this.preventDrag);
-        this.cvPaper.removeEventListener('dragstart', this.preventDrag);
     }
-    
-    forcePosition() {
-        if (!this.cvPaper) return;
-        
-        // SOLUTION SIMPLE - Centrage absolu toujours
-        console.log('📱 CENTRAGE SIMPLE ET EFFICACE');
-        
-        // Nettoyer les styles
-        this.cvPaper.style.transform = '';
-        
-        // Appliquer SEULEMENT le centrage parfait - CSS s'occupe du reste
-        this.cvPaper.style.setProperty('position', 'absolute', 'important');
-        this.cvPaper.style.setProperty('left', '50%', 'important');
-        this.cvPaper.style.setProperty('top', '50%', 'important');
-        this.cvPaper.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
-        this.cvPaper.style.setProperty('transform-origin', 'center center', 'important');
-        this.cvPaper.style.setProperty('z-index', '1000', 'important');
-        
-        console.log('📱 CV centré : left=50%, top=50%, transform=translate(-50%, -50%)');
-        
-        // Maintenir le centrage simple toutes les 200ms
-        this.positionInterval = setInterval(() => {
-            if (this.cvPaper && (this.isMobile || this.isTablet)) {
-                // Appliquer seulement le centrage - pas de calculs compliqués
-                this.cvPaper.style.setProperty('position', 'absolute', 'important');
-                this.cvPaper.style.setProperty('left', '50%', 'important');
-                this.cvPaper.style.setProperty('top', '50%', 'important');
-                this.cvPaper.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
-                this.cvPaper.style.setProperty('z-index', '1000', 'important');
-            }
-        }, 200);
-    }
-    
-    preventDrag(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    
-    handleDoubleTap(e) {
-        const currentTime = new Date().getTime();
-        const tapLength = currentTime - this.lastTap;
-        
-        if (tapLength < 500 && tapLength > 0) {
-            // Double-tap détecté
-            e.preventDefault();
-            this.openFullscreen();
-        } else {
-            // Premier tap
-            this.lastTap = currentTime;
-        }
-    }
-    
-    openFullscreen() {
-        if (!this.fullscreenOverlay) return;
-        
-        console.log('📱 Ouverture vue agrandie CV');
-        
-        // Obtenir l'image actuelle (recto ou verso)
-        const frontSide = this.cvPaper.querySelector('.cv-paper-side.front img');
-        const backSide = this.cvPaper.querySelector('.cv-paper-side.back img');
-        
-        // Déterminer quelle face est visible (pour l'instant, toujours le recto)
-        const currentImage = frontSide ? frontSide.src : (backSide ? backSide.src : 'assets/images/Contact/Cv_fr.svg');
-        
-        this.fullscreenImage.src = currentImage;
-        this.fullscreenOverlay.classList.add('active');
-        
-        // Empêcher le scroll du body
-        document.body.style.overflow = 'hidden';
-    }
-    
-    closeFullscreen() {
-        if (!this.fullscreenOverlay) return;
-        
-        console.log('📱 Fermeture vue agrandie CV');
-        
-        this.fullscreenOverlay.classList.remove('active');
-        
-        // Réactiver le scroll du body
-        document.body.style.overflow = '';
-    }
-    
-    removeAllEventListeners() {
-        if (!this.cvPaper) return;
-        
-        // Cloner l'élément pour supprimer tous les event listeners
-        const newCvPaper = this.cvPaper.cloneNode(true);
-        this.cvPaper.parentNode.replaceChild(newCvPaper, this.cvPaper);
-        this.cvPaper = newCvPaper;
-        
-        // Reconfigurer les références
-        if (this.closeButton) {
-            const newCloseButton = document.getElementById('cv-close-button');
-            if (newCloseButton) this.closeButton = newCloseButton;
-        }
+
+    // Méthode publique pour forcer la réinitialisation
+    refresh() {
+        console.log('🔄 CV Mobile Manager - Rafraîchissement...');
+        this.setup();
     }
 }
 
-// Initialiser le gestionnaire quand le DOM est prêt
-document.addEventListener('DOMContentLoaded', () => {
-    // Attendre que tous les autres scripts soient chargés
-    setTimeout(() => {
-        window.cvMobileManager = new CVMobileManager();
-    }, 100);
-});
+// Auto-initialisation
+let cvMobileManager = null;
+
+// Initialiser quand le DOM est prêt
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        cvMobileManager = new CVMobileManager();
+    });
+} else {
+    cvMobileManager = new CVMobileManager();
+}
+
+// Export pour utilisation externe
+window.CVMobileManager = CVMobileManager;
+window.cvMobileManager = cvMobileManager;

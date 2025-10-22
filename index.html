@@ -89,11 +89,40 @@
                 </div>
             </div>
             
-            <!-- Vue agrandie CV pour mobile/tablette -->
+            <!-- === NOUVEAU : CV MOBILE/TABLETTE === -->
+            <!-- Images CV côte à côte pour mobile/tablette uniquement -->
+            <div class="cv-mobile-container" id="cv-mobile-container">
+                <div class="cv-images-container">
+                    <div class="cv-image-wrapper" data-cv="front">
+                        <img src="assets/images/Contact/Cv_fr.svg" alt="CV Clara Neulinger - Français">
+                        <div class="cv-image-label">CV en français</div>
+                    </div>
+                    <div class="cv-image-wrapper" data-cv="back">
+                        <img src="assets/images/Contact/2.svg" alt="CV Clara Neulinger - Anglais">
+                        <div class="cv-image-label">CV en anglais</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vue agrandie CV pour mobile/tablette avec navigation -->
             <div class="cv-fullscreen-overlay" id="cv-fullscreen-overlay">
+                <button class="cv-close-button">&times;</button>
+                
                 <div class="cv-fullscreen-content">
-                    <button class="cv-close-button" id="cv-close-button">&times;</button>
-                    <img src="assets/images/Contact/Cv_fr.svg" alt="CV Clara Neulinger - Vue agrandie" id="cv-fullscreen-image">
+                    <!-- Image principale -->
+                    <img src="assets/images/Contact/Cv_fr.svg" alt="CV Clara Neulinger - Vue agrandie">
+                    
+                    <!-- Navigation container -->
+                    <div class="cv-nav-container">
+                        <button class="cv-nav-button cv-nav-prev">‹</button>
+                        
+                        <!-- Indicateurs de page -->
+                        <div class="cv-page-indicators">
+                            <!-- Les indicateurs seront créés dynamiquement par JavaScript -->
+                        </div>
+                        
+                        <button class="cv-nav-button cv-nav-next">›</button>
+                    </div>
                 </div>
             </div>
             
