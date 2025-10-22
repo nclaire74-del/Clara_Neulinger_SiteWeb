@@ -312,6 +312,18 @@ body {
     object-fit: cover;
     z-index: 1;
     background: #000000 !important;
+    /* Masquer complètement les contrôles vidéo */
+    pointer-events: none !important;
+}
+
+/* Forcer le masquage des contrôles sur tous les navigateurs */
+#background-video::-webkit-media-controls,
+#background-video::-webkit-media-controls-panel,
+#background-video::-webkit-media-controls-play-button,
+#background-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 /* Effet de vignettage noir sur les contours */
@@ -5322,6 +5334,23 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Styles spécifiques pour les vidéos - empêcher le plein écran */
+video.project-media {
+    pointer-events: auto;
+    object-fit: contain;
+}
+
+/* Masquer les contrôles vidéo sur tous les navigateurs */
+video.project-media::-webkit-media-controls,
+video.project-media::-webkit-media-controls-panel,
+video.project-media::-webkit-media-controls-play-button,
+video.project-media::-webkit-media-controls-fullscreen-button,
+video.project-media::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
 .project-media-wrapper:hover .project-media {
     transform: scale(1.05);
 }
@@ -10120,6 +10149,57 @@ iframe[src*="Circus_Viewer.html"] * {
         font-size: 0.8rem !important;
         min-width: 100px !important;
         flex: 0 0 auto !important;
+    }
+    
+    /* Masquer les emojis des boutons de navigation sur mobile */
+    .project-nav-btn span {
+        font-size: 0.75rem !important;
+    }
+    
+    /* Remplacer le contenu des boutons sur mobile sans emoji */
+    #prev-project span::before {
+        content: "Précédent" !important;
+    }
+    
+    #next-project span::before {
+        content: "Suivant" !important;
+    }
+    
+    #prev-project span,
+    #next-project span {
+        font-size: 0 !important; /* Masquer le texte original */
+    }
+    
+    #prev-project span::before,
+    #next-project span::before {
+        font-size: 0.75rem !important; /* Afficher le nouveau texte */
+    }
+    
+    /* Optimisations pour les images lazy loading */
+    .lazy-load {
+        background: #f0f0f0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .gallery-item {
+        transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item img {
+        transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item .image-placeholder {
+        background: #f5f5f5;
+        border: 1px dashed #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 12px;
     }
     
     /* === AJUSTEMENTS CONTACT MOBILE UNIQUEMENT === */

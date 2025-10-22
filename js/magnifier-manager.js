@@ -227,8 +227,6 @@ class MagnifierManager {
         
         console.log('✅ Loupe activée sur:', this.currentTarget.className);
     }
-    }
-    }
 
     deactivateMagnifier() {
         if (!this.isActive) return;
