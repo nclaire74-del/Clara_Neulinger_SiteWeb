@@ -15,6 +15,21 @@ window.addEventListener('unhandledrejection', function(event) {
     event.preventDefault(); // Évite l'affichage d'erreur dans la console
 });
 
+// Détection mobile/performance faible pour optimisations
+window.isLowPerformanceDevice = function() {
+    // Détection mobile ou tablette
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Détection connexion lente (si disponible)
+    const isSlowConnection = navigator.connection && 
+        (navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g');
+    
+    // Détection RAM faible (si disponible)
+    const isLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+    
+    return isMobileDevice || isSlowConnection || isLowMemory;
+};
+
 class App {
     constructor() {
         this.isLoaded = false;

@@ -10901,3 +10901,16 @@ iframe[src*="Circus_Viewer.html"] * {
     }
 }
 
+/* OPTIMISATION MOBILE - Cacher le viewer personnage pour éviter surcharge */
+@media (max-width: 768px) {
+    .marmoset-chara-viewer-container {
+        display: none !important; /* Masquer sur mobile pour performance */
+    }
+    
+    /* Agrandir légèrement le viewer environnement pour compenser */
+    .marmoset-viewer-container {
+        width: 45vw !important; /* Légèrement plus large */
+        height: 45vh !important; /* Légèrement plus haut */
+    }
+}
+
