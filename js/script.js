@@ -30,10 +30,36 @@ window.isLowPerformanceDevice = function() {
     return isMobileDevice || isSlowConnection || isLowMemory;
 };
 
+// Système de monitoring de performance
+window.performanceMonitor = {
+    init: function() {
+        if (window.isLowPerformanceDevice()) {
+            console.warn('🚨 Appareil basse performance détecté - Optimisations activées');
+        }
+        
+        // Surveiller les images lourdes
+        document.addEventListener('DOMContentLoaded', () => {
+            const heavyImages = document.querySelectorAll('img[data-size="heavy"]');
+            heavyImages.forEach(img => {
+                const startTime = performance.now();
+                img.addEventListener('load', () => {
+                    const loadTime = performance.now() - startTime;
+                    if (loadTime > 5000) {
+                        console.warn(`⚠️ Image lourde: ${img.src.split('/').pop()} - ${Math.round(loadTime)}ms`);
+                    }
+                });
+            });
+        });
+    }
+};
+
 class App {
     constructor() {
         this.isLoaded = false;
         this.managers = {};
+        
+        // Initialiser le monitoring de performance
+        window.performanceMonitor.init();
         
         this.init();
     }
