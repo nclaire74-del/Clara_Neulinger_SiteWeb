@@ -1,4 +1,20 @@
 // Script principal - Initialisation de l'application
+
+// Gestion d'erreur globale pour éviter les écrans blancs
+window.addEventListener('error', function(event) {
+    console.error('💥 Erreur détectée :', event.error);
+    // En cas d'erreur critique, on garde le site fonctionnel
+    const loadingManager = window.loadingManager;
+    if (loadingManager && typeof loadingManager.hideLoader === 'function') {
+        loadingManager.hideLoader();
+    }
+});
+
+window.addEventListener('unhandledrejection', function(event) {
+    console.error('💥 Promise rejetée :', event.reason);
+    event.preventDefault(); // Évite l'affichage d'erreur dans la console
+});
+
 class App {
     constructor() {
         this.isLoaded = false;
@@ -23,18 +39,19 @@ class App {
     initializeManagers() {
         console.log('📋 Initialisation des gestionnaires...');
         
-        // Les gestionnaires s'initialisent automatiquement via leurs propres DOMContentLoaded
-        // Nous gardons juste une référence ici
-        setTimeout(() => {
-            this.managers = {
-                loading: window.loadingManager,
-                video: window.videoManager,
-                navigation: window.navigationManager,
-                effects: window.effectsManager,
-                audio: window.audioManager,
-                portfolio: window.portfolioManager || new PortfolioManager(),
-                magnifier: window.magnifierManager || new MagnifierManager()
-            };
+        try {
+            // Les gestionnaires s'initialisent automatiquement via leurs propres DOMContentLoaded
+            // Nous gardons juste une référence ici
+            setTimeout(() => {
+                this.managers = {
+                    loading: window.loadingManager,
+                    video: window.videoManager,
+                    navigation: window.navigationManager,
+                    effects: window.effectsManager,
+                    audio: window.audioManager,
+                    portfolio: window.portfolioManager || new PortfolioManager(),
+                    magnifier: window.magnifierManager || new MagnifierManager()
+                };
             
             // Assigner l'instance créée à la variable globale
             if (!window.portfolioManager) {
@@ -49,8 +66,15 @@ class App {
             // Initialiser les événements de navigation
             this.setupMainMenuEvents();
             
-            console.log('✅ Gestionnaires initialisés:', Object.keys(this.managers));
-        }, 100);
+                console.log('✅ Gestionnaires initialisés:', Object.keys(this.managers));
+            }, 100);
+        } catch (error) {
+            console.error('💥 Erreur lors de l\'initialisation des gestionnaires:', error);
+            // En cas d'erreur, on cache quand même le loader pour éviter l'écran blanc
+            if (window.loadingManager && typeof window.loadingManager.hideLoader === 'function') {
+                window.loadingManager.hideLoader();
+            }
+        }
     }
     
     setupMainMenuEvents() {

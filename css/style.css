@@ -320,10 +320,44 @@ body {
 #background-video::-webkit-media-controls,
 #background-video::-webkit-media-controls-panel,
 #background-video::-webkit-media-controls-play-button,
-#background-video::-webkit-media-controls-start-playback-button {
+#background-video::-webkit-media-controls-start-playback-button,
+#background-video::-webkit-media-controls-fullscreen-button,
+#background-video::-webkit-media-controls-timeline,
+#background-video::-webkit-media-controls-current-time-display,
+#background-video::-webkit-media-controls-time-remaining-display,
+#background-video::-webkit-media-controls-mute-button,
+#background-video::-webkit-media-controls-volume-slider {
     display: none !important;
     opacity: 0 !important;
     pointer-events: none !important;
+    visibility: hidden !important;
+    -webkit-appearance: none !important;
+}
+
+/* Masquage pour Firefox */
+#background-video::-moz-media-controls {
+    display: none !important;
+}
+
+/* Masquage spécifique mobile */
+@media (max-width: 1024px) {
+    #background-video {
+        pointer-events: none !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
+    }
+    
+    #background-video::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        pointer-events: none;
+    }
 }
 
 /* Effet de vignettage noir sur les contours */
@@ -1479,7 +1513,6 @@ body {
         /* Garder les transitions courtes pour la 3D */
         transition: transform 0.05s ease-out !important;
     }
-}
 
 /* ANTI-CHEVAUCHEMENT ULTIME - Position absolue des éléments */
 @media (max-width: 1024px) {
@@ -10175,14 +10208,7 @@ iframe[src*="Circus_Viewer.html"] * {
         font-size: 0.75rem !important; /* Afficher le nouveau texte */
     }
     
-    /* Optimisations pour les images lazy loading */
-    .lazy-load {
-        background: #f0f0f0;
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    /* Lazy loading supprimé - chargement immédiat */
     
     .gallery-item {
         transition: opacity 0.3s ease;
