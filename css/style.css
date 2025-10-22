@@ -1337,53 +1337,63 @@ body {
     cursor: grabbing !important;
 }
 
-/* Responsive CV */
+/* SOLUTION SIMPLE ET EFFICACE - CV TOUJOURS CENTRÉ */
 @media (max-width: 1024px) {
-    .cv-paper {
-        /* CENTRÉ sur tablette - pas d'interactivité 3D */
-        width: 32vw !important; /* 45vw - 30% ≈ 32vw */
-        height: calc(32vw / 0.707) !important;
-        max-width: 280px !important; /* 400px - 30% = 280px */
-        max-height: calc(280px / 0.707) !important;
-        /* Position centrée fixe */
+    .papers-container > .cv-paper {
+        /* Taille adaptative simple */
+        width: 50vw !important;
+        height: 70vw !important; /* Proportion CV */
+        max-width: 350px !important;
+        max-height: 495px !important;
+        min-width: 200px !important;
+        min-height: 283px !important;
+        /* CENTRAGE ABSOLU SIMPLE */
         position: absolute !important;
-        left: 50% !important; /* Centré horizontalement */
-        top: 50% !important; /* Centré verticalement */
-        transform: translate(-50%, -50%) !important; /* Centrage parfait */
-        /* Pas de 3D sur tablette */
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important; /* Centrage parfait sans scale */
+        transform-origin: center center !important;
+        /* Style */
         transform-style: flat !important;
-        pointer-events: auto !important; /* Pour le double-clic */
+        pointer-events: auto !important;
         cursor: pointer !important;
         transition: transform 0.3s ease !important;
+        z-index: 1000 !important;
+        box-sizing: border-box !important;
     }
 
     .cv-interactive-overlay {
         display: block !important;
         touch-action: manipulation !important;
+        left: 0 !important;
     }
 }
 
 @media (max-width: 768px) {
-    /* CENTRÉ sur mobile - pas d'interactivité 3D */
-    .cv-paper {
-        /* Réduire la taille pour mobile mais centrer */
-        width: 40vw !important;
-        height: calc(40vw / 0.707) !important;
+    /* CV MOBILE - Centré avec taille mobile */
+    .papers-container > .cv-paper {
+        /* Taille mobile adaptée */
+        width: 60vw !important;
+        height: 85vw !important; /* Proportion CV mobile */
         max-width: 300px !important;
-        max-height: calc(300px / 0.707) !important;
-        /* Position centrée fixe */
+        max-height: 424px !important;
+        min-width: 180px !important;
+        min-height: 254px !important;
+        /* CENTRAGE ABSOLU */
         position: absolute !important;
-        left: 50% !important; /* Centré horizontalement */
-        top: 50% !important; /* Centré verticalement */
+        left: 50% !important;
+        top: 50% !important;
         transform: translate(-50%, -50%) !important; /* Centrage parfait */
-        /* Pas de 3D sur mobile */
+        transform-origin: center center !important;
+        /* Style mobile */
         transform-style: flat !important;
-        pointer-events: auto !important; /* Pour le double-clic */
+        pointer-events: auto !important;
         cursor: pointer !important;
         transition: transform 0.3s ease !important;
+        z-index: 1000 !important;
+        box-sizing: border-box !important;
     }
     
-    /* Réactiver l'overlay pour les interactions tactiles */
     .cv-interactive-overlay {
         display: block !important;
         /* Optimiser pour le tactile */
@@ -1391,10 +1401,53 @@ body {
         -webkit-touch-callout: none !important;
         -webkit-user-select: none !important;
         user-select: none !important;
+        /* Overlay reste sur le CV */
+        left: 0 !important;
     }
+}
 
-    /* Optimiser le conteneur pour mobile avec 3D */
-    .papers-container {
+/* PETITS ÉCRANS - iPhone SE etc. */
+@media (max-width: 480px) {
+    .papers-container > .cv-paper {
+        /* Taille petits écrans */
+        width: 70vw !important;
+        height: 99vw !important; /* Proportion CV petits écrans */
+        max-width: 250px !important;
+        max-height: 353px !important;
+        min-width: 150px !important;
+        min-height: 212px !important;
+        /* CENTRAGE ABSOLU */
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        transform-origin: center center !important;
+        z-index: 1000 !important;
+    }
+}
+
+/* PAYSAGE MOBILE */
+@media (max-height: 500px) and (orientation: landscape) {
+    .papers-container > .cv-paper {
+        /* Taille paysage compacte */
+        width: 40vw !important;
+        height: 70vh !important; /* En paysage, utiliser la hauteur */
+        max-width: 200px !important;
+        max-height: 280px !important;
+        min-width: 120px !important;
+        min-height: 170px !important;
+        /* CENTRAGE ABSOLU */
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        transform-origin: center center !important;
+        z-index: 1000 !important;
+    }
+}
+
+/* Optimiser le conteneur pour mobile avec 3D */
+.papers-container {
         /* Garder la perspective pour la 3D */
         perspective: 1500px !important;
         transform-style: preserve-3d !important;
@@ -1413,6 +1466,195 @@ body {
         animation: none !important;
         /* Garder les transitions courtes pour la 3D */
         transition: transform 0.05s ease-out !important;
+    }
+}
+
+/* ANTI-CHEVAUCHEMENT ULTIME - Position absolue des éléments */
+@media (max-width: 1024px) {
+    /* Sur mobile/tablette, repositionner aux coins */
+    
+    /* Repositionner le bouton retour accueil - COIN BAS GAUCHE */
+    .back-to-home-btn {
+        position: fixed !important;
+        bottom: 10px !important;
+        left: 10px !important;
+        z-index: 9999 !important; /* Z-index ultra-élevé */
+        transform: scale(0.7) !important; /* Plus petit */
+        transform-origin: bottom left !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 120px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important; /* Visibilité */
+    }
+    
+    /* === BOUTON RESET PAPIERS === */
+    .reset-papers-btn {
+        position: absolute;
+        left: 30px;
+        top: 45%; /* Légèrement plus haut */
+        transform: translateY(-50%);
+        width: 200px;
+        height: 70px;
+        z-index: 100;
+        font-size: 0.9rem;
+    }
+    
+    /* === INSTRUCTIONS === */
+    .papers-instructions {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        text-align: center;
+        font-family: 'Kindergarten', sans-serif;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 12px 24px;
+        border-radius: 8px;
+        backdrop-filter: blur(4px);
+        z-index: 10;
+    }
+    
+    /* Contrôle magnifier - CÔTÉ DROIT CENTRE */
+    .magnifier-control {
+        position: fixed;
+        top: 50%;
+        right: 30px;
+        transform: translateY(-50%);
+        z-index: 5000;
+    }
+}
+
+/* DESKTOP RESPONSIVE - Pour fenêtre redimensionnée */
+@media (min-width: 1025px) {
+    /* Réinitialiser les positions pour desktop - SAUF logos et loupe */
+    .back-to-home-btn {
+        position: relative !important;
+        transform: none !important;
+        /* Laisser les styles par défaut pour desktop */
+    }
+    
+    /* Reset papers btn garde sa position absolue à gauche */
+    .reset-papers-btn {
+        position: absolute !important;
+        left: 30px !important;
+        top: 45% !important;
+        transform: translateY(-50%) !important;
+        width: 200px !important;
+        height: 70px !important;
+        z-index: 100 !important;
+        transition: transform 0.1s ease-out !important;
+    }
+    
+    /* Animations hover pour reset-papers-btn dans cette media query */
+    .reset-papers-btn:hover {
+        transform: translateY(-50%) scale(1.05) !important; /* Légère mise à l'échelle au hover */
+        transition: transform 0.2s ease !important;
+    }
+    
+    .reset-papers-btn:active {
+        transform: translateY(-50%) scale(1.1) !important;
+    }
+    
+    .reset-papers-btn::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -1px !important;
+        left: -1px !important;
+        right: -1px !important;
+        bottom: -1px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 2px 0.5px 2.5px 1px !important;
+        transform: rotate(-0.3deg) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .reset-papers-btn::after {
+        content: '' !important;
+        position: absolute !important;
+        top: -0.5px !important;
+        left: -0.5px !important;
+        right: -0.5px !important;
+        bottom: -0.5px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        transform: rotate(0.2deg) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .reset-papers-btn:hover::before {
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        border-width: 0.7px !important;
+        transform: rotate(-0.5deg) !important;
+    }
+    
+    .reset-papers-btn:hover::after {
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        border-width: 0.7px !important;
+        transform: rotate(0.4deg) !important;
+    }
+    
+    /* Instructions gardent leur position absolue en bas */
+    .papers-instructions {
+        position: absolute !important;
+        bottom: 30px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    
+    /* Logos sociaux responsive sur desktop redimensionné */
+    .social-logos-container {
+        position: absolute !important;
+        right: 800px !important; /* Déplacé de 200% supplémentaires vers la gauche */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 10 !important;
+        /* Réinitialiser les styles mobile */
+        flex-direction: column !important;
+        gap: 45px !important;
+    }
+    
+    .social-logos-instruction {
+        position: absolute !important;
+        /* Réinitialiser les styles mobile */
+        top: auto !important;
+        right: auto !important;
+        transform: none !important;
+        background: transparent !important;
+        color: inherit !important;
+        font-size: inherit !important;
+    }
+    
+    /* LOUPE - Garder sa position fixe à droite sur desktop */
+    .magnifier-control {
+        position: fixed !important;
+        top: 50% !important;
+        right: 30px !important;
+        transform: translateY(-50%) !important;
+    }
+}
+
+/* MOBILE SPÉCIFIQUE - Ajustements fins */
+@media (max-width: 768px) {
+    .back-to-home-btn,
+    .reset-papers-btn {
+        transform: scale(0.6) !important; /* Encore plus petit sur mobile */
+        min-width: 100px !important;
+    }
+    
+    .papers-instructions {
+        bottom: 70px !important;
+        font-size: 10px !important;
+        padding: 6px 10px !important;
+    }
+    
+    .social-logos-container {
+        transform: scale(0.5) !important;
     }
 }
 
@@ -1904,6 +2146,68 @@ body {
     height: 70px;
     z-index: 100;
     font-size: 0.9rem;
+    transition: transform 0.1s ease-out;
+}
+
+/* Effet parallaxe pour reset-papers-btn - Première couche */
+.reset-papers-btn::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 2px 0.5px 2.5px 1px;
+    transform: rotate(-0.3deg);
+    transition: all 0.2s ease;
+}
+
+/* Effet parallaxe pour reset-papers-btn - Deuxième couche */
+.reset-papers-btn::after {
+    content: '';
+    position: absolute;
+    top: -0.5px;
+    left: -0.5px;
+    right: -0.5px;
+    bottom: -0.5px;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 1px 2.5px 0.5px 1.5px;
+    transform: rotate(0.2deg);
+    transition: all 0.2s ease;
+}
+
+/* Animations hover pour reset-papers-btn - comme back-to-home-btn */
+.reset-papers-btn:hover {
+    background: transparent !important;
+}
+
+.reset-papers-btn:hover::before {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    border-width: 0.7px !important;
+    transform: rotate(-0.5deg) !important;
+}
+
+.reset-papers-btn:hover::after {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    border-width: 0.7px !important;
+    transform: rotate(0.4deg) !important;
+}
+
+.reset-papers-btn:focus {
+    background: transparent !important;
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.reset-papers-btn:active {
+    background: transparent !important;
+    transform: scale(1.1);
 }
 
 .reset-papers-btn .button-text {
@@ -2723,7 +3027,7 @@ body {
 /* === LOGOS SOCIAUX === */
 .social-logos-container {
     position: absolute;
-    right: 914px;
+    right: 800px; /* Déplacé de 200% supplémentaires vers la gauche */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -2775,19 +3079,39 @@ body {
 /* Phrase explicative pour les logos */
 .social-logos-instruction {
     position: absolute;
-    right: 580px;
-    top: 50%;
+    right: 705px; /* Déplacé de 2% supplémentaires vers la droite */
+    top: 22%; /* Déplacé de 4% encore plus haut */
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.9rem;
     font-family: 'Kindergarten', sans-serif;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 8px 16px;
-    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 24px;
+    border-radius: 8px;
     backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     z-index: 10;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive intermédiaire pour fenêtre desktop redimensionnée */
+@media (min-width: 1025px) and (max-width: 1400px) {
+    .social-logos-container {
+        right: 700px !important; /* Déplacé vers la gauche, responsive */
+        gap: 35px; /* Gap réduit */
+        transform: translateY(-50%);
+    }
+    
+    .social-logo {
+        width: 120px; /* Taille réduite */
+        height: 120px;
+    }
+    
+    .social-logo img {
+        width: 80px;
+        height: 80px;
+    }
 }
 
 /* Responsive pour les logos sociaux */
@@ -2816,7 +3140,7 @@ body {
     .social-logos-instruction {
         position: fixed !important;
         right: 20px !important;
-        bottom: 100px !important;
+        bottom: 120px !important; /* Au-dessus des logos sociaux */
         top: auto !important;
         transform: none !important;
         font-size: 0.8rem;
@@ -2851,7 +3175,7 @@ body {
     .social-logos-instruction {
         position: fixed !important;
         right: 10px !important;
-        bottom: 90px !important;
+        bottom: 110px !important; /* Au-dessus des logos sociaux */
         top: auto !important;
         transform: none !important;
         font-size: 0.7rem;
@@ -4499,9 +4823,9 @@ body {
     position: fixed;
     width: 150px;
     height: 150px;
-    border: 2px solid white;
+    border: 3px solid #333;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(1px);
     pointer-events: none;
     z-index: 15000;
@@ -4509,12 +4833,42 @@ body {
     transition: opacity 0.2s ease-in-out;
     overflow: hidden;
     box-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.8),
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
+        0 0 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 5px rgba(255, 255, 255, 0.8),
+        0 0 0 2px rgba(255, 255, 255, 0.9);
 }
 
 .magnifier-overlay.active {
     opacity: 1;
+}
+
+/* === CURSEUR LOUPE === */
+/* Curseur personnalisé quand la loupe est activée */
+.magnifier-cursor-enabled {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, auto !important;
+}
+
+/* Papiers avec curseur loupe quand activé */
+.magnifier-cursor-enabled .cv-paper,
+.magnifier-cursor-enabled .contact-paper,
+.magnifier-cursor-enabled .cv-interactive-overlay {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, pointer !important;
+}
+
+/* Forcer le curseur loupe sur TOUS les éléments à l'intérieur des CV */
+.magnifier-cursor-enabled .cv-paper *,
+.magnifier-cursor-enabled .contact-paper *,
+.magnifier-cursor-enabled .cv-interactive-overlay *,
+.magnifier-cursor-enabled .cv-paper a,
+.magnifier-cursor-enabled .contact-paper a,
+.magnifier-cursor-enabled .cv-interactive-overlay a,
+.magnifier-cursor-enabled .cv-paper button,
+.magnifier-cursor-enabled .contact-paper button,
+.magnifier-cursor-enabled .cv-interactive-overlay button,
+.magnifier-cursor-enabled .cv-paper .clickable,
+.magnifier-cursor-enabled .contact-paper .clickable,
+.magnifier-cursor-enabled .cv-interactive-overlay .clickable {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, pointer !important;
 }
 
 /* Zone zoomée à l'intérieur de la loupe */
@@ -4555,6 +4909,14 @@ body {
     position: relative;
 }
 
+/* Nouvelle loupe textuelle avec zoom réel */
+.magnifier-content.text-zoom {
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+}
+
 /* Les styles pour le contenu dans la loupe contact sont maintenant gérés par JavaScript */
 
 /* Effet de zoom sur le texte des papiers */
@@ -4564,6 +4926,12 @@ body {
 
 .paper-hover-zoom.zoomed {
     transform: scale(1.05);
+}
+
+/* Zoom instantané pour la loupe */
+.paper-hover-zoom.instant-zoom {
+    transition: none !important;
+    transform: scale(1.05) !important;
 }
 
 /* Styles spéciaux pour les textes dans la loupe */
@@ -10037,7 +10405,7 @@ iframe[src*="Circus_Viewer.html"] * {
     /* Les styles mobiles pour asset-type-btn sont déjà définis plus haut dans cette media query */
     /* Le panneau Gun/Plasma Pistol utilise les mêmes styles mobiles que Archway */
 
-    /* Désactiver la loupe sur mobile pour éviter les problèmes de performance */
+    /* Désactiver la loupe SEULEMENT sur mobile/tablette pour éviter les problèmes de performance */
     .magnifier-overlay {
         display: none !important;
     }
@@ -10112,5 +10480,134 @@ iframe[src*="Circus_Viewer.html"] * {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* === POSITIONS FORCÉES DESKTOP - RÈGLES ULTRA-PRIORITAIRES === */
+@media (min-width: 1025px) {
+    /* Bouton Reset Papers - Position originale FORCÉE */
+    .reset-papers-btn {
+        position: absolute !important;
+        left: 30px !important;
+        top: 45% !important;
+        transform: translateY(-50%) !important;
+        width: 200px !important;
+        height: 70px !important;
+        z-index: 100 !important;
+        font-size: 0.9rem !important;
+        transition: transform 0.1s ease-out !important;
+    }
+    
+    /* Animations hover pour reset-papers-btn - FORCÉES */
+    .reset-papers-btn:hover {
+        background: transparent !important;
+        transform: translateY(-50%) scale(1.05) !important; /* Maintenir la position ET permettre les effets */
+        transition: transform 0.2s ease !important;
+    }
+    
+    .reset-papers-btn:hover::before {
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        border-width: 0.7px !important;
+        transform: rotate(-0.5deg) !important;
+    }
+    
+    .reset-papers-btn:hover::after {
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        border-width: 0.7px !important;
+        transform: rotate(0.4deg) !important;
+    }
+    
+    .reset-papers-btn:active {
+        background: transparent !important;
+        transform: translateY(-50%) scale(1.1) !important; /* Combiner la position ET le scale */
+    }
+    
+    /* Pseudo-éléments du reset-papers-btn - FORCÉS */
+    .reset-papers-btn::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -1px !important;
+        left: -1px !important;
+        right: -1px !important;
+        bottom: -1px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 2px 0.5px 2.5px 1px !important;
+        transform: rotate(-0.3deg) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .reset-papers-btn::after {
+        content: '' !important;
+        position: absolute !important;
+        top: -0.5px !important;
+        left: -0.5px !important;
+        right: -0.5px !important;
+        bottom: -0.5px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        border-radius: 1px 2.5px 0.5px 1.5px !important;
+        transform: rotate(0.2deg) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    /* Instructions - Position originale FORCÉE */
+    .papers-instructions {
+        position: absolute !important;
+        bottom: 30px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 1rem !important;
+        text-align: center !important;
+        font-family: 'Kindergarten', sans-serif !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        backdrop-filter: blur(4px) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        z-index: 10 !important;
+    }
+    
+    /* Magnifier Control - Position originale FORCÉE */
+    .magnifier-control {
+        position: fixed !important;
+        top: 50% !important;
+        right: 30px !important;
+        transform: translateY(-50%) !important;
+        z-index: 5000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    /* Logos Sociaux - Position ajustée FORCÉE */
+    .social-logos-container {
+        position: absolute !important;
+        right: 800px !important; /* Déplacé de 200% supplémentaires vers la gauche */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 10 !important;
+    }
+    
+    /* Instruction Logos Sociaux - Position au-dessus des logos FORCÉE */
+    .social-logos-instruction {
+        position: absolute !important;
+        right: 705px !important; /* Déplacé de 2% supplémentaires vers la droite */
+        top: 22% !important; /* Déplacé de 4% encore plus haut */
+        transform: translateY(-50%) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 0.9rem !important;
+        font-family: 'Kindergarten', sans-serif !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        backdrop-filter: blur(4px) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        z-index: 10 !important;
+        text-align: center !important;
+    }
 }
 

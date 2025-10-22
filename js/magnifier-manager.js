@@ -12,33 +12,106 @@ class MagnifierManager {
         this.mouseX = 0;
         this.mouseY = 0;
         
+        // Détection mobile/tablette pour désactiver la loupe
+        this.isMobile = window.innerWidth <= 768;
+        this.isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
+        this.isDesktop = window.innerWidth > 1024;
+        
         this.init();
     }
 
     init() {
+        // Écouter les changements de taille d'écran
+        window.addEventListener('resize', () => this.handleResize());
+        
+        console.log(`MagnifierManager: Init - Desktop: ${this.isDesktop}, Mobile: ${this.isMobile}, Tablet: ${this.isTablet}`);
+        
+        // Désactiver la loupe SEULEMENT sur mobile et tablette
+        if (this.isMobile || this.isTablet) {
+            console.log('MagnifierManager: Loupe désactivée sur mobile/tablette');
+            return;
+        }
+        
+        // Activer la loupe sur desktop (fonctionne normalement)
         this.createMagnifierOverlay();
         this.bindEvents();
         this.bindToggleEvents();
-        console.log('MagnifierManager initialisé');
+        console.log('MagnifierManager initialisé et FONCTIONNEL pour desktop');
+    }
+    
+    handleResize() {
+        const oldIsDesktop = this.isDesktop;
+        
+        this.isMobile = window.innerWidth <= 768;
+        this.isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
+        this.isDesktop = window.innerWidth > 1024;
+        
+        console.log(`MagnifierManager: Resize - Old: ${oldIsDesktop ? 'Desktop' : 'Mobile/Tablet'}, New: ${this.isDesktop ? 'Desktop' : 'Mobile/Tablet'}`);
+        
+        // Si on passe de desktop à mobile/tablette, désactiver la loupe
+        if (oldIsDesktop && !this.isDesktop) {
+            this.cleanup();
+            console.log('MagnifierManager: Loupe désactivée (passage vers mobile/tablette)');
+        }
+        // Si on passe de mobile/tablette à desktop, réactiver la loupe
+        else if (!oldIsDesktop && this.isDesktop && !this.magnifierOverlay) {
+            this.createMagnifierOverlay();
+            this.bindEvents();
+            this.bindToggleEvents();
+            console.log('MagnifierManager: Loupe réactivée (passage vers desktop)');
+        }
+    }
+    
+    cleanup() {
+        if (this.magnifierOverlay) {
+            this.deactivateMagnifier();
+            this.magnifierOverlay.remove();
+            this.magnifierOverlay = null;
+        }
     }
 
     createMagnifierOverlay() {
         // Créer l'overlay de loupe
         this.magnifierOverlay = document.createElement('div');
         this.magnifierOverlay.className = 'magnifier-overlay';
+        this.magnifierOverlay.style.cssText = `
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.98);
+            pointer-events: none;
+            z-index: 15000;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        `;
         
         // Contenu zoomé de la loupe
         const magnifierContent = document.createElement('div');
         magnifierContent.className = 'magnifier-content';
-        magnifierContent.innerHTML = '<span class="magnifier-text">Zoom sur le texte</span>';
+        magnifierContent.innerHTML = '<span class="magnifier-text">LOUPE TEST</span>';
+        magnifierContent.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        `;
         
         this.magnifierOverlay.appendChild(magnifierContent);
         document.body.appendChild(this.magnifierOverlay);
+        
+        console.log('🔍 Overlay magnifier créé et ajouté au DOM:', this.magnifierOverlay);
     }
 
     bindEvents() {
-        // Événements pour les papiers CV et contact
-        const papers = document.querySelectorAll('.cv-paper, .contact-paper');
+        // Événements pour les papiers CV et contact + overlay interactif
+        const papers = document.querySelectorAll('.cv-paper, .contact-paper, .cv-interactive-overlay');
         
         console.log(`Binding events to ${papers.length} papers:`, papers);
         
@@ -46,21 +119,22 @@ class MagnifierManager {
             // Survol des papiers
             paper.addEventListener('mouseenter', (e) => {
                 if (this.isMagnifierEnabled) { // Vérifier si la loupe est activée
-                    console.log('Mouseenter on:', e.target.className);
+                    console.log('🎯 Mouseenter on:', e.target.className);
                     this.activateMagnifier(e.target);
                 }
             });
             
             paper.addEventListener('mouseleave', (e) => {
                 if (this.isMagnifierEnabled) {
-                    console.log('Mouseleave from:', e.target.className);
+                    console.log('🚪 Mouseleave from:', e.target.className);
                     this.deactivateMagnifier();
                 }
             });
             
-            // Suivi de la souris
+            // Suivi de la souris - version simplifiée
             paper.addEventListener('mousemove', (e) => {
                 if (this.isActive && this.isMagnifierEnabled) {
+                    console.log('👀 Mousemove - Updating position');
                     this.updateMagnifierPosition(e);
                     this.updateMagnifierContent(e);
                 }
@@ -91,6 +165,15 @@ class MagnifierManager {
             toggleBtn.setAttribute('data-active', this.isMagnifierEnabled.toString());
         }
         
+        // Appliquer/enlever le curseur loupe
+        if (this.isMagnifierEnabled) {
+            document.body.classList.add('magnifier-cursor-enabled');
+            console.log('Curseur loupe activé');
+        } else {
+            document.body.classList.remove('magnifier-cursor-enabled');
+            console.log('Curseur loupe désactivé');
+        }
+        
         // Si on désactive, désactiver aussi la loupe active
         if (!this.isMagnifierEnabled && this.isActive) {
             this.deactivateMagnifier();
@@ -114,19 +197,37 @@ class MagnifierManager {
     }
 
     activateMagnifier(target) {
+        console.log('🔍 ACTIVATION DE LA LOUPE sur:', target.className);
+        
         this.isActive = true;
-        this.currentTarget = target;
         
-        // Ajouter la classe curseur loupe
-        target.classList.add('magnifying-cursor');
+        // Si on survole l'overlay, trouver le CV parent
+        if (target.classList.contains('cv-interactive-overlay')) {
+            this.currentTarget = target.closest('.cv-paper') || target.parentElement.querySelector('.cv-paper');
+            console.log('🎯 Overlay détecté, CV parent trouvé:', this.currentTarget);
+        } else {
+            this.currentTarget = target;
+        }
         
-        // Activer l'overlay
-        this.magnifierOverlay.classList.add('active');
+        // Vérifier qu'on a bien trouvé un target
+        if (!this.currentTarget) {
+            console.error('❌ Aucun target trouvé pour la loupe');
+            return;
+        }
         
-        // Ajouter l'effet zoom sur le papier
-        target.classList.add('paper-hover-zoom', 'zoomed');
+        // TEST: Montrer immédiatement l'overlay
+        if (this.magnifierOverlay) {
+            this.magnifierOverlay.style.opacity = '1';
+            this.magnifierOverlay.style.left = '200px';
+            this.magnifierOverlay.style.top = '200px';
+            console.log('✅ Overlay affiché en mode test');
+        } else {
+            console.error('❌ magnifierOverlay n\'existe pas!');
+        }
         
-        console.log('Loupe activée sur:', target.className);
+        console.log('✅ Loupe activée sur:', this.currentTarget.className);
+    }
+    }
     }
 
     deactivateMagnifier() {
@@ -137,7 +238,7 @@ class MagnifierManager {
         // Supprimer les classes
         if (this.currentTarget) {
             this.currentTarget.classList.remove('magnifying-cursor');
-            this.currentTarget.classList.remove('paper-hover-zoom', 'zoomed');
+            this.currentTarget.classList.remove('paper-hover-zoom', 'zoomed', 'instant-zoom');
         }
         
         // Désactiver l'overlay
@@ -178,29 +279,53 @@ class MagnifierManager {
     updateMagnifierContent(e) {
         const magnifierContent = this.magnifierOverlay.querySelector('.magnifier-content');
         
-        if (this.currentTarget.classList.contains('cv-paper')) {
-            // Détecter si on est sur le front ou le back du CV
-            const isBack = this.isOnBackSide();
-            
-            if (isBack) {
-                magnifierContent.className = 'magnifier-content cv-zoom-back';
-            } else {
-                magnifierContent.className = 'magnifier-content cv-zoom-front';
-            }
-            
-            // S'assurer qu'il n'y a pas de contenu texte pour le CV
-            magnifierContent.innerHTML = '';
-            magnifierContent.textContent = '';
-            
-            this.updateCVImagePosition(e, magnifierContent);
-        } else if (this.currentTarget.classList.contains('contact-paper')) {
-            // Pour le contact, créer un zoom du papier réel
-            magnifierContent.className = 'magnifier-content contact-zoom';
-            magnifierContent.innerHTML = '';
-            magnifierContent.textContent = '';
-            
-            this.updateContactPaperZoom(e, magnifierContent);
+        // Déterminer le target réel (en cas d'overlay)
+        let realTarget = this.currentTarget;
+        if (!realTarget) {
+            console.warn('⚠️ Pas de currentTarget défini');
+            return;
         }
+        
+        if (realTarget.classList.contains('cv-paper') || realTarget.classList.contains('cv-interactive-overlay')) {
+            // Créer un effet de loupe réel en copiant le contenu sous le curseur
+            this.createTextZoom(e, magnifierContent);
+        } else if (realTarget.classList.contains('contact-paper')) {
+            // Pour le contact, créer un zoom du papier réel
+            this.createTextZoom(e, magnifierContent);
+        }
+    }
+
+    createTextZoom(e, magnifierContent) {
+        console.log('🔍 createTextZoom appelée avec:', e);
+        
+        // Obtenir les coordonnées relatives au papier
+        const targetRect = this.currentTarget.getBoundingClientRect();
+        const relativeX = e.clientX - targetRect.left;
+        const relativeY = e.clientY - targetRect.top;
+        
+        console.log('📍 Position relative:', relativeX, relativeY);
+        
+        // Créer une copie du contenu avec zoom
+        const zoomClone = this.currentTarget.cloneNode(true);
+        
+        // Nettoyer le contenu de la loupe
+        magnifierContent.innerHTML = '';
+        magnifierContent.className = 'magnifier-content text-zoom';
+        
+        // Configurer le clone pour l'effet loupe
+        zoomClone.style.position = 'absolute';
+        zoomClone.style.transform = 'scale(2.5)'; // Zoom 2.5x
+        zoomClone.style.transformOrigin = 'top left';
+        zoomClone.style.left = `${-relativeX * 2.5 + 75}px`; // Centrer sur la zone de 150px
+        zoomClone.style.top = `${-relativeY * 2.5 + 75}px`;
+        zoomClone.style.width = targetRect.width + 'px';
+        zoomClone.style.height = targetRect.height + 'px';
+        zoomClone.style.pointerEvents = 'none';
+        
+        // Ajouter le clone à la loupe
+        magnifierContent.appendChild(zoomClone);
+        
+        console.log('✅ Loupe textuelle créée avec zoom 2.5x');
     }
 
     updateContactPaperZoom(e, magnifierContent) {

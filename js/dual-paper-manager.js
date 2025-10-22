@@ -509,8 +509,14 @@ class DualPaperManager {
         const paperElement = paperType === 'cv' ? this.cvPaper : this.contactPaper;
         
         if (!paperElement) {
-            console.error(`❌ Élément ${paperType} non trouvé pour transformation !`);
-            return;
+            // Log silencieux pour contact-paper car il n'existe pas dans cette version
+            if (paperType === 'contact') {
+                // console.log(`⚠️ Élément ${paperType} non trouvé (normal car supprimé)`);
+                return;
+            } else {
+                console.error(`❌ Élément ${paperType} non trouvé pour transformation !`);
+                return;
+            }
         }
         
         // Ajustement pour mobile/tablette - garder la 3D mais repositionner
@@ -553,18 +559,24 @@ class DualPaperManager {
         // Construire la transformation 3D complète
         let transform;
         if (isMobile || isTablet) {
-            // Mobile/tablette : garder la 3D mais ajuster les positions
-            const baseTransformContact = paperType === 'contact' ? 
-                'translate(-50%, -50%)' : 'translate(-50%, -50%)';
-            
-            transform = `${baseTransformContact} 
-                translateX(${paper.transX * 0.5}px) 
-                translateY(${adjustedTransY * 0.5}px) 
-                translateZ(${paper.transZ * 0.5}px) 
-                rotateX(${paper.rotX}deg) 
-                rotateY(${paper.rotY}deg) 
-                rotateZ(${paper.rotZ}deg) 
-                scale(${paper.scale})`;
+            // Mobile/tablette : si interactivité désactivée, ne pas forcer le transform
+            if (this.shouldDisableInteractivity && paperType === 'cv') {
+                // Laisser le CSS gérer la position sur mobile/tablette pour le CV
+                transform = 'none';
+            } else {
+                // Sinon, appliquer transform normal
+                const baseTransformContact = paperType === 'contact' ? 
+                    'translate(-50%, -50%)' : 'translate(-50%, -50%)';
+                
+                transform = `${baseTransformContact} 
+                    translateX(${paper.transX * 0.5}px) 
+                    translateY(${adjustedTransY * 0.5}px) 
+                    translateZ(${paper.transZ * 0.5}px) 
+                    rotateX(${paper.rotX}deg) 
+                    rotateY(${paper.rotY}deg) 
+                    rotateZ(${paper.rotZ}deg) 
+                    scale(${paper.scale})`;
+            }
         } else {
             // Desktop : transformation normale
             transform = `translate(-50%, -50%)
@@ -578,17 +590,23 @@ class DualPaperManager {
             `;
         }
         
-        const cleanTransform = transform.replace(/\s+/g, ' ').trim();
-        paperElement.style.transform = cleanTransform;
-        
-        // Optimiser les transitions selon la plateforme
-        if (isMobile || isTablet) {
-            paperElement.style.setProperty('transform', cleanTransform, 'important');
-            // Transition optimisée pour mobile/tablette
-            paperElement.style.setProperty('transition', 'transform 0.05s ease-out', 'important');
+        // Appliquer le transform seulement si ce n'est pas 'none'
+        if (transform !== 'none') {
+            const cleanTransform = transform.replace(/\s+/g, ' ').trim();
+            paperElement.style.transform = cleanTransform;
+            
+            // Optimiser les transitions selon la plateforme
+            if (isMobile || isTablet) {
+                paperElement.style.setProperty('transform', cleanTransform, 'important');
+                // Transition optimisée pour mobile/tablette
+                paperElement.style.setProperty('transition', 'transform 0.05s ease-out', 'important');
+            } else {
+                // Desktop : transition plus fluide
+                paperElement.style.transition = 'transform 0.1s ease-out';
+            }
         } else {
-            // Desktop : transition plus fluide
-            paperElement.style.transition = 'transform 0.1s ease-out';
+            // Si transform = 'none', ne pas appliquer de transform (laisser CSS gérer)
+            console.log(`📱 ${paperType}: Transform désactivé sur mobile/tablette - CSS gère la position`);
         }
         
         // Debug info réduite pour améliorer les performances

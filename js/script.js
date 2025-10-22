@@ -32,12 +32,18 @@ class App {
                 navigation: window.navigationManager,
                 effects: window.effectsManager,
                 audio: window.audioManager,
-                portfolio: window.portfolioManager || new PortfolioManager()
+                portfolio: window.portfolioManager || new PortfolioManager(),
+                magnifier: window.magnifierManager || new MagnifierManager()
             };
             
             // Assigner l'instance créée à la variable globale
             if (!window.portfolioManager) {
                 window.portfolioManager = this.managers.portfolio;
+            }
+            
+            // Assigner l'instance de la loupe à la variable globale
+            if (!window.magnifierManager) {
+                window.magnifierManager = this.managers.magnifier;
             }
             
             // Initialiser les événements de navigation

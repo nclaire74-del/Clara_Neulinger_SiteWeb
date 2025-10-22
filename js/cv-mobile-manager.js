@@ -66,6 +66,9 @@ class CVMobileManager {
         // Désactiver l'interactivité 3D
         this.disableInteractivity();
         
+        // Forcer la position du CV vers la droite
+        this.forcePosition();
+        
         // Ajouter le double-clic/double-tap
         this.cvPaper.addEventListener('click', (e) => this.handleDoubleTap(e));
         this.cvPaper.addEventListener('touchend', (e) => this.handleDoubleTap(e));
@@ -89,6 +92,12 @@ class CVMobileManager {
     setupDesktopBehavior() {
         console.log('🔧 Configuration desktop : interactivité 3D préservée');
         
+        // Nettoyer l'intervalle de force position
+        if (this.positionInterval) {
+            clearInterval(this.positionInterval);
+            this.positionInterval = null;
+        }
+        
         // S'assurer que l'interactivité 3D est active
         this.enableInteractivity();
     }
@@ -98,7 +107,11 @@ class CVMobileManager {
         
         // Désactiver le dragging
         this.cvPaper.style.pointerEvents = 'auto'; // Garde les clics mais pas le drag
-        this.cvPaper.style.cursor = 'pointer';
+        
+        // Ne forcer le cursor pointer que sur mobile/tablette
+        if (this.isMobile || this.isTablet) {
+            this.cvPaper.style.cursor = 'pointer';
+        }
         
         // Empêcher les interactions 3D
         this.cvPaper.addEventListener('mousedown', this.preventDrag);
@@ -111,12 +124,52 @@ class CVMobileManager {
         
         // Réactiver le dragging
         this.cvPaper.style.pointerEvents = 'all';
-        this.cvPaper.style.cursor = 'grab';
+        
+        // Ne pas forcer le cursor sur desktop pour permettre l'effet loupe
+        // Le magnifier-manager gérera le cursor avec ses propres classes CSS
+        if (this.isMobile || this.isTablet) {
+            this.cvPaper.style.cursor = 'grab';
+        } else {
+            // Sur desktop, ne pas forcer le cursor pour permettre l'effet loupe
+            this.cvPaper.style.cursor = '';
+        }
         
         // Retirer les blocages d'interaction
         this.cvPaper.removeEventListener('mousedown', this.preventDrag);
         this.cvPaper.removeEventListener('touchstart', this.preventDrag);
         this.cvPaper.removeEventListener('dragstart', this.preventDrag);
+    }
+    
+    forcePosition() {
+        if (!this.cvPaper) return;
+        
+        // SOLUTION SIMPLE - Centrage absolu toujours
+        console.log('📱 CENTRAGE SIMPLE ET EFFICACE');
+        
+        // Nettoyer les styles
+        this.cvPaper.style.transform = '';
+        
+        // Appliquer SEULEMENT le centrage parfait - CSS s'occupe du reste
+        this.cvPaper.style.setProperty('position', 'absolute', 'important');
+        this.cvPaper.style.setProperty('left', '50%', 'important');
+        this.cvPaper.style.setProperty('top', '50%', 'important');
+        this.cvPaper.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
+        this.cvPaper.style.setProperty('transform-origin', 'center center', 'important');
+        this.cvPaper.style.setProperty('z-index', '1000', 'important');
+        
+        console.log('📱 CV centré : left=50%, top=50%, transform=translate(-50%, -50%)');
+        
+        // Maintenir le centrage simple toutes les 200ms
+        this.positionInterval = setInterval(() => {
+            if (this.cvPaper && (this.isMobile || this.isTablet)) {
+                // Appliquer seulement le centrage - pas de calculs compliqués
+                this.cvPaper.style.setProperty('position', 'absolute', 'important');
+                this.cvPaper.style.setProperty('left', '50%', 'important');
+                this.cvPaper.style.setProperty('top', '50%', 'important');
+                this.cvPaper.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
+                this.cvPaper.style.setProperty('z-index', '1000', 'important');
+            }
+        }, 200);
     }
     
     preventDrag(e) {

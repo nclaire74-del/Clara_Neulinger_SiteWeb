@@ -27,8 +27,8 @@ class ButtonParallaxManager {
             });
         }
         
-        // Trouver tous les boutons de jeu (incluant les nouveaux)
-        this.buttons = document.querySelectorAll('.game-button');
+        // Trouver tous les boutons de jeu (incluant les nouveaux) ET le bouton reset-papers
+        this.buttons = document.querySelectorAll('.game-button, .reset-papers-btn');
         console.log(`[PARALLAX] ${this.buttons.length} boutons détectés`);
         
         // Log détaillé de chaque bouton détecté
@@ -92,19 +92,24 @@ class ButtonParallaxManager {
         const translateY = deltaY * parallaxFactor;
         
         // Debug pour les boutons spécifiques
-        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
-            console.log(`[PARALLAX] ${button.id} button move:`, {
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home' || button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            console.log(`[PARALLAX] ${button.id || 'reset-papers'} button move:`, {
                 deltaX, deltaY, translateX, translateY
             });
         }
         
         // Appliquer la transformation avec un scale plus subtil
-        const transform = `scale(1.1) translate(${translateX}px, ${translateY}px)`;
+        let transform = `scale(1.05) translate(${translateX}px, ${translateY}px)`;
+        
+        // Pour le bouton reset-papers, préserver la position verticale
+        if (button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            transform = `translateY(-50%) scale(1.05) translate(${translateX}px, ${translateY}px)`;
+        }
         
         // Pour les boutons avec des conflits CSS, forcer avec setProperty
-        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home' || button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
             button.style.setProperty('transform', transform, 'important');
-            console.log(`[PARALLAX] Transform applied with important for ${button.id}:`, transform);
+            console.log(`[PARALLAX] Transform applied with important for ${button.id || 'reset-papers'}:`, transform);
         } else {
             button.style.transform = transform;
         }
@@ -123,6 +128,9 @@ class ButtonParallaxManager {
         if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
             button.style.setProperty('transform', 'scale(1) translate(0px, 0px)', 'important');
             console.log(`[PARALLAX] ${button.id} button reset`);
+        } else if (button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            button.style.setProperty('transform', 'translateY(-50%) scale(1) translate(0px, 0px)', 'important');
+            console.log(`[PARALLAX] reset-papers button reset`);
         } else {
             button.style.transform = 'scale(1) translate(0px, 0px)';
         }
