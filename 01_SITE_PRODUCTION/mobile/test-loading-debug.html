@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Écran Chargement Debug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Écran de chargement avec fond noir -->
+    <div id="loading-screen">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <!-- Interface utilisateur principale (cachée au début) -->
+    <div id="main-ui" style="display: none;">
+        <h1 style="color: white; text-align: center;">Interface Principale Chargée !</h1>
+    </div>
+
+    <script>
+        console.log('=== DEBUG LOADING ===');
+        console.log('loading-screen existe:', !!document.getElementById('loading-screen'));
+        console.log('main-ui existe:', !!document.getElementById('main-ui'));
+        
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainUI = document.getElementById('main-ui');
+        
+        if (loadingScreen) {
+            console.log('loading-screen display:', window.getComputedStyle(loadingScreen).display);
+            console.log('loading-screen visibility:', window.getComputedStyle(loadingScreen).visibility);
+            console.log('loading-screen opacity:', window.getComputedStyle(loadingScreen).opacity);
+        }
+        
+        // Configuration comme dans le vrai site
+        const CONFIG = {
+            LOADING_MESSAGES: [
+                "Compilation du shader...",
+                "Création du monde...",
+                "Construction de l'univers...",
+                "Préparation de l'expérience...",
+                "Pret pour l'exploration!"
+            ]
+        };
+        
+        window.CONFIG = CONFIG;
+    </script>
+    
+    <!-- Charger les vrais scripts -->
+    <script src="pages/loading/loading-manager.js"></script>
+</body>
+</html>

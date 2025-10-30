@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Assets Portfolio Mobile</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #1a1a1a; 
+            color: #fff; 
+            line-height: 1.6;
+        }
+        .section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: #2a2a2a; 
+            border-radius: 8px; 
+            border-left: 4px solid #4CAF50;
+        }
+        .test-item { 
+            margin: 10px 0; 
+            padding: 10px; 
+            background: #333; 
+            border-radius: 5px; 
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .success { background: #2d5016; border-left: 3px solid #4CAF50; }
+        .error { background: #501616; border-left: 3px solid #f44336; }
+        .warning { background: #4a3c00; border-left: 3px solid #ff9800; }
+        .loading { background: #1e3a8a; border-left: 3px solid #2196F3; }
+        
+        img { 
+            max-width: 120px; 
+            max-height: 80px; 
+            border-radius: 5px; 
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .info { flex: 1; }
+        .path { font-family: monospace; font-size: 12px; color: #888; margin-top: 5px; }
+        
+        .summary { 
+            position: fixed; 
+            top: 10px; 
+            right: 10px; 
+            background: #333; 
+            padding: 15px; 
+            border-radius: 8px; 
+            min-width: 200px;
+            z-index: 1000;
+        }
+        .counter { display: inline-block; margin: 5px 10px; font-weight: bold; }
+        .success-count { color: #4CAF50; }
+        .error-count { color: #f44336; }
+        .total-count { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="summary">
+        <h3>📊 Résumé Portfolio</h3>
+        <div class="counter success-count">✅ <span id="success-count">0</span></div>
+        <div class="counter error-count">❌ <span id="error-count">0</span></div>
+        <div class="counter total-count">📋 <span id="total-count">0</span></div>
+    </div>
+
+    <h1>🎨 Vérification Assets Portfolio Mobile</h1>
+    
+    <div class="section">
+        <h2>🔫 Projet Gun</h2>
+        <div id="gun-assets"></div>
+    </div>
+
+    <div class="section">
+        <h2>🏠 Projet Room</h2>
+        <div id="room-assets"></div>
+    </div>
+
+    <div class="section">
+        <h2>🏛️ Projet Arch</h2>
+        <div id="arch-assets"></div>
+    </div>
+
+    <div class="section">
+        <h2>📱 Projet Telephone</h2>
+        <div id="telephone-assets"></div>
+    </div>
+
+    <div class="section">
+        <h2>🍳 Projet Kitchen</h2>
+        <div id="kitchen-assets"></div>
+    </div>
+
+    <script>
+        let successCount = 0;
+        let errorCount = 0;
+        let totalCount = 0;
+
+        function updateCounters() {
+            document.getElementById('success-count').textContent = successCount;
+            document.getElementById('error-count').textContent = errorCount;
+            document.getElementById('total-count').textContent = totalCount;
+        }
+
+        function testAsset(path, container, description) {
+            totalCount++;
+            updateCounters();
+
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-item loading';
+            
+            const img = document.createElement('img');
+            img.src = path;
+            
+            const info = document.createElement('div');
+            info.className = 'info';
+            info.innerHTML = `
+                <strong>⏳ ${description}</strong>
+                <div class="path">${path}</div>
+            `;
+            
+            testDiv.appendChild(img);
+            testDiv.appendChild(info);
+            container.appendChild(testDiv);
+            
+            img.addEventListener('load', () => {
+                testDiv.className = 'test-item success';
+                info.innerHTML = `
+                    <strong>✅ ${description}</strong>
+                    <div class="path">${path}</div>
+                `;
+                successCount++;
+                updateCounters();
+            });
+            
+            img.addEventListener('error', () => {
+                testDiv.className = 'test-item error';
+                info.innerHTML = `
+                    <strong>❌ ${description} ERREUR</strong>
+                    <div class="path">${path}</div>
+                `;
+                errorCount++;
+                updateCounters();
+            });
+        }
+
+        // Tests Gun
+        const gunContainer = document.getElementById('gun-assets');
+        testAsset('/Clara_Neulinger/assets/images/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg', gunContainer, 'Gun Main Image');
+        testAsset('/Clara_Neulinger/assets/images/Gun/4.png', gunContainer, 'Gun Preview Image');
+        testAsset('/Clara_Neulinger/assets/images/Gun/preview.jpg', gunContainer, 'Gun Thumbnail');
+
+        // Tests Room  
+        const roomContainer = document.getElementById('room-assets');
+        testAsset('/Clara_Neulinger/assets/images/Room/Untitled_Camera 1_FullQuality.jpg', roomContainer, 'Room Main Image');
+        testAsset('/Clara_Neulinger/assets/images/Room/fullQuality.png', roomContainer, 'Room Full Quality');
+        testAsset('/Clara_Neulinger/assets/images/Room/Neulinger_Clara_Room_Renders_1.jpg', roomContainer, 'Room Render 1');
+        testAsset('/Clara_Neulinger/assets/images/Room/Neulinger_Clara_Room_Renders_2.jpg', roomContainer, 'Room Render 2');
+        testAsset('/Clara_Neulinger/assets/images/Room/Neulinger_Clara_Room_Renders_3.jpg', roomContainer, 'Room Render 3');
+
+        // Tests Arch
+        const archContainer = document.getElementById('arch-assets');
+        testAsset('/Clara_Neulinger/assets/images/Arch/BASE COLOR/NewLevelSequence.0128.jpeg', archContainer, 'Arch Base Color Preview');
+        testAsset('/Clara_Neulinger/assets/images/Arch/preview.jpg', archContainer, 'Arch Thumbnail');
+        testAsset('/Clara_Neulinger/assets/images/Arch/Neulinger_Clara_3B3D_Archway_Renders.jpg', archContainer, 'Arch Main Render');
+
+        // Tests Telephone
+        const telephoneContainer = document.getElementById('telephone-assets');
+        testAsset('/Clara_Neulinger/assets/images/Telephone/NEULINGER_CLARA_2B3DART_TELEPHONE_5.jpg', telephoneContainer, 'Telephone Main Image');
+        testAsset('/Clara_Neulinger/assets/images/Telephone/5.png', telephoneContainer, 'Telephone Preview');
+        testAsset('/Clara_Neulinger/assets/images/Telephone/preview.jpg', telephoneContainer, 'Telephone Thumbnail');
+
+        // Tests Kitchen
+        const kitchenContainer = document.getElementById('kitchen-assets');
+        testAsset('/Clara_Neulinger/assets/images/Kitchen/preview.jpg', kitchenContainer, 'Kitchen Preview Mobile');
+        testAsset('/Clara_Neulinger/assets/images/Kitchen/NewLevelSequence1_0002_Ultra.png', kitchenContainer, 'Kitchen Ultra Quality');
+
+        // Message final après 3 secondes
+        setTimeout(() => {
+            const totalTests = totalCount;
+            const completedTests = successCount + errorCount;
+            
+            if (completedTests === totalTests) {
+                const resultMessage = document.createElement('div');
+                resultMessage.className = errorCount === 0 ? 'section success' : 'section warning';
+                resultMessage.innerHTML = `
+                    <h2>🎯 Résultat Final Portfolio</h2>
+                    <p><strong>Tests terminés:</strong> ${completedTests}/${totalTests}</p>
+                    <p><strong>Succès:</strong> ${successCount} ✅</p>
+                    <p><strong>Erreurs:</strong> ${errorCount} ❌</p>
+                    ${errorCount === 0 ? 
+                        '<p style="color: #4CAF50; font-weight: bold;">🎉 Tous les assets portfolio sont OK !</p>' : 
+                        '<p style="color: #ff9800; font-weight: bold;">⚠️ Certains assets portfolio ont des erreurs.</p>'
+                    }
+                `;
+                document.body.appendChild(resultMessage);
+            }
+        }, 4000);
+    </script>
+</body>
+</html>

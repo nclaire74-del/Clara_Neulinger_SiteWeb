@@ -1,0 +1,916 @@
+/* CORRECTIONS MOBILES SIMPLES */
+
+/* Supprime le bouton Reset Papers sur mobile */
+#reset-papers {
+    display: none !important;
+}
+
+/* Am�liore le touch sur mobile */
+.game-button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Force le bon viewport */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* NOUVEAU SYSTÈME CV MOBILE */
+
+/* Sélecteur de langue */
+/* === CV BOUTONS STYLE UNIFORME === */
+.cv-buttons-container {
+    display: flex !important;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    width: 100%;
+    max-width: 400px;
+    padding: 30px 20px;
+}
+
+.cv-btn {
+    /* Reprendre exactement le style game-button de base */
+    background: transparent !important;
+    border: none;
+    color: #ffffff;
+    padding: 25px 35px;
+    font-size: 1.3rem;
+    font-family: 'Kindergarten', sans-serif;
+    cursor: pointer;
+    min-width: 320px;
+    text-align: center; /* Centrer le texte */
+    position: relative;
+    text-shadow: none;
+    z-index: 3;
+    outline: none;
+    box-shadow: none;
+    transition: transform 0.1s ease-out;
+    transform-origin: center center; /* Centrer la transformation */
+}
+
+/* Encadrement gribouillé - Première couche */
+.cv-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 2px 0.5px 2.5px 1px !important;
+    transform: rotate(-0.3deg) !important;
+}
+
+/* Encadrement gribouillé - Deuxième couche */
+.cv-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -0.5px !important;
+    left: -0.5px !important;
+    right: -0.5px !important;
+    bottom: -0.5px !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: 1.5px 2px 1px 2.5px !important;
+    transform: rotate(0.2deg) !important;
+}
+
+/* Effet hover */
+.cv-btn:hover::before {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: rotate(-0.5deg) !important;
+}
+
+.cv-btn:hover::after {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    transform: rotate(0.4deg) !important;
+}
+
+.cv-btn .button-text {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: normal;
+}
+
+.cv-btn .button-subtitle {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 5px;
+    font-family: 'Kindergarten', sans-serif;
+}
+
+/* === CV OVERLAY DISPLAY === */
+.cv-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(5px);
+}
+
+.cv-overlay.active {
+    display: flex;
+}
+
+.cv-overlay-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cv-overlay img {
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+    max-width: 90vw;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+}
+
+.cv-close-btn {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.cv-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Conteneur CV unique */
+.cv-single-display {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+}
+
+.cv-single-display .cv-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.cv-single-display .cv-image-wrapper.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+}
+
+.cv-single-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cv-single-display .cv-image-label {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'Kindergarten', Arial, sans-serif;
+}
+
+/* OPTIMISATION VIEWERS 3D MOBILES */
+.marmoset-viewer-container {
+    width: 95vw !important;
+    height: 60vh !important;
+    margin: 0 auto !important;
+}
+
+/* PRÉCHARGEMENT IMAGES GALERIE */
+.project-item img,
+.gallery-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* OPTIMISATIONS PERFORMANCE MOBILE */
+* {
+    will-change: auto;
+}
+
+.game-button,
+.cv-lang-btn,
+.project-item {
+    will-change: transform;
+}
+
+/* SUPPRESSION ANIMATIONS LOURDES SUR MOBILE - AVEC EXCEPTIONS */
+@media (hover: none) and (pointer: coarse) {
+    /* Réduire les animations NON critiques seulement */
+    .marmoset-viewer-container *,
+    .portfolio-item *,
+    .cv-image-wrapper * {
+        animation-duration: 0.1s !important;
+        transition-duration: 0.2s !important;
+    }
+    
+    /* Supprimer les animations non essentielles */
+    .loading-bar-container,
+    .spinner {
+        animation: none !important;
+    }
+    
+    /* PRÉSERVER les animations critiques pour les effets système */
+    .tv-shutdown,
+    .shutdown-overlay,
+    .try-again-overlay,
+    [class*="shutdown"],
+    [class*="tv-"] {
+        animation-duration: unset !important;
+        transition-duration: unset !important;
+    }
+}
+
+/* FORCER l'animation TV shutdown sur mobile */
+/* === CORRECTIONS ANIMATIONS TV SHUTDOWN === */
+.tv-shutdown {
+    transform-origin: center center !important;
+    animation: tv-shutdown-corrected 1.5s ease-in-out forwards !important;
+}
+
+@keyframes tv-shutdown-corrected {
+    0% {
+        transform: scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scaleX(1) scaleY(0.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scaleX(0) scaleY(0);
+        opacity: 0;
+    }
+}
+
+.tv-shutdown-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    pointer-events: none !important;
+}
+
+.tv-shutdown-overlay .effect-element {
+    transform-origin: center center !important;
+}
+
+/* === CORRECTION UNIVERSELLE VIEWERS MARMOSET === */
+/* SOLUTION : Layout en flex pour éviter les chevauchements */
+
+/* CONTAINER PRINCIPAL : Reorganisation en flex */
+.marmoset-main-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* TOUS LES VIEWERS : Taille uniforme et centrés sans position absolute */
+.marmoset-viewer-container,
+div.marmoset-viewer-container,
+.marmoset-modal-content .marmoset-viewer-container {
+    /* TAILLE DE BASE */
+    width: 70% !important;
+    height: 400px !important; /* Hauteur fixe pour éviter les problèmes */
+    
+    /* CENTRAGE SANS POSITION ABSOLUTE */
+    margin: 20px auto !important;
+    position: relative !important;
+    
+    /* SUPPRESSION POSITIONNEMENT ABSOLU */
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    
+    /* BOX MODEL */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    
+    /* SUPPRESSION TRANSFORMS */
+    transform: none !important;
+}
+
+/* TOUS LES PANELS/CONTAINERS : Largeur uniforme, style original */
+.marmoset-modal-content > .marmoset-main-container > *,
+.marmoset-modal-content [class*="panel"],
+.marmoset-modal-content [class*="container"],
+.marmoset-modal-content [class*="slider"],
+.marmoset-modal-content [class*="external"] {
+    width: 90% !important; /* Largeur uniforme pour TOUS */
+    margin: 20px auto !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+}
+
+/* VIEWERS SPÉCIFIQUES : Largeur uniforme mais style original conservé */
+.marmoset-modal-content:has([src*="Gun"]) .marmoset-viewer-container,
+.marmoset-modal-content:has([src*="Room"]) .marmoset-viewer-container,
+.marmoset-modal-content:has([src*="Kitchen"]) .marmoset-viewer-container,
+.marmoset-modal-content:has([src*="Arch"]) .marmoset-viewer-container {
+    width: 90% !important; /* Même largeur que les autres éléments */
+    /* Tous les autres styles (couleurs, bordures, etc.) restent d'origine */
+}
+
+/* EXCEPTION : Circus avec double viewers en ligne */
+.marmoset-modal-content:has([src*="Circus"]) .marmoset-main-container {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    gap: 2% !important;
+}
+
+.marmoset-modal-content:has([src*="Circus"]) .marmoset-viewer-container {
+    width: 48% !important;
+    margin: 0 !important;
+}
+
+.marmoset-modal-content:has([src*="Circus"]) .marmoset-chara-viewer-container {
+    width: 48% !important;
+    height: 400px !important;
+    margin: 0 !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+}
+
+/* CORRECTION WRAPPER DES VIEWERS */
+.marmoset-viewer-container .viewer-wrapper,
+.marmoset-chara-viewer-container .viewer-wrapper {
+    width: 100% !important;
+    height: 350px !important; /* Hauteur fixe pour le contenu */
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    flex: 1 !important;
+}
+
+.marmoset-viewer-container iframe,
+.marmoset-chara-viewer-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* LARGEUR UNIFORME SEULEMENT : Tous les éléments font la même taille SANS changer le style */
+.marmoset-viewer-container,
+.marmoset-chara-viewer-container,
+.marmoset-gallery-panel,
+.marmoset-extra-panel,
+.marmoset-info-panel,
+.marmoset-story-panel,
+.arch-slider-external,
+.asset-slider-container,
+.asset-slider-container div,
+.gun-slider-external,
+.telephone-slider-external {
+    width: 90% !important; /* SEULE modification : largeur uniforme */
+    margin: 20px auto !important; /* Centrage */
+    position: relative !important;
+    left: auto !important; /* Supprime les positionnements absolus */
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    
+    /* STYLE ORIGINAL CONSERVÉ - on ne touche à RIEN d'autre */
+    /* Tous les styles originaux (fond, couleurs, bordures, encadrements) restent intacts */
+}
+
+/* IMAGES : Correction taille et contenu dans les box */
+.marmoset-gallery-panel img,
+.gallery-image {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* IMAGES ASSET PREVIEW : TOUS les IDs avec zoom et marge - RÈGLES FORTES */
+.asset-preview-container img,
+#arch-asset-preview,
+#gun-asset-preview,
+#room-asset-preview,
+#telephone-asset-preview,
+.marmoset-extra-panel img,
+.marmoset-extra-panel .asset-preview-container img,
+img#arch-asset-preview,
+img#gun-asset-preview,
+img#room-asset-preview,
+img#telephone-asset-preview,
+.marmoset-extra-panel img#arch-asset-preview,
+.marmoset-extra-panel img#gun-asset-preview,
+.marmoset-extra-panel img#room-asset-preview,
+.marmoset-extra-panel img#telephone-asset-preview {
+    width: calc(100% - 20px) !important; /* Large mais avec un peu de marge pour l'encadrement */
+    height: auto !important;
+    max-width: calc(100% - 20px) !important;
+    max-height: 600px !important; /* Plus haute pour zoom */
+    object-fit: contain !important; /* Garde les proportions */
+    border-radius: 6px !important; /* Remet un peu de bordure arrondie */
+    margin: 10px auto !important; /* Centré avec marge pour l'encadrement */
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    transform: scale(1.5) !important; /* Zoom encore plus fort - 50% */
+    background-color: transparent !important; /* FOND TRANSPARENT pour PNG */
+    background-image: none !important; /* Pas d'image de fond */
+    background: transparent !important; /* Force le fond transparent */
+}
+
+/* CONTENEUR ASSET PREVIEW : Optimisé pour images plus grosses */
+.asset-preview-container,
+.marmoset-extra-panel .asset-preview-container {
+    width: 100% !important;
+    padding: 10px !important; /* Remet un peu de padding pour l'encadrement */
+    box-sizing: border-box !important;
+    text-align: center !important;
+    min-height: 400px !important; /* HAUTEUR RÉDUITE pour éviter trop d'espace */
+    max-height: 500px !important; /* Hauteur maximale */
+    margin: 10px 0 !important; /* Remet une petite marge */
+    overflow: hidden !important; /* Cache les débordements du zoom */
+    background: transparent !important; /* ENLÈVE LE FOND GRIS DU CONTENEUR */
+    background-color: transparent !important; /* Force transparent */
+    background-image: none !important; /* Pas d'image de fond */
+}
+
+/* RÈGLE UNIVERSELLE : Tous les conteneurs avec overflow pour le zoom */
+.marmoset-extra-panel,
+.asset-preview-container {
+    position: relative !important;
+    overflow: hidden !important; /* Important pour contenir le zoom */
+    /* GARDE le style original des conteneurs (encadrements, etc.) */
+}
+
+/* RÈGLE SPÉCIFIQUE : Images dans marmoset-extra-panel cohérente */
+.marmoset-extra-panel img,
+.marmoset-extra-panel #arch-asset-preview,
+.marmoset-extra-panel #gun-asset-preview,
+.marmoset-extra-panel #room-asset-preview,
+.marmoset-extra-panel #telephone-asset-preview {
+    width: calc(100% - 20px) !important; /* Large mais avec marge pour encadrement */
+    max-width: calc(100% - 20px) !important;
+    max-height: 250px !important; /* Taille adaptée pour laisser place au titre */
+    margin: 10px auto !important; /* Marge pour centrage */
+    transform: scale(1.2) !important; /* Zoom modéré - 20% */
+    transform-origin: center center !important; /* Centre la transformation */
+    object-fit: contain !important;
+    border-radius: 6px !important; /* Remet bordure arrondie */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; /* Remet légère ombre */
+    background-color: transparent !important; /* FOND TRANSPARENT DERRIÈRE L'IMAGE */
+    background-image: none !important;
+    background: transparent !important;
+    flex-shrink: 0 !important; /* Empêche la réduction de l'image */
+}
+
+/* SUPPRESSION DES POSITIONNEMENTS ABSOLUS CONFLICTUELS */
+.marmoset-gallery-panel {
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+}
+
+.marmoset-extra-panel {
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+}
+
+/* CORRECTION BOUTONS ASSET-TYPE-SELECTOR : Lisibles et bien visibles */
+.asset-type-selector {
+    display: flex !important;
+    flex-wrap: wrap !important; /* Permet le retour à la ligne si nécessaire */
+    gap: 6px !important; /* Espacement confortable */
+    justify-content: center !important; /* Centrage des boutons */
+    padding: 10px !important;
+    margin: 10px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.asset-type-btn {
+    font-size: 12px !important; /* Plus lisible */
+    padding: 8px 12px !important; /* Padding généreux */
+    margin: 2px !important;
+    white-space: nowrap !important;
+    min-width: auto !important;
+    flex: 0 0 auto !important; /* Taille naturelle du contenu */
+    border-radius: 4px !important;
+    border: 1px solid #666 !important;
+    background: #444 !important;
+    color: white !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    font-weight: normal !important;
+    line-height: 1.3 !important;
+    
+    /* Hauteur confortable */
+    min-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* Largeur adaptative */
+    min-width: 70px !important; /* Minimum pour être lisible */
+    max-width: 120px !important; /* Maximum pour pas trop étaler */
+}
+
+.asset-type-btn.active {
+    background: white !important; /* Couleur blanche pour l'actif */
+    border-color: white !important;
+    color: #333 !important; /* Texte sombre sur fond blanc */
+    font-weight: bold !important; /* Plus visible quand actif */
+}
+
+.asset-type-btn:hover {
+    background: #666 !important;
+    border-color: #666 !important;
+    transform: scale(1.02) !important; /* Léger agrandissement au survol */
+    transition: all 0.2s ease !important;
+}
+
+/* TOUS LES VISUALISEURS : Boutons avec couleur blanche active */
+.marmoset-extra-panel .asset-type-btn.active,
+.arch-slider-external .asset-type-btn.active,
+.gun-slider-external .asset-type-btn.active,
+.telephone-slider-external .asset-type-btn.active,
+[class*="slider"] .asset-type-btn.active,
+button.active[class*="asset"],
+button[class*="asset"].active {
+    background: white !important;
+    border-color: white !important;
+    color: #333 !important;
+    font-weight: bold !important;
+}
+
+/* FORCER TOUTES LES IMAGES DE PREVISUALISATION - RÈGLES ULTRA SPÉCIFIQUES */
+.marmoset-modal-content img[id*="asset-preview"],
+.marmoset-modal-content img[id$="asset-preview"],
+.marmoset-modal img[id*="asset-preview"],
+.marmoset-modal img[id$="asset-preview"],
+[class*="marmoset"] img[id*="asset-preview"],
+[class*="marmoset"] img[id$="asset-preview"],
+div img[id*="asset-preview"],
+div img[id$="asset-preview"] {
+    width: calc(100% - 20px) !important; /* Large mais avec marge */
+    max-width: calc(100% - 20px) !important;
+    height: auto !important;
+    max-height: 300px !important; /* RÉDUIT pour s'adapter aux nouveaux conteneurs */
+    margin: 5px auto !important; /* Marge réduite */
+    padding: 0 !important;
+    transform: scale(1.3) !important; /* Zoom réduit à 30% pour s'adapter */
+    transform-origin: center center !important; /* Centre la transformation */
+    object-fit: contain !important;
+    border-radius: 6px !important; /* Remet bordure */
+    display: block !important;
+    box-sizing: border-box !important;
+    background-color: transparent !important; /* FOND TRANSPARENT POUR PNG */
+    background-image: none !important; /* Pas d'image de fond */
+    background: transparent !important; /* Force transparent */
+    position: relative !important; /* Pour un meilleur positionnement */
+}
+
+/* FORCER LES CONTENEURS DES IMAGES DE PREVISUALISATION */
+div[class*="asset-preview"],
+div[id*="asset-preview"],
+[class*="marmoset"] [class*="asset-preview"],
+[class*="marmoset"] div[id*="asset-preview"] {
+    width: 100% !important;
+    padding: 10px !important; /* Remet padding pour encadrement */
+    margin: 10px 0 !important; /* Remet marge pour encadrement */
+    min-height: 500px !important; /* Hauteur réduite */
+    overflow: hidden !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    background: transparent !important; /* ENLÈVE LE FOND GRIS DES CONTENEURS */
+    background-color: transparent !important; /* Force transparent */
+    background-image: none !important; /* Pas d'image de fond */
+}
+
+/* MARMOSET-EXTRA-PANEL : Hauteur spécifique pour contenir tout le contenu */
+.marmoset-extra-panel {
+    width: 100% !important;
+    padding: 20px !important; /* Plus de padding */
+    margin: 10px 0 !important;
+    min-height: 500px !important; /* HAUTEUR AUGMENTÉE pour contenir titre + contenu */
+    max-height: 600px !important; /* Hauteur maximale augmentée */
+    overflow: hidden !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* Aligne en haut */
+    gap: 10px !important; /* Espacement entre éléments */
+}
+
+/* RÈGLE SPÉCIALE : Enlever le fond gris de asset-preview-container */
+.asset-preview-container,
+div.asset-preview-container,
+[class="asset-preview-container"],
+[class*="asset-preview-container"],
+.marmoset-modal-content .asset-preview-container,
+.marmoset-modal .asset-preview-container,
+.marmoset-extra-panel .asset-preview-container {
+    background: transparent !important; /* ENLÈVE LE FOND GRIS */
+    background-color: transparent !important;
+    background-image: none !important;
+    background-size: auto !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+/* RÈGLE SPÉCIFIQUE : marmoset-extra-panel hauteur optimisée */
+.marmoset-extra-panel,
+div.marmoset-extra-panel,
+[class="marmoset-extra-panel"],
+.marmoset-modal-content .marmoset-extra-panel,
+.marmoset-modal .marmoset-extra-panel {
+    min-height: 500px !important; /* HAUTEUR AUGMENTÉE pour contenir titre + contenu */
+    max-height: 600px !important; /* Hauteur max augmentée */
+    height: auto !important; /* S'ajuste au contenu */
+    padding: 20px !important; /* Plus de padding pour contenir tout */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* Aligne en haut pour contenir le titre */
+    align-items: stretch !important; /* Étire les éléments sur toute la largeur */
+    gap: 15px !important; /* Espacement entre les éléments */
+    overflow: hidden !important; /* S'assure que tout reste dans le conteneur */
+}
+
+/* ÉLÉMENTS À L'INTÉRIEUR DU MARMOSET-EXTRA-PANEL */
+.marmoset-extra-panel h2,
+.marmoset-extra-panel h3,
+.marmoset-extra-panel .title,
+.marmoset-extra-panel [class*="title"] {
+    margin: 0 0 10px 0 !important; /* Marge réduite */
+    padding: 5px !important;
+    font-size: 1.2rem !important; /* Taille adaptée */
+    text-align: center !important;
+    flex-shrink: 0 !important; /* Ne rétrécit pas */
+}
+
+.marmoset-extra-panel .asset-type-selector,
+.marmoset-extra-panel [class*="selector"] {
+    margin: 10px 0 !important; /* Marge contrôlée */
+    flex-shrink: 0 !important; /* Ne rétrécit pas */
+    width: 100% !important;
+}
+
+.marmoset-extra-panel .asset-type-btn {
+    font-size: 11px !important; /* Taille réduite pour tenir */
+    padding: 6px 10px !important; /* Padding réduit */
+    margin: 2px !important;
+    min-height: 28px !important; /* Hauteur réduite */
+}
+
+.marmoset-extra-panel .asset-preview-container {
+    flex: 1 !important; /* Prend l'espace restant */
+    min-height: 200px !important; /* Hauteur minimale pour l'image */
+    max-height: 300px !important; /* Hauteur maximale */
+    margin: 0 !important; /* Pas de marge supplémentaire */
+    padding: 10px !important;
+}
+
+/* AGRANDISSEMENT DES LOGOS SOFTWARE DANS MARMOSET-INFO-PANEL */
+.marmoset-info-panel .logo-item,
+.marmoset-info-panel .logos-zone .logo-item,
+.marmoset-info-panel .logo-wrapper .logo-item {
+    width: 4.5vw !important; /* DOUBLÉ - était 2.2vw */
+    height: 4.5vw !important; /* DOUBLÉ - était 2.2vw */
+    max-width: 5vw !important; /* DOUBLÉ - était 2.5vw */
+    max-height: 5vw !important; /* DOUBLÉ - était 2.5vw */
+    min-width: 3.5vw !important; /* DOUBLÉ - était 1.8vw */
+    min-height: 3.5vw !important; /* DOUBLÉ - était 1.8vw */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-shrink: 0 !important; /* Ne rétrécit pas */
+}
+
+.marmoset-info-panel .logo-item img,
+.marmoset-info-panel .logos-zone img,
+.marmoset-info-panel .logo-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    background: transparent !important;
+    border: none !important;
+    display: block !important;
+    transform: scale(1.1) !important; /* Léger zoom supplémentaire */
+}
+
+.marmoset-info-panel .logo-wrapper,
+.marmoset-info-panel .logos-zone {
+    gap: 1vw !important; /* Espacement augmenté pour logos plus gros */
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Centre les logos */
+    align-items: center !important;
+}
+
+/* Optimisation pour écrans mobiles très petits */
+@media (max-width: 480px) {
+    .marmoset-viewer-container,
+    .marmoset-chara-viewer-container {
+        width: 95% !important;
+        height: 300px !important;
+        margin: 10px auto !important;
+    }
+    
+    .marmoset-viewer-container .viewer-wrapper,
+    .marmoset-chara-viewer-container .viewer-wrapper {
+        height: 250px !important;
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-main-container {
+        flex-direction: column !important;
+    }
+    
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-viewer-container,
+    .marmoset-modal-content:has([src*="Circus"]) .marmoset-chara-viewer-container {
+        width: 95% !important;
+        margin: 10px auto !important;
+    }
+    
+    /* LOGOS ENCORE PLUS GROS SUR PETITS ÉCRANS */
+    .marmoset-info-panel .logo-item,
+    .marmoset-info-panel .logos-zone .logo-item,
+    .marmoset-info-panel .logo-wrapper .logo-item {
+        width: 6vw !important; /* ENCORE PLUS GROS sur petit écran */
+        height: 6vw !important;
+        max-width: 7vw !important;
+        max-height: 7vw !important;
+        min-width: 5vw !important;
+        min-height: 5vw !important;
+    }
+    
+    .marmoset-info-panel .logo-item img,
+    .marmoset-info-panel .logos-zone img,
+    .marmoset-info-panel .logo-wrapper img {
+        transform: scale(1.2) !important; /* Zoom plus fort sur petit écran */
+    }
+}
+
+/* MODAL DE CONTACT */
+.contact-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.contact-modal-content {
+    background: #1a1a1a;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    color: white;
+    font-family: 'Kindergarten', sans-serif;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.contact-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+}
+
+.contact-close:hover {
+    color: white;
+}
+
+.contact-modal h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-item strong {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.contact-item span {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Logo de contact - style cohérent avec les autres */
+#contact-logo {
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#contact-logo:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}

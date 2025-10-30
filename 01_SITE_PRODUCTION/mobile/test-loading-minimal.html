@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Loading Minimal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Écran de chargement UNIQUEMENT -->
+    <div id="loading-screen" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: #000000 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; z-index: 999999 !important; opacity: 1 !important; visibility: visible !important;">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar" style="width: 75%; background: #00ffff;"></div>
+        </div>
+        <div id="loading-percentage">75%</div>
+        <div id="loading-message">Test écran de chargement...</div>
+    </div>
+    
+    <h1 style="color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
+        Si vous voyez ce texte, l'écran de chargement ne fonctionne pas
+    </h1>
+</body>
+</html>

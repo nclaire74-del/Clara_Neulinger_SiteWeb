@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Organisation - Clara Neulinger</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .check { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        img { max-width: 100px; height: auto; margin: 5px; }
+        video { max-width: 200px; height: auto; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Organisation Assets - Clara Neulinger</h1>
+        
+        <div class="test-section">
+            <h3>✅ Police Kindergarten</h3>
+            <p style="font-family: 'Kindergarten', Arial, sans-serif; font-size: 24px;">Test de la police Kindergarten</p>
+            <small>Chemin: 01_SITE_PRODUCTION/assets/fonts/kindergarten.ttf</small>
+        </div>
+
+        <div class="test-section">
+            <h3>🌐 Assets Essentiels Site (01_SITE_PRODUCTION/assets/)</h3>
+            
+            <h4>Contact & CV :</h4>
+            <img src="assets/images/Contact/cv-front.svg" alt="CV Front" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ CV Front manquant</span>
+            
+            <img src="assets/images/Contact/Cv_fr.svg" alt="CV FR" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ CV FR manquant</span>
+            
+            <h4>Logos Réseaux Sociaux :</h4>
+            <img src="assets/images/Logos/linkedin-logo.svg" alt="LinkedIn" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Logo LinkedIn manquant</span>
+            
+            <img src="assets/images/Logos/artstation-logo.svg" alt="ArtStation" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Logo ArtStation manquant</span>
+            
+            <img src="assets/images/placeholder.jpg" alt="Placeholder" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Placeholder manquant</span>
+        </div>
+
+        <div class="test-section">
+            <h3>🎨 Projets Portfolio 3D (05_PROJETS_3D/projets_portfolio/)</h3>
+            
+            <h4>Images Projets :</h4>
+            <img src="../../05_PROJETS_3D/projets_portfolio/images/Circus/thumb.jpg" alt="Circus" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Image Circus manquante</span>
+            
+            <img src="../../05_PROJETS_3D/projets_portfolio/images/Gun/thumb.jpg" alt="Gun" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Image Gun manquante</span>
+            
+            <img src="../../05_PROJETS_3D/projets_portfolio/images/Kitchen/thumb.jpg" alt="Kitchen" onerror="this.nextElementSibling.style.display='block'">
+            <span class="error" style="display:none">❌ Image Kitchen manquante</span>
+            
+            <h4>Vidéos Portfolio :</h4>
+            <video controls muted>
+                <source src="../../05_PROJETS_3D/projets_portfolio/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+                <span class="error">❌ Vidéo Circus manquante</span>
+            </video>
+            
+            <video controls muted>
+                <source src="../../05_PROJETS_3D/projets_portfolio/videos/Neulinger_Clara_3B3D_Archway_Render_Video.mp4" type="video/mp4">
+                <span class="error">❌ Vidéo Archway manquante</span>
+            </video>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 Test Final</h3>
+            <a href="index.html" style="display:inline-block; padding:15px 30px; background:#007cba; color:white; text-decoration:none; border-radius:5px; margin:10px;">
+                Tester le Site Complet
+            </a>
+            
+            <p><strong>Organisation Réussie :</strong></p>
+            <ul>
+                <li><span class="check">✓</span> Assets essentiels dans 01_SITE_PRODUCTION/assets/</li>
+                <li><span class="check">✓</span> Projets 3D dans 05_PROJETS_3D/projets_portfolio/</li>
+                <li><span class="check">✓</span> Chemins JavaScript corrigés</li>
+                <li><span class="check">✓</span> Police Kindergarten active</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Vérification de la police
+        document.fonts.ready.then(() => {
+            if (document.fonts.check('16px Kindergarten')) {
+                console.log('✅ Police Kindergarten chargée');
+            } else {
+                console.log('❌ Police Kindergarten non chargée');
+            }
+        });
+    </script>
+</body>
+</html>

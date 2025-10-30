@@ -1,0 +1,154 @@
+class ButtonParallaxManager {
+    constructor() {
+        this.buttons = [];
+        this.isActive = false;
+        this.init();
+    }
+
+    init() {
+        // Attendre que le DOM soit chargé
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setup());
+        } else {
+            this.setup();
+        }
+    }
+
+    setup() {
+        // Supprimer les anciens event listeners
+        if (this.isActive && this.buttons) {
+            this.buttons.forEach(button => {
+                if (button._parallaxHandlers) {
+                    button.removeEventListener('mousemove', button._parallaxHandlers.mouseMoveHandler);
+                    button.removeEventListener('mouseenter', button._parallaxHandlers.mouseEnterHandler);
+                    button.removeEventListener('mouseleave', button._parallaxHandlers.mouseLeaveHandler);
+                    delete button._parallaxHandlers;
+                }
+            });
+        }
+        
+        // Trouver tous les boutons de jeu (incluant les nouveaux) ET le bouton reset-papers
+        this.buttons = document.querySelectorAll('.game-button, .reset-papers-btn');
+        console.log(`[PARALLAX] ${this.buttons.length} boutons détectés`);
+        
+        // Log détaillé de chaque bouton détecté
+        this.buttons.forEach((button, index) => {
+            console.log(`[PARALLAX] Bouton ${index + 1}:`, {
+                id: button.id,
+                classes: button.className,
+                visible: button.offsetWidth > 0 && button.offsetHeight > 0
+            });
+        });
+        
+        if (this.buttons.length > 0) {
+            this.addParallaxEffects();
+            this.isActive = true;
+        }
+    }
+
+    addParallaxEffects() {
+        this.buttons.forEach(button => {
+            // Throttling pour limiter la fréquence des mises à jour
+            let lastUpdate = 0;
+            const throttleDelay = 16; // ~60fps
+            
+            // Créer des fonctions liées pour pouvoir les supprimer plus tard
+            const mouseMoveHandler = (e) => {
+                const now = Date.now();
+                if (now - lastUpdate > throttleDelay) {
+                    this.handleMouseMove(e, button);
+                    lastUpdate = now;
+                }
+            };
+            const mouseEnterHandler = (e) => this.handleMouseEnter(e, button);
+            const mouseLeaveHandler = (e) => this.handleMouseLeave(e, button);
+            
+            // Stocker les handlers sur l'élément pour pouvoir les supprimer
+            button._parallaxHandlers = { mouseMoveHandler, mouseEnterHandler, mouseLeaveHandler };
+            
+            // Effet parallaxe au survol
+            button.addEventListener('mousemove', mouseMoveHandler);
+            button.addEventListener('mouseenter', mouseEnterHandler);
+            button.addEventListener('mouseleave', mouseLeaveHandler);
+            
+            console.log(`[PARALLAX] Effet ajouté au bouton:`, button.className);
+        });
+    }
+
+    handleMouseMove(event, button) {
+        const rect = button.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calculer la distance de la souris par rapport au centre
+        const deltaX = event.clientX - centerX;
+        const deltaY = event.clientY - centerY;
+        
+        // Facteur de parallaxe réduit pour plus de fluidité
+        const parallaxFactor = 0.05;
+        
+        // Calculer la transformation
+        const translateX = deltaX * parallaxFactor;
+        const translateY = deltaY * parallaxFactor;
+        
+        // Debug pour les boutons spécifiques
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home' || button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            console.log(`[PARALLAX] ${button.id || 'reset-papers'} button move:`, {
+                deltaX, deltaY, translateX, translateY
+            });
+        }
+        
+        // Appliquer la transformation avec un scale plus subtil
+        let transform = `scale(1.05) translate(${translateX}px, ${translateY}px)`;
+        
+        // Pour le bouton reset-papers, préserver la position verticale
+        if (button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            transform = `translateY(-50%) scale(1.05) translate(${translateX}px, ${translateY}px)`;
+        }
+        
+        // Pour les boutons avec des conflits CSS, forcer avec setProperty
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home' || button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            button.style.setProperty('transform', transform, 'important');
+            console.log(`[PARALLAX] Transform applied with important for ${button.id || 'reset-papers'}:`, transform);
+        } else {
+            button.style.transform = transform;
+        }
+    }
+
+    handleMouseEnter(event, button) {
+        // Pas de transition pendant le mouvement pour éviter les conflits
+        button.style.transition = 'none';
+    }
+
+    handleMouseLeave(event, button) {
+        // Retour à la position normale
+        button.style.transition = 'transform 0.3s ease-out';
+        
+        // Pour les boutons avec des conflits CSS, forcer avec setProperty
+        if (button.id === 'back-to-home-portfolio' || button.id === 'back-to-home') {
+            button.style.setProperty('transform', 'scale(1) translate(0px, 0px)', 'important');
+            console.log(`[PARALLAX] ${button.id} button reset`);
+        } else if (button.id === 'reset-papers' || button.classList.contains('reset-papers-btn')) {
+            button.style.setProperty('transform', 'translateY(-50%) scale(1) translate(0px, 0px)', 'important');
+            console.log(`[PARALLAX] reset-papers button reset`);
+        } else {
+            button.style.transform = 'scale(1) translate(0px, 0px)';
+        }
+    }
+
+    destroy() {
+        if (this.isActive) {
+            this.buttons.forEach(button => {
+                button.removeEventListener('mousemove', this.handleMouseMove);
+                button.removeEventListener('mouseenter', this.handleMouseEnter);
+                button.removeEventListener('mouseleave', this.handleMouseLeave);
+                button.style.transform = '';
+                button.style.transition = '';
+            });
+        }
+        this.isActive = false;
+    }
+}
+
+// Initialiser le gestionnaire de parallaxe
+window.buttonParallaxManager = new ButtonParallaxManager();

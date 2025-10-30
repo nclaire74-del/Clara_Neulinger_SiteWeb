@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test TV Shutdown Centré</title>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .test-screen {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradient 3s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Grille pour visualiser le centrage */
+        .test-screen::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-50%);
+        }
+        
+        .test-screen::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%);
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Animation TV shutdown CENTRÉE */
+        .tv-shutdown {
+            animation: tvShutdownCentered 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+            transform-origin: center center !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        @keyframes tvShutdownCentered {
+            0% {
+                transform: scale(1, 1);
+                filter: brightness(1) contrast(1);
+                opacity: 1;
+            }
+            10% {
+                transform: scale(1, 0.8);
+                filter: brightness(1.2) contrast(1.3);
+                opacity: 1;
+            }
+            30% {
+                transform: scale(1, 0.1);
+                filter: brightness(2.5) contrast(3);
+                opacity: 0.9;
+            }
+            60% {
+                transform: scale(0.3, 0.02);
+                filter: brightness(5) contrast(8);
+                opacity: 0.7;
+            }
+            85% {
+                transform: scale(0.1, 0.005);
+                filter: brightness(10) contrast(15);
+                opacity: 0.3;
+            }
+            95% {
+                transform: scale(0.02, 0.001);
+                filter: brightness(20) contrast(25);
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(0, 0);
+                filter: brightness(0) contrast(0);
+                opacity: 0;
+            }
+        }
+        
+        .test-button {
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            color: white;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 10;
+        }
+        
+        .test-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        Les lignes blanches montrent le centre de l'écran.<br>
+        L'animation doit se réduire vers ce point central.
+    </div>
+    
+    <div class="test-screen" id="test-element">
+        <button class="test-button" onclick="testTvShutdown()">
+            TESTER TV SHUTDOWN CENTRÉ
+        </button>
+    </div>
+    
+    <script>
+        function testTvShutdown() {
+            console.log('Test TV Shutdown centré démarré');
+            const element = document.getElementById('test-element');
+            element.classList.add('tv-shutdown');
+            
+            // Vérifier transform-origin
+            setTimeout(() => {
+                const styles = window.getComputedStyle(element);
+                console.log('Transform origin:', styles.transformOrigin);
+                console.log('Animation en cours:', styles.animationName);
+            }, 100);
+            
+            // Reset après 2 secondes
+            setTimeout(() => {
+                element.classList.remove('tv-shutdown');
+                console.log('Animation réinitialisée');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

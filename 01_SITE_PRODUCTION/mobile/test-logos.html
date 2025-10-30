@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test des Logos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .logo-test {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logos-zone {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .logo-item {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px;
+            background: white;
+        }
+        
+        .logo-item:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test d'Affichage des Logos - Version Mobile</h1>
+    
+    <div class="logo-test">
+        <h3>Test 1: Logos individuels avec chemins absolus</h3>
+        <div class="logos-zone">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/Maya.png" alt="Maya" class="logo-item" title="Maya" onerror="this.style.border='2px solid red'">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/zbrush.png" alt="ZBrush" class="logo-item" title="ZBrush" onerror="this.style.border='2px solid red'">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/Marmoset.png" alt="Marmoset" class="logo-item" title="Marmoset" onerror="this.style.border='2px solid red'">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/Unreal.png" alt="Unreal" class="logo-item" title="Unreal" onerror="this.style.border='2px solid red'">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/Painter.png" alt="Painter" class="logo-item" title="Painter" onerror="this.style.border='2px solid red'">
+            <img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/Marvelous_Designer.png" alt="Marvelous Designer" class="logo-item" title="Marvelous Designer" onerror="this.style.border='2px solid red'">
+        </div>
+    </div>
+
+    <div class="logo-test">
+        <h3>Test 2: Logos avec chemins relatifs</h3>
+        <div class="logos-zone">
+            <img src="assets/images/Logos/Maya.png" alt="Maya" class="logo-item" title="Maya" onerror="this.style.border='2px solid red'">
+            <img src="assets/images/Logos/zbrush.png" alt="ZBrush" class="logo-item" title="ZBrush" onerror="this.style.border='2px solid red'">
+            <img src="assets/images/Logos/Marmoset.png" alt="Marmoset" class="logo-item" title="Marmoset" onerror="this.style.border='2px solid red'">
+            <img src="assets/images/Logos/Unreal.png" alt="Unreal" class="logo-item" title="Unreal" onerror="this.style.border='2px solid red'">
+            <img src="assets/images/Logos/Painter.png" alt="Painter" class="logo-item" title="Painter" onerror="this.style.border='2px solid red'">
+            <img src="assets/images/Logos/Marvelous_Designer.png" alt="Marvelous Designer" class="logo-item" title="Marvelous Designer" onerror="this.style.border='2px solid red'">
+        </div>
+    </div>
+
+    <div class="logo-test">
+        <h3>Test 3: Génération via JavaScript (comme dans le portfolio)</h3>
+        <div class="logos-zone" id="js-logos">
+            <!-- Les logos seront ajoutés ici via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Test de génération des logos comme dans le portfolio
+        function generateLogos(tags) {
+            const logoMapping = {
+                'Maya': { src: 'Maya.png', alt: 'Maya', title: 'Autodesk Maya' },
+                'ZBrush': { src: 'zbrush.png', alt: 'ZBrush', title: 'ZBrush' },
+                'Marmoset': { src: 'Marmoset.png', alt: 'Marmoset', title: 'Marmoset Toolbag' },
+                'Unreal Engine': { src: 'Unreal.png', alt: 'Unreal Engine', title: 'Unreal Engine' },
+                'Substance Painter': { src: 'Painter.png', alt: 'Substance Painter', title: 'Substance Painter' },
+                'Marvelous Designer': { src: 'Marvelous_Designer.png', alt: 'Marvelous Designer', title: 'Marvelous Designer' }
+            };
+
+            return tags.map(tag => {
+                const logo = logoMapping[tag];
+                if (logo) {
+                    return `<img src="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/assets/images/Logos/${logo.src}" alt="${logo.alt}" class="logo-item" title="${logo.title}" onerror="this.style.border='2px solid red'; console.error('Erreur de chargement:', this.src)">`;
+                }
+                return '';
+            }).join('');
+        }
+
+        // Test avec les tags d'un projet réel
+        const testTags = ['Maya', 'ZBrush', 'Substance Painter', 'Marmoset', 'Unreal Engine'];
+        document.getElementById('js-logos').innerHTML = generateLogos(testTags);
+
+        // Vérification des erreurs de chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const allImages = document.querySelectorAll('.logo-item');
+            let errorCount = 0;
+            let successCount = 0;
+            
+            allImages.forEach(img => {
+                img.addEventListener('load', function() {
+                    successCount++;
+                    console.log('✅ Logo chargé avec succès:', this.src);
+                });
+                
+                img.addEventListener('error', function() {
+                    errorCount++;
+                    console.error('❌ Erreur de chargement du logo:', this.src);
+                });
+            });
+
+            setTimeout(() => {
+                console.log(`Résumé: ${successCount} logos chargés, ${errorCount} erreurs`);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

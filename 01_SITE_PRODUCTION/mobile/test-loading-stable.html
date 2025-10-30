@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Loading Sans Clignotement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Écran de chargement stable -->
+    <div id="loading-screen" style="position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: #000000 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; z-index: 999999 !important; opacity: 1 !important; visibility: visible !important;">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar" style="width: 0%;"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <div id="main-ui" style="display: none;">
+        <h1 style="color: white;">Interface chargée</h1>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            LOADING_MESSAGES: [
+                "Compilation du shader...",
+                "Création du monde...",
+                "Construction de l'univers...",
+                "Préparation de l'expérience...",
+                "Pret pour l'exploration!"
+            ]
+        };
+        window.CONFIG = CONFIG;
+        
+        console.log('Test: Chargement sans clignotement');
+    </script>
+    
+    <script src="pages/loading/loading-manager.js"></script>
+</body>
+</html>

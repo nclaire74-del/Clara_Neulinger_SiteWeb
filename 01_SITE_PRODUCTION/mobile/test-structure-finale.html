@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Structure Finale</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: #fff; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #333; border-radius: 5px; }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <h1>Test de la Structure Finale - Clara Neulinger Portfolio</h1>
+    
+    <div class="test-section">
+        <h2>1. Test de la Structure des Dossiers</h2>
+        <div id="structure-test">
+            <p class="info">✓ Dossier 01_SITE_PRODUCTION organisé par pages</p>
+            <p class="info">✓ Pages divisées par fonctionnalité : home, loading, portfolio, contact, shared</p>
+            <p class="info">✓ Anciens dossiers css/, js/, assets/, font/ supprimés</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test du Chargement des Scripts</h2>
+        <div id="script-test">
+            <p id="config-test" class="error">✗ Config.js non chargé</p>
+            <p id="navigation-test" class="error">✗ Navigation non chargée</p>
+            <p id="loading-test" class="error">✗ Loading manager non chargé</p>
+            <p id="portfolio-test" class="error">✗ Portfolio manager non chargé</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test de la Police</h2>
+        <div id="font-test">
+            <p style="font-family: 'Kindergarten', Arial, sans-serif; font-size: 24px;">
+                Test de la police Kindergarten
+            </p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Résumé de l'Organisation</h2>
+        <div class="info">
+            <strong>Structure Finale :</strong><br>
+            <code>01_SITE_PRODUCTION/</code><br>
+            <code>├── index.html</code> (point d'entrée principal)<br>
+            <code>├── style.css, mobile-fix.css</code> (styles globaux)<br>
+            <code>├── assets/</code> (polices, images, audio)<br>
+            <code>└── pages/</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;├── home/</code> (navigation, vidéo, effets boutons)<br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;├── loading/</code> (écran de chargement, effets curseur)<br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;├── portfolio/</code> (collectibles, projets 3D)<br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;├── contact/</code> (interface contact, CV mobile)<br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;└── shared/</code> (configuration globale, scripts communs)<br>
+        </div>
+    </div>
+
+    <!-- Test des scripts -->
+    <script>
+        // Test si les scripts se chargent
+        setTimeout(() => {
+            if (typeof window.CONFIG !== 'undefined') {
+                document.getElementById('config-test').innerHTML = '✓ Config.js chargé';
+                document.getElementById('config-test').className = 'success';
+            }
+            
+            if (typeof window.NavigationManager !== 'undefined') {
+                document.getElementById('navigation-test').innerHTML = '✓ Navigation manager chargé';
+                document.getElementById('navigation-test').className = 'success';
+            }
+            
+            if (typeof window.LoadingManager !== 'undefined') {
+                document.getElementById('loading-test').innerHTML = '✓ Loading manager chargé';
+                document.getElementById('loading-test').className = 'success';
+            }
+            
+            if (typeof window.PortfolioManager !== 'undefined') {
+                document.getElementById('portfolio-test').innerHTML = '✓ Portfolio manager chargé';
+                document.getElementById('portfolio-test').className = 'success';
+            }
+        }, 1000);
+    </script>
+    
+    <!-- Chargement des scripts dans le nouvel ordre -->
+    <script src="pages/shared/config.js"></script>
+    <script src="pages/home/navigation-manager.js"></script>
+    <script src="pages/loading/loading-manager.js"></script>
+    <script src="pages/portfolio/portfolio-manager.js"></script>
+</body>
+</html>

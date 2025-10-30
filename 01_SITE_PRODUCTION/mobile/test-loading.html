@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Écran Chargement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Écran de chargement avec fond noir -->
+    <div id="loading-screen" style="display: flex;">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <!-- Interface utilisateur principale (cachée au début) -->
+    <div id="main-ui" style="display: none;">
+        <h1 style="color: white; text-align: center;">Interface Principale Chargée !</h1>
+    </div>
+
+    <script>
+        console.log('Test: Page chargée');
+        
+        // Simuler un chargement
+        setTimeout(() => {
+            console.log('Test: Démarrage du chargement');
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainUI = document.getElementById('main-ui');
+            
+            // Après 3 secondes, cacher l'écran de chargement et afficher l'interface
+            setTimeout(() => {
+                console.log('Test: Fin du chargement');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transition = 'opacity 1s ease-out';
+                    
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        if (mainUI) {
+                            mainUI.style.display = 'block';
+                        }
+                    }, 1000);
+                }
+            }, 3000);
+        }, 500);
+    </script>
+</body>
+</html>

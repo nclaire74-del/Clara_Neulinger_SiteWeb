@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Neulinger - Portfolio Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #00aaff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* Vidéo de fond */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        
+        /* Overlay sombre sur la vidéo */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+        
+        /* Interface par-dessus */
+        .ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .game-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .game-title h1 {
+            font-size: 2.5rem;
+            color: #00aaff;
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .game-title .subtitle {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+        
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 280px;
+            max-width: 90vw;
+        }
+        
+        .game-button {
+            background: rgba(0, 170, 255, 0.1);
+            border: 2px solid #00aaff;
+            color: #00aaff;
+            padding: 15px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-button:hover,
+        .game-button:active {
+            background: rgba(0, 170, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .button-text {
+            display: block;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .button-subtitle {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+        
+        /* Portfolio simple */
+        #portfolio-window {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #00aaff;
+            padding: 20px;
+        }
+        
+        .portfolio-content {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .portfolio-header {
+            padding: 20px 0;
+        }
+        
+        .portfolio-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #00aaff;
+        }
+        
+        .portfolio-viewer {
+            flex: 1;
+            width: 100%;
+            border: 2px solid #00aaff;
+            border-radius: 10px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .portfolio-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .back-btn {
+            padding: 15px 25px;
+            background: #00aaff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .back-btn:hover {
+            background: #0088cc;
+        }
+        
+        /* États cachés */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Contact Modal */
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .contact-content {
+            background: #111;
+            border: 2px solid #00aaff;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .contact-content h3 {
+            color: #00aaff;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .contact-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #00aaff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Responsive pour très petits écrans */
+        @media (max-width: 400px) {
+            .game-title h1 {
+                font-size: 2rem;
+            }
+            
+            .main-menu {
+                width: 250px;
+            }
+            
+            .game-button {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .button-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vidéo d'arrière-plan -->
+    <video id="background-video" 
+           muted 
+           loop 
+           playsinline 
+           autoplay>
+        <source src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Overlay pour assombrir la vidéo -->
+    <div class="video-overlay"></div>
+
+    <!-- Interface principale -->
+    <div class="ui-overlay" id="main-ui">
+        <div class="game-title">
+            <h1>Clara Neulinger</h1>
+            <p class="subtitle">Portfolio 3D</p>
+        </div>
+
+        <div class="main-menu">
+            <button class="game-button" onclick="openPortfolio()">
+                <span class="button-text">Load Game</span>
+                <span class="button-subtitle">Portfolio & Projets</span>
+            </button>
+            
+            <button class="game-button" onclick="openContact()">
+                <span class="button-text">Contact</span>
+                <span class="button-subtitle">Informations & Réseaux</span>
+            </button>
+            
+            <button class="game-button" onclick="showOptions()">
+                <span class="button-text">Options</span>
+                <span class="button-subtitle">Son & Langue</span>
+            </button>
+            
+            <button class="game-button" onclick="showExit()">
+                <span class="button-text">Exit</span>
+                <span class="button-subtitle">Quitter</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Portfolio -->
+    <div id="portfolio-window">
+        <div class="portfolio-content">
+            <div class="portfolio-header">
+                <h2>🔫 Plasma Pistol</h2>
+                <p>Viewer 3D Interactif</p>
+            </div>
+            
+            <div class="portfolio-viewer">
+                <iframe 
+                    id="portfolio-iframe"
+                    src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/Plasma_Pistol_Viewer.html"
+                    title="Plasma Pistol 3D Viewer">
+                    <p>Chargement du viewer 3D...</p>
+                </iframe>
+            </div>
+            
+            <button class="back-btn" onclick="backToHome()">← Retour Accueil</button>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="contact-modal">
+        <div class="contact-content">
+            <button class="contact-close" onclick="closeContact()">×</button>
+            <h3>Contact</h3>
+            <div class="contact-info">
+                <p><strong>Email:</strong> claraneulinger1@gmail.com</p>
+                <p><strong>Téléphone:</strong> 07 81 35 75 30</p>
+                <br>
+                <p>Artiste 3D & Game Developer</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Site mobile Clara Neulinger chargé');
+        
+        // Fonctions de navigation
+        function openPortfolio() {
+            console.log('📁 Ouverture portfolio...');
+            document.getElementById('main-ui').style.display = 'none';
+            document.getElementById('portfolio-window').style.display = 'flex';
+            
+            // Recharger l'iframe pour s'assurer du chargement
+            const iframe = document.getElementById('portfolio-iframe');
+            setTimeout(() => {
+                iframe.src = iframe.src;
+            }, 100);
+        }
+        
+        function backToHome() {
+            console.log('🏠 Retour accueil...');
+            document.getElementById('portfolio-window').style.display = 'none';
+            document.getElementById('main-ui').style.display = 'flex';
+        }
+        
+        function openContact() {
+            console.log('📧 Ouverture contact...');
+            document.getElementById('contact-modal').style.display = 'flex';
+        }
+        
+        function closeContact() {
+            console.log('❌ Fermeture contact...');
+            document.getElementById('contact-modal').style.display = 'none';
+        }
+        
+        function showOptions() {
+            alert('Options:\n\n• Version Mobile Optimisée\n• Vidéo de fond: Activée\n• Qualité: Auto\n\nParamètres configurés automatiquement pour votre appareil.');
+        }
+        
+        function showExit() {
+            if (confirm('Quitter le portfolio de Clara Neulinger ?')) {
+                alert('Merci de votre visite ! 👋\n\nN\'hésitez pas à revenir découvrir les nouveaux projets.');
+            }
+        }
+        
+        // Démarrage de la vidéo
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('background-video');
+            
+            // Forcer la lecture si nécessaire
+            if (video) {
+                video.play().catch(e => {
+                    console.log('La vidéo ne peut pas se lancer automatiquement:', e);
+                    // Créer un bouton pour démarrer la vidéo manuellement
+                    video.controls = false;
+                    video.muted = true;
+                });
+            }
+            
+            console.log('✅ Site mobile Clara Neulinger prêt !');
+            console.log('📱 Version: Mobile Standalone');
+            console.log('🎯 Fonctionnalités: Portfolio, Contact, Viewer 3D');
+        });
+        
+        // Gestion des erreurs iframe
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'iframe-error') {
+                console.warn('Erreur iframe détectée:', event.data.message);
+            }
+        });
+        
+        // Support tactile amélioré
+        let touchStartY = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            const touchY = e.touches[0].clientY;
+            const touchDiff = touchStartY - touchY;
+            
+            // Empêcher le scroll sur les éléments de navigation
+            if (e.target.closest('.game-button') || e.target.closest('.back-btn')) {
+                e.preventDefault();
+            }
+        });
+        
+        // Debug: afficher les erreurs
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('Erreur JS:', {
+                message: msg,
+                url: url,
+                line: line,
+                column: col,
+                error: error
+            });
+            return false;
+        };
+    </script>
+</body>
+</html>

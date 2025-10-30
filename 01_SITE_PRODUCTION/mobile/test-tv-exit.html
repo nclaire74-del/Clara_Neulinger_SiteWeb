@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Effet TV Exit</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-fix.css">
+</head>
+<body>
+    <div style="background: #1a1a1a; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;">
+        <h1>Test Effet Exit</h1>
+        <p>Cliquez sur le bouton pour tester l'effet TV Shutdown</p>
+        
+        <button class="game-button" id="test-exit" style="margin: 20px;">
+            <span class="button-text">Test Exit Effect</span>
+        </button>
+        
+        <div id="test-content" style="margin-top: 20px; padding: 20px; border: 1px solid white;">
+            <p>Ce contenu devrait avoir l'effet TV shutdown</p>
+            <p>Avec réduction verticale et effets de luminosité</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('test-exit').addEventListener('click', function() {
+            console.log('Test: Déclenchement effet TV shutdown');
+            
+            // Créer l'overlay comme dans le vrai code
+            const shutdownOverlay = document.createElement('div');
+            shutdownOverlay.className = 'shutdown-overlay';
+            document.body.appendChild(shutdownOverlay);
+            
+            // Appliquer l'effet sur le contenu
+            const content = document.getElementById('test-content');
+            if (content) {
+                content.classList.add('tv-shutdown');
+                console.log('Test: Classe tv-shutdown ajoutée');
+            }
+            
+            // Après l'animation, montrer un message
+            setTimeout(() => {
+                alert('Effet terminé ! L\'animation tv-shutdown a été exécutée.');
+            }, 1200);
+        });
+    </script>
+</body>
+</html>

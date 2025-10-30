@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Message Stable</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Kindergarten', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        #test-message {
+            font-size: 18px;
+            color: #e8dcc0;
+            text-align: center;
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-message">Compilation du shader...</div>
+    
+    <script>
+        const messages = [
+            "Compilation du shader...",
+            "Création du monde...",
+            "Construction de l'univers...",
+            "Préparation de l'expérience...",
+            "Pret pour l'exploration!"
+        ];
+        
+        let index = 0;
+        const messageEl = document.getElementById('test-message');
+        
+        setInterval(() => {
+            index = (index + 1) % messages.length;
+            messageEl.textContent = messages[index];
+            console.log('Message changé vers:', messages[index]);
+        }, 2000);
+    </script>
+</body>
+</html>

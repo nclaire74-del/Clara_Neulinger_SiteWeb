@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Loading Simple</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Écran de chargement visible par défaut -->
+    <div id="loading-screen" style="display: flex !important; opacity: 1 !important;">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar" style="width: 50%;"></div>
+        </div>
+        <div id="loading-percentage">50%</div>
+        <div id="loading-message">Test du loader...</div>
+    </div>
+
+    <!-- Interface cachée -->
+    <div id="main-ui" style="display: none !important;">
+        <h1 style="color: white; text-align: center;">Chargement terminé !</h1>
+    </div>
+
+    <script>
+        console.log('Test simple: Page chargée');
+        
+        // Après 5 secondes, masquer le loader et afficher l'interface
+        setTimeout(() => {
+            console.log('Test simple: Masquage du loader');
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainUI = document.getElementById('main-ui');
+            
+            if (loadingScreen && mainUI) {
+                loadingScreen.style.transition = 'opacity 1s ease-out';
+                loadingScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainUI.style.display = 'block';
+                    console.log('Test simple: Interface affichée');
+                }, 1000);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

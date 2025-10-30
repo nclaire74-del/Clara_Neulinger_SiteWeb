@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test TV Exit Complet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-fix.css">
+</head>
+<body>
+    <!-- Interface similaire au site principal -->
+    <video id="background-video" muted loop>
+        <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+    </video>
+    
+    <div id="video-vignette-overlay"></div>
+    
+    <div id="main-ui" style="display: block;">
+        <div class="ui-overlay">
+            <div class="game-title">
+                <h1>Clara Neulinger</h1>
+            </div>
+            
+            <div class="main-menu">
+                <button class="game-button" id="test-exit">
+                    <span class="button-text">Exit (Test)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('=== TEST TV EXIT ===');
+        
+        // Simuler la fonction TV shutdown
+        function playTvShutdownEffect() {
+            console.log('Démarrage effet TV shutdown');
+            
+            const shutdownOverlay = document.createElement('div');
+            shutdownOverlay.className = 'shutdown-overlay';
+            document.body.appendChild(shutdownOverlay);
+
+            const video = document.getElementById('background-video');
+            const mainUI = document.getElementById('main-ui');
+            const vignette = document.getElementById('video-vignette-overlay');
+
+            console.log('Éléments trouvés:', {
+                video: !!video,
+                mainUI: !!mainUI,
+                vignette: !!vignette,
+                shutdownOverlay: !!shutdownOverlay
+            });
+
+            if (video) {
+                console.log('Ajout classe tv-shutdown à video');
+                video.classList.add('tv-shutdown');
+            }
+            if (mainUI) {
+                console.log('Ajout classe tv-shutdown à mainUI');
+                mainUI.classList.add('tv-shutdown');
+            }
+            if (vignette) {
+                console.log('Ajout classe tv-shutdown à vignette');
+                vignette.classList.add('tv-shutdown');
+            }
+
+            // Vérifier les styles appliqués
+            setTimeout(() => {
+                if (video) {
+                    const styles = window.getComputedStyle(video);
+                    console.log('Styles video:', {
+                        animation: styles.animation,
+                        animationName: styles.animationName,
+                        animationDuration: styles.animationDuration,
+                        transform: styles.transform
+                    });
+                }
+            }, 100);
+
+            setTimeout(() => {
+                console.log('Showing try again screen');
+                showTryAgainScreen();
+            }, 1200);
+        }
+
+        function showTryAgainScreen() {
+            const tryAgainOverlay = document.createElement('div');
+            tryAgainOverlay.className = 'try-again-overlay';
+            tryAgainOverlay.innerHTML = `
+                <div class="try-again-content">
+                    <h1 class="try-again-title">Try Again</h1>
+                    <div class="try-again-buttons">
+                        <button class="game-button" onclick="location.reload()">
+                            <span class="button-text">Restart</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(tryAgainOverlay);
+        }
+        
+        // Event listener pour le bouton test
+        document.getElementById('test-exit').addEventListener('click', () => {
+            console.log('Bouton exit cliqué');
+            playTvShutdownEffect();
+        });
+        
+        // Démarrer la vidéo
+        const video = document.getElementById('background-video');
+        if (video) {
+            video.play().catch(e => console.log('Erreur vidéo:', e));
+        }
+    </script>
+</body>
+</html>

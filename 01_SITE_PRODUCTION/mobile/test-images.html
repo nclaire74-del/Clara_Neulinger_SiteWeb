@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chemins Images Mobile</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #fff; }
+        .test-item { margin: 10px 0; padding: 10px; background: #333; border-radius: 5px; }
+        .success { background: #2d5016; }
+        .error { background: #501616; }
+        img { max-width: 100px; max-height: 100px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test des Chemins d'Images Mobile</h1>
+    
+    <div id="test-results"></div>
+
+    <script>
+        const imagesToTest = [
+            'assets/images/Contact/Cv_fr.svg',
+            'assets/images/Contact/2.svg',
+            'assets/images/Logos/pngwing.com.png',
+            'assets/images/Logos/—Pngtree—linkedin social media icon_3609691.png',
+            'assets/images/Logos/The_Rookies.jpg',
+            'assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4',
+            '../../References_Papiers/CV/Neulinger_Clara_Cv_page-0001.jpg',
+            '../../References_Papiers/CV/Neulinger_Clara_Resume_page-0001.jpg'
+        ];
+
+        const resultsDiv = document.getElementById('test-results');
+
+        imagesToTest.forEach(imagePath => {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-item';
+            
+            if (imagePath.endsWith('.mp4')) {
+                // Test vidéo
+                const video = document.createElement('video');
+                video.src = imagePath;
+                video.style.maxWidth = '200px';
+                video.style.maxHeight = '100px';
+                
+                video.addEventListener('loadeddata', () => {
+                    testDiv.className = 'test-item success';
+                    testDiv.innerHTML = `✅ <strong>Vidéo OK:</strong> ${imagePath}<br>${video.outerHTML}`;
+                });
+                
+                video.addEventListener('error', () => {
+                    testDiv.className = 'test-item error';
+                    testDiv.innerHTML = `❌ <strong>Vidéo ERREUR:</strong> ${imagePath}`;
+                });
+                
+                testDiv.innerHTML = `⏳ Test vidéo: ${imagePath}`;
+                
+            } else {
+                // Test image
+                const img = document.createElement('img');
+                img.src = imagePath;
+                
+                img.addEventListener('load', () => {
+                    testDiv.className = 'test-item success';
+                    testDiv.innerHTML = `✅ <strong>Image OK:</strong> ${imagePath}<br>${img.outerHTML}`;
+                });
+                
+                img.addEventListener('error', () => {
+                    testDiv.className = 'test-item error';
+                    testDiv.innerHTML = `❌ <strong>Image ERREUR:</strong> ${imagePath}`;
+                });
+                
+                testDiv.innerHTML = `⏳ Test image: ${imagePath}`;
+            }
+            
+            resultsDiv.appendChild(testDiv);
+        });
+    </script>
+</body>
+</html>

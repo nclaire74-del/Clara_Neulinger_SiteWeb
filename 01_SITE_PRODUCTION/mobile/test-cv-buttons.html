@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Boutons CV</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-fix.css">
+</head>
+<body style="background: #1a1a1a; padding: 20px;">
+    <h1 style="color: white; text-align: center;">Test Boutons CV</h1>
+    
+    <!-- === CV BOUTONS STYLE UNIFORME === -->
+    <div class="cv-buttons-container">
+        <button class="game-button cv-btn" id="cv-french-btn" data-cv="assets/images/Contact/Cv_fr.svg">
+            <span class="button-text">CV Français</span>
+            <span class="button-subtitle">Curriculum Vitae</span>
+        </button>
+        
+        <button class="game-button cv-btn" id="cv-english-btn" data-cv="assets/images/Contact/2.svg">
+            <span class="button-text">CV English</span>
+            <span class="button-subtitle">Curriculum Vitae</span>
+        </button>
+    </div>
+
+    <!-- CV Overlay -->
+    <div class="cv-overlay" id="cv-overlay">
+        <div class="cv-overlay-content">
+            <button class="cv-close-btn" id="cv-close-btn">×</button>
+            <img id="cv-overlay-image" src="" alt="CV Clara Neulinger">
+        </div>
+    </div>
+
+    <script src="cv-buttons-manager.js"></script>
+</body>
+</html>

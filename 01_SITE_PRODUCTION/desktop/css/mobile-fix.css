@@ -1,0 +1,122 @@
+/* === SOLUTION MOBILE/TABLETTE ULTRA SPÉCIFIQUE === */
+
+/* DESKTOP UNIQUEMENT - Préserver le comportement existant */
+@media screen and (min-width: 1025px) {
+    /* Ne pas toucher au desktop - laisser le CSS principal gérer */
+    #portfolio-window .collectibles-container .project-container {
+        margin-bottom: inherit !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+        margin: inherit !important;
+        width: inherit !important;
+        font-size: inherit !important;
+        padding: inherit !important;
+    }
+}
+
+/* Force absolue pour tous les écrans mobiles et tablettes */
+@media screen and (max-width: 1024px) {
+    /* Espace massif sous le project-container pour éviter tout conflit */
+    #portfolio-window .collectibles-container .project-container {
+        margin-bottom: 300px !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Bouton retour avec sélecteur ultra-spécifique */
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+        position: relative !important;
+        display: block !important;
+        margin: 150px auto 50px auto !important;
+        width: 250px !important;
+        max-width: 90% !important;
+        z-index: 999 !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        float: none !important;
+        clear: both !important;
+        text-align: center !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        overflow: visible !important;
+        padding: 15px 25px !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Encadrement forcé */
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -2px !important;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        border-radius: 2px 1px 3px 0.5px !important;
+        pointer-events: none !important;
+        transform: rotate(-0.3deg) !important;
+        display: block !important;
+        z-index: 1 !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn::after {
+        content: '' !important;
+        position: absolute !important;
+        top: -1px !important;
+        left: -1px !important;
+        right: -1px !important;
+        bottom: -1px !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 1px 2px 0.5px 3px !important;
+        pointer-events: none !important;
+        transform: rotate(0.2deg) !important;
+        display: block !important;
+        z-index: 1 !important;
+    }
+}
+
+/* Tablette moyenne */
+@media screen and (max-width: 768px) {
+    #portfolio-window .collectibles-container .project-container {
+        margin-bottom: 350px !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+        width: 220px !important;
+        margin: 200px auto 50px auto !important;
+        font-size: 0.95rem !important;
+        padding: 12px 20px !important;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 480px) {
+    #portfolio-window .collectibles-container .project-container {
+        margin-bottom: 400px !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+        width: 180px !important;
+        margin: 250px auto 50px auto !important;
+        font-size: 0.9rem !important;
+        padding: 10px 18px !important;
+    }
+}
+
+/* Mobile petit */
+@media screen and (max-width: 360px) {
+    #portfolio-window .collectibles-container .project-container {
+        margin-bottom: 450px !important;
+    }
+    
+    #portfolio-window #back-to-home-portfolio.game-button.back-to-home-btn {
+        width: 160px !important;
+        margin: 300px auto 50px auto !important;
+        font-size: 0.8rem !important;
+        padding: 8px 15px !important;
+    }
+}

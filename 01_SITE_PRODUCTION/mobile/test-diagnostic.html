@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mobile - Clara Neulinger</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #00aaff;
+            font-family: Arial, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            border: 2px solid #00aaff;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #333;
+            color: #00aaff;
+            border: 2px solid #00aaff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #00aaff;
+            color: #000;
+        }
+        
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+            border-left: 4px solid #00aaff;
+        }
+        
+        #output {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Diagnostic Mobile - Clara Neulinger</h1>
+        <p>Tests pour identifier le problème sur la version mobile</p>
+        
+        <button class="test-button" onclick="testBasicJS()">
+            Test 1: JavaScript de base
+        </button>
+        
+        <button class="test-button" onclick="testDOMElements()">
+            Test 2: Éléments DOM du site principal
+        </button>
+        
+        <button class="test-button" onclick="testNavigationManager()">
+            Test 3: Navigation Manager
+        </button>
+        
+        <button class="test-button" onclick="testPortfolioFunction()">
+            Test 4: Fonction Portfolio
+        </button>
+        
+        <button class="test-button" onclick="testPlasmaViewer()">
+            Test 5: Plasma Pistol Viewer
+        </button>
+        
+        <button class="test-button" onclick="loadMainSite()">
+            🚀 Charger le site principal
+        </button>
+        
+        <div id="output"></div>
+    </div>
+    
+    <script>
+        function log(message) {
+            const output = document.getElementById('output');
+            const time = new Date().toLocaleTimeString();
+            output.innerHTML += `<div>[${time}] ${message}</div>`;
+            output.scrollTop = output.scrollHeight;
+            console.log(message);
+        }
+        
+        function testBasicJS() {
+            log('=== TEST 1: JavaScript de base ===');
+            log('✅ JavaScript fonctionne');
+            log('✅ Console.log disponible');
+            log('✅ Fonctions définies correctement');
+            log('User Agent: ' + navigator.userAgent);
+            log('Viewport: ' + window.innerWidth + 'x' + window.innerHeight);
+        }
+        
+        function testDOMElements() {
+            log('=== TEST 2: Éléments DOM ===');
+            
+            // Tester si on peut accéder au site principal via iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = '/Clara_Neulinger/01_SITE_PRODUCTION/mobile/';
+            document.body.appendChild(iframe);
+            
+            iframe.onload = function() {
+                try {
+                    const doc = iframe.contentDocument || iframe.contentWindow.document;
+                    const mainUI = doc.getElementById('main-ui');
+                    const portfolioWindow = doc.getElementById('portfolio-window');
+                    const loadGameBtn = doc.getElementById('load-game');
+                    
+                    log('Main UI: ' + (mainUI ? '✅ Trouvé' : '❌ Non trouvé'));
+                    log('Portfolio Window: ' + (portfolioWindow ? '✅ Trouvé' : '❌ Non trouvé'));
+                    log('Load Game Button: ' + (loadGameBtn ? '✅ Trouvé' : '❌ Non trouvé'));
+                    
+                    if (mainUI) {
+                        log('Main UI display: ' + mainUI.style.display);
+                        log('Main UI visibility: ' + getComputedStyle(mainUI).visibility);
+                    }
+                    
+                } catch (e) {
+                    log('❌ Erreur accès iframe: ' + e.message);
+                }
+            };
+            
+            iframe.onerror = function() {
+                log('❌ Erreur chargement iframe');
+            };
+        }
+        
+        function testNavigationManager() {
+            log('=== TEST 3: Navigation Manager ===');
+            log('Test de chargement du navigation-manager.js...');
+            
+            const script = document.createElement('script');
+            script.src = '/Clara_Neulinger/01_SITE_PRODUCTION/mobile/pages/home/navigation-manager.js';
+            script.onload = function() {
+                log('✅ Navigation manager chargé');
+                if (window.openPortfolioCollectibles) {
+                    log('✅ Fonction openPortfolioCollectibles disponible');
+                } else {
+                    log('❌ Fonction openPortfolioCollectibles non trouvée');
+                }
+            };
+            script.onerror = function() {
+                log('❌ Erreur chargement navigation-manager.js');
+            };
+            document.head.appendChild(script);
+        }
+        
+        function testPortfolioFunction() {
+            log('=== TEST 4: Fonction Portfolio ===');
+            
+            if (window.openPortfolioCollectibles) {
+                log('✅ Fonction trouvée, test d\'exécution...');
+                try {
+                    window.openPortfolioCollectibles();
+                    log('✅ Fonction exécutée sans erreur');
+                } catch (e) {
+                    log('❌ Erreur exécution: ' + e.message);
+                }
+            } else {
+                log('❌ Fonction openPortfolioCollectibles non disponible');
+            }
+        }
+        
+        function testPlasmaViewer() {
+            log('=== TEST 5: Plasma Pistol Viewer ===');
+            
+            const viewerUrl = '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/Plasma_Pistol_Viewer.html';
+            
+            fetch(viewerUrl)
+                .then(response => {
+                    if (response.ok) {
+                        log('✅ Plasma Pistol Viewer accessible');
+                        log('Status: ' + response.status);
+                        log('URL: ' + viewerUrl);
+                        
+                        // Tester l'ouverture dans une nouvelle fenêtre
+                        const testWindow = window.open(viewerUrl, '_blank', 'width=800,height=600');
+                        if (testWindow) {
+                            log('✅ Fenêtre viewer ouverte');
+                        } else {
+                            log('⚠️ Pop-up bloqué par le navigateur');
+                        }
+                        
+                    } else {
+                        log('❌ Erreur HTTP: ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    log('❌ Erreur réseau: ' + error.message);
+                });
+        }
+        
+        function loadMainSite() {
+            log('=== CHARGEMENT SITE PRINCIPAL ===');
+            log('Redirection vers le site mobile...');
+            setTimeout(() => {
+                window.location.href = '/Clara_Neulinger/01_SITE_PRODUCTION/mobile/';
+            }, 1000);
+        }
+        
+        // Auto-test au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🔧 Diagnostic Mobile Clara Neulinger - Prêt');
+            log('Cliquez sur les boutons pour tester chaque composant');
+        });
+    </script>
+</body>
+</html>

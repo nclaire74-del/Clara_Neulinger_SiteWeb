@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test TV Shutdown Overlay Centré</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-fix.css">
+</head>
+<body>
+    <!-- Simulation du site -->
+    <video id="background-video" muted loop autoplay style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover;">
+        <source src="assets/videos/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+        Vidéo de fond
+    </video>
+    
+    <div id="video-vignette-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.3) 100%);"></div>
+    
+    <div id="main-ui" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: all;">
+            <button onclick="testCenteredTvShutdown()" style="padding: 20px 40px; background: rgba(0,0,0,0.8); color: white; border: 2px solid white; font-size: 16px; cursor: pointer;">
+                TESTER TV SHUTDOWN CENTRÉ
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        function testCenteredTvShutdown() {
+            console.log('Test TV Shutdown centré avec overlay');
+            
+            // Créer un overlay plein écran pour l'animation centrée
+            const tvShutdownOverlay = document.createElement('div');
+            tvShutdownOverlay.className = 'tv-shutdown-overlay';
+            tvShutdownOverlay.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                z-index: 99999 !important;
+                background: transparent !important;
+                pointer-events: none !important;
+            `;
+            document.body.appendChild(tvShutdownOverlay);
+            
+            // Créer l'élément qui va subir l'animation
+            const animatedElement = document.createElement('div');
+            animatedElement.style.cssText = `
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                transform: translate(-50%, -50%) !important;
+                transform-origin: center center !important;
+                background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4) !important;
+                background-size: 400% 400% !important;
+                animation: gradient 2s ease infinite !important;
+            `;
+            
+            tvShutdownOverlay.appendChild(animatedElement);
+            
+            // Masquer les éléments originaux
+            const video = document.getElementById('background-video');
+            const mainUI = document.getElementById('main-ui');
+            const vignette = document.getElementById('video-vignette-overlay');
+            
+            if (video) video.style.opacity = '0';
+            if (mainUI) mainUI.style.opacity = '0';
+            if (vignette) vignette.style.opacity = '0';
+            
+            // Appliquer l'animation à l'élément centré
+            setTimeout(() => {
+                animatedElement.classList.add('tv-shutdown');
+                console.log('Animation TV shutdown appliquée à l\'élément centré');
+            }, 50);
+            
+            // Reset après 3 secondes
+            setTimeout(() => {
+                document.body.removeChild(tvShutdownOverlay);
+                if (video) video.style.opacity = '1';
+                if (mainUI) mainUI.style.opacity = '1';
+                if (vignette) vignette.style.opacity = '1';
+                console.log('Test terminé, éléments restaurés');
+            }, 3000);
+        }
+        
+        // Animation gradient pour l'exemple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes gradient {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
