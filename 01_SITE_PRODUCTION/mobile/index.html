@@ -2,16 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="theme-color" content="#1a1a1a">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Préchargement des ressources critiques -->
-    <link rel="preload" href="/Clara_Neulinger/01_SITE_PRODUCTION/desktop/font/kindergarten.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="prefetch" href="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/pngwing.com.png">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clara Neulinger - Portfolio Mobile</title>
     <style>
         @font-face {
@@ -34,26 +25,6 @@
             overflow: hidden;
             background: #000000 !important;
             font-family: 'Kindergarten', Arial, sans-serif;
-            
-            /* Optimisations performances mobiles */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeSpeed;
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        
-        /* Optimisations GPU pour animations */
-        * {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-        
-        /* Optimisations scrolling mobile */
-        * {
-            -webkit-overflow-scrolling: touch;
-            overflow-scrolling: touch;
         }
         
         /* Écran de chargement DESKTOP EXACT */
@@ -2927,60 +2898,14 @@
             }
         }
 
-        // Optimisations performances mobiles
+        // Optimisations performances mobiles (version simplifiée)
         function optimizeMobilePerformance() {
-            // Optimisation mémoire - libérer les ressources non visibles
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Charger le contenu quand il devient visible
-                        entry.target.style.willChange = 'transform';
-                    } else {
-                        // Nettoyer les ressources non visibles
-                        entry.target.style.willChange = 'auto';
-                    }
-                });
-            }, { rootMargin: '50px' });
+            console.log('✅ Optimisations mobiles activées');
             
-            // Observer toutes les images et iframes
-            document.querySelectorAll('img, iframe, video').forEach(el => {
-                observer.observe(el);
-            });
-            
-            // Gestion tactile optimisée
-            let touchStartY = 0;
-            document.addEventListener('touchstart', (e) => {
-                touchStartY = e.touches[0].clientY;
+            // Optimisation simple tactile
+            document.addEventListener('touchstart', function(e) {
+                // Simple gestion tactile
             }, { passive: true });
-            
-            document.addEventListener('touchmove', (e) => {
-                const touchY = e.touches[0].clientY;
-                const touchDiff = touchStartY - touchY;
-                
-                // Préventions du bounce effet sur iOS
-                if (touchDiff > 0 && window.scrollY === 0) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            // Optimisation garbage collector
-            setInterval(() => {
-                if (window.gc) {
-                    window.gc();
-                }
-            }, 30000); // Nettoyage toutes les 30 secondes
-            
-            // Préchargement conditionnel basé sur la connexion
-            if ('connection' in navigator) {
-                const connection = navigator.connection;
-                if (connection.effectiveType === '4g' || connection.effectiveType === '3g') {
-                    // Précharger quelques ressources sur bonne connexion
-                    const link = document.createElement('link');
-                    link.rel = 'prefetch';
-                    link.href = '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg';
-                    document.head.appendChild(link);
-                }
-            }
         }
 
         // Event Listeners - EXACTEMENT comme desktop
