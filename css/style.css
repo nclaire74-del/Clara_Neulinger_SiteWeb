@@ -7262,15 +7262,15 @@ video.project-media::-webkit-media-controls-start-playback-button {
     height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
         #ffffff 0%, #ffffff 25%, 
-        #f0f0f0 25%, #f0f0f0 50%, 
-        #e0e0e0 50%, #e0e0e0 75%, 
-        #d0d0d0 75%, #d0d0d0 100%
-    ); /* Couleurs plus claires et visibles */
+        #bfbfbf 25%, #bfbfbf 50%, 
+        #7f7f7f 50%, #7f7f7f 75%, 
+        #2f2f2f 75%, #2f2f2f 100%
+    ); /* Dégradé intensifié : blanc → gris clair → gris moyen → gris foncé */
     outline: none;
     border-radius: 4px;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 #asset-slider::-webkit-slider-thumb {
@@ -7313,17 +7313,17 @@ video.project-media::-webkit-media-controls-start-playback-button {
     height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
         #ffffff 0%, #ffffff 16.67%, 
-        #f0f0f0 16.67%, #f0f0f0 33.33%, 
-        #e0e0e0 33.33%, #e0e0e0 50%, 
-        #d0d0d0 50%, #d0d0d0 66.67%, 
-        #c0c0c0 66.67%, #c0c0c0 83.33%, 
-        #b0b0b0 83.33%, #b0b0b0 100%
-    ); /* Couleurs plus claires et visibles */
+        #cccccc 16.67%, #cccccc 33.33%, 
+        #999999 33.33%, #999999 50%, 
+        #666666 50%, #666666 66.67%, 
+        #333333 66.67%, #333333 83.33%, 
+        #1a1a1a 83.33%, #1a1a1a 100%
+    ); /* Dégradé intensifié : blanc → gris clair → gris moyen → gris foncé → gris très foncé → noir */
     outline: none;
     border-radius: 4px;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 #gun-asset-slider::-webkit-slider-thumb {

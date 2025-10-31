@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hébergement - Clara Neulinger</title>
+</head>
+<body>
+    <h1>✅ TEST HÉBERGEMENT RÉUSSI</h1>
+    <p>Si vous voyez cette page, l'hébergement fonctionne !</p>
+    <p>Date de test : <span id="date"></span></p>
+    
+    <h2>Tests de ressources :</h2>
+    <ul>
+        <li><a href="assets/images/placeholder.jpg">Test image</a></li>
+        <li><a href="css/style.css">Test CSS</a></li>
+        <li><a href="js/script.js">Test JavaScript</a></li>
+    </ul>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleString();
+        console.log('✅ JavaScript fonctionne !');
+    </script>
+</body>
+</html>
