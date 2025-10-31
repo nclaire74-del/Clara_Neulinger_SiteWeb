@@ -2,7 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="/Clara_Neulinger/01_SITE_PRODUCTION/desktop/font/kindergarten.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="prefetch" href="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/pngwing.com.png">
+    
     <title>Clara Neulinger - Portfolio Mobile</title>
     <style>
         @font-face {
@@ -25,6 +34,26 @@
             overflow: hidden;
             background: #000000 !important;
             font-family: 'Kindergarten', Arial, sans-serif;
+            
+            /* Optimisations performances mobiles */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* Optimisations GPU pour animations */
+        * {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Optimisations scrolling mobile */
+        * {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
         }
         
         /* Écran de chargement DESKTOP EXACT */
@@ -677,6 +706,215 @@
             object-fit: cover;
         }
         
+        /* Rendre le logo Contact (CV) blanc */
+        .social-logo[data-platform="cv"] img {
+            filter: brightness(0) invert(1);
+        }
+        
+        /* Panel Options */
+        .options-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        
+        .options-content {
+            background: transparent;
+            border: none;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: visible;
+            position: relative;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .options-inner {
+            max-height: calc(80vh - 4rem);
+            overflow-y: auto;
+            padding: 0.5rem;
+            margin: -0.5rem;
+        }
+        
+        /* Encadrement gribouillé pour options - version renforcée */
+        .options-content::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            z-index: -1;
+            pointer-events: none;
+            border-radius: 4px 2px 5px 3px;
+            transform: rotate(-0.3deg);
+        }
+
+        .options-content::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            z-index: -1;
+            pointer-events: none;
+            border-radius: 3px 5px 2px 4px;
+            transform: rotate(0.4deg);
+        }
+        
+        .options-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .options-title {
+            font-family: 'Kindergarten', cursive;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: #f5f1e8;
+            margin: 0;
+        }
+        
+        .options-close {
+            background: rgba(245, 241, 232, 0.1);
+            border: 3px solid #f5f1e8;
+            color: #f5f1e8;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 45% 55% 52% 48%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(3deg);
+            transition: all 0.3s ease;
+        }
+        
+        .options-close:hover {
+            transform: rotate(-2deg) scale(1.1);
+            background: rgba(245, 241, 232, 0.2);
+            box-shadow: 0 0 15px rgba(245, 241, 232, 0.3);
+        }
+        
+        .options-section {
+            margin-bottom: 2rem;
+        }
+        
+        .options-section h3 {
+            font-family: 'Kindergarten', cursive;
+            color: #f5f1e8;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .volume-slider {
+            flex: 1;
+            height: 8px;
+            background: rgba(245, 241, 232, 0.2);
+            border: 2px solid rgba(245, 241, 232, 0.4);
+            border-radius: 15px 3px 12px 5px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            transform: rotate(-0.5deg);
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #f5f1e8;
+            border: 2px solid rgba(245, 241, 232, 0.8);
+            border-radius: 45% 55% 48% 52%;
+            cursor: pointer;
+            transform: rotate(5deg);
+            box-shadow: 
+                0 0 0 1px rgba(245, 241, 232, 0.3),
+                2px 3px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .volume-value {
+            color: #f5f1e8;
+            font-family: 'Kindergarten', cursive;
+            min-width: 40px;
+            text-align: right;
+        }
+        
+        .language-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .language-btn {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: rgba(245, 241, 232, 0.1);
+            border: 3px solid rgba(245, 241, 232, 0.4);
+            color: #f5f1e8;
+            font-family: 'Kindergarten', cursive;
+            border-radius: 20px 8px 18px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: rotate(-1deg);
+            position: relative;
+        }
+        
+        .language-btn:nth-child(2) {
+            transform: rotate(1deg);
+        }
+        
+        .language-btn.active {
+            background: rgba(245, 241, 232, 0.2);
+            border-color: #f5f1e8;
+            box-shadow: 
+                0 0 15px rgba(245, 241, 232, 0.4),
+                inset 0 0 10px rgba(245, 241, 232, 0.1);
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .language-btn:hover {
+            background: rgba(245, 241, 232, 0.15);
+            border-color: rgba(245, 241, 232, 0.6);
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        /* Tous les emojis/logos dans le panel options doivent être blancs */
+        .options-section h3 {
+            filter: grayscale(1) brightness(2);
+        }
+        
+        /* Styles spécifiques pour corriger les images coupées */
+        .project-item[data-project="1"] .project-media,  /* Plasma Pistol */
+        .project-item[data-project="6"] .project-media {  /* Telephone Booth */
+            object-fit: contain !important;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
         .social-logos-instruction {
             margin-top: 1rem;
         }
@@ -1000,7 +1238,7 @@
         
         /* Effet TV Shutdown */
         .tv-shutdown {
-            animation: tvShutdown 1.2s ease-in-out forwards;
+            animation: tvShutdown 0.6s ease-in-out forwards;
         }
         
         @keyframes tvShutdown {
@@ -1027,7 +1265,7 @@
             background: #000000;
             z-index: 10000;
             opacity: 0;
-            animation: shutdownFade 1.2s ease-in-out forwards;
+            animation: shutdownFade 0.6s ease-in-out forwards;
         }
         
         @keyframes shutdownFade {
@@ -1062,9 +1300,11 @@
         
         .try-again-title {
             font-family: 'Kindergarten', cursive;
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(3.5rem, 10vw, 5rem);
             color: #f5f1e8;
             margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(245, 241, 232, 0.6);
+            font-weight: bold;
         }
         
         .try-again-buttons {
@@ -1399,6 +1639,35 @@
         </button>
     </div>
 
+    <!-- Panel Options -->
+    <div id="options-panel" class="options-panel">
+        <div class="options-content">
+            <div class="options-inner">
+                <div class="options-header">
+                    <h2 class="options-title">Options</h2>
+                    <button class="options-close" onclick="closeOptionsPanel()">&times;</button>
+                </div>
+                
+                <div class="options-section">
+                    <h3>🔊 Volume</h3>
+                    <div class="volume-control">
+                        <span style="color: #f5f1e8;">🔈</span>
+                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+                        <span class="volume-value" id="volume-value">50%</span>
+                    </div>
+                </div>
+                
+                <div class="options-section">
+                    <h3>🌐 Langue / Language</h3>
+                    <div class="language-buttons">
+                        <button class="language-btn active" id="lang-fr" onclick="setLanguage('fr')">Français</button>
+                        <button class="language-btn" id="lang-en" onclick="setLanguage('en')">English</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         console.log('🚀 Site mobile Clara Neulinger - Version Desktop Complète');
         
@@ -1406,22 +1675,9 @@
         let currentProject = 0;
         const projects = [
             {
-                id: 1,
-                title: 'Projet : Plasma Pistol',
-                description: 'Pistolet à plasma selon la référence conceptuelle de Robert Simons | Concept Art World.',
-                tags: ['Maya', 'Substance Painter'],
-                image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg',
-                viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/Plasma_Pistol_Viewer.html',
-                folder: 'Gun',
-                galleryImages: [
-                    'NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg',
-                    'Neulinger_Clara_3B3D_pORTFOLIO2.jpg'
-                ]
-            },
-            {
                 id: 2,
                 title: 'Projet : Circus',
-                description: 'Ce projet personnel combine création d\'environnement et de personnage. Basé sur un concept art de Yuri Gvozdenko.',
+                description: 'Ce projet personnel combine création d\'environnement et de personnage. Basé sur un concept art de Yuri Gvozdenko, la scène raconte une histoire à travers atmosphère, éclairage et textures.',
                 tags: ['Maya', 'ZBrush', 'Substance Painter', 'Marmoset', 'Unreal Engine'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
                 video: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Render_Video.mp4',
@@ -1431,36 +1687,38 @@
                 },
                 folder: 'Cirucs',
                 galleryImages: [
+                    'Neulinger_Clara_3B3D_Circus_References.jpg',
+                    'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
+                    'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
+                    'Neulinger_Clara_3B3D_Circus_References_2.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Renders_2.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Sculpt_2.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Topology_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Chara_Topology_2.jpg',
-                    'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
-                    'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
-                    'Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
-                    'Neulinger_Clara_3B3D_Circus_Enviro_Renders_2.jpg',
                     'Neulinger_Clara_3B3D_Circus_Enviro_Sculpt_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Enviro_Topology_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Enviro_Topology_2.jpg',
+                    'Neulinger_Clara_3B3D_Circus_Chara_Uv_1.jpg',
+                    'Neulinger_Clara_3B3D_Circus_Chara_Uv_2.jpg',
                     'Neulinger_Clara_3B3D_Circus_Enviro_Uv_1.jpg',
                     'Neulinger_Clara_3B3D_Circus_Enviro_Uv_2.jpg',
-                    'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg',
-                    'Neulinger_Clara_3B3D_Circus_References_2.jpg',
-                    'Neulinger_Clara_3B3D_Circus_References.jpg'
+                    'Neulinger_Clara_3B3D_Circus_Enviro_Uv_3.jpg'
                 ]
             },
             {
                 id: 3,
                 title: 'Projet : Archway',
-                description: 'Un projet personnel dédié à la création d\'une arche inspirée du style celtique.',
+                description: 'Un projet personnel dédié à la création d\'une arche inspirée du style celtique. Dans le cadre de ce projet, j\'ai décidé de réinterpréter une arche réalisée en 3D par Jonatan Österberg, tout en développant un environnement complet autour de cette structure.',
                 tags: ['Maya', 'Unreal Engine', 'Substance Painter', 'ZBrush', 'Marmoset'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/Neulinger_Clara_3B3D_Archway_Renders.jpg',
                 video: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/Neulinger_Clara_3B3D_Archway_Render_Video.mp4',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/Arch_Viewer.html',
                 folder: 'Arch',
                 galleryImages: [
+                    'Neulinger_Clara_3B3D_pORTFOLIO.jpg',
+                    'Neulinger_Clara_3B3D_Archway_Renders.jpg',
                     'Neulinger_Clara_3B3D_Archway_Renders_Topology_1.jpg',
                     'Neulinger_Clara_3B3D_Archway_Renders_Topology_2.jpg',
                     'Neulinger_Clara_3B3D_Archway_Renders_Topology_3.jpg',
@@ -1468,29 +1726,27 @@
                     'Neulinger_Clara_3B3D_Archway_Renders_Uv_2.jpg',
                     'Neulinger_Clara_3B3D_Archway_Renders_Uv_3.jpg',
                     'Neulinger_Clara_3B3D_Archway_Renders_Uv_4.jpg',
-                    'Neulinger_Clara_3B3D_Archway_Renders_Uv_5.jpg',
-                    'Neulinger_Clara_3B3D_Archway_Renders.jpg',
-                    'Neulinger_Clara_3B3D_pORTFOLIO.jpg'
+                    'Neulinger_Clara_3B3D_Archway_Renders_Uv_5.jpg'
                 ]
             },
             {
                 id: 4,
                 title: 'Projet : Room',
-                description: 'Creation d\'un environment stylé en 3D d\'après la référence de Thanh DO etc... (WIP)',
+                description: 'Creation d\'un environment stylé en 3D d\'après la référence de Thanh DO.  (WIP - Work In Progress)',
                 tags: ['Marvelous Designer', 'Maya', 'Marmoset', 'Substance Painter'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Room/Untitled_Camera 1_FullQuality.jpg',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Room/Room_Viewer.html',
                 folder: 'Room',
                 galleryImages: [
-                    'Neulinger_Clara_Room_Renders_1.jpg',
+                    'Neulinger_Clara_Room_Renders_3.jpg',
                     'Neulinger_Clara_Room_Renders_2.jpg',
-                    'Neulinger_Clara_Room_Renders_3.jpg'
+                    'Neulinger_Clara_Room_Renders_1.jpg'
                 ]
             },
             {
                 id: 5,
                 title: 'Projet : The Last Meal',
-                description: 'PITCH : In a supernatural and post-apocalypse world, we find a simple carrot, orange and alive. (WIP)',
+                description: 'creation d\'un environement 3D sur la base d\'un pitch :  Dans un monde post-apocalyptique une les carottes s\'éveillent sur un plan de travail ensanglanté. Vivantes, terrifiées et furieusement orange, elle rampe pour sauver leurs vie tandis que le monde s\'effondre autour d\'elles. (WIP - Work In Progress)',
                 tags: ['Maya', 'Substance Painter', 'Unreal Engine'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Kitchen/NewLevelSequence1_0002_Ultra.png',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Kitchen/Kitchen_Viewer.html',
@@ -1503,9 +1759,9 @@
             {
                 id: 6,
                 title: 'Projet : Telephone Booth',
-                description: 'Réalisation de la texture à partir d\'un modèle 3D de cabine téléphonique créé avec Maya.',
+                description: 'Réalisation d\'une texture à partir d\'un modèle 3D de cabine téléphonique, afin de la rendre abandoné, ayant une histoire a travers le temps.',
                 tags: ['Maya', 'Substance Painter'],
-                image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/Neulinger_Clara_3B3D_pORTFOLIO3.jpg',
+                image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/NEULINGER_CLARA_2B3DART_TELEPHONE_5.jpg',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/Telephone_Viewer.html',
                 folder: 'Telephone',
                 galleryImages: [
@@ -1518,6 +1774,19 @@
                     'NEULINGER_CLARA_2B3DART_TELEPHONE_7.jpg',
                     'NEULINGER_CLARA_2B3DART_TELEPHONE_8.jpg',
                     'Neulinger_Clara_3B3D_pORTFOLIO3.jpg'
+                ]
+            },
+            {
+                id: 1,
+                title: 'Projet : Plasma Pistol',
+                description: 'Pistolet à plasma reproduis selon la référence conceptuelle de Robert Simons.',
+                tags: ['Maya', 'Substance Painter'],
+                image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg',
+                viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/Plasma_Pistol_Viewer.html',
+                folder: 'Gun',
+                galleryImages: [
+                    'NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg',
+                    'Neulinger_Clara_3B3D_pORTFOLIO2.jpg'
                 ]
             }
         ];
@@ -1623,7 +1892,52 @@
         }
         
         function showOptions() {
-            alert('Options:\n\n• Version Mobile Optimisée\n• Vidéo de fond: Activée\n• Qualité: Auto\n• Style: Desktop adapté\n\nParamètres configurés automatiquement pour votre appareil.');
+            document.getElementById('options-panel').style.display = 'flex';
+        }
+        
+        function closeOptionsPanel() {
+            document.getElementById('options-panel').style.display = 'none';
+        }
+        
+        function setLanguage(lang) {
+            // Mettre à jour les boutons de langue
+            document.getElementById('lang-fr').classList.remove('active');
+            document.getElementById('lang-en').classList.remove('active');
+            document.getElementById('lang-' + lang).classList.add('active');
+            
+            // Sauvegarder la langue choisie
+            localStorage.setItem('selectedLanguage', lang);
+            
+            // TODO: Implémenter le changement de langue
+            console.log('Langue sélectionnée:', lang);
+        }
+        
+        // Initialisation du panel d'options
+        function initOptionsPanel() {
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeValue = document.getElementById('volume-value');
+            
+            // Charger le volume sauvegardé
+            const savedVolume = localStorage.getItem('audioVolume') || '50';
+            volumeSlider.value = savedVolume;
+            volumeValue.textContent = savedVolume + '%';
+            
+            // Gérer le changement de volume
+            volumeSlider.addEventListener('input', function() {
+                const volume = this.value;
+                volumeValue.textContent = volume + '%';
+                localStorage.setItem('audioVolume', volume);
+                
+                // Appliquer le volume à toutes les vidéos/audios
+                const videos = document.querySelectorAll('video, audio');
+                videos.forEach(media => {
+                    media.volume = volume / 100;
+                });
+            });
+            
+            // Charger la langue sauvegardée
+            const savedLang = localStorage.getItem('selectedLanguage') || 'fr';
+            setLanguage(savedLang);
         }
         
         // Effet TV Shutdown EXACT comme desktop
@@ -1713,12 +2027,12 @@
                 <div class="project-item active" data-project="${project.id}">
                     <div class="project-media-wrapper" onclick="openProjectDetails(${project.id})">
                         ${project.video ? `
-                            <video class="project-media" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                            <video class="project-media" autoplay muted loop playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover;">
                                 <source src="${project.video}" type="video/mp4">
                                 <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover;">
                             </video>
                         ` : `
-                            <img class="project-media" src="${project.image}" alt="${project.title}" onerror="this.src='/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg'">
+                            <img class="project-media" src="${project.image}" alt="${project.title}" loading="lazy" onerror="this.src='/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg'">
                         `}
                         <div class="project-overlay">
                             <div class="project-overlay-text">
@@ -1735,7 +2049,7 @@
                             ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                         <div class="project-hint">
-                            <small>💡 Touchez l'image pour accéder au viewer 3D interactif</small>
+                            <small>Touchez l'image pour accéder au viewer 3D interactif</small>
                         </div>
                     </div>
                 </div>
@@ -1775,7 +2089,7 @@
                     <!-- WIP Badge si nécessaire -->
                     ${project.id === 4 || project.id === 5 ? `
                     <div style="text-align: center; margin-bottom: 1.5rem;">
-                        <div style="display: inline-block; background: rgba(255, 165, 0, 0.2); color: #ffa500; padding: 0.5rem 1rem; border: 1px solid #ffa500; border-radius: 5px; font-size: 0.9rem; font-family: 'Kindergarten';">
+                        <div style="display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 0.5rem 1rem; border: 1px solid #ffffff; border-radius: 5px; font-size: 0.9rem; font-family: 'Kindergarten';">
                             Work In Progress
                         </div>
                     </div>
@@ -1784,7 +2098,7 @@
                     <!-- Section Galerie -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
                         <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Galerie</h3>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;">Cliquez sur une image pour l'agrandir</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;">Touchez une image pour l'agrandir • Pincez pour zoomer</p>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; max-height: 250px; overflow-y: auto;">
                             ${generateProjectGallery(project)}
                         </div>
@@ -1807,76 +2121,51 @@
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
                         <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Viewer 3D - Environnement</h3>
                         <div style="background: #111; border-radius: 8px; height: 300px; overflow: hidden;">
-                            <iframe src="${project.viewers.environment}" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer Environnement">
+                            <iframe src="${project.viewers.environment}" loading="lazy" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer Environnement">
                                 <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">💡 Tournez le modèle avec votre doigt/souris</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
                     </div>
                     <!-- Viewer 3D Personnage -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
                         <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Viewer 3D - Personnage</h3>
                         <div style="background: #111; border-radius: 8px; height: 300px; overflow: hidden;">
-                            <iframe src="${project.viewers.character}" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer Personnage">
+                            <iframe src="${project.viewers.character}" loading="lazy" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer Personnage">
                                 <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">💡 Tournez le modèle avec votre doigt/souris</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
                     </div>
-                    ` : project.id !== 6 ? `
+                    ` : project.id !== 6 && project.id !== 3 ? `
                     <!-- Viewer 3D Standard -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
                         <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Viewer 3D - ${project.title.replace('Projet : ', '')}</h3>
                         <div style="background: #111; border-radius: 8px; height: 300px; overflow: hidden;">
-                            <iframe src="${project.viewer}" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer 3D">
+                            <iframe src="${project.viewer}" loading="lazy" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer 3D">
                                 <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">💡 Tournez le modèle avec votre doigt/souris</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
                     </div>
                     ` : ''}
                     
-                    <!-- Section Logiciels -->
-                    <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Logiciels :</h3>
-                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;">
-                            ${generateLogos(project.tags)}
-                        </div>
-                    </div>
-                    
                     <!-- Section Visualiseur de matériaux (si applicable) -->
                     ${project.id === 3 ? `
-                    <!-- Visualiseur Archway -->
+                    <!-- Vidéo Archway -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Visualiseur - Archway</h3>
-                        <div style="text-align: center;">
-                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
-                                <button onclick="changeArchAsset('BASE COLOR')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Albedo</button>
-                                <button onclick="changeArchAsset('AO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">AO</button>
-                                <button onclick="changeArchAsset('metallic')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Metallic</button>
-                                <button onclick="changeArchAsset('ROUPH')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Roughness</button>
-                            </div>
-                            <div style="background: #111; border-radius: 8px; padding: 1rem; overflow: hidden;">
-                                <img id="arch-asset-preview" src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE COLOR/NewLevelSequence.0128.jpeg" alt="Asset Preview" style="width: 100%; height: auto; max-height: 300px; object-fit: contain;">
-                            </div>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Vidéo - Archway</h3>
+                        <div style="background: #111; border-radius: 8px; overflow: hidden;">
+                            <video controls preload="metadata" playsinline webkit-playsinline style="width: 100%; height: auto;">
+                                <source src="${project.video}" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture vidéo.
+                            </video>
                         </div>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Touchez pour lire/pause • Double-tap pour plein écran</p>
                     </div>
-                    <!-- Slider pour Archway -->
-                    <div style="background: rgba(44, 44, 44, 0.6); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <button id="arch-prev-sequence" onclick="changeArchSliderValue(-1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">◀</button>
-                            <div style="flex: 1; position: relative;">
-                                <input type="range" id="arch-asset-slider" min="128" max="149" value="128" step="1" oninput="updateArchFromSlider(this.value)" style="width: 100%; height: 8px; background: rgba(245, 241, 232, 0.2); border-radius: 4px; outline: none; -webkit-appearance: none;">
-                                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); font-family: 'Kindergarten';">
-                                    <span>Base</span>
-                                    <span>AO</span>
-                                    <span>Metal</span>
-                                    <span>Rough</span>
-                                </div>
-                            </div>
-                            <button id="arch-next-sequence" onclick="changeArchSliderValue(1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">▶</button>
-                        </div>
-                    </div>
+
+
+
                     ` : project.id === 1 ? `
                     <!-- Visualiseur Gun/Plasma Pistol -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
@@ -1985,6 +2274,14 @@
                     </div>
                     ` : ''}
                     
+                    <!-- Section Logiciels -->
+                    <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Logiciels :</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;">
+                            ${generateLogos(project.tags)}
+                        </div>
+                    </div>
+                    
                     <!-- Bouton retour -->
                     <div style="text-align: center; margin: 2rem 0;">
                         <button onclick="closeProjectModal()" class="game-button" style="background: transparent !important; border: none; color: #fff; padding: 1rem 2rem; font-family: 'Kindergarten'; cursor: pointer; font-size: clamp(1rem, 3vw, 1.2rem); position: relative;">
@@ -2004,7 +2301,7 @@
             
             return images.map(img => `
                 <div style="aspect-ratio: 1; overflow: hidden; border-radius: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.3);" onclick="openImageModal('${baseDir}${img}', ${JSON.stringify(project).replace(/"/g, '&quot;')})">
-                    <img src="${baseDir}${img}" alt="Galerie ${project.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+                    <img src="${baseDir}${img}" alt="Galerie ${project.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
                 </div>
             `).join('');
         }
@@ -2021,7 +2318,8 @@
             return tags.map(tag => {
                 const logo = logos[tag];
                 if (logo) {
-                    return `<img src="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/${logo.src}" alt="${logo.alt}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 5px; background: rgba(255,255,255,0.05);" title="${logo.title}">`;
+                    const whiteFilter = (tag === 'ZBrush' || tag === 'Unreal Engine') ? 'filter: brightness(0) invert(1);' : '';
+                    return `<img src="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/${logo.src}" alt="${logo.alt}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 5px; background: rgba(255,255,255,0.05); ${whiteFilter}" title="${logo.title}">`;
                 }
                 return `<span style="background: rgba(245, 241, 232, 0.2); color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; font-family: 'Kindergarten'; border: 1px solid rgba(245, 241, 232, 0.4);">${tag}</span>`;
             }).join('');
@@ -2030,8 +2328,17 @@
         function openImageModal(imageSrc, project) {
             const baseDir = `/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/${project.folder}/`;
             const images = project.galleryImages || [];
-            let currentIndex = images.findIndex(img => imageSrc.includes(img));
-            if (currentIndex === -1) currentIndex = 0;
+            let currentIndex;
+            
+            // Si imageSrc est un number (index), l'utiliser directement
+            if (typeof imageSrc === 'number') {
+                currentIndex = imageSrc;
+            } else {
+                // Si c'est une string, chercher l'index
+                currentIndex = images.findIndex(img => imageSrc.includes(img));
+            }
+            
+            if (currentIndex === -1 || currentIndex >= images.length) currentIndex = 0;
 
             const modal = document.createElement('div');
             modal.className = 'gallery-modal';
@@ -2054,8 +2361,7 @@
             modal.innerHTML = `
                 <div style="position: relative; width: 100%; max-width: 800px; height: 80%; display: flex; flex-direction: column;">
                     <!-- Header avec bouton fermer -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; margin: 0; font-size: clamp(1.1rem, 3vw, 1.4rem);">Galerie - ${project.title}</h3>
+                    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 1rem;">
                         <button onclick="closeGalleryModal()" style="background: none; border: 2px solid #f5f1e8; color: #f5f1e8; font-size: 1.5rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
                     </div>
                     
@@ -2188,7 +2494,8 @@
             return tags.map(tag => {
                 const logo = logoMapping[tag];
                 if (logo) {
-                    return `<img src="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/${logo.src}" alt="${logo.alt}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 5px; background: rgba(255,255,255,0.05);" title="${logo.title}">`;
+                    const whiteFilter = (tag === 'ZBrush' || tag === 'Unreal Engine') ? 'filter: brightness(0) invert(1);' : '';
+                    return `<img src="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/${logo.src}" alt="${logo.alt}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 5px; background: rgba(255,255,255,0.05); ${whiteFilter}" title="${logo.title}">`;
                 }
                 return '';
             }).join('');
@@ -2227,7 +2534,7 @@
                 'BASE COLOR': 128,
                 'AO': 134,
                 'metallic': 139,
-                'ROUPH': 144
+                'ROUPH': 149
             };
             if (slider && sliderMap[assetType]) {
                 slider.value = sliderMap[assetType];
@@ -2469,9 +2776,9 @@
         // Liens sociaux
         function openSocialLink(platform) {
             const links = {
-                artstation: 'https://www.artstation.com',
-                linkedin: 'https://www.linkedin.com',
-                rookies: 'https://www.therookies.co'
+                artstation: 'https://www.artstation.com/neulinger_clara',
+                linkedin: 'https://www.linkedin.com/in/clara-neulinger-08a70a20b/',
+                rookies: 'https://www.therookies.co/u/ClaraNeulinger'
             };
             
             if (platform === 'cv') {
@@ -2620,9 +2927,71 @@
             }
         }
 
+        // Optimisations performances mobiles
+        function optimizeMobilePerformance() {
+            // Optimisation mémoire - libérer les ressources non visibles
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Charger le contenu quand il devient visible
+                        entry.target.style.willChange = 'transform';
+                    } else {
+                        // Nettoyer les ressources non visibles
+                        entry.target.style.willChange = 'auto';
+                    }
+                });
+            }, { rootMargin: '50px' });
+            
+            // Observer toutes les images et iframes
+            document.querySelectorAll('img, iframe, video').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Gestion tactile optimisée
+            let touchStartY = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            document.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].clientY;
+                const touchDiff = touchStartY - touchY;
+                
+                // Préventions du bounce effet sur iOS
+                if (touchDiff > 0 && window.scrollY === 0) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Optimisation garbage collector
+            setInterval(() => {
+                if (window.gc) {
+                    window.gc();
+                }
+            }, 30000); // Nettoyage toutes les 30 secondes
+            
+            // Préchargement conditionnel basé sur la connexion
+            if ('connection' in navigator) {
+                const connection = navigator.connection;
+                if (connection.effectiveType === '4g' || connection.effectiveType === '3g') {
+                    // Précharger quelques ressources sur bonne connexion
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.href = '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg';
+                    document.head.appendChild(link);
+                }
+            }
+        }
+
         // Event Listeners - EXACTEMENT comme desktop
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ Site mobile Clara Neulinger avec fonctionnalités desktop !');
+            
+            // Optimisations mobiles
+            optimizeMobilePerformance();
+            
+            // Initialiser le panel d'options
+            initOptionsPanel();
             
             // Boutons menu principal
             document.getElementById('load-game').addEventListener('click', openPortfolioCollectibles);
