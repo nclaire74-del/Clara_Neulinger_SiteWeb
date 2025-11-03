@@ -186,6 +186,7 @@ class SocialLogosManager {
             instagram: 'https://www.therookies.co/u/ClaraNeulinger'
         };
         
+        this.contactBox = null;
         this.init();
     }
     
@@ -206,7 +207,11 @@ class SocialLogosManager {
         socialLogos.forEach(logo => {
             logo.addEventListener('click', (e) => {
                 const platform = logo.getAttribute('data-platform');
-                if (this.links[platform]) {
+                
+                if (platform === 'contact') {
+                    // Géré par contact-manager.js pour le nouvel encadrement
+                    return;
+                } else if (this.links[platform]) {
                     window.open(this.links[platform], '_blank');
                 }
             });
@@ -220,6 +225,8 @@ class SocialLogosManager {
                 logo.style.transform = 'scale(1) rotate(0deg)';
             });
         });
+        
+        // La gestion du contact est maintenant dans contact-manager.js
     }
 }
 
@@ -287,5 +294,6 @@ document.head.appendChild(notificationStyles);
                          c o n t a c t M o d a l . s t y l e . d i s p l a y   =   ' n o n e ' ; 
                  } 
          } ) ; 
- } ) ;  
+ } ) ; 
+ 
  

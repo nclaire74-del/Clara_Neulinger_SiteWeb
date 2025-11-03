@@ -1337,14 +1337,48 @@ body {
     transform: rotateY(180deg);
 }
 
-/* Optimisation rendu SVG pour CV */
+/* Optimisation rendu SVG pour CV - Amélioration qualité */
 .cv-paper-side img {
     image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    image-rendering: auto;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
     -ms-interpolation-mode: bicubic;
     shape-rendering: geometricPrecision;
-    text-rendering: geometricPrecision;
+    text-rendering: optimizeLegibility;
+}
+
+/* Styles spécifiques pour les SVG du CV pour éviter le flou */
+.cv-paper-side img[src*=".svg"] {
+    image-rendering: auto !important;
+    -webkit-image-rendering: auto !important;
+    -moz-image-rendering: auto !important;
+    -ms-interpolation-mode: nearest-neighbor !important;
+    shape-rendering: crispEdges !important;
+    text-rendering: geometricPrecision !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/* Correction globale pour tous les SVG du CV */
+img[src*="Cv_fr.svg"],
+img[src*="2.svg"] {
+    image-rendering: auto !important;
+    -webkit-image-rendering: auto !important;
+    -moz-image-rendering: auto !important;
+    -o-image-rendering: auto !important;
+    -ms-interpolation-mode: bicubic !important;
+    shape-rendering: geometricPrecision !important;
+    text-rendering: optimizeLegibility !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
 }
 
 .cv-frame {
@@ -1654,10 +1688,10 @@ body {
     
     /* Logos sociaux responsive sur desktop redimensionné */
     .social-logos-container {
-        position: absolute !important;
-        right: 800px !important; /* Déplacé de 200% supplémentaires vers la gauche */
-        top: 50% !important;
-        transform: translateY(-50%) !important;
+        position: fixed !important;
+        right: 700px !important; /* Position à droite du CV */
+        top: 27% !important;
+        transform: none !important;
         z-index: 10 !important;
         /* Réinitialiser les styles mobile */
         flex-direction: column !important;
@@ -1665,14 +1699,14 @@ body {
     }
     
     .social-logos-instruction {
-        position: absolute !important;
-        /* Réinitialiser les styles mobile */
-        top: auto !important;
-        right: auto !important;
-        transform: none !important;
-        background: transparent !important;
-        color: inherit !important;
-        font-size: inherit !important;
+        position: fixed !important;
+        right: 535px !important;
+        top: 15% !important;
+        transform: translateX(-50%) !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 0.9rem !important;
+        z-index: 10 !important;
     }
     
     /* LOUPE - Garder sa position fixe à droite sur desktop */
@@ -3071,14 +3105,14 @@ body {
 
 /* === LOGOS SOCIAUX === */
 .social-logos-container {
-    position: absolute;
-    right: 800px; /* Déplacé de 200% supplémentaires vers la gauche */
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 45px;
-    z-index: 10;
+    position: fixed !important;
+    right: 750px !important;
+    top: 27% !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 45px !important;
+    z-index: 10 !important;
 }
 
 .social-logo {
@@ -3114,6 +3148,16 @@ body {
     opacity: 0.9;
 }
 
+/* Logo Contact dans les réseaux sociaux - en blanc */
+.social-logo[data-platform="contact"] img {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.social-logo[data-platform="contact"]:hover img {
+    opacity: 1;
+}
+
 /* Couleurs spécifiques au hover */
 .social-logo[data-platform="artstation"]:hover,
 .social-logo[data-platform="linkedin"]:hover,
@@ -3123,29 +3167,191 @@ body {
 
 /* Phrase explicative pour les logos */
 .social-logos-instruction {
-    position: absolute;
-    right: 705px; /* Déplacé de 2% supplémentaires vers la droite */
-    top: 22%; /* Déplacé de 4% encore plus haut */
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
+    position: fixed !important;
+    right: 575px !important;
+    top: 15% !important;
+    transform: translateX(-50%) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.9rem !important;
+    font-family: 'Kindergarten', sans-serif !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(4px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    text-align: center !important;
+    z-index: 10 !important;
+    text-align: center !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    width: auto !important;
+    max-width: 250px !important;
+}
+
+/* === ENCADREMENT CONTACT === */
+.contact-info-box {
+    position: fixed !important;
+    right: 350px !important;
+    top: 45% !important;
+    width: 320px;
+    background: transparent !important;
+    border: none;
+    padding: 25px 35px;
+    z-index: 15 !important;
     font-family: 'Kindergarten', sans-serif;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 12px 24px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    position: relative;
+    animation: contactBoxAppear 0.3s ease-out;
+}
+
+/* Encadrement gribouillé style game-button - Première couche fine */
+.contact-info-box::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 2px 0.5px 2.5px 1px;
+    transform: rotate(-0.3deg);
+}
+
+/* Encadrement gribouillé style game-button - Deuxième couche fine superposée */
+.contact-info-box::after {
+    content: '';
+    position: absolute;
+    top: -0.5px;
+    left: -0.5px;
+    right: -0.5px;
+    bottom: -0.5px;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 1px 2.5px 0.5px 1.5px;
+    transform: rotate(0.2deg);
+}
+
+.contact-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.contact-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.contact-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.contact-text {
+    flex: 1;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+.contact-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.contact-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+/* Animations pour l'encadrement contact */
+@keyframes contactBoxAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes borderGribouille {
+    0%, 100% {
+        transform: rotate(0deg) scale(1);
+        border-color: rgba(255, 255, 255, 0.7);
+    }
+    25% {
+        transform: rotate(0.5deg) scale(1.01);
+        border-color: rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        transform: rotate(-0.3deg) scale(0.99);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+    75% {
+        transform: rotate(0.4deg) scale(1.005);
+        border-color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+@keyframes borderGribouille2 {
+    0%, 100% {
+        transform: rotate(0.5deg) scale(1);
+        opacity: 0.4;
+    }
+    33% {
+        transform: rotate(-0.2deg) scale(1.01);
+        opacity: 0.6;
+    }
+    66% {
+        transform: rotate(0.7deg) scale(0.99);
+        opacity: 0.3;
+    }
 }
 
 /* Responsive intermédiaire pour fenêtre desktop redimensionnée */
 @media (min-width: 1025px) and (max-width: 1400px) {
     .social-logos-container {
-        right: 700px !important; /* Déplacé vers la gauche, responsive */
+        right: 700px !important; /* Position à droite du CV */
+        top: 27% !important;
         gap: 35px; /* Gap réduit */
-        transform: translateY(-50%);
+        transform: none !important;
+    }
+    
+    .social-logos-instruction {
+        right: 515px !important; /* Position au-dessus des logos */
+        transform: translateX(-50%) !important;
+        top: 15% !important;
+        transform: none !important;
     }
     
     .social-logo {
@@ -5086,24 +5292,26 @@ body {
 }
 
 /* État ON (blanc) */
-.magnifier-btn[data-active="true"] {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 1);
-    color: rgba(0, 0, 0, 0.8);
+.magnifier-btn[data-active="true"],
+#magnifier-toggle[data-active="true"] {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(255, 255, 255, 1) !important;
+    color: rgba(0, 0, 0, 0.8) !important;
     box-shadow: 
         0 0 20px rgba(255, 255, 255, 0.6),
         0 4px 15px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
-.magnifier-btn[data-active="true"]:hover {
-    background: rgba(255, 255, 255, 1);
-    color: rgba(0, 0, 0, 1);
+.magnifier-btn[data-active="true"]:hover,
+#magnifier-toggle[data-active="true"]:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    color: rgba(0, 0, 0, 1) !important;
     transform: scale(1.05);
     box-shadow: 
         0 0 25px rgba(255, 255, 255, 0.8),
         0 6px 20px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 /* Zone d'explication */
@@ -10074,6 +10282,27 @@ iframe[src*="Circus_Viewer.html"] * {
         height: 50px !important;
     }
     
+    /* Loupe blanche quand activée dans la page Contact */
+    #contact-window .magnifier-btn[data-active="true"] {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border-color: rgba(255, 255, 255, 1) !important;
+        color: rgba(0, 0, 0, 0.8) !important;
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.6),
+            0 4px 15px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    }
+    
+    #contact-window .magnifier-btn[data-active="true"]:hover {
+        background: rgba(255, 255, 255, 1) !important;
+        color: rgba(0, 0, 0, 1) !important;
+        transform: scale(1.05) !important;
+        box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.8),
+            0 6px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    }
+    
     /* Masquer l'explication de la loupe sur mobile/tablette */
     #contact-window .magnifier-explanation {
         display: none !important;
@@ -10536,6 +10765,27 @@ iframe[src*="Circus_Viewer.html"] * {
     .cv-fullscreen-overlay {
         display: none !important;
     }
+    
+    /* Loupe blanche quand activée dans la page Contact - VERSION DESKTOP */
+    #contact-window .magnifier-btn[data-active="true"] {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border-color: rgba(255, 255, 255, 1) !important;
+        color: rgba(0, 0, 0, 0.8) !important;
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.6),
+            0 4px 15px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    }
+    
+    #contact-window .magnifier-btn[data-active="true"]:hover {
+        background: rgba(255, 255, 255, 1) !important;
+        color: rgba(0, 0, 0, 1) !important;
+        transform: scale(1.05) !important;
+        box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.8),
+            0 6px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -10873,21 +11123,25 @@ iframe[src*="Circus_Viewer.html"] * {
         gap: 15px !important;
     }
     
-    /* Logos Sociaux - Position ajustée FORCÉE */
+    /* Logos Sociaux - Position à droite du CV sans empiéter */
     .social-logos-container {
-        position: absolute !important;
-        right: 800px !important; /* Déplacé de 200% supplémentaires vers la gauche */
-        top: 50% !important;
-        transform: translateY(-50%) !important;
+        position: fixed !important;
+        right: 750px !important;
+        top: 27% !important;
+        transform: none !important;
         z-index: 10 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
     }
     
-    /* Instruction Logos Sociaux - Position au-dessus des logos FORCÉE */
+    /* Instruction Logos Sociaux - Position au-dessus des logos */
     .social-logos-instruction {
-        position: absolute !important;
-        right: 705px !important; /* Déplacé de 2% supplémentaires vers la droite */
-        top: 22% !important; /* Déplacé de 4% encore plus haut */
-        transform: translateY(-50%) !important;
+        position: fixed !important;
+        right: 575px !important;
+        top: 15% !important;
+        transform: translateX(-50%) !important;
         color: rgba(255, 255, 255, 0.9) !important;
         font-size: 0.9rem !important;
         font-family: 'Kindergarten', sans-serif !important;
@@ -10912,5 +11166,167 @@ iframe[src*="Circus_Viewer.html"] * {
         width: 45vw !important; /* Légèrement plus large */
         height: 45vh !important; /* Légèrement plus haut */
     }
+}
+
+
+
+/* === STYLES OPTIONS PANEL === */
+.options-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.options-content {
+    background: rgba(20, 20, 20, 0.95);
+    padding: 30px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.options-title {
+    color: white;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.options-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.options-close:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.options-section {
+    margin-bottom: 25px;
+}
+
+.options-section h3 {
+    color: white;
+    font-family: 'Kindergarten', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.white-logo {
+    filter: brightness(0) invert(1);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.volume-slider {
+    flex: 1;
+    appearance: none;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.volume-value {
+    color: white;
+    font-family: 'Kindergarten', sans-serif;
+    min-width: 40px;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.language-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Kindergarten', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.language-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+}
+
+.software-logos {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.software-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.software-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Rendre les logos Unreal et ZBrush blancs */
+.software-logo.white-filter {
+    filter: brightness(0) invert(1);
 }
 

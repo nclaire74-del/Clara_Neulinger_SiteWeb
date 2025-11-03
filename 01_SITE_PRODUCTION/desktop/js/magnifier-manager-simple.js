@@ -184,16 +184,16 @@ class MagnifierManager {
         `;
         
         // Détecter quelle face du CV est visible en accédant au dual-paper-manager
-        let imageSrc = 'assets/images/Contact/Cv_fr.svg'; // Face avant par défaut
+        let imageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'; // Face avant par défaut
         
         // Vérifier si le dual-paper-manager existe et a l'état flipped
         if (window.dualPaperManager && window.dualPaperManager.papers && window.dualPaperManager.papers.cv) {
             const isFlipped = window.dualPaperManager.papers.cv.flipped;
             if (isFlipped) {
-                imageSrc = 'assets/images/Contact/2.svg'; // Face arrière
+                imageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/2.svg'; // Face arrière
                 console.log('🔄 CV retourné - Affichage face arrière (2.svg)');
             } else {
-                imageSrc = 'assets/images/Contact/Cv_fr.svg'; // Face avant
+                imageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'; // Face avant
                 console.log('📄 CV normal - Affichage face avant (Cv_fr.svg)');
             }
         } else {
@@ -207,7 +207,7 @@ class MagnifierManager {
                     if (values.length >= 16) {
                         const rotY = Math.asin(parseFloat(values[8])) * (180 / Math.PI);
                         if (Math.abs(rotY) > 90) {
-                            imageSrc = 'assets/images/Contact/2.svg';
+                            imageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/2.svg';
                             console.log('🔄 CSS détection - Face arrière');
                         }
                     }
@@ -230,8 +230,11 @@ class MagnifierManager {
             pointer-events: none;
             object-fit: contain;
             object-position: center;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            image-rendering: auto;
+            -webkit-image-rendering: auto;
+            -moz-image-rendering: auto;
+            shape-rendering: geometricPrecision;
+            text-rendering: optimizeLegibility;
         `;
         
         content.appendChild(magnifiedImage);
