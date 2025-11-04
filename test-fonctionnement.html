@@ -1,22 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Test Fonctionnement</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Final - Archway Slider + Traductions Mobile</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        .test-section { margin: 20px 0; padding: 15px; border: 2px solid #333; border-radius: 8px; background: #f9f9f9; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeab5; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-btn { padding: 10px 20px; margin: 5px; border: 2px solid #333; background: white; cursor: pointer; border-radius: 5px; }
+        .test-btn:hover { background: #f0f0f0; }
+        .code { background: #2d3748; color: #e2e8f0; padding: 10px; border-radius: 5px; font-family: monospace; margin: 10px 0; }
+    </style>
 </head>
 <body>
-    <h1>✅ LE SERVEUR FONCTIONNE !</h1>
-    <p>Ce fichier test confirme que le serveur web est opérationnel.</p>
-    <p>Heure de test: <script>document.write(new Date().toLocaleString());</script></p>
+    <h1>🧪 Test Final : Corrections Mobile</h1>
     
-    <h2>Tests de navigation:</h2>
-    <ul>
-        <li><a href="/Clara_Neulinger/01_SITE_PRODUCTION/desktop/">Version Desktop</a></li>
-        <li><a href="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/">Version Mobile</a></li>
-    </ul>
+    <div class="status success">
+        <h3>✅ Corrections Appliquées</h3>
+        <ul>
+            <li><strong>Archway Slider :</strong> Images corrigées, slider 1-9, fonctions adaptées</li>
+            <li><strong>Traductions :</strong> Écran de chargement, boutons principaux, options</li>
+            <li><strong>Système :</strong> TranslationManager synchronisé</li>
+        </ul>
+    </div>
     
-    <h2>État des fichiers:</h2>
-    <p>✅ Fichiers nettoyés et restaurés</p>
-    <p>✅ Optimisations problématiques supprimées</p>
-    <p>✅ JavaScript corrompu réparé</p>
+    <div class="test-section">
+        <h3>🏛️ Test 1 : Archway Slider (Mobile)</h3>
+        <div class="info">
+            <p><strong>URL à tester :</strong> <code>http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/</code></p>
+            <p><strong>Navigation :</strong> Load Game → Archway (projet 3)</p>
+        </div>
+        
+        <h4>Images attendues dans le visualiseur :</h4>
+        <div class="code">
+1. RENDERS: Neulinger_Clara_3B3D_Archway_Renders.jpg
+2. TOPOLOGY_1: Neulinger_Clara_3B3D_Archway_Renders_Topology_1.jpg
+3. TOPOLOGY_2: Neulinger_Clara_3B3D_Archway_Renders_Topology_2.jpg  
+4. TOPOLOGY_3: Neulinger_Clara_3B3D_Archway_Renders_Topology_3.jpg
+5. UV_1: Neulinger_Clara_3B3D_Archway_Renders_Uv_1.jpg
+6. UV_2: Neulinger_Clara_3B3D_Archway_Renders_Uv_2.jpg
+7. UV_3: Neulinger_Clara_3B3D_Archway_Renders_Uv_3.jpg
+8. UV_4: Neulinger_Clara_3B3D_Archway_Renders_Uv_4.jpg
+9. UV_5: Neulinger_Clara_3B3D_Archway_Renders_Uv_5.jpg
+        </div>
+        
+        <div class="status warning">
+            <strong>À vérifier :</strong>
+            <ul>
+                <li>Présence de la box "Visualiseur - Archway"</li>
+                <li>Boutons : Full Quality, Topology, UV Mapping</li>
+                <li>Slider fonctionnel (1-9) avec bonnes images</li>
+                <li>Boutons ◀▶ fonctionnels</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>🌐 Test 2 : Système de Traduction</h3>
+        <div class="info">
+            <p><strong>URL :</strong> Même page mobile</p>
+            <p><strong>Test :</strong> Menu Options → Cliquer FR/EN</p>
+        </div>
+        
+        <h4>Éléments qui doivent changer :</h4>
+        <div class="code">
+Français → English:
+• "Portfolio" → "Portfolio" (pas de changement)
+• "Collectibles" → "Collectibles" (pas de changement)  
+• "Options" → "Options" (pas de changement)
+• "Informations & Réseaux" → "Information & Networks"
+• "Son & Langue" → "Sound & Language"
+• "Quitter" → "Quit"
+• "Volume" → "Volume" (pas de changement)
+• "Langue" → "Language"
+• "Chargement... Patientez" → "Loading... Please Wait"
+• "Touchez pour explorer" → "Touch to explore"
+        </div>
+        
+        <div class="status warning">
+            <strong>Console à surveiller (F12) :</strong>
+            <ul>
+                <li>✅ Système de traduction mobile initialisé</li>
+                <li>🔄 setLanguage appelée avec: en</li>
+                <li>🌐 Changement de langue avec TranslationManager: en</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>🔧 Instructions de Test</h3>
+        
+        <div class="status info">
+            <h4>Étape 1 : Test Archway</h4>
+            <ol>
+                <li>Ouvrir <code>http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/</code></li>
+                <li>Cliquer "Load Game"</li>
+                <li>Naviguer vers le projet Archway</li>
+                <li>Vérifier la présence du Visualiseur + Slider</li>
+                <li>Tester les boutons et le slider</li>
+            </ol>
+        </div>
+        
+        <div class="status info">
+            <h4>Étape 2 : Test Traductions</h4>
+            <ol>
+                <li>Retour au menu principal</li>
+                <li>Cliquer "Options"</li>
+                <li>Cliquer "English" → Vérifier changements</li>
+                <li>Cliquer "Français" → Vérifier retour</li>
+                <li>Fermer options et vérifier persistance</li>
+            </ol>
+        </div>
+        
+        <div class="status info">
+            <h4>Étape 3 : Vérification Console</h4>
+            <ol>
+                <li>F12 → Console</li>
+                <li>Recharger la page</li>
+                <li>Chercher les messages de traduction</li>
+                <li>Tester changement de langue</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>📋 Rapport de Test</h3>
+        <div id="test-results">
+            <div class="status warning">
+                <strong>En attente de tests...</strong><br>
+                Veuillez effectuer les tests ci-dessus et rapporter les résultats.
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>🚨 En cas de problème</h3>
+        <div class="status error">
+            <h4>Si Archway slider ne fonctionne pas :</h4>
+            <ul>
+                <li>Vérifier console pour erreurs JavaScript</li>
+                <li>Vérifier que les images existent dans <code>/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/</code></li>
+                <li>Vérifier l'ID <code>arch-asset-slider</code> dans l'inspecteur</li>
+            </ul>
+        </div>
+        
+        <div class="status error">
+            <h4>Si traductions ne fonctionnent pas :</h4>
+            <ul>
+                <li>Vérifier que <code>translations.js</code> se charge</li>
+                <li>Vérifier <code>window.translationManager</code> dans la console</li>
+                <li>Vérifier localStorage <code>language</code></li>
+            </ul>
+        </div>
+    </div>
+    
+    <button class="test-btn" onclick="window.open('http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/', '_blank')">
+        🚀 Ouvrir Site Mobile
+    </button>
+    
+    <button class="test-btn" onclick="window.open('http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/desktop/', '_blank')">
+        🖥️ Ouvrir Site Desktop (référence)
+    </button>
+
 </body>
 </html>

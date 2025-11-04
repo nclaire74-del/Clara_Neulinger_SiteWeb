@@ -2,7 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="/Clara_Neulinger/01_SITE_PRODUCTION/desktop/font/kindergarten.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="prefetch" href="/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Logos/pngwing.com.png">
+    
     <title>Clara Neulinger - Portfolio Mobile</title>
     <style>
         @font-face {
@@ -25,6 +34,26 @@
             overflow: hidden;
             background: #000000 !important;
             font-family: 'Kindergarten', Arial, sans-serif;
+            
+            /* Optimisations performances mobiles */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* Optimisations GPU pour animations */
+        * {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        /* Optimisations scrolling mobile */
+        * {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
         }
         
         /* Écran de chargement DESKTOP EXACT */
@@ -1482,13 +1511,13 @@
     <!-- Écran de chargement avec fond noir -->
     <div id="loading-screen">
         <div class="loading-title">Clara Neulinger</div>
-        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="loading-subtitle" data-translate="loading_please_wait">Chargement... Patientez</div>
         <div class="spinner"></div>
         <div class="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
         <div id="loading-percentage">0%</div>
-        <div id="loading-message">Compilation du shader...</div>
+        <div id="loading-message" data-translate="shader_compilation">Compilation du shader...</div>
     </div>
 
     <!-- Vidéo en arrière-plan -->
@@ -1512,23 +1541,23 @@
             <!-- Menu principal -->
             <div class="main-menu">
                 <button class="game-button" id="load-game">
-                    <span class="button-text">Load Game</span>
-                    <span class="button-subtitle">Portfolio & Projets</span>
+                    <span class="button-text" data-translate="portfolio">Portfolio</span>
+                    <span class="button-subtitle" data-translate="collectibles">Collectibles</span>
                 </button>
                 
                 <button class="game-button" id="contact">
-                    <span class="button-text">Contact</span>
-                    <span class="button-subtitle">Informations & Réseaux</span>
+                    <span class="button-text" data-translate="contact">Contact</span>
+                    <span class="button-subtitle" data-translate="informations_networks">Informations & Réseaux</span>
                 </button>
                 
                 <button class="game-button" id="options">
-                    <span class="button-text">Options</span>
-                    <span class="button-subtitle">Son & Langue</span>
+                    <span class="button-text" data-translate="options">Options</span>
+                    <span class="button-subtitle" data-translate="sound_language">Son & Langue</span>
                 </button>
                 
                 <button class="game-button" id="exit">
                     <span class="button-text">Exit</span>
-                    <span class="button-subtitle">Quitter</span>
+                    <span class="button-subtitle" data-translate="quit">Quitter</span>
                 </button>
             </div>
         </div>
@@ -1537,12 +1566,12 @@
     <!-- Contact Window -->
     <div id="contact-window" class="contact-overlay">
         <div class="papers-container">
-            <h2>Contact</h2>
+            <h2 data-translate="contact">Contact</h2>
             
             <!-- Informations de contact -->
             <div style="margin-bottom: 30px;">
-                <p><strong>Email:</strong> claraneulinger1@gmail.com</p>
-                <p><strong>Téléphone:</strong> 07 81 35 75 30</p>
+                <p><strong data-translate="email">Email:</strong> claraneulinger1@gmail.com</p>
+                <p><strong data-translate="phone">Téléphone:</strong> 07 81 35 75 30</p>
             </div>
             
             <!-- Logos sociaux -->
@@ -1562,13 +1591,13 @@
             </div>
             
             <div class="social-logos-instruction">
-                <p>Cliquez sur les logos pour visiter mes profils</p>
+                <p data-translate="click_logos_profiles">Cliquez sur les logos pour visiter mes profils</p>
             </div>
             
             <!-- Bouton retour -->
             <button id="back-to-home" class="game-button back-to-home-btn">
-                <span class="button-text">Retour Accueil</span>
-                <span class="button-subtitle">Page principale</span>
+                <span class="button-text" data-translate="return_home">${translationManager.t('return_home')}</span>
+                <span class="button-subtitle" data-translate="main_page">${translationManager.t('main_page')}</span>
             </button>
         </div>
     </div>
@@ -1578,10 +1607,10 @@
         <!-- En-tête style jeu vidéo -->
         <div class="collectibles-header">
             <button class="project-nav-btn" id="prev-project">
-                <span>◀ Précédent</span>
+                <span data-translate="previous">◀ Précédent</span>
             </button>
             <div class="collectibles-title">
-                <h2>COLLECTIBLES</h2>
+                <h2 data-translate="collectibles">COLLECTIBLES</h2>
                 <div class="category-indicator">
                     <div class="category-counter">
                         <span id="current-item">1</span> / <span id="total-items">6</span>
@@ -1589,7 +1618,7 @@
                 </div>
             </div>
             <button class="project-nav-btn" id="next-project">
-                <span>Suivant ▶</span>
+                <span data-translate="next">Suivant ▶</span>
             </button>
         </div>
 
@@ -1605,8 +1634,8 @@
 
         <!-- Bouton retour -->
         <button id="back-to-home-portfolio" class="game-button back-to-home-btn">
-            <span class="button-text">Retour Accueil</span>
-            <span class="button-subtitle">Page principale</span>
+            <span class="button-text" data-translate="return_home">Retour Accueil</span>
+            <span class="button-subtitle" data-translate="main_page">Page principale</span>
         </button>
     </div>
 
@@ -1615,12 +1644,12 @@
         <div class="options-content">
             <div class="options-inner">
                 <div class="options-header">
-                    <h2 class="options-title">Options</h2>
+                    <h2 class="options-title" data-translate="options">Options</h2>
                     <button class="options-close" onclick="closeOptionsPanel()">&times;</button>
                 </div>
                 
                 <div class="options-section">
-                    <h3>🔊 Volume</h3>
+                    <h3>🔊 <span data-translate="volume">Volume</span></h3>
                     <div class="volume-control">
                         <span style="color: #f5f1e8;">🔈</span>
                         <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
@@ -1629,16 +1658,17 @@
                 </div>
                 
                 <div class="options-section">
-                    <h3>🌐 Langue / Language</h3>
+                    <h3>🌐 <span data-translate="language">Langue</span> / Language</h3>
                     <div class="language-buttons">
-                        <button class="language-btn active" id="lang-fr" onclick="setLanguage('fr')">Français</button>
-                        <button class="language-btn" id="lang-en" onclick="setLanguage('en')">English</button>
+                        <button class="language-btn active" id="lang-fr" data-language="fr">Français</button>
+                        <button class="language-btn" id="lang-en" data-language="en">English</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="js/translations.js"></script>
     <script>
         console.log('🚀 Site mobile Clara Neulinger - Version Desktop Complète');
         
@@ -1647,8 +1677,8 @@
         const projects = [
             {
                 id: 2,
-                title: 'Projet : Circus',
-                description: 'Ce projet personnel combine création d\'environnement et de personnage. Basé sur un concept art de Yuri Gvozdenko, la scène raconte une histoire à travers atmosphère, éclairage et textures.',
+                title: 'circus_title',
+                description: 'circus_desc',
                 tags: ['Maya', 'ZBrush', 'Substance Painter', 'Marmoset', 'Unreal Engine'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Enviro_Renders_1.jpg',
                 video: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Render_Video.mp4',
@@ -1680,8 +1710,8 @@
             },
             {
                 id: 3,
-                title: 'Projet : Archway',
-                description: 'Un projet personnel dédié à la création d\'une arche inspirée du style celtique. Dans le cadre de ce projet, j\'ai décidé de réinterpréter une arche réalisée en 3D par Jonatan Österberg, tout en développant un environnement complet autour de cette structure.',
+                title: 'archway_title',
+                description: 'archway_desc',
                 tags: ['Maya', 'Unreal Engine', 'Substance Painter', 'ZBrush', 'Marmoset'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/Neulinger_Clara_3B3D_Archway_Renders.jpg',
                 video: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/Neulinger_Clara_3B3D_Archway_Render_Video.mp4',
@@ -1702,8 +1732,8 @@
             },
             {
                 id: 4,
-                title: 'Projet : Room',
-                description: 'Creation d\'un environment stylé en 3D d\'après la référence de Thanh DO.  (WIP - Work In Progress)',
+                title: 'room_title',
+                description: 'room_desc',
                 tags: ['Marvelous Designer', 'Maya', 'Marmoset', 'Substance Painter'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Room/Untitled_Camera 1_FullQuality.jpg',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Room/Room_Viewer.html',
@@ -1716,8 +1746,8 @@
             },
             {
                 id: 5,
-                title: 'Projet : The Last Meal',
-                description: 'creation d\'un environement 3D sur la base d\'un pitch :  Dans un monde post-apocalyptique une les carottes s\'éveillent sur un plan de travail ensanglanté. Vivantes, terrifiées et furieusement orange, elle rampe pour sauver leurs vie tandis que le monde s\'effondre autour d\'elles. (WIP - Work In Progress)',
+                title: 'kitchen_title',
+                description: 'kitchen_desc',
                 tags: ['Maya', 'Substance Painter', 'Unreal Engine'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Kitchen/NewLevelSequence1_0002_Ultra.png',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Kitchen/Kitchen_Viewer.html',
@@ -1729,8 +1759,8 @@
             },
             {
                 id: 6,
-                title: 'Projet : Telephone Booth',
-                description: 'Réalisation d\'une texture à partir d\'un modèle 3D de cabine téléphonique, afin de la rendre abandoné, ayant une histoire a travers le temps.',
+                title: 'telephone_title',
+                description: 'telephone_desc',
                 tags: ['Maya', 'Substance Painter'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/NEULINGER_CLARA_2B3DART_TELEPHONE_5.jpg',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/Telephone_Viewer.html',
@@ -1749,8 +1779,8 @@
             },
             {
                 id: 1,
-                title: 'Projet : Plasma Pistol',
-                description: 'Pistolet à plasma reproduis selon la référence conceptuelle de Robert Simons.',
+                title: 'gun_title',
+                description: 'gun_desc',
                 tags: ['Maya', 'Substance Painter'],
                 image: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg',
                 viewer: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/Plasma_Pistol_Viewer.html',
@@ -1770,14 +1800,30 @@
             const loadingPercentage = document.getElementById('loading-percentage');
             const loadingMessage = document.getElementById('loading-message');
             
-            const messages = [
-                'Compilation du shader...',
-                'Chargement des textures...',
-                'Initialisation des modèles 3D...',
-                'Configuration mobile...',
-                'Optimisation des performances...',
-                'Finalisation...'
-            ];
+            // Fonction pour obtenir les messages traduits
+            const getLoadingMessages = () => {
+                if (window.translationManager) {
+                    return [
+                        window.translationManager.t('shader_compilation'),
+                        window.translationManager.t('loading_textures'),
+                        window.translationManager.t('loading_3d_models'),
+                        'Configuration mobile...',
+                        'Optimisation des performances...',
+                        'Finalisation...'
+                    ];
+                } else {
+                    return [
+                        'Compilation du shader...',
+                        'Chargement des textures...',
+                        'Initialisation des modèles 3D...',
+                        'Configuration mobile...',
+                        'Optimisation des performances...',
+                        'Finalisation...'
+                    ];
+                }
+            };
+            
+            const messages = getLoadingMessages();
             
             const interval = setInterval(() => {
                 loadingProgress += Math.random() * 6 + 2;
@@ -1871,16 +1917,52 @@
         }
         
         function setLanguage(lang) {
+            console.log('🔄 setLanguage appelée avec:', lang);
+            
+            // Vérifier que les éléments existent
+            const frBtn = document.getElementById('lang-fr');
+            const enBtn = document.getElementById('lang-en');
+            
+            if (!frBtn || !enBtn) {
+                console.error('❌ Boutons de langue introuvables');
+                return;
+            }
+            
             // Mettre à jour les boutons de langue
-            document.getElementById('lang-fr').classList.remove('active');
-            document.getElementById('lang-en').classList.remove('active');
+            frBtn.classList.remove('active');
+            enBtn.classList.remove('active');
             document.getElementById('lang-' + lang).classList.add('active');
             
-            // Sauvegarder la langue choisie
+            // Utiliser le système de traduction
+            if (window.translationManager) {
+                console.log('🌐 Changement de langue avec TranslationManager:', lang);
+                window.translationManager.setLanguage(lang);
+                
+                // Mettre à jour les hints dynamiques
+                setTimeout(() => updateTranslateHints(), 100);
+            } else {
+                console.error('❌ TranslationManager non disponible lors du changement de langue');
+            }
+            
+            // Sauvegarder la langue choisie (compatibilité avec le TranslationManager)
+            localStorage.setItem('language', lang);
             localStorage.setItem('selectedLanguage', lang);
             
-            // TODO: Implémenter le changement de langue
-            console.log('Langue sélectionnée:', lang);
+            console.log('✅ Langue changée vers:', lang);
+        }
+        
+        // Mettre à jour les éléments translate-hint dynamiques
+        function updateTranslateHints() {
+            if (window.translationManager) {
+                const hintElements = document.querySelectorAll('.translate-hint');
+                hintElements.forEach(element => {
+                    const mediaType = element.getAttribute('data-media-type');
+                    const mediaText = mediaType === 'video' ? 
+                        window.translationManager.t('video') : 
+                        window.translationManager.t('image');
+                    element.textContent = window.translationManager.t('double_click_access_viewer', { media: mediaText });
+                });
+            }
         }
         
         // Initialisation du panel d'options
@@ -1907,8 +1989,12 @@
             });
             
             // Charger la langue sauvegardée
-            const savedLang = localStorage.getItem('selectedLanguage') || 'fr';
+            const savedLang = localStorage.getItem('language') || localStorage.getItem('selectedLanguage') || 'fr';
             setLanguage(savedLang);
+            
+            // Ajouter les gestionnaires d'événements pour les boutons de langue
+            document.getElementById('lang-fr').addEventListener('click', () => setLanguage('fr'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
         }
         
         // Effet TV Shutdown EXACT comme desktop
@@ -2007,24 +2093,48 @@
                         `}
                         <div class="project-overlay">
                             <div class="project-overlay-text">
-                                <span class="mobile-instruction">Touchez pour explorer</span>
+                                <span class="mobile-instruction" data-translate="touch_explore">Touchez pour explorer</span>
                             </div>
                         </div>
                     </div>
                     <div class="project-info-side">
-                        <h3>${project.title}</h3>
+                        <h3 data-translate="${project.title}">${window.translationManager ? window.translationManager.t(project.title) : project.title}</h3>
                         <div class="project-description-additional">
-                            <p>${project.description}</p>
+                            <p data-translate="${project.description}">${window.translationManager ? window.translationManager.t(project.description) : project.description}</p>
                         </div>
                         <div class="project-tags">
                             ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                         <div class="project-hint">
-                            <small>Touchez l'image pour accéder au viewer 3D interactif</small>
+                            <small class="translate-hint" data-media-type="image" data-translate="touch_image_viewer_3d">${translationManager.t('touch_image_viewer_3d')}</small>
                         </div>
                     </div>
                 </div>
             `;
+        }
+        
+        function getProjectTitleKey(projectId) {
+            const titleKeys = {
+                2: 'circus_title',
+                3: 'archway_title', 
+                1: 'gun_title',
+                5: 'kitchen_title',
+                4: 'room_title',
+                6: 'telephone_title'
+            };
+            return titleKeys[projectId] || 'project_title';
+        }
+        
+        function getProjectName(projectId) {
+            const projectNames = {
+                2: 'Circus',
+                3: 'Archway', 
+                1: 'Plasma Pistol',
+                5: 'The Last Meal',
+                4: 'The Room',
+                6: 'Telephone Booth'
+            };
+            return projectNames[projectId] || 'Project';
         }
         
         function openProjectDetails(projectId) {
@@ -2053,23 +2163,23 @@
                 <div style="width: 100%; max-width: 700px; margin: 0 auto; flex: 1;">
                     <!-- Header avec titre centré et bouton fermer -->
                     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; position: sticky; top: 0; background: rgba(0,0,0,0.9); padding: 1rem 0; z-index: 10; position: relative;">
-                        <h2 style="font-family: 'Kindergarten', cursive; color: #f5f1e8; font-size: clamp(1.3rem, 4vw, 1.8rem); margin: 0; text-align: center;">${project.title}</h2>
+                        <h2 style="font-family: 'Kindergarten', cursive; color: #f5f1e8; font-size: clamp(1.3rem, 4vw, 1.8rem); margin: 0; text-align: center;" data-translate="${getProjectTitleKey(project.id)}">${translationManager.t(getProjectTitleKey(project.id))}</h2>
                         <button onclick="closeProjectModal()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: none; border: 2px solid #f5f1e8; color: #f5f1e8; font-size: 1.5rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
                     </div>
                     
                     <!-- WIP Badge si nécessaire -->
                     ${project.id === 4 || project.id === 5 ? `
                     <div style="text-align: center; margin-bottom: 1.5rem;">
-                        <div style="display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 0.5rem 1rem; border: 1px solid #ffffff; border-radius: 5px; font-size: 0.9rem; font-family: 'Kindergarten';">
-                            Work In Progress
+                        <div style="display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 0.5rem 1rem; border: 1px solid #ffffff; border-radius: 5px; font-size: 0.9rem; font-family: 'Kindergarten';" data-translate="work_in_progress">
+                            ${translationManager.t('work_in_progress')}
                         </div>
                     </div>
                     ` : ''}
                     
                     <!-- Section Galerie -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Galerie</h3>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;">Touchez une image pour l'agrandir • Pincez pour zoomer</p>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="gallery_section">${translationManager.t('gallery_section')}</h3>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.8;" data-translate="touch_image_enlarge">${translationManager.t('touch_image_enlarge')}</p>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; max-height: 250px; overflow-y: auto;">
                             ${generateProjectGallery(project)}
                         </div>
@@ -2079,12 +2189,9 @@
                     ${project.id === 5 ? `
                     <!-- Panel Histoire pour The Last Meal -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">L'Histoire du Projet</h3>
-                        <div style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: clamp(0.9rem, 2.5vw, 1rem); line-height: 1.6; max-height: 300px; overflow-y: auto; padding-right: 0.5rem;">
-                            <p style="margin-bottom: 1rem;">Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine, lugubre et remplie de saletés ne donnant aucune envie d'y passer la porte.</p>
-                            <p style="margin-bottom: 1rem;">Mais une fois la porte ouverte, une triste réalité s'offre à nos yeux. Dans cette pièce, un mur fait de carrelage probablement devenu jaunâtre par le manque de propreté est accompagné de taches d'un rouge sombre décimée un peu par tout sur ce mur froid s'y trouve.</p>
-                            <p style="margin-bottom: 1rem;">Quand nos yeux se plissent d'avantage, les objets disposés deviennent nets. Couteaux, haches et casseroles trouvent leur place sur ce plan de travail.</p>
-                            <p style="margin-bottom: 1rem;">Une boucherie s'affiche face à nous, où les ustensiles de cuisine se transforment en objet de torture. Les couteaux et les haches sont plantés à la verticale sur le bois brut pouvant céder à tout moment.</p>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="project_story">${translationManager.t('project_story')}</h3>
+                        <div style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: clamp(0.9rem, 2.5vw, 1rem); line-height: 1.6; max-height: 300px; overflow-y: auto; padding-right: 0.5rem;" data-translate="kitchen_story">
+                            ${translationManager.t('kitchen_story').split('\n\n').map(paragraph => `<p style="margin-bottom: 1rem;">${paragraph}</p>`).join('')}
                         </div>
                     </div>
                     ` : project.viewers ? `
@@ -2096,28 +2203,28 @@
                                 <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;" data-translate="touch_instructions">${translationManager.t('touch_instructions')}</p>
                     </div>
                     <!-- Viewer 3D Personnage -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Viewer 3D - Personnage</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="viewer_character_section">${translationManager.t('viewer_character_section')}</h3>
                         <div style="background: #111; border-radius: 8px; height: 300px; overflow: hidden;">
                             <iframe src="${project.viewers.character}" loading="lazy" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer Personnage">
-                                <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
+                                <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;" data-translate="loading_3d_viewer">${translationManager.t('loading_3d_viewer')}</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;" data-translate="touch_instructions">${translationManager.t('touch_instructions')}</p>
                     </div>
                     ` : project.id !== 6 && project.id !== 3 ? `
                     <!-- Viewer 3D Standard -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Viewer 3D - ${project.title.replace('Projet : ', '')}</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">${translationManager.t('viewer_3d_section')} - ${getProjectName(project.id)}</h3>
                         <div style="background: #111; border-radius: 8px; height: 300px; overflow: hidden;">
                             <iframe src="${project.viewer}" loading="lazy" style="width: 100%; height: 100%; border: none;" title="${project.title} - Viewer 3D">
-                                <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;">Chargement du viewer 3D...</p>
+                                <p style="color: #f5f1e8; text-align: center; padding: 20px; margin: 0;" data-translate="loading_3d_viewer">${translationManager.t('loading_3d_viewer')}</p>
                             </iframe>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Tournez avec votre doigt • Pincez pour zoomer/dézoomer</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;" data-translate="touch_instructions">${translationManager.t('touch_instructions')}</p>
                     </div>
                     ` : ''}
                     
@@ -2125,30 +2232,60 @@
                     ${project.id === 3 ? `
                     <!-- Vidéo Archway -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Vidéo - Archway</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="video_section">${translationManager.t('video_section')}</h3>
                         <div style="background: #111; border-radius: 8px; overflow: hidden;">
                             <video controls preload="metadata" playsinline webkit-playsinline style="width: 100%; height: auto;">
                                 <source src="${project.video}" type="video/mp4">
-                                Votre navigateur ne supporte pas la lecture vidéo.
+                                <span data-translate="video_not_supported">${translationManager.t('video_not_supported')}</span>
                             </video>
                         </div>
-                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;">Touchez pour lire/pause • Double-tap pour plein écran</p>
+                        <p style="color: #e8dcc0; font-family: 'Kindergarten'; font-size: 0.8rem; text-align: center; margin-top: 0.8rem; opacity: 0.8;" data-translate="video_instructions">${translationManager.t('video_instructions')}</p>
                     </div>
 
-
+                    <!-- Visualiseur Archway -->
+                    <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="visualizer_archway_title">${translationManager.t('visualizer_archway_title')}</h3>
+                        <div style="text-align: center;">
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
+                                <button onclick="changeArchAsset('ALBEDO')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_albedo">${translationManager.t('button_albedo')}</button>
+                                <button onclick="changeArchAsset('AO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_ambient_occlusion">${translationManager.t('button_ambient_occlusion')}</button>
+                                <button onclick="changeArchAsset('METALLIC')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_metallic">${translationManager.t('button_metallic')}</button>
+                                <button onclick="changeArchAsset('ROUGHNESS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_roughness">${translationManager.t('button_roughness')}</button>
+                            </div>
+                            <div style="background: #111; border-radius: 8px; padding: 1rem; overflow: hidden;">
+                                <img id="arch-asset-preview" src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE%20COLOR/NewLevelSequence.0128.jpeg" alt="Asset Preview" style="width: 100%; height: auto; max-height: 300px; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slider pour Archway -->
+                    <div style="background: rgba(44, 44, 44, 0.6); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <button id="arch-prev-sequence" onclick="changeArchSliderValue(-1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">◀</button>
+                            <div style="flex: 1; position: relative;">
+                                <input type="range" id="arch-asset-slider" min="1" max="4" value="1" step="1" oninput="updateArchFromSlider(this.value)" style="width: 100%; height: 8px; background: rgba(245, 241, 232, 0.2); border-radius: 4px; outline: none; -webkit-appearance: none;">
+                                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.7rem; color: rgba(245, 241, 232, 0.7); font-family: 'Kindergarten';">
+                                    <span data-translate="button_albedo">${translationManager.t('button_albedo')}</span>
+                                    <span data-translate="button_ambient_occlusion">${translationManager.t('button_ambient_occlusion')}</span>
+                                    <span data-translate="button_metallic">${translationManager.t('button_metallic')}</span>
+                                    <span data-translate="button_roughness">${translationManager.t('button_roughness')}</span>
+                                </div>
+                            </div>
+                            <button id="arch-next-sequence" onclick="changeArchSliderValue(1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">▶</button>
+                        </div>
+                    </div>
 
                     ` : project.id === 1 ? `
                     <!-- Visualiseur Gun/Plasma Pistol -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Visualiseur - Plasma Pistol</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="visualizer_gun_title">${translationManager.t('visualizer_gun_title')}</h3>
                         <div style="text-align: center;">
                             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
-                                <button onclick="changeGunAsset('FINAL')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Full Quality</button>
-                                <button onclick="changeGunAsset('BASE COLOR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Albedo</button>
-                                <button onclick="changeGunAsset('TOPOLOGY')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Topology</button>
-                                <button onclick="changeGunAsset('METALLIC')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Metallic</button>
-                                <button onclick="changeGunAsset('ROUGHNESS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Roughness</button>
-                                <button onclick="changeGunAsset('NORMAL')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Normal</button>
+                                <button onclick="changeGunAsset('FINAL')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_full_quality">${translationManager.t('button_full_quality')}</button>
+                                <button onclick="changeGunAsset('BASE COLOR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_albedo">${translationManager.t('button_albedo')}</button>
+                                <button onclick="changeGunAsset('TOPOLOGY')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_topology">${translationManager.t('button_topology')}</button>
+                                <button onclick="changeGunAsset('METALLIC')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_metallic">${translationManager.t('button_metallic')}</button>
+                                <button onclick="changeGunAsset('ROUGHNESS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_roughness">${translationManager.t('button_roughness')}</button>
+                                <button onclick="changeGunAsset('NORMAL')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_normal">${translationManager.t('button_normal')}</button>
                             </div>
                             <div style="background: #111; border-radius: 8px; padding: 1rem; overflow: hidden;">
                                 <img id="gun-asset-preview" src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/4.png" alt="Asset Preview" style="width: 100%; height: auto; max-height: 300px; object-fit: contain;">
@@ -2162,12 +2299,12 @@
                             <div style="flex: 1; position: relative;">
                                 <input type="range" id="gun-asset-slider" min="1" max="6" value="1" step="1" oninput="updateGunFromSlider(this.value)" style="width: 100%; height: 8px; background: rgba(245, 241, 232, 0.2); border-radius: 4px; outline: none; -webkit-appearance: none;">
                                 <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); font-family: 'Kindergarten';">
-                                    <span>Final</span>
-                                    <span>Base</span>
-                                    <span>Topo</span>
-                                    <span>Metal</span>
-                                    <span>Rough</span>
-                                    <span>Normal</span>
+                                    <span data-translate="slider_final">${translationManager.t('slider_final')}</span>
+                                    <span data-translate="slider_base">${translationManager.t('slider_base')}</span>
+                                    <span data-translate="slider_topo">${translationManager.t('slider_topo')}</span>
+                                    <span data-translate="slider_metal">${translationManager.t('slider_metal')}</span>
+                                    <span data-translate="slider_rough">${translationManager.t('slider_rough')}</span>
+                                    <span data-translate="button_normal">${translationManager.t('button_normal')}</span>
                                 </div>
                             </div>
                             <button id="gun-next-sequence" onclick="changeGunSliderValue(1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">▶</button>
@@ -2176,15 +2313,15 @@
                     ` : project.id === 4 ? `
                     <!-- Visualiseur Room -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Visualiseur - Room</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="visualizer_room_title">${translationManager.t('visualizer_room_title')}</h3>
                         <div style="text-align: center;">
                             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
-                                <button onclick="changeRoomAsset('FULL_QUALITY')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Full Quality</button>
-                                <button onclick="changeRoomAsset('CAMERA_2')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Topology</button>
-                                <button onclick="changeRoomAsset('ALBEDO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Albedo</button>
-                                <button onclick="changeRoomAsset('SPECULAR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Specular</button>
-                                <button onclick="changeRoomAsset('AO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">AO</button>
-                                <button onclick="changeRoomAsset('NORMALS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Normal</button>
+                                <button onclick="changeRoomAsset('FULL_QUALITY')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_full_quality">${translationManager.t('button_full_quality')}</button>
+                                <button onclick="changeRoomAsset('CAMERA_2')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_topology">${translationManager.t('button_topology')}</button>
+                                <button onclick="changeRoomAsset('ALBEDO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_albedo">${translationManager.t('button_albedo')}</button>
+                                <button onclick="changeRoomAsset('SPECULAR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_specular">${translationManager.t('button_specular')}</button>
+                                <button onclick="changeRoomAsset('AO')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_ao">${translationManager.t('button_ao')}</button>
+                                <button onclick="changeRoomAsset('NORMALS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_normal">${translationManager.t('button_normal')}</button>
                             </div>
                             <div style="background: #111; border-radius: 8px; padding: 1rem; overflow: hidden;">
                                 <img id="room-asset-preview" src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Room/fullQuality.png" alt="Asset Preview" style="width: 100%; height: auto; max-height: 300px; object-fit: contain;">
@@ -2198,12 +2335,12 @@
                             <div style="flex: 1; position: relative;">
                                 <input type="range" id="room-asset-slider" min="1" max="6" value="1" step="1" oninput="updateRoomFromSlider(this.value)" style="width: 100%; height: 8px; background: rgba(245, 241, 232, 0.2); border-radius: 4px; outline: none; -webkit-appearance: none;">
                                 <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); font-family: 'Kindergarten';">
-                                    <span>Final</span>
-                                    <span>Topo</span>
-                                    <span>Albedo</span>
-                                    <span>Spec</span>
-                                    <span>AO</span>
-                                    <span>Normal</span>
+                                    <span data-translate="slider_final">${translationManager.t('slider_final')}</span>
+                                    <span data-translate="slider_topo">${translationManager.t('slider_topo')}</span>
+                                    <span data-translate="button_albedo">${translationManager.t('button_albedo')}</span>
+                                    <span data-translate="slider_spec">${translationManager.t('slider_spec')}</span>
+                                    <span data-translate="button_ao">${translationManager.t('button_ao')}</span>
+                                    <span data-translate="button_normal">${translationManager.t('button_normal')}</span>
                                 </div>
                             </div>
                             <button id="room-next-sequence" onclick="changeRoomSliderValue(1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">▶</button>
@@ -2212,14 +2349,14 @@
                     ` : project.id === 6 ? `
                     <!-- Visualiseur Telephone Booth -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Visualiseur - Telephone Booth</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="visualizer_telephone_title">${translationManager.t('visualizer_telephone_title')}</h3>
                         <div style="text-align: center;">
                             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
-                                <button onclick="changeTelAsset('FINAL')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Full Quality</button>
-                                <button onclick="changeTelAsset('BASE COLOR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Albedo</button>
-                                <button onclick="changeTelAsset('ROUGHNESS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Roughness</button>
-                                <button onclick="changeTelAsset('METALLIC')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Metallic</button>
-                                <button onclick="changeTelAsset('NORMAL')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;">Normal</button>
+                                <button onclick="changeTelAsset('FINAL')" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_full_quality">${translationManager.t('button_full_quality')}</button>
+                                <button onclick="changeTelAsset('BASE COLOR')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_albedo">${translationManager.t('button_albedo')}</button>
+                                <button onclick="changeTelAsset('ROUGHNESS')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_roughness">${translationManager.t('button_roughness')}</button>
+                                <button onclick="changeTelAsset('METALLIC')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_metallic">${translationManager.t('button_metallic')}</button>
+                                <button onclick="changeTelAsset('NORMAL')" style="background: transparent; border: 2px solid rgba(245, 241, 232, 0.5); color: rgba(245, 241, 232, 0.7); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-family: 'Kindergarten'; font-size: 0.9rem;" data-translate="button_normal">${translationManager.t('button_normal')}</button>
                             </div>
                             <div style="background: #111; border-radius: 8px; padding: 1rem; overflow: hidden;">
                                 <img id="tel-asset-preview" src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Telephone/5.png" alt="Asset Preview" style="width: 100%; height: auto; max-height: 300px; object-fit: contain;">
@@ -2233,11 +2370,11 @@
                             <div style="flex: 1; position: relative;">
                                 <input type="range" id="tel-asset-slider" min="1" max="5" value="1" step="1" oninput="updateTelFromSlider(this.value)" style="width: 100%; height: 8px; background: rgba(245, 241, 232, 0.2); border-radius: 4px; outline: none; -webkit-appearance: none;">
                                 <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); font-family: 'Kindergarten';">
-                                    <span>Final</span>
-                                    <span>Base</span>
-                                    <span>Rough</span>
-                                    <span>Metal</span>
-                                    <span>Normal</span>
+                                    <span data-translate="slider_final">${translationManager.t('slider_final')}</span>
+                                    <span data-translate="slider_base">${translationManager.t('slider_base')}</span>
+                                    <span data-translate="slider_rough">${translationManager.t('slider_rough')}</span>
+                                    <span data-translate="slider_metal">${translationManager.t('slider_metal')}</span>
+                                    <span data-translate="button_normal">${translationManager.t('button_normal')}</span>
                                 </div>
                             </div>
                             <button id="tel-next-sequence" onclick="changeTelSliderValue(1)" style="background: transparent; border: 2px solid #f5f1e8; color: #f5f1e8; padding: 0.5rem; border-radius: 50%; cursor: pointer; font-size: 1rem; width: 40px; height: 40px;">▶</button>
@@ -2247,7 +2384,7 @@
                     
                     <!-- Section Logiciels -->
                     <div style="background: rgba(44, 44, 44, 0.8); border: 2px solid #f5f1e8; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;">Logiciels :</h3>
+                        <h3 style="color: #f5f1e8; font-family: 'Kindergarten'; font-size: clamp(1.1rem, 3vw, 1.4rem); margin-bottom: 1rem;" data-translate="software_section">${translationManager.t('software_section')}</h3>
                         <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;">
                             ${generateLogos(project.tags)}
                         </div>
@@ -2256,7 +2393,7 @@
                     <!-- Bouton retour -->
                     <div style="text-align: center; margin: 2rem 0;">
                         <button onclick="closeProjectModal()" class="game-button" style="background: transparent !important; border: none; color: #fff; padding: 1rem 2rem; font-family: 'Kindergarten'; cursor: pointer; font-size: clamp(1rem, 3vw, 1.2rem); position: relative;">
-                            <span>← Retour aux Collectibles</span>
+                            <span data-translate="return_collectibles">← ${translationManager.t('return_collectibles')}</span>
                         </button>
                     </div>
                 </div>
@@ -2481,11 +2618,18 @@
             }
         }
 
+        // Variables globales pour le visualiseur Archway
+        let currentArchAssetType = 'ALBEDO';
+        let currentArchFrame = 128; // Frame de départ
+
         // Fonctions pour les visualiseurs de matériaux
         function changeArchAsset(assetType) {
             const preview = document.getElementById('arch-asset-preview');
             const buttons = document.querySelectorAll('[onclick*="changeArchAsset"]');
             const slider = document.getElementById('arch-asset-slider');
+            
+            // Mettre à jour l'asset type actuel
+            currentArchAssetType = assetType;
             
             // Mettre à jour les boutons
             buttons.forEach(btn => {
@@ -2500,20 +2644,53 @@
                 }
             });
             
-            // Mettre à jour le slider
-            const sliderMap = {
-                'BASE COLOR': 128,
-                'AO': 134,
-                'metallic': 139,
-                'ROUPH': 149
+            // Chemins vers les dossiers d'images
+            const folderMap = {
+                'ALBEDO': '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE COLOR',
+                'AO': '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/AO',
+                'METALLIC': '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/metallic',
+                'ROUGHNESS': '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/ROUPH'
             };
+            
+            // Mettre à jour le slider selon l'asset sélectionné
+            const sliderMap = {
+                'ALBEDO': 1,
+                'AO': 2,
+                'METALLIC': 3,
+                'ROUGHNESS': 4
+            };
+            
             if (slider && sliderMap[assetType]) {
+                slider.min = 1;
+                slider.max = 4;
                 slider.value = sliderMap[assetType];
             }
             
-            // Changer l'image
-            if (preview) {
-                preview.src = `/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/${assetType}/NewLevelSequence.0128.jpeg`;
+            // Frame par défaut pour chaque asset
+            const defaultFrames = {
+                'ALBEDO': 128,
+                'AO': 135, 
+                'METALLIC': 142,
+                'ROUGHNESS': 149
+            };
+            
+            // Construire le chemin de l'image actuelle
+            if (preview && folderMap[assetType]) {
+                const frameToUse = defaultFrames[assetType] || 128;
+                const paddedFrame = frameToUse.toString().padStart(4, '0');
+                const imagePath = `${folderMap[assetType]}/NewLevelSequence.${paddedFrame}.jpeg`;
+                const encodedPath = imagePath.replace(/\s/g, '%20'); // Encoder tous les espaces
+                
+                // Mettre à jour l'image avec gestion d'erreur
+                preview.onerror = function() {
+                    console.error('❌ Erreur chargement image:', encodedPath);
+                };
+                preview.onload = function() {
+                    console.log('✅ Image chargée:', encodedPath);
+                };
+                preview.src = encodedPath;
+                
+                console.log('🎯 Changement d\'asset:', assetType, 'Frame:', frameToUse, 'Path:', encodedPath);
             }
         }
 
@@ -2521,27 +2698,24 @@
             const intVal = parseInt(value);
             let assetType;
             
-            if (intVal >= 128 && intVal <= 133) assetType = 'BASE COLOR';
-            else if (intVal >= 134 && intVal <= 138) assetType = 'AO';
-            else if (intVal >= 139 && intVal <= 143) assetType = 'metallic';
-            else if (intVal >= 144 && intVal <= 149) assetType = 'ROUPH';
-            
-            if (assetType) {
-                changeArchAsset(assetType);
-                // Mettre à jour l'image avec la frame spécifique
-                const preview = document.getElementById('arch-asset-preview');
-                if (preview) {
-                    const paddedFrame = value.toString().padStart(4, '0');
-                    preview.src = `/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/${assetType}/NewLevelSequence.${paddedFrame}.jpeg`;
-                }
+            // Correspondance slider vers asset type
+            switch(intVal) {
+                case 1: assetType = 'ALBEDO'; break;
+                case 2: assetType = 'AO'; break;
+                case 3: assetType = 'METALLIC'; break;
+                case 4: assetType = 'ROUGHNESS'; break;
+                default: assetType = 'ALBEDO'; break;
             }
+            
+            // Changer l'asset (cela mettra à jour l'image et les boutons)
+            changeArchAsset(assetType);
         }
 
         function changeArchSliderValue(direction) {
             const slider = document.getElementById('arch-asset-slider');
             if (slider) {
                 const newValue = parseInt(slider.value) + direction;
-                if (newValue >= 128 && newValue <= 149) {
+                if (newValue >= 1 && newValue <= 4) {
                     slider.value = newValue;
                     updateArchFromSlider(newValue);
                 }
@@ -2898,14 +3072,60 @@
             }
         }
 
-        // Optimisations performances mobiles (version simplifiée)
+        // Optimisations performances mobiles
         function optimizeMobilePerformance() {
-            console.log('✅ Optimisations mobiles activées');
+            // Optimisation mémoire - libérer les ressources non visibles
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Charger le contenu quand il devient visible
+                        entry.target.style.willChange = 'transform';
+                    } else {
+                        // Nettoyer les ressources non visibles
+                        entry.target.style.willChange = 'auto';
+                    }
+                });
+            }, { rootMargin: '50px' });
             
-            // Optimisation simple tactile
-            document.addEventListener('touchstart', function(e) {
-                // Simple gestion tactile
+            // Observer toutes les images et iframes
+            document.querySelectorAll('img, iframe, video').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Gestion tactile optimisée
+            let touchStartY = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
             }, { passive: true });
+            
+            document.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].clientY;
+                const touchDiff = touchStartY - touchY;
+                
+                // Préventions du bounce effet sur iOS
+                if (touchDiff > 0 && window.scrollY === 0) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Optimisation garbage collector
+            setInterval(() => {
+                if (window.gc) {
+                    window.gc();
+                }
+            }, 30000); // Nettoyage toutes les 30 secondes
+            
+            // Préchargement conditionnel basé sur la connexion
+            if ('connection' in navigator) {
+                const connection = navigator.connection;
+                if (connection.effectiveType === '4g' || connection.effectiveType === '3g') {
+                    // Précharger quelques ressources sur bonne connexion
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.href = '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Gun/NEULINGER_Clara_2B3DArt_Rendu_Texture.jpg';
+                    document.head.appendChild(link);
+                }
+            }
         }
 
         // Event Listeners - EXACTEMENT comme desktop
@@ -2915,7 +3135,35 @@
             // Optimisations mobiles
             optimizeMobilePerformance();
             
-            // Initialiser le panel d'options
+            // Initialiser le système de traduction
+            if (window.translationManager) {
+                window.translationManager.init();
+                console.log('✅ Système de traduction mobile initialisé');
+                
+                // Gestionnaire pour les changements de langue
+                document.addEventListener('languageChanged', function(event) {
+                    // Mettre à jour les modals ouverts
+                    const openModal = document.querySelector('.project-details-modal-complete');
+                    if (openModal) {
+                        // Mettre à jour tous les éléments traduits dans le modal
+                        openModal.querySelectorAll('[data-translate]').forEach(element => {
+                            const key = element.getAttribute('data-translate');
+                            element.textContent = window.translationManager.t(key);
+                        });
+                        
+                        // Mettre à jour les éléments avec HTML généré dynamiquement
+                        const historyElement = openModal.querySelector('[data-translate="kitchen_story"]');
+                        if (historyElement) {
+                            const storyText = window.translationManager.t('kitchen_story');
+                            historyElement.innerHTML = storyText.split('\n\n').map(paragraph => `<p style="margin-bottom: 1rem;">${paragraph}</p>`).join('');
+                        }
+                    }
+                });
+            } else {
+                console.warn('⚠️ TranslationManager non disponible sur mobile');
+            }
+            
+            // Initialiser le panel d'options APRÈS les traductions
             initOptionsPanel();
             
             // Boutons menu principal

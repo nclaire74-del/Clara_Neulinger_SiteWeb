@@ -48,7 +48,14 @@ function setLanguage(lang) {
     currentLanguage = lang;
     updateLanguageButtons();
     
-    // Ici vous pouvez ajouter la logique pour changer la langue de l'interface
+    // Utiliser le système de traduction
+    if (window.translationManager) {
+        window.translationManager.setLanguage(lang);
+    }
+    
+    // Sauvegarder la langue
+    localStorage.setItem('portfolio_language', lang);
+    
     console.log(`Langue changée vers: ${lang}`);
 }
 
@@ -83,7 +90,7 @@ function applyVolumeSettings(volume) {
 document.addEventListener('DOMContentLoaded', function() {
     // Récupérer les paramètres sauvegardés
     const savedVolume = localStorage.getItem('portfolio_volume');
-    const savedLanguage = localStorage.getItem('portfolio_language');
+    const savedLanguage = localStorage.getItem('language'); // Utiliser la même clé que le TranslationManager
     
     if (savedVolume) {
         currentVolume = parseInt(savedVolume);
@@ -91,6 +98,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (savedLanguage) {
         currentLanguage = savedLanguage;
+    }
+    
+    // Initialiser le système de traduction
+    if (window.translationManager) {
+        window.translationManager.init();
+        
+        // Synchroniser avec la langue actuelle
+        if (currentLanguage) {
+            window.translationManager.setLanguage(currentLanguage);
+        }
     }
     
     // Gestionnaire pour le bouton Options

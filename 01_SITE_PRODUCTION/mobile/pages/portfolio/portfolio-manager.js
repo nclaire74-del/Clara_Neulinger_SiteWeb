@@ -583,17 +583,19 @@
                             <div class="story-text">
                                 <p>Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine, lugubre et remplie de saletés ne donnant aucune envie d'y passer la porte.</p>
                                 
-                                <p>Mais une fois la porte ouverte, une triste réalité s'offre à nos yeux. Dans cette pièce, un mur fait de carrelage probablement devenu jaunâtre par le manque de propreté est accompagné de taches d'un rouge sombre décimée un peu par tout sur ce mur froid s'y trouve. Le plan de travail n'est pas en meilleur état, c'est un bois brute qui nous accueille où réside des taches orange annonçant l'horreur de cette cuisine.</p>
+                                <p>Mais une fois la porte ouverte, une triste réalité s'offre à nos yeux. Dans cette pièce, un mur fait de carrelage probablement devenu jaunâtre par le manque de propreté est accompagné de taches d'un orange sombre décimée un peu par tout sur ce mur froid s'y trouve. Le plan de travail n'est pas en meilleur état, c'est un bois brute qui nous accueille oû réside des taches orange annonçant l'horreur de cette cuisine.</p>
                                 
-                                <p>Quand nos yeux se plissent d'avantage, les objets disposés deviennent nets. Couteaux, haches et casseroles trouvent leur place sur ce plan de travail. Cette vue qui se peint devant nos yeux à travers cette porte entre ouverte annonce quelque chose de mauvais, mais ce n'est qu'une fois que notre pied, doucement et faiblement franchit la porte afin de se retrouver à l'intérieur que la vérité éclate au grand jour.</p>
+                                <p>Quand nos yeux se plissent d'avantage, les objets disposés deviennent nets. Couteaux, et casseroles trouvent leur place sur ce plan de travail. Cette vue qui se peint devant nos yeux à travers cette porte entre ouverte annonce quelque chose de mauvais, mais ce n'est qu'une fois que notre pied, doucement et faiblement franchit la porte afin de se retrouver à l'intérieur que la vérité éclate au grand jour.</p>
                                 
                                 <p>Une fois rentré pleinement dans la pièce, face à nos yeux l'enfer se trouve. Cette cuisine n'est pas que sombre et lugubre c'est aussi le repère des cuisiniers dénués de conscience, abattant des carottes sans peine et remord.</p>
                                 
-                                <p>Une boucherie s'affiche face à nous, où les ustensiles de cuisine se transforment en objet de torture. Les couteaux et les haches sont plantés à la verticale sur le bois brut pouvant céder à tout moment. La casserole rouillée et récemment utilisée sont l'œuvre de ce récent massacre.</p>
+                                <p>Une boucherie s'affiche face à nous, où les ustensiles de cuisine se transforment en objet de torture.</p>
                                 
                                 <p>Partout où nos yeux se posent, nous pouvons voir des carottes dénuées de vie, baignant dans leur propre sang dans des casseroles. Des bouts de carottes découpées de parts et d'autres du plan de travail, des carottes blessées essayant de lutter contre leur sort et de s'échapper comme elles le peuvent malgré le pauvre destin qui leur est réservé.</p>
                                 
-                                <p>Mais parmi elle, seuls deux rescapés de cette tuerie tente de s'échapper en vint. Rampant et sautant aussi vite que leur blessures peuvent le permettre. Alors, elles rampent, sautent, trébuchent, tombent, se relèves afin d'atteindre la porte de sortie. Cette porte de sortie qui leur permettra vie sauve et extraction loin de ce massacre auxquels elles ont dû assister sans pouvoir dire un mot.</p>
+                                <p>Mais parmi elle, seuls deux rescapés de cette tuerie tente de s'échapper en vint. Rampant et sautant aussi vite que leur blessures peuvent le permettre.</p>
+                                
+                                <p>Alors, elles rampent, sautent, trébuchent, tombent, se relèves afin d'atteindre la porte de sortie. Cette porte de sortie qui leur permettra vie sauve et extraction loin de ce massacre auxquels elles ont dû assister sans pouvoir dire un mot.</p>
                                 
                                 <p>Cette scène se déroulant sous nos propres yeux, nous savons d'avance qu'elles n'échapperont pas à la sinistre cuisson qui les attend, car toutes les riches personnes de cette ville ont payées ces cuisiners afin qui leur prépare des plats goûtus, gastronomique, remplis de saveur à base de carotte.</p>
                                 

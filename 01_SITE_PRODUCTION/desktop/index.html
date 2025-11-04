@@ -40,8 +40,8 @@
             <!-- Menu principal -->
             <div class="main-menu">
                 <button class="game-button" id="load-game" onclick="try { openPortfolioCollectibles(); } catch(e) { console.error('Erreur:', e); document.getElementById('main-ui').style.display='none'; document.getElementById('portfolio-window').style.display='flex'; }">
-                    <span class="button-text">Load Game</span>
-                    <span class="button-subtitle">Portfolio & Projets</span>
+                    <span class="button-text" data-translate="portfolio">Portfolio</span>
+                    <span class="button-subtitle" data-translate="collectibles">Collectibles</span>
                 </button>
                 
                 <button class="game-button" id="contact">
@@ -50,7 +50,7 @@
                 </button>
                 
                 <button class="game-button" id="options">
-                    <span class="button-text">Options</span>
+                    <span class="button-text" data-translate="options">Options</span>
                     <span class="button-subtitle">Son & Langue</span>
                 </button>
                 
@@ -267,8 +267,8 @@
         <div class="options-content">
             <div class="options-inner">
                 <div class="options-header">
-                    <h2 class="options-title">Options</h2>
-                    <button class="options-close" onclick="closeOptionsPanel()">&times;</button>
+                    <h2 class="options-title" data-translate="options">Options</h2>
+                    <button class="options-close" onclick="closeOptionsPanel()" data-translate="close">&times;</button>
                 </div>
                 
                 <div class="options-section">
@@ -281,10 +281,10 @@
                 </div>
                 
                 <div class="options-section">
-                    <h3><span class="white-logo">🌐</span> Langue / Language</h3>
+                    <h3><span class="white-logo">🌐</span> <span data-translate="language">Langue</span> / Language</h3>
                     <div class="language-buttons">
-                        <button class="language-btn active" id="lang-fr" onclick="setLanguage('fr')">Français</button>
-                        <button class="language-btn" id="lang-en" onclick="setLanguage('en')">English</button>
+                        <button class="language-btn active" id="lang-fr" data-language="fr">Français</button>
+                        <button class="language-btn" id="lang-en" data-language="en">English</button>
                     </div>
                 </div>
             </div>
@@ -292,6 +292,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/translations.js"></script>
     <script src="js/config.js"></script>
     <script src="js/loading-manager.js"></script>
     <script src="js/video-manager.js"></script>

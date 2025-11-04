@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Système de Traduction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .language-buttons {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .language-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: 2px solid #333;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .language-btn.active {
+            background: #333;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .story-text {
+            line-height: 1.6;
+            text-align: justify;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test du Système de Traduction</h1>
+        
+        <div class="language-buttons">
+            <button class="language-btn active" data-language="fr">Français</button>
+            <button class="language-btn" data-language="en">English</button>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-translate="options">Options</h3>
+            <p><span data-translate="language">Langue</span>: <span id="current-lang">Français</span></p>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-translate="portfolio">Portfolio</h3>
+            <ul>
+                <li data-translate="circus_title">Projet : Circus</li>
+                <li data-translate="archway_title">Projet : Archway</li>
+                <li data-translate="gun_title">Projet : Plasma Pistol</li>
+                <li data-translate="kitchen_title">Projet : The Last Meal</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3 data-translate="story_title">L'Histoire du Projet</h3>
+            <div class="story-text" id="kitchen-story" data-translate="kitchen_story">
+                Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Instructions</h3>
+            <p><span data-translate="double_click_explore">Double-cliquez pour explorer</span></p>
+            <p><span data-translate="touch_explore">Touchez pour explorer</span></p>
+            <p class="translate-hint" data-media-type="video">Double-cliquez sur la vidéo pour accéder au viewer 3D interactif</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>État du système</h3>
+            <div id="system-status">Chargement...</div>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser le système de traduction
+            if (window.translationManager) {
+                window.translationManager.init();
+                updateSystemStatus('✅ TranslationManager initialisé');
+                
+                // Écouter les changements de langue
+                document.addEventListener('languageChanged', function(e) {
+                    updateCurrentLanguageDisplay(e.detail.language);
+                    updateTranslateHints();
+                });
+                
+                // Mettre à jour l'affichage initial
+                updateCurrentLanguageDisplay(window.translationManager.getCurrentLanguage());
+                updateTranslateHints();
+            } else {
+                updateSystemStatus('❌ TranslationManager non disponible');
+            }
+        });
+        
+        function updateSystemStatus(status) {
+            document.getElementById('system-status').textContent = status;
+        }
+        
+        function updateCurrentLanguageDisplay(lang) {
+            const currentLangElement = document.getElementById('current-lang');
+            currentLangElement.textContent = lang === 'fr' ? 'Français' : 'English';
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-language') === lang);
+            });
+        }
+        
+        function updateTranslateHints() {
+            if (window.translationManager) {
+                const hintElements = document.querySelectorAll('.translate-hint');
+                hintElements.forEach(element => {
+                    const mediaType = element.getAttribute('data-media-type');
+                    const mediaText = mediaType === 'video' ? 
+                        window.translationManager.t('video') : 
+                        window.translationManager.t('image');
+                    element.textContent = window.translationManager.t('double_click_access_viewer', { media: mediaText });
+                });
+            }
+        }
+    </script>
+</body>
+</html>

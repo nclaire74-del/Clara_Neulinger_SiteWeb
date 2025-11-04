@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnostic Translation System</title>
+</head>
+<body>
+    <h1>Diagnostic du système de traduction mobile</h1>
+    <div id="status"></div>
+    <br>
+    <button onclick="testFrench()">Test Français</button>
+    <button onclick="testEnglish()">Test English</button>
+    <br><br>
+    <div id="test-result">
+        <p data-translate="portfolio">Portfolio</p>
+        <p data-translate="options">Options</p>
+        <p data-translate="collectibles">Collectibles</p>
+    </div>
+
+    <script src="01_SITE_PRODUCTION/mobile/js/translations.js"></script>
+    <script>
+        function updateStatus(message) {
+            document.getElementById('status').innerHTML += message + '<br>';
+        }
+
+        updateStatus('Démarrage du diagnostic...');
+
+        if (window.translationManager) {
+            updateStatus('✅ TranslationManager trouvé');
+            window.translationManager.init();
+            updateStatus('✅ TranslationManager initialisé');
+            updateStatus('Langue actuelle: ' + window.translationManager.getCurrentLanguage());
+        } else {
+            updateStatus('❌ TranslationManager introuvable');
+        }
+
+        function testFrench() {
+            if (window.translationManager) {
+                window.translationManager.setLanguage('fr');
+                updateStatus('Test français activé');
+            }
+        }
+
+        function testEnglish() {
+            if (window.translationManager) {
+                window.translationManager.setLanguage('en');
+                updateStatus('Test anglais activé');
+            }
+        }
+    </script>
+</body>
+</html>

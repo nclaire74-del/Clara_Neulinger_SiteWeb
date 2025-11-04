@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Archway Mobile</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .code { background: #f5f5f5; padding: 10px; border-radius: 3px; font-family: monospace; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnostic Archway Mobile</h1>
+    
+    <div class="section">
+        <h3>1. Test d'accès direct au fichier mobile</h3>
+        <div id="file-test">Vérification en cours...</div>
+    </div>
+    
+    <div class="section">
+        <h3>2. Vérification de la structure du projet Archway</h3>
+        <div id="project-test">Test en cours...</div>
+    </div>
+    
+    <div class="section">
+        <h3>3. Actions de diagnostic</h3>
+        <button onclick="testMobileFile()">Tester fichier mobile</button>
+        <button onclick="clearCache()">Vider cache navigateur</button>
+        <button onclick="testFunctions()">Tester fonctions JS</button>
+        <button onclick="window.open('http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/', '_blank')">Ouvrir mobile</button>
+    </div>
+    
+    <div class="section">
+        <h3>4. Console de diagnostic</h3>
+        <div id="console" style="background: #000; color: #00ff00; padding: 10px; border-radius: 3px; font-family: monospace; min-height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#44ff44' : '#00ff00';
+            console.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        function testMobileFile() {
+            log('🔍 Test d\'accès au fichier mobile...');
+            
+            fetch('01_SITE_PRODUCTION/mobile/index.html')
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                })
+                .then(html => {
+                    log('✅ Fichier mobile accessible', 'success');
+                    
+                    // Vérifier si le code Archway est présent
+                    if (html.includes('Visualiseur - Archway')) {
+                        log('✅ Code "Visualiseur - Archway" trouvé dans le fichier', 'success');
+                    } else {
+                        log('❌ Code "Visualiseur - Archway" NOT FOUND', 'error');
+                    }
+                    
+                    if (html.includes('changeArchAsset')) {
+                        log('✅ Fonction changeArchAsset trouvée', 'success');
+                    } else {
+                        log('❌ Fonction changeArchAsset NOT FOUND', 'error');
+                    }
+                    
+                    if (html.includes('arch-asset-slider')) {
+                        log('✅ ID arch-asset-slider trouvé', 'success');
+                    } else {
+                        log('❌ ID arch-asset-slider NOT FOUND', 'error');
+                    }
+                    
+                    if (html.includes('project.id === 3')) {
+                        log('✅ Condition project.id === 3 trouvée', 'success');
+                    } else {
+                        log('❌ Condition project.id === 3 NOT FOUND', 'error');
+                    }
+                    
+                    // Compter les occurrences
+                    const archCount = (html.match(/Archway/g) || []).length;
+                    log(`📊 Occurrences "Archway": ${archCount}`);
+                    
+                    document.getElementById('file-test').innerHTML = '<div class="success">✅ Fichier accessible et analysé</div>';
+                })
+                .catch(error => {
+                    log(`❌ Erreur d'accès au fichier: ${error.message}`, 'error');
+                    document.getElementById('file-test').innerHTML = `<div class="error">❌ Erreur: ${error.message}</div>`;
+                });
+        }
+        
+        function clearCache() {
+            log('🧹 Instructions pour vider le cache:');
+            log('1. Ctrl+Shift+R (rechargement forcé)');
+            log('2. F12 → Network → Disable cache');
+            log('3. Ou F12 → Application → Storage → Clear storage');
+            
+            // Essayer de forcer le rechargement
+            if (confirm('Voulez-vous recharger la page mobile avec cache vidé ?')) {
+                const newWindow = window.open('http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/', '_blank');
+                setTimeout(() => {
+                    if (newWindow) {
+                        newWindow.location.reload(true);
+                    }
+                }, 1000);
+            }
+        }
+        
+        function testFunctions() {
+            log('🧪 Test des fonctions JavaScript...');
+            
+            // Créer un iframe pour tester
+            const iframe = document.createElement('iframe');
+            iframe.src = '01_SITE_PRODUCTION/mobile/index.html';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            iframe.onload = function() {
+                try {
+                    const iframeWindow = iframe.contentWindow;
+                    
+                    if (typeof iframeWindow.changeArchAsset === 'function') {
+                        log('✅ Fonction changeArchAsset disponible', 'success');
+                    } else {
+                        log('❌ Fonction changeArchAsset NON disponible', 'error');
+                    }
+                    
+                    if (typeof iframeWindow.updateArchFromSlider === 'function') {
+                        log('✅ Fonction updateArchFromSlider disponible', 'success');
+                    } else {
+                        log('❌ Fonction updateArchFromSlider NON disponible', 'error');
+                    }
+                    
+                    // Vérifier si l'élément existe
+                    const slider = iframeWindow.document.getElementById('arch-asset-slider');
+                    if (slider) {
+                        log('✅ Élément arch-asset-slider trouvé dans le DOM', 'success');
+                        log(`📊 Slider: min=${slider.min}, max=${slider.max}, value=${slider.value}`);
+                    } else {
+                        log('❌ Élément arch-asset-slider NOT FOUND dans le DOM', 'error');
+                    }
+                    
+                } catch (error) {
+                    log(`❌ Erreur lors du test: ${error.message}`, 'error');
+                } finally {
+                    document.body.removeChild(iframe);
+                }
+            };
+        }
+        
+        // Test initial
+        window.onload = function() {
+            log('🚀 Démarrage du diagnostic...');
+            setTimeout(testMobileFile, 500);
+        };
+    </script>
+</body>
+</html>

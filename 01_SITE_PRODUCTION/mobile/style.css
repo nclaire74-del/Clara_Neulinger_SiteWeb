@@ -8323,14 +8323,14 @@ video.project-media::-webkit-media-controls-start-playback-button {
 }
 
 .marmoset-story-panel .story-text::-webkit-scrollbar-thumb {
-    background: #ffffff; /* Blanc pour être bien visible */
+    background: #888888; /* Gris moyen pour être bien visible */
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
 .marmoset-story-panel .story-text::-webkit-scrollbar-thumb:hover {
-    background: #f0f0f0; /* Gris clair au survol */
+    background: #666666; /* Gris plus foncé au survol */
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 

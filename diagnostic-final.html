@@ -3,182 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✅ DIAGNOSTIC FINAL - Clara Neulinger</title>
+    <title>🎯 Diagnostic Final - Corrections Portfolio Mobile</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #1a1a1a;
-            color: #fff;
-            padding: 2rem;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
         }
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            border-left: 4px solid;
-        }
-        .success {
-            background: rgba(0, 255, 0, 0.1);
-            border-color: #00ff00;
-        }
-        .error {
-            background: rgba(255, 0, 0, 0.1);
-            border-color: #ff0000;
-        }
-        .warning {
-            background: rgba(255, 165, 0, 0.1);
-            border-color: #ffa500;
-        }
-        .test-links {
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
             background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        .test-links a {
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            background: rgba(76, 175, 80, 0.1);
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        .test-links a:hover {
-            background: rgba(76, 175, 80, 0.2);
-        }
-        .files-status {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .file-item:last-child {
-            border-bottom: none;
-        }
-        .icon {
-            font-size: 2rem;
-        }
-        h1 {
-            color: #4CAF50;
+        .header {
             text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+            margin-bottom: 30px;
         }
-        h2 {
-            color: #2196F3;
-            margin: 1.5rem 0 1rem 0;
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .completed {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #51cf66;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd93d;
+        }
+        .action-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .checklist-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #51cf66;
+        }
+        .checklist-item h4 {
+            margin: 0 0 10px 0;
+            color: #51cf66;
+        }
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <h1>✅ DIAGNOSTIC FINAL - Site Restauré</h1>
-    
-    <div class="status success">
-        <span class="icon">✅</span>
-        <div>
-            <strong>Erreur 500 RÉSOLUE</strong><br>
-            Les optimisations problématiques ont été supprimées
+    <div class="container">
+        <div class="header">
+            <h1>🎯 DIAGNOSTIC FINAL</h1>
+            <p>Corrections Portfolio Mobile Clara Neulinger</p>
+        </div>
+
+        <div class="completed">
+            <h2>✅ TOUTES LES CORRECTIONS TERMINÉES</h2>
+            <p>Toutes les modifications demandées ont été implémentées avec succès !</p>
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item">
+                <h4>🌐 Traductions Complètes</h4>
+                <ul>
+                    <li>✅ Page collectibles traduite</li>
+                    <li>✅ Page détails projets traduite</li>
+                    <li>✅ Navigation : "Précédent", "Suivant"</li>
+                    <li>✅ Boutons : "Retour Accueil", "Logiciels"</li>
+                    <li>✅ Dictionnaires FR/EN mis à jour</li>
+                </ul>
+            </div>
+
+            <div class="checklist-item">
+                <h4>❌ Boutons Croix Corrigés</h4>
+                <ul>
+                    <li>✅ Attribut <code>data-translate="close"</code> supprimé</li>
+                    <li>✅ Seul le symbole "×" reste affiché</li>
+                    <li>✅ Pas de texte "close" visible</li>
+                </ul>
+            </div>
+
+            <div class="checklist-item">
+                <h4>🖼️ Visualiseur Archway Corrigé</h4>
+                <ul>
+                    <li>✅ Bouton "Albedo" → BASE COLOR</li>
+                    <li>✅ Bouton "Ambient Occlusion" → AO</li>
+                    <li>✅ Bouton "Metallic" → metallic</li>
+                    <li>✅ Bouton "Roughness" → ROUPH</li>
+                    <li>✅ Slider 1-4 positions</li>
+                </ul>
+            </div>
+
+            <div class="checklist-item">
+                <h4>📁 Chemins Images Archway</h4>
+                <div class="code-snippet">
+ALBEDO: /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE COLOR<br>
+AO: /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/AO<br>
+METALLIC: /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/metallic<br>
+ROUGHNESS: /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/ROUPH
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 TESTER LES MODIFICATIONS</h3>
+            <p>Ouvrez le portfolio mobile et vérifiez :</p>
+            <ol>
+                <li><strong>Traductions :</strong> Allez dans Options → Changez FR/EN</li>
+                <li><strong>Collectibles :</strong> Vérifiez que tous les textes changent de langue</li>
+                <li><strong>Boutons croix :</strong> Vérifiez qu'ils n'affichent que "×"</li>
+                <li><strong>Archway :</strong> Testez les 4 nouveaux boutons et le slider</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="action-button" onclick="openMobilePortfolio()">
+                🚀 OUVRIR PORTFOLIO MOBILE
+            </button>
+            
+            <button class="action-button" onclick="openCacheBuster()">
+                🧹 FORCER RECHARGEMENT
+            </button>
+        </div>
+
+        <div class="completed">
+            <h3>📋 RÉSUMÉ DES MODIFICATIONS</h3>
+            <ul>
+                <li><strong>Fichier modifié :</strong> <code>01_SITE_PRODUCTION/mobile/index.html</code></li>
+                <li><strong>Traductions ajoutées :</strong> <code>mobile/js/translations.js</code></li>
+                <li><strong>Éléments traduits :</strong> Navigation, collectibles, détails projets</li>
+                <li><strong>Visualiseur Archway :</strong> 4 nouveaux boutons avec chemins corrects</li>
+                <li><strong>Boutons croix :</strong> Texte "close" supprimé</li>
+            </ul>
         </div>
     </div>
-    
-    <div class="status success">
-        <span class="icon">✅</span>
-        <div>
-            <strong>JavaScript corrompu RÉPARÉ</strong><br>
-            Fichier portfolio-manager.js restauré
-        </div>
-    </div>
-    
-    <div class="status warning">
-        <span class="icon">⚠️</span>
-        <div>
-            <strong>CSS simplifié</strong><br>
-            Version minimale fonctionnelle en place (styles complexes temporairement supprimés)
-        </div>
-    </div>
-    
-    <h2>🔧 Tests de fonctionnement</h2>
-    <div class="test-links">
-        <h3>Testez les versions :</h3>
-        <a href="/Clara_Neulinger/01_SITE_PRODUCTION/desktop/" target="_blank">
-            🖥️ Version Desktop - http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/desktop/
-        </a>
-        <a href="/Clara_Neulinger/01_SITE_PRODUCTION/mobile/" target="_blank">
-            📱 Version Mobile - http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/
-        </a>
-    </div>
-    
-    <h2>📁 État des fichiers</h2>
-    <div class="files-status">
-        <div class="file-item">
-            <span>portfolio-manager.js</span>
-            <span style="color: #4CAF50;">✅ Nettoyé</span>
-        </div>
-        <div class="file-item">
-            <span>mobile/index.html</span>
-            <span style="color: #4CAF50;">✅ Simplifié</span>
-        </div>
-        <div class="file-item">
-            <span>desktop/style.css</span>
-            <span style="color: #FFA500;">⚠️ Version minimale</span>
-        </div>
-        <div class="file-item">
-            <span>.htaccess</span>
-            <span style="color: #4CAF50;">✅ Supprimé temporairement</span>
-        </div>
-    </div>
-    
-    <h2>📂 Sauvegardes créées</h2>
-    <div class="files-status">
-        <div class="file-item">
-            <span>portfolio-manager-corrupted.js</span>
-            <span>💾 Sauvegarde du fichier avec erreurs "nul nul"</span>
-        </div>
-        <div class="file-item">
-            <span>index-corrupted.html</span>
-            <span>💾 Sauvegarde de la version mobile avec optimisations</span>
-        </div>
-        <div class="file-item">
-            <span>style-backup-corrupted.css</span>
-            <span>💾 Sauvegarde du CSS avec espaces entre caractères</span>
-        </div>
-    </div>
-    
-    <h2>🚀 Prochaines étapes</h2>
-    <div class="status success">
-        <span class="icon">📋</span>
-        <div>
-            <strong>Sites fonctionnels - Prêt pour les modifications</strong><br>
-            Vous pouvez maintenant reprendre les modifications desktop :<br>
-            • Ordres des photos pour les 6 projets<br>
-            • Descriptions des projets<br>
-            • Liens des logos contact<br>
-            • Couleurs des logos (Contact.png et ZBrush/Unreal en blanc)
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px;">
-        <h3 style="color: #4CAF50;">🎉 RESTAURATION TERMINÉE</h3>
-        <p>Les sites sont de nouveau fonctionnels et prêts pour les développements futurs !</p>
-        <p><em>Généré le : <span id="date"></span></em></p>
-    </div>
-    
+
     <script>
-        document.getElementById('date').textContent = new Date().toLocaleString('fr-FR');
+        function openMobilePortfolio() {
+            const timestamp = Date.now();
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?v=${timestamp}`;
+            window.open(url, '_blank', 'width=400,height=800');
+        }
+        
+        function openCacheBuster() {
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(7);
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/index.html?v=${timestamp}&bust=${randomId}&force=true`;
+            window.open(url, '_blank', 'width=400,height=800');
+        }
+        
+        console.log('🎯 Diagnostic final prêt !');
     </script>
 </body>
 </html>

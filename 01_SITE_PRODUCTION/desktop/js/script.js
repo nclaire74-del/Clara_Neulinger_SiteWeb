@@ -1,5 +1,16 @@
 // Script principal - Initialisation de l'application
 
+// Initialisation du système de traduction au chargement
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser le système de traduction
+    if (window.translationManager) {
+        window.translationManager.init();
+        console.log('✅ Système de traduction initialisé');
+    } else {
+        console.warn('⚠️ TranslationManager non disponible');
+    }
+});
+
 // Gestion d'erreur globale pour éviter les écrans blancs
 window.addEventListener('error', function(event) {
     console.error('💥 Erreur détectée :', event.error);

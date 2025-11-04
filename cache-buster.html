@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 Cache Buster - Mobile Portfolio</title>
+    <style>
+        body { 
+            font-family: 'Courier New', monospace; 
+            background: #000; 
+            color: #00ff00; 
+            padding: 20px; 
+            margin: 0;
+        }
+        .alert { 
+            background: #ff0000; 
+            color: #fff; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            font-weight: bold;
+        }
+        .success { 
+            background: #00aa00; 
+            color: #fff; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .info { 
+            background: #0066cc; 
+            color: #fff; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        button { 
+            background: #333; 
+            color: #00ff00; 
+            border: 1px solid #00ff00; 
+            padding: 10px 20px; 
+            margin: 5px; 
+            cursor: pointer; 
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover { background: #444; }
+        .timestamp { color: #666; font-size: 0.8em; }
+        .code { 
+            background: #111; 
+            border: 1px solid #333; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 3px; 
+            font-family: 'Courier New', monospace; 
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚨 CACHE BUSTER - DIAGNOSTIC MOBILE PORTFOLIO</h1>
+    
+    <div class="alert">
+        ⚠️ ATTENTION : Ce diagnostic va forcer le rechargement complet des fichiers
+    </div>
+    
+    <div class="info">
+        📍 URL de test : <strong>http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/</strong>
+    </div>
+    
+    <div id="status">Prêt pour le diagnostic...</div>
+    
+    <div style="margin: 20px 0;">
+        <button onclick="forceCacheBust()">🧹 FORCER LE RECHARGEMENT COMPLET</button>
+        <button onclick="testMobileDirectly()">🔍 TESTER LE MOBILE DIRECTEMENT</button>
+        <button onclick="openMobileWithTimestamp()">🚀 OUVRIR MOBILE (CACHE BUSTED)</button>
+        <button onclick="showInstructions()">📋 INSTRUCTIONS MANUELLES</button>
+    </div>
+    
+    <div id="output"></div>
+    
+    <script>
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'error': '#ff4444',
+                'success': '#44ff44',
+                'warning': '#ffaa00',
+                'info': '#00aaff'
+            };
+            
+            const div = document.createElement('div');
+            div.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            div.style.color = colors[type] || '#00ff00';
+            div.style.margin = '5px 0';
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function forceCacheBust() {
+            document.getElementById('status').innerHTML = '<div class="alert">🔄 RECHARGEMENT EN COURS...</div>';
+            log('🧹 Démarrage du cache bust forcé...', 'warning');
+            
+            // Générer un timestamp unique
+            const timestamp = Date.now();
+            const randomId = Math.random().toString(36).substring(7);
+            
+            // URL avec cache buster
+            const cacheBustedUrl = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/index.html?v=${timestamp}&bust=${randomId}`;
+            
+            log(`🔗 URL générée: ${cacheBustedUrl}`, 'info');
+            
+            // Ouvrir dans une nouvelle fenêtre
+            const newWindow = window.open(cacheBustedUrl, '_blank');
+            
+            if (newWindow) {
+                log('✅ Nouvelle fenêtre ouverte avec cache bust', 'success');
+                
+                // Attendre un peu puis forcer un rechargement
+                setTimeout(() => {
+                    try {
+                        newWindow.location.reload(true);
+                        log('🔄 Rechargement forcé appliqué', 'success');
+                    } catch (e) {
+                        log('⚠️ Impossible de forcer le rechargement automatiquement', 'warning');
+                        log('👉 Appuyez sur Ctrl+Shift+R dans la nouvelle fenêtre', 'info');
+                    }
+                }, 2000);
+                
+            } else {
+                log('❌ Impossible d\'ouvrir la nouvelle fenêtre (popup bloqué?)', 'error');
+                log('👉 Copiez cette URL manuellement:', 'info');
+                log(`${cacheBustedUrl}`, 'info');
+            }
+        }
+        
+        function testMobileDirectly() {
+            log('🔍 Test direct du fichier mobile...', 'info');
+            
+            const timestamp = Date.now();
+            const testUrl = `01_SITE_PRODUCTION/mobile/index.html?t=${timestamp}`;
+            
+            fetch(testUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    log('✅ Fichier mobile accessible', 'success');
+                    
+                    // Tests spécifiques
+                    const tests = [
+                        ['Visualiseur - Archway', 'Archway visualizer'],
+                        ['changeArchAsset', 'Archway function'],
+                        ['arch-asset-slider', 'Archway slider'],
+                        ['data-translate', 'Translation attributes'],
+                        ['translations.js', 'Translation script'],
+                        ['TranslationManager', 'Translation manager']
+                    ];
+                    
+                    tests.forEach(([search, description]) => {
+                        if (html.includes(search)) {
+                            log(`✅ ${description} trouvé dans le fichier`, 'success');
+                        } else {
+                            log(`❌ ${description} MANQUANT dans le fichier`, 'error');
+                        }
+                    });
+                    
+                    // Vérifier la taille du fichier
+                    const sizeKB = (html.length / 1024).toFixed(2);
+                    log(`📊 Taille du fichier: ${sizeKB} KB`, 'info');
+                    
+                    // Vérifier la date de modification
+                    const lastModified = response.headers.get('last-modified');
+                    if (lastModified) {
+                        log(`📅 Dernière modification: ${lastModified}`, 'info');
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Erreur lors du test: ${error.message}`, 'error');
+                });
+        }
+        
+        function openMobileWithTimestamp() {
+            const timestamp = Date.now();
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?nocache=${timestamp}`;
+            
+            log(`🚀 Ouverture avec timestamp: ${timestamp}`, 'info');
+            window.open(url, '_blank');
+        }
+        
+        function showInstructions() {
+            const instructions = `
+🔧 INSTRUCTIONS MANUELLES POUR VIDER LE CACHE :
+
+1. Dans Chrome/Edge/Firefox :
+   - Appuyez sur F12 pour ouvrir les DevTools
+   - Clic droit sur le bouton de rechargement
+   - Sélectionnez "Vider le cache et effectuer une actualisation forcée"
+
+2. Ou utilisez le raccourci :
+   - Ctrl + Shift + R (Windows/Linux)
+   - Cmd + Shift + R (Mac)
+
+3. Pour vider complètement le cache :
+   - F12 → Onglet Application/Storage
+   - Clic droit sur le domaine localhost
+   - "Clear storage" / "Vider le stockage"
+
+4. Alternative par URL :
+   - Ajoutez ?v=123 à la fin de l'URL
+   - Exemple: http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?v=123
+
+5. Si rien ne fonctionne :
+   - Essayez un autre navigateur
+   - Ou mode navigation privée/incognito
+            `;
+            
+            document.getElementById('output').innerHTML = `<div class="code">${instructions}</div>`;
+        }
+        
+        // Test automatique au chargement
+        window.onload = function() {
+            log('🚀 Cache Buster initialisé', 'success');
+            log('👉 Cliquez sur "FORCER LE RECHARGEMENT COMPLET" pour commencer', 'info');
+        };
+    </script>
+</body>
+</html>

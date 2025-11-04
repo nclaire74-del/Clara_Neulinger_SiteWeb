@@ -5094,31 +5094,31 @@ img[src*="2.svg"] {
 }
 
 /* === CURSEUR LOUPE === */
-/* Curseur personnalisé quand la loupe est activée */
-.magnifier-cursor-enabled {
+/* Curseur personnalisé quand la loupe est activée - UNIQUEMENT quand contact-window est ouvert */
+body.magnifier-cursor-enabled #contact-window.show {
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, auto !important;
 }
 
-/* Papiers avec curseur loupe quand activé */
-.magnifier-cursor-enabled .cv-paper,
-.magnifier-cursor-enabled .contact-paper,
-.magnifier-cursor-enabled .cv-interactive-overlay {
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, pointer !important;
+/* Papiers avec curseur loupe quand activé - UNIQUEMENT sur la page contact */
+body.magnifier-cursor-enabled #contact-window.show .cv-paper,
+body.magnifier-cursor-enabled #contact-window.show .contact-paper,
+body.magnifier-cursor-enabled #contact-window.show .cv-interactive-overlay {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSwyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, pointer !important;
 }
 
-/* Forcer le curseur loupe sur TOUS les éléments à l'intérieur des CV */
-.magnifier-cursor-enabled .cv-paper *,
-.magnifier-cursor-enabled .contact-paper *,
-.magnifier-cursor-enabled .cv-interactive-overlay *,
-.magnifier-cursor-enabled .cv-paper a,
-.magnifier-cursor-enabled .contact-paper a,
-.magnifier-cursor-enabled .cv-interactive-overlay a,
-.magnifier-cursor-enabled .cv-paper button,
-.magnifier-cursor-enabled .contact-paper button,
-.magnifier-cursor-enabled .cv-interactive-overlay button,
-.magnifier-cursor-enabled .cv-paper .clickable,
-.magnifier-cursor-enabled .contact-paper .clickable,
-.magnifier-cursor-enabled .cv-interactive-overlay .clickable {
+/* Forcer le curseur loupe sur TOUS les éléments à l'intérieur des CV - UNIQUEMENT sur la page contact */
+body.magnifier-cursor-enabled #contact-window.show .cv-paper *,
+body.magnifier-cursor-enabled #contact-window.show .contact-paper *,
+body.magnifier-cursor-enabled #contact-window.show .cv-interactive-overlay *,
+body.magnifier-cursor-enabled #contact-window.show .cv-paper a,
+body.magnifier-cursor-enabled #contact-window.show .contact-paper a,
+body.magnifier-cursor-enabled #contact-window.show .cv-interactive-overlay a,
+body.magnifier-cursor-enabled #contact-window.show .cv-paper button,
+body.magnifier-cursor-enabled #contact-window.show .contact-paper button,
+body.magnifier-cursor-enabled #contact-window.show .cv-interactive-overlay button,
+body.magnifier-cursor-enabled #contact-window.show .cv-paper .clickable,
+body.magnifier-cursor-enabled #contact-window.show .contact-paper .clickable,
+body.magnifier-cursor-enabled #contact-window.show .cv-interactive-overlay .clickable {
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTMiIGN5PSIxMyIgcj0iOCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iMTMiIHI9IjUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPgo8bGluZSB4MT0iMTkiIHkxPSIxOSIgeDI9IjI2IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K') 16 16, pointer !important;
 }
 
@@ -7470,10 +7470,10 @@ video.project-media::-webkit-media-controls-start-playback-button {
     height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
         #ffffff 0%, #ffffff 25%, 
-        #f0f0f0 25%, #f0f0f0 50%, 
-        #e0e0e0 50%, #e0e0e0 75%, 
-        #d0d0d0 75%, #d0d0d0 100%
-    ); /* Couleurs plus claires et visibles */
+        #cccccc 25%, #cccccc 50%, 
+        #888888 50%, #888888 75%, 
+        #333333 75%, #333333 100%
+    ); /* Dégradé intense blanc vers noir */
     outline: none;
     border-radius: 4px;
     cursor: pointer;
@@ -7521,12 +7521,12 @@ video.project-media::-webkit-media-controls-start-playback-button {
     height: 0.6vw; /* Plus épais pour être plus facile à cliquer */
     background: linear-gradient(to right, 
         #ffffff 0%, #ffffff 16.67%, 
-        #f0f0f0 16.67%, #f0f0f0 33.33%, 
-        #e0e0e0 33.33%, #e0e0e0 50%, 
-        #d0d0d0 50%, #d0d0d0 66.67%, 
-        #c0c0c0 66.67%, #c0c0c0 83.33%, 
-        #b0b0b0 83.33%, #b0b0b0 100%
-    ); /* Couleurs plus claires et visibles */
+        #e0e0e0 16.67%, #e0e0e0 33.33%, 
+        #c0c0c0 33.33%, #c0c0c0 50%, 
+        #808080 50%, #808080 66.67%, 
+        #404040 66.67%, #404040 83.33%, 
+        #000000 83.33%, #000000 100%
+    ); /* Dégradé intense blanc vers noir pour Gun */
     outline: none;
     border-radius: 4px;
     cursor: pointer;
@@ -8390,6 +8390,16 @@ video.project-media::-webkit-media-controls-start-playback-button {
     transform: scale(1.05);
 }
 
+/* Logos blancs - inverser les couleurs pour Unreal et ZBrush */
+.marmoset-info-panel .logo-item.white-logo {
+    filter: invert(1) brightness(1) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.marmoset-info-panel .logo-item.white-logo:hover {
+    filter: invert(1) brightness(1.1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transform: scale(1.05);
+}
+
 .marmoset-info-panel .logo-name {
     font-size: 0.65rem;
     color: #333;
@@ -8521,14 +8531,14 @@ video.project-media::-webkit-media-controls-start-playback-button {
 }
 
 .marmoset-story-panel .story-text::-webkit-scrollbar-thumb {
-    background: #ffffff; /* Blanc pour être bien visible */
+    background: #888888; /* Gris moyen pour être bien visible */
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
 .marmoset-story-panel .story-text::-webkit-scrollbar-thumb:hover {
-    background: #f0f0f0; /* Gris clair au survol */
+    background: #666666; /* Gris plus foncé au survol */
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -11323,6 +11333,73 @@ iframe[src*="Circus_Viewer.html"] * {
 
 .software-logo:hover {
     transform: scale(1.1);
+}
+
+/* Styles pour les images lourdes avec placeholder */
+.heavy-image-container {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heavy-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.heavy-image-placeholder:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.heavy-image-placeholder p {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.heavy-image-placeholder small {
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.loading-spinner.active {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.heavy-image-hidden {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.heavy-image-hidden[style*="display: block"] {
+    opacity: 1;
 }
 
 /* Rendre les logos Unreal et ZBrush blancs */

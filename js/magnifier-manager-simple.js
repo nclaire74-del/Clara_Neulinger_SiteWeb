@@ -39,7 +39,7 @@ class MagnifierManager {
             height: 150px;
             border: 3px solid #333;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.98);
+            background: white;
             pointer-events: none;
             z-index: 15000;
             opacity: 0;
@@ -59,12 +59,13 @@ class MagnifierManager {
             text-align: center;
             color: #666;
             padding: 10px;
+            background: transparent;
         `;
         
         this.magnifierOverlay.appendChild(content);
         document.body.appendChild(this.magnifierOverlay);
         
-        console.log('🔍 Overlay créé avec support zoom:', this.magnifierOverlay);
+        console.log('🔍 Overlay créé avec fond blanc et support zoom:', this.magnifierOverlay);
     }
 
     bindEvents() {
@@ -161,81 +162,41 @@ class MagnifierManager {
     }
 
     updateContent(e) {
-        if (!this.currentTarget) return;
-        
-        const content = this.magnifierOverlay.querySelector('div');
-        if (!content) return;
-        
-        // Obtenir les coordonnées relatives au CV
-        const targetRect = this.currentTarget.getBoundingClientRect();
-        const relativeX = e.clientX - targetRect.left;
-        const relativeY = e.clientY - targetRect.top;
-        
-        // Nettoyer le contenu de la loupe
-        content.innerHTML = '';
-        content.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            border-radius: 50%;
-        `;
-        
-        // Détecter quelle face du CV est visible en accédant au dual-paper-manager
-        let imageSrc = 'assets/images/Contact/Cv_fr.svg'; // Face avant par défaut
-        
-        // Vérifier si le dual-paper-manager existe et a l'état flipped
-        if (window.dualPaperManager && window.dualPaperManager.papers && window.dualPaperManager.papers.cv) {
-            const isFlipped = window.dualPaperManager.papers.cv.flipped;
-            if (isFlipped) {
-                imageSrc = 'assets/images/Contact/2.svg'; // Face arrière
-                console.log('🔄 CV retourné - Affichage face arrière (2.svg)');
-            } else {
-                imageSrc = 'assets/images/Contact/Cv_fr.svg'; // Face avant
-                console.log('📄 CV normal - Affichage face avant (Cv_fr.svg)');
-            }
-        } else {
-            // Fallback: essayer de détecter par CSS transform
-            const paperElement = document.getElementById('cv-paper');
-            if (paperElement) {
-                const transform = getComputedStyle(paperElement).transform;
-                if (transform && transform.includes('matrix3d')) {
-                    // Analyser la matrice 3D pour détecter la rotation Y
-                    const values = transform.split('(')[1].split(')')[0].split(',');
-                    if (values.length >= 16) {
-                        const rotY = Math.asin(parseFloat(values[8])) * (180 / Math.PI);
-                        if (Math.abs(rotY) > 90) {
-                            imageSrc = 'assets/images/Contact/2.svg';
-                            console.log('🔄 CSS détection - Face arrière');
-                        }
-                    }
-                }
-            }
-            console.log('⚠️ Dual-paper-manager non accessible, utilisation du fallback CSS');
+        if (!this.magnifierOverlay) {
+            console.log('❌ Pas de magnifierOverlay');
+            return;
         }
         
-        // Créer une image pour la loupe
-        const magnifiedImage = document.createElement('img');
-        magnifiedImage.src = imageSrc;
-        magnifiedImage.style.cssText = `
+        console.log('🔍 UpdateContent appelé');
+        
+        // REMPLACER COMPLÈTEMENT LE CONTENU DU CERCLE
+        this.magnifierOverlay.innerHTML = '';
+        
+        // Changer le background du cercle lui-même
+        this.magnifierOverlay.style.background = 'linear-gradient(45deg, #ff0000, #00ff00, #0000ff)';
+        
+        console.log('� FOND DU CERCLE CHANGÉ EN DÉGRADÉ COLORÉ');
+        
+        // Créer un nouveau contenu SIMPLE
+        const newContent = document.createElement('div');
+        newContent.innerHTML = 'TEST VISIBLE';
+        newContent.style.cssText = `
             position: absolute;
-            transform: scale(2.5);
-            transform-origin: top left;
-            left: ${-relativeX * 2.5 + 75}px;
-            top: ${-relativeY * 2.5 + 75}px;
-            width: ${targetRect.width}px;
-            height: ${targetRect.height}px;
-            pointer-events: none;
-            object-fit: contain;
-            object-position: center;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            z-index: 10;
         `;
         
-        content.appendChild(magnifiedImage);
-        console.log('🔍 Image SVG zoomée créée:', imageSrc);
+        this.magnifierOverlay.appendChild(newContent);
+        console.log('🔍 CONTENU TEST AJOUTÉ AU CERCLE');
+        
+        // PLUS TARD : on ajoutera l'image ici
+        console.log('🔍 Contenu du cercle mis à jour avec test visuel');
     }
 }
 

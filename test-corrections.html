@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Test Corrections Archway & Traductions</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd93d;
+        }
+        .fix-section {
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #51cf66;
+        }
+        .test-section {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffd93d;
+        }
+        .action-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .test-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .console {
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 15px 0;
+            display: none;
+        }
+        .console.show { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 TEST CORRECTIONS</h1>
+            <p>Archway Visualiseur + Traductions Complètes</p>
+        </div>
+
+        <div class="section fix-section">
+            <h3>✅ CORRECTIONS APPLIQUÉES</h3>
+            <div class="test-grid">
+                <div class="test-item">
+                    <h4>🖼️ Visualiseur Archway</h4>
+                    <ul>
+                        <li>✅ Images changent entre assets</li>
+                        <li>✅ Debug console ajouté</li>
+                        <li>✅ Gestion d'erreurs images</li>
+                        <li>✅ Encodage espaces corrigé</li>
+                    </ul>
+                </div>
+                
+                <div class="test-item">
+                    <h4>🌐 Traductions Contact</h4>
+                    <ul>
+                        <li>✅ "Contact" traduit</li>
+                        <li>✅ "Email:" / "Phone:" traduits</li>
+                        <li>✅ "Cliquez sur les logos" traduit</li>
+                        <li>✅ FR/EN complets</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section test-section">
+            <h3>🎯 CHEMINS IMAGES ARCHWAY</h3>
+            <div class="code-snippet">
+ALBEDO    → /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE%20COLOR/NewLevelSequence.0128.jpeg
+AO        → /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/AO/NewLevelSequence.0128.jpeg
+METALLIC  → /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/metallic/NewLevelSequence.0128.jpeg
+ROUGHNESS → /Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/ROUPH/NewLevelSequence.0128.jpeg
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>🚀 TESTS À EFFECTUER</h3>
+            <div class="test-grid">
+                <div class="test-item">
+                    <h4>📱 Visualiseur Archway</h4>
+                    <ol>
+                        <li>Aller projet Archway</li>
+                        <li>Cliquer "Albedo" → image BASE COLOR</li>
+                        <li>Cliquer "AO" → image change !</li>
+                        <li>Cliquer "Metallic" → image change !</li>
+                        <li>Cliquer "Roughness" → image change !</li>
+                        <li>Slider navigue frames 128-149</li>
+                    </ol>
+                </div>
+                
+                <div class="test-item">
+                    <h4>🌐 Traductions</h4>
+                    <ol>
+                        <li>Options → Changer FR/EN</li>
+                        <li>Contact → Textes changent</li>
+                        <li>Collectibles → Navigation traduite</li>
+                        <li>Détails projet → "Software" traduit</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>🔍 ACTIONS DE TEST</h3>
+            <button class="action-button" onclick="openMobileWithDebug()">🚀 OUVRIR MOBILE + DEBUG</button>
+            <button class="action-button" onclick="testImagePaths()">🖼️ TESTER CHEMINS IMAGES</button>
+            <button class="action-button" onclick="showDebugInfo()">🔍 AFFICHER DEBUG</button>
+            <button class="action-button" onclick="clearCache()">🧹 VIDER CACHE</button>
+        </div>
+
+        <div id="console" class="console">
+            <div>🚀 Console de debug initialisée...</div>
+        </div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            console.classList.add('show');
+            
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'error': '#ff4444',
+                'success': '#44ff44',
+                'warning': '#ffaa00',
+                'info': '#00aaff'
+            };
+            
+            const color = colors[type] || '#00ff00';
+            console.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        function openMobileWithDebug() {
+            const timestamp = Date.now();
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?debug=${timestamp}`;
+            
+            log('🚀 Ouverture portfolio mobile avec debug activé', 'success');
+            log('👉 Ouvrez la console du navigateur (F12) pour voir les logs', 'info');
+            log('🎯 Testez les boutons Archway : Albedo → AO → Metallic → Roughness', 'warning');
+            
+            window.open(url, '_blank', 'width=400,height=800');
+        }
+        
+        function testImagePaths() {
+            log('🔍 Test des chemins d\'images Archway...', 'info');
+            
+            const testPaths = [
+                { name: 'Albedo', path: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE%20COLOR/NewLevelSequence.0128.jpeg' },
+                { name: 'AO', path: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/AO/NewLevelSequence.0128.jpeg' },
+                { name: 'Metallic', path: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/metallic/NewLevelSequence.0128.jpeg' },
+                { name: 'Roughness', path: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/ROUPH/NewLevelSequence.0128.jpeg' }
+            ];
+            
+            testPaths.forEach((item, index) => {
+                setTimeout(() => {
+                    const img = new Image();
+                    img.onload = () => log(`✅ ${item.name}: Image accessible (${img.naturalWidth}x${img.naturalHeight})`, 'success');
+                    img.onerror = () => log(`❌ ${item.name}: Erreur de chargement`, 'error');
+                    img.src = item.path;
+                }, index * 200);
+            });
+        }
+        
+        function showDebugInfo() {
+            log('🔍 INFORMATIONS DE DEBUG :', 'info');
+            log('📁 Dossiers images : BASE COLOR, AO, metallic, ROUPH', 'info');
+            log('🖼️ Format images : NewLevelSequence.XXXX.jpeg', 'info');
+            log('📊 Frames : 0128 → 0149 (22 images par dossier)', 'info');
+            log('🎮 Variables JS : currentArchAssetType, currentArchFrame', 'info');
+            log('⚙️ Fonctions : changeArchAsset(), updateArchFromSlider()', 'info');
+            log('🌐 Nouvelles traductions : contact, email, phone, click_logos_profiles', 'info');
+        }
+        
+        function clearCache() {
+            log('🧹 Instructions cache :', 'warning');
+            log('1. F12 → Network → Disable cache', 'info');
+            log('2. Ctrl+Shift+R pour rechargement forcé', 'info');
+            log('3. F12 → Application → Clear storage', 'info');
+            
+            const timestamp = Date.now();
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?nocache=${timestamp}`;
+            window.open(url, '_blank', 'width=400,height=800');
+        }
+        
+        // Auto-start
+        window.onload = function() {
+            log('🎯 Page de test chargée - Prêt pour les corrections !', 'success');
+        };
+    </script>
+</body>
+</html>

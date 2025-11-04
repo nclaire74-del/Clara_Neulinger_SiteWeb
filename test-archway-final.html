@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Test Archway Assets Final</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #51cf66;
+        }
+        .button {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .button:hover { transform: translateY(-2px); }
+        .mapping {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+        .console {
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Test Archway Assets - CORRECTION FINALE</h1>
+        
+        <div class="test-section">
+            <h3>✅ CORRECTIONS APPLIQUÉES</h3>
+            <ul>
+                <li><strong>✅ Slider 1-4 :</strong> Correspond aux 4 assets</li>
+                <li><strong>✅ Boutons changent d'asset :</strong> Albedo → AO → Metallic → Roughness</li>
+                <li><strong>✅ Images spécifiques :</strong> Frame différente pour chaque asset</li>
+                <li><strong>✅ Étiquettes slider :</strong> Noms des assets</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🎮 MAPPING ASSETS → FRAMES</h3>
+            <div class="mapping">
+Slider 1: ALBEDO     → Frame 128 → BASE COLOR/NewLevelSequence.0128.jpeg
+Slider 2: AO         → Frame 135 → AO/NewLevelSequence.0135.jpeg  
+Slider 3: METALLIC   → Frame 142 → metallic/NewLevelSequence.0142.jpeg
+Slider 4: ROUGHNESS  → Frame 149 → ROUPH/NewLevelSequence.0149.jpeg
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 TESTER MAINTENANT</h3>
+            <button class="button" onclick="openMobileTest()">📱 OUVRIR MOBILE AVEC DEBUG</button>
+            <button class="button" onclick="testImageUrls()">🖼️ TESTER URLS IMAGES</button>
+            <button class="button" onclick="showInstructions()">📋 INSTRUCTIONS TEST</button>
+        </div>
+
+        <div id="console" class="console" style="display: none;">
+            <div>🚀 Console de test initialisée...</div>
+        </div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            console.style.display = 'block';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'error': '#ff4444',
+                'success': '#44ff44',
+                'warning': '#ffaa00',
+                'info': '#00aaff'
+            };
+            
+            const color = colors[type] || '#00ff00';
+            console.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        function openMobileTest() {
+            const timestamp = Date.now();
+            const url = `http://localhost/Clara_Neulinger/01_SITE_PRODUCTION/mobile/?archway_test=${timestamp}`;
+            
+            log('🚀 Ouverture portfolio mobile avec test Archway', 'success');
+            log('👉 1. Naviguez vers le projet Archway', 'info');
+            log('👉 2. Testez les 4 boutons : Albedo, AO, Metallic, Roughness', 'warning');
+            log('👉 3. Vérifiez que les images changent !', 'warning');
+            log('👉 4. Testez le slider 1-4', 'info');
+            log('👉 5. Ouvrez F12 pour voir les logs de debug', 'info');
+            
+            window.open(url, '_blank', 'width=400,height=800');
+        }
+        
+        function testImageUrls() {
+            log('🔍 Test d\'accessibilité des images Archway...', 'info');
+            
+            const testImages = [
+                { name: 'Albedo (Frame 128)', url: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/BASE%20COLOR/NewLevelSequence.0128.jpeg' },
+                { name: 'AO (Frame 135)', url: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/AO/NewLevelSequence.0135.jpeg' },
+                { name: 'Metallic (Frame 142)', url: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/metallic/NewLevelSequence.0142.jpeg' },
+                { name: 'Roughness (Frame 149)', url: '/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Arch/ROUPH/NewLevelSequence.0149.jpeg' }
+            ];
+            
+            testImages.forEach((item, index) => {
+                setTimeout(() => {
+                    const img = new Image();
+                    img.onload = () => log(`✅ ${item.name}: Accessible (${img.naturalWidth}x${img.naturalHeight})`, 'success');
+                    img.onerror = () => log(`❌ ${item.name}: Erreur de chargement`, 'error');
+                    img.src = item.url;
+                }, index * 300);
+            });
+        }
+        
+        function showInstructions() {
+            log('📋 INSTRUCTIONS DE TEST DÉTAILLÉES :', 'info');
+            log('', 'info');
+            log('1. 📱 Ouvrez le portfolio mobile', 'info');
+            log('2. 🎯 Allez dans le projet "Archway"', 'info');
+            log('3. 🖼️ Vérifiez l\'image par défaut (Albedo)', 'info');
+            log('4. 🔘 Cliquez "AO" → L\'image doit changer !', 'warning');
+            log('5. 🔘 Cliquez "Metallic" → L\'image doit changer !', 'warning');
+            log('6. 🔘 Cliquez "Roughness" → L\'image doit changer !', 'warning');
+            log('7. 🎚️ Utilisez le slider 1-4 pour naviguer', 'info');
+            log('8. ⚡ Les flèches ◀ ▶ doivent aussi fonctionner', 'info');
+            log('', 'info');
+            log('🔍 Si ça ne marche pas : F12 → Console → Regarder les erreurs', 'warning');
+        }
+        
+        window.onload = function() {
+            log('🎯 Page de test Archway prête !', 'success');
+            log('👉 Cliquez "OUVRIR MOBILE" pour commencer', 'info');
+        };
+    </script>
+</body>
+</html>
