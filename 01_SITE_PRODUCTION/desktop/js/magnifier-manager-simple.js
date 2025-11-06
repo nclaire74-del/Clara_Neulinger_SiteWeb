@@ -249,13 +249,13 @@ class MagnifierManager {
         const relativeY = e.clientY - targetRect.top;
         
         // Détecter quelle face du CV est visible (front ou back)
-        let cvImageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'; // Front par défaut
+        let cvImageSrc = '../../05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'; // Front par défaut
         
         // Vérifier si le CV est flippé en utilisant le dual-paper-manager
         if (window.dualPaperManager && window.dualPaperManager.papers && window.dualPaperManager.papers.cv) {
             const isFlipped = window.dualPaperManager.papers.cv.flipped;
             if (isFlipped) {
-                cvImageSrc = '/Clara_Neulinger/05_PROJETS_3D/Images_Portfolio/Cv/2.svg'; // Back
+                cvImageSrc = '../../05_PROJETS_3D/Images_Portfolio/Cv/2.svg'; // Back
                 console.log('🔄 CV flippé - Affichage face arrière');
             } else {
                 console.log('📄 CV normal - Affichage face avant');
@@ -352,14 +352,6 @@ class MagnifierManager {
         
         magnifiedImage.onerror = () => {
             console.error('❌ Erreur de chargement image:', magnifiedImage.src);
-            // Essayer différents chemins de fallback
-            if (magnifiedImage.src.includes('../../')) {
-                magnifiedImage.src = magnifiedImage.src.replace('../../', '/Clara_Neulinger/');
-                console.log('🔄 Tentative chemin absolu:', magnifiedImage.src);
-            } else if (magnifiedImage.src.includes('/Clara_Neulinger/')) {
-                magnifiedImage.src = magnifiedImage.src.replace('/Clara_Neulinger/', '../../');
-                console.log('🔄 Tentative chemin relatif:', magnifiedImage.src);
-            }
         };
         
         magnifiedImage.style.cssText = `

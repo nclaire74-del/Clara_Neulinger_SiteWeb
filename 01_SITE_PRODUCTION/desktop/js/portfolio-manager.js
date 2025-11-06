@@ -392,7 +392,7 @@ class PortfolioManager {
                                     Votre navigateur ne supporte pas la lecture de vidéos.
                                 </video>` :
                                 `<iframe id="marmoset-viewer-inline" 
-                                        src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/${project.folder}/${project.viewerFiles?.environment || 'placeholder.html'}" 
+                                        src="../../05_PROJETS_3D/projets_portfolio/${project.folder}/${project.viewerFiles?.environment || 'placeholder.html'}" 
                                         width="100%" 
                                         height="100%" 
                                         frameborder="0"
@@ -650,7 +650,7 @@ class PortfolioManager {
                         <h3 class="viewer-title">Viewer 3D - Personnage</h3>
                         <div class="viewer-wrapper">
                             <iframe id="marmoset-chara-viewer-inline" 
-                                    src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/${project.folder}/${project.viewerFiles.character}" 
+                                    src="../../05_PROJETS_3D/projets_portfolio/${project.folder}/${project.viewerFiles.character}" 
                                     width="100%" 
                                     height="100%" 
                                     frameborder="0"
