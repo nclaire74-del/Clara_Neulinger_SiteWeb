@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Images Collectibles</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #222; 
+            color: white; 
+        }
+        img { 
+            max-width: 300px; 
+            margin: 10px; 
+            border: 2px solid #444; 
+        }
+        .error { color: #ff6666; }
+        .success { color: #66ff66; }
+    </style>
+</head>
+<body>
+    <h1>Test d'accès aux images des collectibles</h1>
+    
+    <h2>Images de prévisualisation des projets :</h2>
+    
+    <div>
+        <h3>Circus</h3>
+        <img src="assets/images/Cirucs/preview.jpg" alt="Circus Preview" onload="console.log('✅ Circus preview loaded')" onerror="console.log('❌ Circus preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <div>
+        <h3>Archway</h3>
+        <img src="assets/images/Arch/preview.jpg" alt="Arch Preview" onload="console.log('✅ Arch preview loaded')" onerror="console.log('❌ Arch preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <div>
+        <h3>Gun</h3>
+        <img src="assets/images/Gun/preview.jpg" alt="Gun Preview" onload="console.log('✅ Gun preview loaded')" onerror="console.log('❌ Gun preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <div>
+        <h3>Kitchen</h3>
+        <img src="assets/images/Kitchen/preview.jpg" alt="Kitchen Preview" onload="console.log('✅ Kitchen preview loaded')" onerror="console.log('❌ Kitchen preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <div>
+        <h3>Room</h3>
+        <img src="assets/images/Room/preview.jpg" alt="Room Preview" onload="console.log('✅ Room preview loaded')" onerror="console.log('❌ Room preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <div>
+        <h3>Telephone</h3>
+        <img src="assets/images/Telephone/preview.jpg" alt="Telephone Preview" onload="console.log('✅ Telephone preview loaded')" onerror="console.log('❌ Telephone preview failed'); this.style.border='2px solid red';">
+    </div>
+    
+    <script>
+        window.addEventListener('load', function() {
+            console.log('🔍 Test de chargement des images terminé. Vérifiez la console pour les résultats.');
+        });
+    </script>
+</body>
+</html>

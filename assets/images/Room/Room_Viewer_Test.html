@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<meta name="viewport" content="user-scalable=0"/>
+<html>
+<head>
+    <title>Room_Viewer_Test</title>
+    <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
+</head>
+<body>
+    <div id="viewer-container" style="width: 100%; height: 100%; background: #222;">
+        <div id="loading" style="color: white; text-align: center; padding: 20px;">
+            Chargement du viewer Room...
+        </div>
+    </div>
+    <script>
+        console.log('[ROOM VIEWER] Début du chargement');
+        
+        // Test si marmoset est disponible
+        if (typeof marmoset === 'undefined') {
+            document.getElementById('loading').innerHTML = 'ERREUR: Marmoset Viewer non chargé';
+            console.error('[ROOM VIEWER] Marmoset non disponible');
+        } else {
+            console.log('[ROOM VIEWER] Marmoset détecté, tentative de chargement .mview');
+            
+            try {
+                marmoset.embed('Room_Viewer.mview', { 
+                    width: 800, 
+                    height: 600, 
+                    autoStart: true, 
+                    fullFrame: true, 
+                    pagePreset: false,
+                    onload: function() {
+                        console.log('[ROOM VIEWER] Chargement réussi');
+                        document.getElementById('loading').style.display = 'none';
+                    },
+                    onerror: function(error) {
+                        console.error('[ROOM VIEWER] Erreur de chargement:', error);
+                        document.getElementById('loading').innerHTML = 'ERREUR: Impossible de charger le modèle 3D';
+                    }
+                });
+            } catch (error) {
+                console.error('[ROOM VIEWER] Exception:', error);
+                document.getElementById('loading').innerHTML = 'ERREUR: Exception lors du chargement';
+            }
+        }
+    </script>
+</body>
+</html>

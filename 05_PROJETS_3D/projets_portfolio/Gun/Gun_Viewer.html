@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plasma Pistol - Viewer 3D</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            overflow: hidden;
+            font-family: 'Kindergarten', Arial, sans-serif;
+        }
+        
+        #marmoset-viewer {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            background: #1a1a1a;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #00aaff;
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 170, 255, 0.3);
+            border-top: 4px solid #00aaff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .viewer-info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00aaff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Chargement du Plasma Pistol...</div>
+    </div>
+    
+    <div class="viewer-info">
+        🔫 Plasma Pistol - Viewer 3D Interactif
+    </div>
+    
+    <!-- Marmoset Viewer Integration -->
+    <div id="marmoset-viewer">
+        <!-- Le contenu Marmoset sera chargé ici -->
+        <iframe 
+            src="data:text/html;charset=utf-8,
+            <html>
+            <head>
+                <style>
+                    body { 
+                        margin: 0; 
+                        padding: 0; 
+                        background: %231a1a1a; 
+                        color: %2300aaff;
+                        font-family: Arial, sans-serif;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        text-align: center;
+                    }
+                    .demo-viewer {
+                        padding: 40px;
+                        border: 2px solid %2300aaff;
+                        border-radius: 10px;
+                        background: rgba(0, 170, 255, 0.1);
+                        max-width: 500px;
+                    }
+                    h2 { color: %2300aaff; margin-bottom: 20px; }
+                    p { color: %23cccccc; margin: 10px 0; }
+                    .model-preview {
+                        width: 300px;
+                        height: 200px;
+                        background: %23333;
+                        border: 1px solid %2300aaff;
+                        border-radius: 5px;
+                        margin: 20px auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: %2300aaff;
+                        font-size: 14px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='demo-viewer'>
+                    <h2>🔫 Plasma Pistol</h2>
+                    <div class='model-preview'>
+                        Modèle 3D Interactif<br>
+                        (Cliquez et faites glisser pour tourner)
+                    </div>
+                    <p><strong>Fonctionnalités :</strong></p>
+                    <p>• Rotation 360° interactive</p>
+                    <p>• Zoom avant/arrière</p>
+                    <p>• Éclairage dynamique</p>
+                    <p>• Textures haute définition</p>
+                    <br>
+                    <p style='font-size: 12px; color: %23888;'>
+                        Viewer Marmoset - Version démo<br>
+                        Intégrez votre fichier .mview ici
+                    </p>
+                </div>
+            </body>
+            </html>"
+            width="100%" 
+            height="100%" 
+            frameborder="0">
+        </iframe>
+    </div>
+    
+    <script>
+        // Simuler le chargement
+        setTimeout(() => {
+            document.getElementById('loading-overlay').style.display = 'none';
+        }, 2000);
+        
+        // Ajouter des interactions basiques
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔫 Plasma Pistol Viewer chargé');
+            
+            // Simuler l'interaction avec le modèle 3D
+            const viewer = document.getElementById('marmoset-viewer');
+            let isMouseDown = false;
+            
+            viewer.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                viewer.style.cursor = 'grabbing';
+            });
+            
+            viewer.addEventListener('mouseup', (e) => {
+                isMouseDown = false;
+                viewer.style.cursor = 'grab';
+            });
+            
+            viewer.addEventListener('mousemove', (e) => {
+                if (isMouseDown) {
+                    // Ici vous pourriez ajouter la logique de rotation du modèle
+                    console.log('Rotation du modèle...');
+                }
+            });
+            
+            viewer.style.cursor = 'grab';
+        });
+    </script>
+</body>
+</html>

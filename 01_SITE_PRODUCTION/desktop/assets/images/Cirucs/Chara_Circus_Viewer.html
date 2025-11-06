@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta name="viewport" content="user-scalable=0"/>
+<html>
+<head>
+    <title>Chara_Circus_Viewer</title>
+    <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .fallback-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .fallback-image {
+            max-width: 80%;
+            max-height: 60%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .fallback-text {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="marmoset-container"></div>
+    <div id="fallback" class="fallback-container" style="display: none;">
+        <h3 class="fallback-text">Viewer 3D - Personnage Circus</h3>
+        <img src="Neulinger_Clara_3B3D_Circus_Chara_Renders_1.jpg" alt="Circus Character 3D Model" class="fallback-image">
+        <p class="fallback-text">Le viewer 3D interactif nécessite les fichiers Marmoset (.mview)</p>
+    </div>
+    <script>
+        try {
+            marmoset.embed('Chara_Circus_Viewer.mview', { 
+                width: 500, 
+                height: 400, 
+                autoStart: true, 
+                fullFrame: true, 
+                pagePreset: false,
+                onError: function() {
+                    document.getElementById('fallback').style.display = 'flex';
+                }
+            });
+        } catch (error) {
+            console.error('Erreur chargement Marmoset:', error);
+            document.getElementById('fallback').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

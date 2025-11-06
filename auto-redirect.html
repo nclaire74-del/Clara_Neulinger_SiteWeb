@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Neulinger - Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .loading-container {
+            text-align: center;
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        .loading-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="logo">Clara Neulinger</div>
+        <div class="subtitle">Portfolio 3D Artist</div>
+        <div class="spinner"></div>
+        <div class="loading-text">Détection de l'appareil...</div>
+    </div>
+
+    <script>
+        (function(){
+            'use strict';
+
+            function isMobileOrTablet() {
+                // Détection mobile/tablette améliorée
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                const mobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+                
+                // Test du user agent
+                if (mobileUA.test(ua)) return true;
+                
+                // Test de la largeur d'écran (tablettes incluses)
+                if (window.innerWidth && window.innerWidth <= 1024) return true;
+                
+                // Test du support tactile
+                if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                    // Si tactile + petite résolution = mobile/tablette
+                    if (window.innerWidth <= 1024) return true;
+                }
+                
+                return false;
+            }
+
+            function redirect() {
+                try {
+                    const isMobile = isMobileOrTablet();
+                    const target = isMobile ? 
+                        '/Clara_Neulinger/01_SITE_PRODUCTION/mobile/' : 
+                        '/Clara_Neulinger/01_SITE_PRODUCTION/desktop/';
+                    
+                    console.log(`Redirection vers ${isMobile ? 'mobile' : 'desktop'}: ${target}`);
+                    
+                    // Use replace to avoid polluting history
+                    window.location.replace(target);
+                } catch (e) {
+                    console.error('Erreur de redirection:', e);
+                    // Fallback vers desktop en cas d'erreur
+                    window.location.replace('/Clara_Neulinger/01_SITE_PRODUCTION/desktop/');
+                }
+            }
+
+            // Expose for debugging
+            window.__isMobileRedirect = isMobileOrTablet;
+            window.__doRedirect = redirect;
+
+            // Attendre un court délai pour l'animation puis rediriger
+            setTimeout(redirect, 1200);
+
+        })();
+    </script>
+</body>
+</html>

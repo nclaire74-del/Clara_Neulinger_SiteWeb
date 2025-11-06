@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Neulinger - Portfolio</title>
+    <link rel="stylesheet" href="css/style.css?v=1699203600">
+</head>
+<body>
+    <!-- Écran de chargement avec fond noir -->
+    <div id="loading-screen">
+        <div class="loading-title">Clara Neulinger</div>
+        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="spinner"></div>
+        <div class="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <div id="loading-percentage">0%</div>
+        <div id="loading-message">Compilation du shader...</div>
+    </div>
+
+    <!-- Vidéo en arrière-plan -->
+    <video id="background-video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplaybook nocontrols">
+        <source src="/Clara_Neulinger/05_PROJETS_3D/projets_portfolio/Cirucs/Neulinger_Clara_3B3D_Circus_Render_Video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+
+    <!-- Effet de vignettage noir -->
+    <div id="video-vignette-overlay"></div>
+
+    <!-- Interface utilisateur principale (style jeu vidéo) -->
+    <div id="main-interface">
+        <!-- Menu principal (style console) -->
+        <div id="main-menu" class="game-interface">
+            <div class="menu-container">
+                <div class="menu-title">
+                    <h1>Clara Neulinger</h1>
+                    <h2>3D Artist Portfolio</h2>
+                </div>
+                
+                <!-- Options de navigation principale -->
+                <div id="main-navigation" class="navigation-buttons">
+                    <button id="btn-portfolio" class="game-button primary" data-sound="select">
+                        <span class="button-icon">🎮</span>
+                        <span class="button-text">Portfolio</span>
+                        <div class="button-glow"></div>
+                    </button>
+                    <button id="btn-contact" class="game-button" data-sound="select">
+                        <span class="button-icon">📧</span>
+                        <span class="button-text">Contact</span>
+                        <div class="button-glow"></div>
+                    </button>
+                    <button id="btn-options" class="game-button" data-sound="select">
+                        <span class="button-icon">⚙️</span>
+                        <span class="button-text">Options</span>
+                        <div class="button-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Portfolio -->
+        <div id="portfolio-page" class="page-content hidden">
+            <div class="page-header">
+                <h2>Portfolio - Mes Projets 3D</h2>
+                <button id="back-to-menu" class="game-button secondary">
+                    <span class="button-icon">🏠</span>
+                    <span class="button-text">Retour</span>
+                </button>
+            </div>
+            
+            <!-- Grille des projets -->
+            <div id="projects-grid" class="projects-container">
+                <!-- Les projets seront générés ici par JavaScript -->
+            </div>
+        </div>
+
+        <!-- Page Contact -->
+        <div id="contact-page" class="page-content hidden">
+            <div class="page-header">
+                <h2>Contact</h2>
+                <button id="back-to-menu-contact" class="game-button secondary">
+                    <span class="button-icon">🏠</span>
+                    <span class="button-text">Retour</span>
+                </button>
+            </div>
+            
+            <!-- Interface de CV interactif -->
+            <div id="cv-interface" class="cv-container">
+                <!-- CV généré en JavaScript -->
+            </div>
+        </div>
+
+        <!-- Page Options -->
+        <div id="options-page" class="page-content hidden">
+            <div class="page-header">
+                <h2>Options</h2>
+                <button id="back-to-menu-options" class="game-button secondary">
+                    <span class="button-icon">🏠</span>
+                    <span class="button-text">Retour</span>
+                </button>
+            </div>
+            
+            <!-- Options d'interface -->
+            <div id="options-content" class="options-container">
+                <!-- Options générées en JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour détails des projets -->
+    <div id="project-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <!-- Contenu généré dynamiquement par JavaScript -->
+        </div>
+    </div>
+
+    <!-- Système audio pour feedback utilisateur -->
+    <div id="audio-system" class="hidden">
+        <!-- Sons générés en JavaScript -->
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script src="js/config.js?v=1699203600"></script>
+    <script src="js/loading-manager.js?v=1699203600"></script>
+    <script src="js/navigation-manager.js?v=1699203600"></script>
+    <script src="js/portfolio-manager.js?v=1699203600"></script>
+    <script src="js/contact-manager.js?v=1699203600"></script>
+    <script src="js/options-manager.js?v=1699203600"></script>
+    <script src="js/video-manager.js?v=1699203600"></script>
+    <script src="js/script.js?v=1699203600"></script>
+</body>
+</html>

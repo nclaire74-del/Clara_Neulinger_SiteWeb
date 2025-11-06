@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Détection Mobile/Desktop</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #fff; }
+        .result { background: #333; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .mobile { background: #2d5016; }
+        .desktop { background: #162050; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test de Détection Mobile/Desktop</h1>
+    
+    <div class="result" id="detection-result">
+        <h2>Résultat de la détection :</h2>
+        <p id="device-type"></p>
+        <p id="user-agent"></p>
+        <p id="screen-info"></p>
+    </div>
+
+    <div class="result">
+        <h3>Tests manuels :</h3>
+        <button onclick="testMobileDetection()">🔄 Re-tester la détection</button>
+        <button onclick="window.location.href='/Clara_Neulinger/01_SITE_PRODUCTION/mobile/'">📱 Aller en Mobile</button>
+        <button onclick="window.location.href='/Clara_Neulinger/01_SITE_PRODUCTION/desktop/'">🖥️ Aller en Desktop</button>
+    </div>
+
+    <div class="result">
+        <h3>Informations techniques :</h3>
+        <p><strong>Largeur écran :</strong> <span id="screen-width"></span>px</p>
+        <p><strong>Hauteur écran :</strong> <span id="screen-height"></span>px</p>
+        <p><strong>User Agent :</strong> <span id="full-ua"></span></p>
+    </div>
+
+    <script src="/Clara_Neulinger/redirect.js"></script>
+    <script>
+        function isMobile() {
+            // Même fonction que dans redirect.js
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var mobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            if (mobileUA.test(ua)) return true;
+            if (window.innerWidth && window.innerWidth <= 800) return true;
+            return false;
+        }
+
+        function testMobileDetection() {
+            const deviceType = isMobile() ? 'MOBILE/TABLETTE' : 'DESKTOP/PC';
+            const resultDiv = document.getElementById('detection-result');
+            
+            document.getElementById('device-type').innerHTML = 
+                `<strong style="font-size: 1.2em;">${deviceType}</strong>`;
+            
+            document.getElementById('user-agent').innerHTML = 
+                `<strong>Détection User-Agent :</strong> ${/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile détecté' : 'Desktop détecté'}`;
+                
+            document.getElementById('screen-info').innerHTML = 
+                `<strong>Détection écran :</strong> ${window.innerWidth}px ${window.innerWidth <= 800 ? '(≤ 800px = Mobile)' : '(> 800px = Desktop)'}`;
+            
+            // Colorier le résultat
+            resultDiv.className = isMobile() ? 'result mobile' : 'result desktop';
+            
+            // Informations détaillées
+            document.getElementById('screen-width').textContent = window.innerWidth;
+            document.getElementById('screen-height').textContent = window.innerHeight;
+            document.getElementById('full-ua').textContent = navigator.userAgent;
+        }
+
+        // Test automatique au chargement
+        window.addEventListener('load', testMobileDetection);
+        window.addEventListener('resize', testMobileDetection);
+    </script>
+</body>
+</html>
