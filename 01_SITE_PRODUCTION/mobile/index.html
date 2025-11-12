@@ -3030,6 +3030,11 @@
 
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
+            
+            // Appliquer les traductions au modal nouvellement créé
+            if (window.translationManager) {
+                window.translationManager.updatePage();
+            }
 
             // Fonctions de navigation
             function updateCV() {
