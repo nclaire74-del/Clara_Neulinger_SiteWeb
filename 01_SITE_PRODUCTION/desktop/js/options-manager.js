@@ -46,12 +46,14 @@ function closeOptionsPanel() {
 // Fonction pour changer la langue
 function setLanguage(lang) {
     currentLanguage = lang;
-    updateLanguageButtons();
     
-    // Utiliser le système de traduction
+    // Utiliser le système de traduction D'ABORD
     if (window.translationManager) {
         window.translationManager.setLanguage(lang);
     }
+    
+    // Mettre à jour les boutons APRÈS (pour récupérer la vraie langue)
+    updateLanguageButtons();
     
     // Sauvegarder la langue
     localStorage.setItem('portfolio_language', lang);
@@ -65,8 +67,11 @@ function updateLanguageButtons() {
     const enBtn = document.getElementById('lang-en');
     
     if (frBtn && enBtn) {
-        frBtn.classList.toggle('active', currentLanguage === 'fr');
-        enBtn.classList.toggle('active', currentLanguage === 'en');
+        // Récupérer la langue DEPUIS le translationManager (source de vérité)
+        const actualLanguage = window.translationManager ? window.translationManager.currentLanguage : 'fr';
+        
+        frBtn.classList.toggle('active', actualLanguage === 'fr');
+        enBtn.classList.toggle('active', actualLanguage === 'en');
     }
 }
 
@@ -96,8 +101,21 @@ document.addEventListener('DOMContentLoaded', function() {
         currentVolume = parseInt(savedVolume);
     }
     
+    // Détection automatique de la langue du navigateur si aucune langue sauvegardée
     if (savedLanguage) {
         currentLanguage = savedLanguage;
+    } else {
+        // Détecter la langue du navigateur
+        const browserLang = navigator.language || navigator.userLanguage;
+        // Vérifier si c'est une langue française (fr, fr-FR, fr-CA, etc.)
+        if (browserLang.toLowerCase().startsWith('fr')) {
+            currentLanguage = 'fr';
+            console.log(`🇫🇷 Langue du navigateur détectée : ${browserLang} → Français`);
+        } else {
+            // Par défaut : ANGLAIS pour toutes les autres langues
+            currentLanguage = 'en';
+            console.log(`🌍 Langue du navigateur détectée : ${browserLang} → Anglais (défaut international)`);
+        }
     }
     
     // Initialiser le système de traduction
@@ -115,6 +133,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (optionsBtn) {
         optionsBtn.addEventListener('click', function() {
             openOptionsPanel();
+        });
+    }
+    
+    // Gestionnaires pour les boutons de langue
+    const langFrBtn = document.getElementById('lang-fr');
+    const langEnBtn = document.getElementById('lang-en');
+    
+    if (langFrBtn) {
+        langFrBtn.addEventListener('click', function() {
+            setLanguage('fr');
+        });
+    }
+    
+    if (langEnBtn) {
+        langEnBtn.addEventListener('click', function() {
+            setLanguage('en');
         });
     }
     
