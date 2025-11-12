@@ -1,0 +1,14 @@
+# robots.txt - Clara Neulinger Portfolio
+# Contrôle l'indexation des moteurs de recherche
+
+User-agent: *
+Allow: /
+
+# Bloquer les fichiers sensibles
+Disallow: /99_ARCHIVE_INUTILISE/
+Disallow: /08_SCRIPTS_MIGRATION/
+Disallow: /docs/
+Disallow: /References_Papiers/
+
+# Sitemap
+Sitemap: https://claraneulinger.com/sitemap.xml
