@@ -3,23 +3,38 @@
 // ============================================
 
 /**
- * Télécharge le CV au format SVG
+ * Télécharge le CV au format PDF
  * Fonction globale disponible pour Mobile
  */
-function downloadCV() {
+function downloadCV(cvIndex = null) {
     console.log('📄 Téléchargement du CV (Mobile)...');
     
-    // Déterminer la langue actuelle
-    const currentLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+    // Si cvIndex est fourni (depuis le viewer), utiliser cet index
+    // Sinon, déterminer selon la langue actuelle
+    let currentLanguage;
+    let cvPath;
+    let cvFilename;
     
-    // Sélectionner le bon CV selon la langue
-    const cvPath = currentLanguage === 'fr' 
-        ? '../../05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'
-        : '../../05_PROJETS_3D/Images_Portfolio/Cv/2.svg';
-    
-    const cvFilename = currentLanguage === 'fr'
-        ? 'CV_Clara_Neulinger_FR.svg'
-        : 'CV_Clara_Neulinger_EN.svg';
+    if (cvIndex !== null) {
+        // Depuis le CV viewer (0 = EN, 1 = FR)
+        if (cvIndex === 0) {
+            cvPath = '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf';
+            cvFilename = 'CV_Clara_Neulinger_EN.pdf';
+        } else {
+            cvPath = '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf';
+            cvFilename = 'CV_Clara_Neulinger_FR.pdf';
+        }
+    } else {
+        // Depuis le lien de contact
+        currentLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+        cvPath = currentLanguage === 'fr' 
+            ? '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf'
+            : '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf';
+        
+        cvFilename = currentLanguage === 'fr'
+            ? 'CV_Clara_Neulinger_FR.pdf'
+            : 'CV_Clara_Neulinger_EN.pdf';
+    }
     
     // Créer un élément <a> temporaire pour le téléchargement
     fetch(cvPath)

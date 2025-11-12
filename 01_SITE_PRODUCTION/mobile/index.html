@@ -1572,9 +1572,6 @@
             <div style="margin-bottom: 30px;">
                 <p><strong data-translate="email">Email:</strong> claraneulinger1@gmail.com</p>
                 <p><strong data-translate="phone">Téléphone:</strong> 07 81 35 75 30</p>
-                <p style="margin-top: 15px; cursor: pointer; color: #f5f1e8; text-decoration: underline;" onclick="downloadCV()">
-                    <strong>📥 <span data-translate="download_cv">Télécharger mon CV</span></strong>
-                </p>
             </div>
             
             <!-- Logos sociaux -->
@@ -3016,6 +3013,14 @@
                             <!-- Flèche droite -->
                             <button id="cv-next" style="background: rgba(245, 241, 232, 0.2); border: 2px solid #f5f1e8; color: #f5f1e8; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">›</button>
                         </div>
+                        
+                        <!-- Bouton télécharger CV -->
+                        <button id="download-cv-btn" onclick="downloadCV(window.currentCVIndex || 0)" style="background: rgba(245, 241, 232, 0.9); border: 2px solid #f5f1e8; color: #1a1a2e; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: 'Kindergarten', cursive; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="stroke: currentColor;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span data-translate="download_cv">Télécharger ce CV</span>
+                        </button>
                     </div>
                     
                     <!-- Instructions -->
@@ -3031,10 +3036,18 @@
                 const cvImage = document.getElementById('cv-image');
                 cvImage.src = cvPaths[currentCVIndex];
                 
+                // Sauvegarder l'index actuel globalement pour le téléchargement
+                window.currentCVIndex = currentCVIndex;
+                
                 // Mettre à jour les indicateurs
                 document.querySelectorAll('[id^="cv-indicator-"]').forEach((indicator, index) => {
                     indicator.style.background = index === currentCVIndex ? '#f5f1e8' : 'rgba(245, 241, 232, 0.3)';
                 });
+                
+                // Mettre à jour la traduction du bouton download si nécessaire
+                if (window.translationManager) {
+                    window.translationManager.updatePage();
+                }
             }
 
             function nextCV() {

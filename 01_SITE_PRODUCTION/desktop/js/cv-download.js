@@ -3,7 +3,7 @@
 // ============================================
 
 /**
- * Télécharge le CV au format SVG
+ * Télécharge le CV au format PDF
  * Fonction globale disponible pour Desktop et Mobile
  */
 function downloadCV() {
@@ -14,12 +14,12 @@ function downloadCV() {
     
     // Sélectionner le bon CV selon la langue
     const cvPath = currentLanguage === 'fr' 
-        ? '../../05_PROJETS_3D/Images_Portfolio/Cv/Cv_fr.svg'
-        : '../../05_PROJETS_3D/Images_Portfolio/Cv/2.svg';
+        ? '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf'
+        : '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf';
     
     const cvFilename = currentLanguage === 'fr'
-        ? 'CV_Clara_Neulinger_FR.svg'
-        : 'CV_Clara_Neulinger_EN.svg';
+        ? 'CV_Clara_Neulinger_FR.pdf'
+        : 'CV_Clara_Neulinger_EN.pdf';
     
     // Créer un élément <a> temporaire pour le téléchargement
     fetch(cvPath)

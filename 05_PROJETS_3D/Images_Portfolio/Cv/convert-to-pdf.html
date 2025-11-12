@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Convert CV to PDF</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .cv-section {
+            margin-bottom: 50px;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .cv-section h2 {
+            margin-top: 0;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .instructions {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        @media print {
+            .instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Conversion CV en PDF</h1>
+        
+        <div class="instructions">
+            <h3>Instructions pour convertir en PDF :</h3>
+            <ol>
+                <li>Ouvrez cette page dans votre navigateur</li>
+                <li>Appuyez sur <strong>Ctrl+P</strong> (Windows) ou <strong>Cmd+P</strong> (Mac)</li>
+                <li>Sélectionnez "Enregistrer au format PDF" comme imprimante</li>
+                <li>Enregistrez le fichier avec le nom approprié :
+                    <ul>
+                        <li><strong>CV_Clara_Neulinger_FR.pdf</strong> pour la version française</li>
+                        <li><strong>CV_Clara_Neulinger_EN.pdf</strong> pour la version anglaise</li>
+                    </ul>
+                </li>
+                <li>Répétez pour les deux CV (scrollez vers le bas)</li>
+            </ol>
+        </div>
+
+        <div class="cv-section">
+            <h2>CV Français</h2>
+            <img src="Cv_fr.svg" alt="CV Clara Neulinger - Français">
+        </div>
+
+        <div style="page-break-before: always;"></div>
+
+        <div class="cv-section">
+            <h2>CV English</h2>
+            <img src="2.svg" alt="CV Clara Neulinger - English">
+        </div>
+    </div>
+</body>
+</html>
