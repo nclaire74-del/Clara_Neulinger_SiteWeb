@@ -44,18 +44,20 @@ function showTryAgainScreen() {
     const tryAgainOverlay = document.createElement('div');
     tryAgainOverlay.className = 'try-again-overlay';
     tryAgainOverlay.innerHTML = `
-        <div class="try-again-content">
-            <h1 class="try-again-title">Try Again</h1>
-            <div class="try-again-buttons">
-                <button class="game-button try-again-btn" onclick="restartExperience()">
-                    <span class="button-text">Restart</span>
-                </button>
-                <button class="game-button back-btn" onclick="goBackToMenu()">
-                    <span class="button-text">Back to Menu</span>
-                </button>
+        <div class="try-again-content" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 80vh; padding: 20px;">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 class="try-again-title">Try Again</h1>
+                <div class="try-again-buttons">
+                    <button class="game-button try-again-btn" onclick="restartExperience()">
+                        <span class="button-text">Restart</span>
+                    </button>
+                    <button class="game-button back-btn" onclick="goBackToMenu()">
+                        <span class="button-text">Back to Menu</span>
+                    </button>
+                </div>
             </div>
             
-            <div class="legal-notice-section" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; text-align: left; font-size: 0.65rem; line-height: 1.3; color: rgba(255,255,255,0.5); max-height: 180px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+            <div class="legal-notice-section" style="margin-top: auto; width: 90%; max-width: 500px; text-align: left; font-size: 0.65rem; line-height: 1.3; color: rgba(255,255,255,0.5); max-height: 180px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
                 <h3 data-translate="legal_notice" style="font-size: 0.8rem; margin: 0 0 6px 0; color: rgba(255,255,255,0.7);">Mentions Légales</h3>
                 <p style="margin: 0 0 4px 0;"><strong data-translate="legal_editor" style="color: rgba(255,255,255,0.65);">Éditeur :</strong> <span data-translate="legal_editor_info">Clara Neulinger</span></p>
                 <p style="margin: 0 0 4px 0;"><strong data-translate="legal_hosting" style="color: rgba(255,255,255,0.65);">Hébergement :</strong> <span data-translate="legal_hosting_info">Ionos - claraneulinger.com</span></p>
