@@ -101,6 +101,21 @@ class TranslationManager {
                 'topology': 'Topology',
                 'normal': 'Normal',
                 
+                // Mentions légales
+                'legal_notice': 'Mentions Légales',
+                'legal_editor': 'Éditeur',
+                'legal_editor_info': 'Clara Neulinger',
+                'legal_hosting': 'Hébergement',
+                'legal_hosting_info': 'Ionos - claraneulinger.com',
+                'legal_intellectual_property': 'Propriété intellectuelle',
+                'legal_content_rights': 'Tout le contenu (projets 3D, modèles, textures, images) est la propriété de Clara Neulinger. Reproduction interdite sans autorisation.',
+                'legal_personal_data': 'Données personnelles',
+                'legal_no_data_collection': 'Aucune donnée collectée. Préférences stockées localement (localStorage).',
+                'legal_cookies': 'Cookies',
+                'legal_no_cookies': 'Aucun cookie utilisé.',
+                'legal_contact_section': 'Contact',
+                'legal_contact_info': 'Contactez-moi via les réseaux sociaux (page Contact).',
+                
                 // Histoire Kitchen (français)
                 'kitchen_story': `Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine, lugubre et remplie de saletés ne donnant aucune envie d'y passer la porte.
 
@@ -224,17 +239,18 @@ La cuisson est alors prête.`
                 
                 // Legal notice
                 'legal_notice': 'Legal Notice',
-                'legal_site_owner': 'Site Owner',
+                'legal_editor': 'Editor',
+                'legal_editor_info': 'Clara Neulinger',
                 'legal_hosting': 'Hosting',
-                'legal_hosting_info': 'This site is hosted locally (WAMP64) for demonstration purposes.',
+                'legal_hosting_info': 'Ionos - claraneulinger.com',
                 'legal_intellectual_property': 'Intellectual Property',
-                'legal_content_rights': 'All content on this site (3D images, projects, texts) is the property of Clara Neulinger. Any reproduction, even partial, is prohibited without prior authorization.',
+                'legal_content_rights': 'All content (3D projects, models, textures, images) is the property of Clara Neulinger. Reproduction prohibited without authorization.',
                 'legal_personal_data': 'Personal Data',
-                'legal_no_data_collection': 'This site does not collect any personal data. Language and volume preferences are stored only in your browser (localStorage) and are never transmitted.',
+                'legal_no_data_collection': 'No data collected. Preferences stored locally (localStorage).',
                 'legal_cookies': 'Cookies',
-                'legal_no_cookies': 'This site does not use cookies.',
+                'legal_no_cookies': 'No cookies used.',
                 'legal_contact_section': 'Contact',
-                'legal_contact_info': 'For any questions about this site, you can contact me via the social networks on the Contact page.',
+                'legal_contact_info': 'Contact me via social networks (Contact page).',
                 
                 // Kitchen story (English)
                 'kitchen_story': `Deep in a dark alley, hidden between concrete walls, lies a small clandestine kitchen, gloomy and filled with filth that gives no desire to pass through the door.
