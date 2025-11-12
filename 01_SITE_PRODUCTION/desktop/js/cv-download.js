@@ -3,46 +3,52 @@
 // ============================================
 
 /**
- * Télécharge le CV au format PDF
- * Fonction globale disponible pour Desktop et Mobile
+ * Télécharge les 2 CVs au format PDF (FR et EN)
+ * Fonction globale disponible pour Desktop
  */
 function downloadCV() {
-    console.log('📄 Téléchargement du CV...');
+    console.log('📄 Téléchargement des CVs...');
     
-    // Déterminer la langue actuelle
-    const currentLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+    // Les deux CVs à télécharger
+    const cvs = [
+        {
+            path: '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf',
+            filename: 'CV_Clara_Neulinger_FR.pdf'
+        },
+        {
+            path: '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf',
+            filename: 'CV_Clara_Neulinger_EN.pdf'
+        }
+    ];
     
-    // Sélectionner le bon CV selon la langue
-    const cvPath = currentLanguage === 'fr' 
-        ? '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf'
-        : '../../05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf';
-    
-    const cvFilename = currentLanguage === 'fr'
-        ? 'CV_Clara_Neulinger_FR.pdf'
-        : 'CV_Clara_Neulinger_EN.pdf';
-    
-    // Créer un élément <a> temporaire pour le téléchargement
-    fetch(cvPath)
-        .then(response => response.blob())
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = cvFilename;
-            document.body.appendChild(a);
-            a.click();
-            
-            // Nettoyer
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            
-            console.log('✅ CV téléchargé:', cvFilename);
-        })
-        .catch(error => {
-            console.error('❌ Erreur téléchargement CV:', error);
-            alert('Erreur lors du téléchargement du CV. Veuillez réessayer.');
-        });
+    // Télécharger les deux CVs séquentiellement
+    cvs.forEach((cv, index) => {
+        setTimeout(() => {
+            fetch(cv.path)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = cv.filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Nettoyer
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    }, 100);
+                    
+                    console.log('✅ CV téléchargé:', cv.filename);
+                })
+                .catch(error => {
+                    console.error('❌ Erreur téléchargement CV:', error);
+                    alert('Erreur lors du téléchargement du CV. Veuillez réessayer.');
+                });
+        }, index * 300); // Délai de 300ms entre chaque téléchargement
+    });
 }
 
 // Exposer la fonction globalement
