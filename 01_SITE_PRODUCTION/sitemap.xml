@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    <!-- Page d'accueil principale -->
+    <url>
+        <loc>https://claraneulinger.com/</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Version Desktop -->
+    <url>
+        <loc>https://claraneulinger.com/desktop/</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Version Mobile -->
+    <url>
+        <loc>https://claraneulinger.com/mobile/</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Projets Portfolio - Desktop -->
+    <url>
+        <loc>https://claraneulinger.com/desktop/#portfolio</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Collectibles - Desktop -->
+    <url>
+        <loc>https://claraneulinger.com/desktop/#collectibles</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Contact - Desktop -->
+    <url>
+        <loc>https://claraneulinger.com/desktop/#contact</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- CV PDF Français -->
+    <url>
+        <loc>https://claraneulinger.com/05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_FR.pdf</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- CV PDF Anglais -->
+    <url>
+        <loc>https://claraneulinger.com/05_PROJETS_3D/Images_Portfolio/Cv/CV_Clara_Neulinger_EN.pdf</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+</urlset>

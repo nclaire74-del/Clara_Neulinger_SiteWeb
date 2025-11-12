@@ -1,0 +1,23 @@
+# Robots.txt pour Clara Neulinger Portfolio
+# https://claraneulinger.com
+
+# Permettre à tous les robots d'explorer le site
+User-agent: *
+Allow: /
+
+# Fichiers et dossiers à ne pas indexer
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /font/
+
+# Autoriser les images pour Google Images
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /05_PROJETS_3D/
+
+# Sitemap
+Sitemap: https://claraneulinger.com/sitemap.xml
+
+# Temps d'attente entre les requêtes (en secondes)
+Crawl-delay: 1
