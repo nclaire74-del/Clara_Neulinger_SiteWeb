@@ -116,6 +116,9 @@ class TranslationManager {
                 'legal_contact_section': 'Contact',
                 'legal_contact_info': 'Contactez-moi via les réseaux sociaux (page Contact).',
                 
+                // CV Download
+                'download_cv': 'Télécharger mon CV',
+                
                 // Histoire Kitchen (français)
                 'kitchen_story': `Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine, lugubre et remplie de saletés ne donnant aucune envie d'y passer la porte.
 
@@ -251,6 +254,9 @@ La cuisson est alors prête.`
                 'legal_no_cookies': 'No cookies used.',
                 'legal_contact_section': 'Contact',
                 'legal_contact_info': 'Contact me via social networks (Contact page).',
+                
+                // CV Download
+                'download_cv': 'Download my CV',
                 
                 // Kitchen story (English)
                 'kitchen_story': `Deep in a dark alley, hidden between concrete walls, lies a small clandestine kitchen, gloomy and filled with filth that gives no desire to pass through the door.

@@ -10,13 +10,13 @@
     <!-- Écran de chargement avec fond noir -->
     <div id="loading-screen">
         <div class="loading-title">Clara Neulinger</div>
-        <div class="loading-subtitle">Loading... Please Wait</div>
+        <div class="loading-subtitle" data-translate="loading_subtitle">Loading... Please Wait</div>
         <div class="spinner"></div>
         <div class="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
         <div id="loading-percentage">0%</div>
-        <div id="loading-message">Compilation du shader...</div>
+        <div id="loading-message" data-translate="shader_compilation">Compilation du shader...</div>
     </div>
 
     <!-- Vidéo en arrière-plan -->
@@ -45,18 +45,18 @@
                 </button>
                 
                 <button class="game-button" id="contact">
-                    <span class="button-text">Contact</span>
-                    <span class="button-subtitle">Informations & Réseaux</span>
+                    <span class="button-text" data-translate="contact">Contact</span>
+                    <span class="button-subtitle" data-translate="informations_networks">Informations & Réseaux</span>
                 </button>
                 
                 <button class="game-button" id="options">
                     <span class="button-text" data-translate="options">Options</span>
-                    <span class="button-subtitle">Son & Langue</span>
+                    <span class="button-subtitle" data-translate="sound_language">Son & Langue</span>
                 </button>
                 
                 <button class="game-button" id="exit">
                     <span class="button-text">Exit</span>
-                    <span class="button-subtitle">Quitter</span>
+                    <span class="button-subtitle" data-translate="quit">Quitter</span>
                 </button>
             </div>
         </div>
@@ -144,7 +144,7 @@
             
             <!-- Phrase explicative pour les logos -->
             <div class="social-logos-instruction">
-                <p>Cliquez sur les logos pour visiter mes profils</p>
+                <p data-translate="click_logos_visit_profiles">Cliquez sur les logos pour visiter mes profils</p>
             </div>
 
             <!-- Encadrement Contact qui apparaît au clic sur le logo contact -->
@@ -162,13 +162,19 @@
                         </svg>
                         <span class="contact-text">claraneulinger1@gmail.com</span>
                     </div>
+                    <div class="contact-item download-cv-item" style="margin-top: 15px; cursor: pointer;" onclick="downloadCV()">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="contact-text download-cv-text" data-translate="download_cv">Télécharger mon CV</span>
+                    </div>
                 </div>
                 <button class="contact-close-btn">&times;</button>
             </div>
 
             <!-- Instructions -->
             <div class="papers-instructions">
-                <p>Chaque feuille est manipulable : Cliquez + glissez pour tourner • Double-clic pour retourner • Molette pour zoomer</p>
+                <p data-translate="paper_manipulation_instructions">Chaque feuille est manipulable : Cliquez + glissez pour tourner • Double-clic pour retourner • Molette pour zoomer</p>
             </div>
             
             <!-- Contrôle de la loupe -->
@@ -186,20 +192,20 @@
                     </svg>
                 </button>
                 <div class="magnifier-explanation">
-                    <p>Cliquez pour activer la loupe et zoomer sur les détails des papiers</p>
+                    <p data-translate="magnifier_instructions">Cliquez pour activer la loupe et zoomer sur les détails des papiers</p>
                 </div>
             </div>
             
             <!-- Bouton reset des papiers -->
             <button id="reset-papers" class="game-button reset-papers-btn">
-                <span class="button-text">Reset Papers</span>
-                <span class="button-subtitle">Remettre à zéro</span>
+                <span class="button-text" data-translate="reset_papers">Remettre à zéro</span>
+                <span class="button-subtitle" data-translate="reset_papers">Remettre à zéro</span>
             </button>
             
             <!-- Bouton retour accueil -->
             <button id="back-to-home" class="game-button back-to-home-btn">
-                <span class="button-text">Retour Accueil</span>
-                <span class="button-subtitle">Page principale</span>
+                <span class="button-text" data-translate="return_home">Retour Accueil</span>
+                <span class="button-subtitle" data-translate="main_page">Page principale</span>
             </button>
         </div>
     </div>
@@ -209,7 +215,7 @@
         <!-- En-tête style jeu vidéo -->
         <div class="collectibles-header">
             <button class="project-nav-btn" id="prev-project">
-                <span>◀ Précédent</span>
+                <span data-translate="previous">◀ Précédent</span>
             </button>
             <div class="collectibles-title">
                 <h2>COLLECTIBLES</h2>
@@ -220,7 +226,7 @@
                 </div>
             </div>
             <button class="project-nav-btn" id="next-project">
-                <span>Suivant ▶</span>
+                <span data-translate="next">Suivant ▶</span>
             </button>
         </div>
 
@@ -255,8 +261,8 @@
         <!-- Navigation entre projets - repositionnée -->
         <!-- Bouton retour -->
         <button id="back-to-home-portfolio" class="game-button back-to-home-btn">
-            <span class="button-text">Retour Accueil</span>
-            <span class="button-subtitle">Page principale</span>
+            <span class="button-text" data-translate="return_home">Retour Accueil</span>
+            <span class="button-subtitle" data-translate="main_page">Page principale</span>
         </button>
     </div>
 
@@ -268,7 +274,7 @@
             <div class="options-inner">
                 <div class="options-header">
                     <h2 class="options-title" data-translate="options">Options</h2>
-                    <button class="options-close" onclick="closeOptionsPanel()" data-translate="close">&times;</button>
+                    <button class="options-close" onclick="closeOptionsPanel()" aria-label="Close">&times;</button>
                 </div>
                 
                 <div class="options-section">
@@ -293,6 +299,7 @@
 
     <!-- Scripts -->
     <script src="js/translations.js"></script>
+    <script src="js/cv-download.js"></script>
     <script src="js/config.js"></script>
     <script src="js/loading-manager.js"></script>
     <script src="js/video-manager.js"></script>
