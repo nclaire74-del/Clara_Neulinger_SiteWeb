@@ -19,6 +19,12 @@ class TranslationManager {
                 'previous': '◀ Précédent',
                 'next': 'Suivant ▶',
                 'software': 'Logiciels :',
+                'reset_papers': 'Remettre à zéro',
+                
+                // Instructions Contact (ajout)
+                'click_logos_visit_profiles': 'Cliquez sur les logos pour visiter mes profils',
+                'paper_manipulation_instructions': 'Chaque feuille est manipulable : Touchez + glissez pour tourner • Double-tap pour retourner • Pincez pour zoomer',
+                'magnifier_instructions': 'Touchez pour activer la loupe et zoomer sur les détails des papiers',
                 
                 // Contact
                 'email': 'Email :',
@@ -37,6 +43,8 @@ class TranslationManager {
                 'image': 'l\'image',
                 'click_enlarge': 'Touchez une image pour l\'agrandir',
                 'use_arrows_navigate': 'Utilisez les flèches pour naviguer',
+                'swipe_or_arrows_navigate': 'Utilisez les flèches ou glissez pour naviguer',
+                'swipe_or_arrows_navigate_cv': 'Utilisez les flèches ou glissez pour naviguer entre les CV',
                 'loading_preview': 'Preview en cours...',
                 
                 // Projets
@@ -56,47 +64,7 @@ class TranslationManager {
                 'gun_desc': 'Pistolet à plasma selon la référence conceptuelle de Robert Simons | Concept Art World.',
                 'kitchen_desc': 'PITCH : In a supernatural and post-apocalypse world, we find a simple carrot, orange and alive. Crawling on the kitchen plan she tries to survive by fleeing the killings of her family. (WIP - Work In Progress)',
                 'room_desc': 'Creation d\'un environment stylé en 3D d\'après la référence de Thanh DO etc... (WIP - Work In Progress)',
-                                'telephone_desc': 'Modeling of a retro telephone with realistic materials.',
-                
-                // Project modal sections
-                'gallery_section': 'Gallery',
-                'viewer_3d_section': '3D Viewer',
-                'viewer_character_section': '3D Viewer - Character',
-                'loading_3d_viewer': 'Loading 3D viewer...',
-                'touch_instructions': 'Rotate with your finger • Pinch to zoom in/out',
-                'video_section': 'Video - Archway',
-                'video_not_supported': 'Your browser does not support video playback.',
-                'video_instructions': 'Tap to play/pause • Double-tap for fullscreen',
-                
-                // Specific visualizers
-                'visualizer_archway_title': 'Visualizer - Archway',
-                'visualizer_gun_title': 'Visualizer - Plasma Pistol',
-                'visualizer_room_title': 'Visualizer - Room',
-                'visualizer_telephone_title': 'Visualizer - Telephone Booth',
-                
-                // Visualizer buttons
-                'button_albedo': 'Albedo',
-                'button_ambient_occlusion': 'Ambient Occlusion',
-                'button_metallic': 'Metallic',
-                'button_roughness': 'Roughness',
-                'button_full_quality': 'Full Quality',
-                'button_topology': 'Topology',
-                'button_specular': 'Specular',
-                'button_normal': 'Normal',
-                'button_ao': 'AO',
-                
-                // Slider labels
-                'slider_final': 'Final',
-                'slider_base': 'Base',
-                'slider_topo': 'Topo',
-                'slider_metal': 'Metal',
-                'slider_rough': 'Rough',
-                'slider_spec': 'Spec',
-                
-                // Software section
-                'software_section': 'Software:',
-                
-                // Titles
+                'telephone_desc': 'Réalisation de la texture à partir d\'un modèle 3D de cabine téléphonique créé avec Maya.',
                 
                 // Sections des modals de projets
                 'gallery_section': 'Galerie',
@@ -169,6 +137,20 @@ class TranslationManager {
                 'quit': 'Quitter',
                 'volume': 'Volume',
                 
+                // Mentions légales
+                'legal_notice': 'Mentions Légales',
+                'legal_site_owner': 'Propriétaire du site',
+                'legal_hosting': 'Hébergement',
+                'legal_hosting_info': 'Ce site est hébergé localement (WAMP64) à des fins de démonstration.',
+                'legal_intellectual_property': 'Propriété intellectuelle',
+                'legal_content_rights': 'Tout le contenu de ce site (images 3D, projets, textes) est la propriété de Clara Neulinger. Toute reproduction, même partielle, est interdite sans autorisation préalable.',
+                'legal_personal_data': 'Données personnelles',
+                'legal_no_data_collection': 'Ce site ne collecte aucune donnée personnelle. Les préférences de langue et volume sont stockées uniquement dans votre navigateur (localStorage) et ne sont jamais transmises.',
+                'legal_cookies': 'Cookies',
+                'legal_no_cookies': 'Ce site n\'utilise pas de cookies.',
+                'legal_contact_section': 'Contact',
+                'legal_contact_info': 'Pour toute question concernant ce site, vous pouvez me contacter via les réseaux sociaux présents sur la page Contact.',
+                
                 // Histoire Kitchen (français)
                 'kitchen_story': `Au fin fond d'une ruelle sombre se trouve cachée entre des murs de béton une petite cuisine clandestine, lugubre et remplie de saletés ne donnant aucune envie d'y passer la porte.
 
@@ -208,6 +190,12 @@ La cuisson est alors prête.`
                 'previous': '◀ Previous',
                 'next': 'Next ▶',
                 'software': 'Software:',
+                'reset_papers': 'Reset to default',
+                
+                // Contact instructions (added)
+                'click_logos_visit_profiles': 'Click on logos to visit my profiles',
+                'paper_manipulation_instructions': 'Each sheet is movable: Touch + drag to rotate • Double-tap to flip • Pinch to zoom',
+                'magnifier_instructions': 'Touch to activate magnifier and zoom on paper details',
                 
                 // Contact
                 'email': 'Email:',
@@ -226,6 +214,8 @@ La cuisson est alors prête.`
                 'image': 'the image',
                 'click_enlarge': 'Touch an image to enlarge',
                 'use_arrows_navigate': 'Use arrows to navigate',
+                'swipe_or_arrows_navigate': 'Use arrows or swipe to navigate',
+                'swipe_or_arrows_navigate_cv': 'Use arrows or swipe to navigate between CVs',
                 'loading_preview': 'Preview loading...',
                 
                 // Projects
@@ -246,6 +236,44 @@ La cuisson est alors prête.`
                 'kitchen_desc': 'PITCH: In a supernatural and post-apocalypse world, we find a simple carrot, orange and alive. Crawling on the kitchen plan she tries to survive by fleeing the killings of her family. (WIP - Work In Progress)',
                 'room_desc': 'Creation of a stylized 3D environment based on reference by Thanh DO etc... (WIP - Work In Progress)',
                 'telephone_desc': 'Modeling of a retro telephone with realistic materials.',
+                
+                // Project modal sections
+                'gallery_section': 'Gallery',
+                'viewer_3d_section': '3D Viewer',
+                'viewer_character_section': '3D Viewer - Character',
+                'loading_3d_viewer': 'Loading 3D viewer...',
+                'touch_instructions': 'Rotate with your finger • Pinch to zoom in/out',
+                'video_section': 'Video - Archway',
+                'video_not_supported': 'Your browser does not support video playback.',
+                'video_instructions': 'Tap to play/pause • Double-tap for fullscreen',
+                
+                // Specific visualizers
+                'visualizer_archway_title': 'Visualizer - Archway',
+                'visualizer_gun_title': 'Visualizer - Plasma Pistol',
+                'visualizer_room_title': 'Visualizer - Room',
+                'visualizer_telephone_title': 'Visualizer - Telephone Booth',
+                
+                // Visualizer buttons
+                'button_albedo': 'Albedo',
+                'button_ambient_occlusion': 'Ambient Occlusion',
+                'button_metallic': 'Metallic',
+                'button_roughness': 'Roughness',
+                'button_full_quality': 'Full Quality',
+                'button_topology': 'Topology',
+                'button_specular': 'Specular',
+                'button_normal': 'Normal',
+                'button_ao': 'AO',
+                
+                // Slider labels
+                'slider_final': 'Final',
+                'slider_base': 'Base',
+                'slider_topo': 'Topo',
+                'slider_metal': 'Metal',
+                'slider_rough': 'Rough',
+                'slider_spec': 'Spec',
+                
+                // Software section
+                'software_section': 'Software:',
                 
                 // Titles
                 'circus_title': 'Project: Circus',
@@ -279,6 +307,20 @@ La cuisson est alors prête.`
                 'sound_language': 'Sound & Language',
                 'quit': 'Quit',
                 'volume': 'Volume',
+                
+                // Legal Notice
+                'legal_notice': 'Legal Notice',
+                'legal_site_owner': 'Site Owner',
+                'legal_hosting': 'Hosting',
+                'legal_hosting_info': 'This site is hosted locally on WAMP64 for demonstration purposes.',
+                'legal_intellectual_property': 'Intellectual Property',
+                'legal_content_rights': 'All content on this site, particularly 3D projects, models, textures, images and visual creations, are the property of Clara Neulinger. Any reproduction, distribution or use without prior written authorization is prohibited.',
+                'legal_personal_data': 'Personal Data',
+                'legal_no_data_collection': 'This site does not collect any personal data. Only technical preferences (language and volume) are stored locally in your browser (localStorage) and never transmitted.',
+                'legal_cookies': 'Cookies',
+                'legal_no_cookies': 'This site does not use cookies. No tracking or analytics.',
+                'legal_contact_section': 'Contact',
+                'legal_contact_info': 'For any questions regarding this site or the use of works, please contact me via the social networks available on the Contact page.',
                 
                 // Kitchen story (English)
                 'kitchen_story': `Deep in a dark alley, hidden between concrete walls, lies a small clandestine kitchen, gloomy and filled with filth that gives no desire to pass through the door.

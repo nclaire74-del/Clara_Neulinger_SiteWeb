@@ -7,29 +7,58 @@ class TranslationManager {
                 // Navigation et menus
                 'portfolio': 'Portfolio',
                 'collectibles': 'Collectibles',
+                'contact': 'Contact',
+                'informations_networks': 'Informations & Réseaux',
+                'sound_language': 'Son & Langue',
+                'quit': 'Quitter',
                 'return_to_menu': 'Retour au Menu',
                 'return_collectibles': 'Retour Collectibles',
+                'return_home': 'Retour Accueil',
+                'main_page': 'Page principale',
                 'portfolio_main': 'Portfolio principal',
                 'options': 'Options',
                 'language': 'Langue',
                 'close': 'Fermer',
+                'previous': '◀ Précédent',
+                'next': 'Suivant ▶',
+                'reset_papers': 'Remettre à zéro',
+                
+                // Instructions Contact
+                'click_logos_visit_profiles': 'Cliquez sur les logos pour visiter mes profils',
+                'paper_manipulation_instructions': 'Chaque feuille est manipulable : Cliquez + glissez pour tourner • Double-clic pour retourner • Molette pour zoomer',
+                'magnifier_instructions': 'Cliquez pour activer la loupe et zoomer sur les détails des papiers',
                 
                 // Interface portfolio
                 'double_click_explore': 'Double-cliquez pour explorer',
                 'touch_explore': 'Touchez pour explorer',
                 'double_click_access_viewer': 'Double-cliquez sur {media} pour accéder au viewer 3D interactif',
+                'double_click_video': 'Double-cliquez sur la vidéo pour accéder au viewer 3D interactif',
+                'double_click_image': 'Double-cliquez sur l\'image pour accéder au viewer 3D interactif',
                 'video': 'la vidéo',
                 'image': 'l\'image',
                 'click_enlarge': 'Cliquez sur une image pour l\'agrandir',
                 'use_arrows_navigate': 'Utilisez les flèches pour naviguer',
                 'loading_preview': 'Preview en cours...',
+                'gallery': 'Galerie',
+                'gallery_instructions': 'Cliquez sur une image pour l\'agrandir • Utilisez les flèches pour naviguer',
+                'images_preparing': 'Images en cours de préparation...',
                 
                 // Projets
                 'project_title': 'Projet',
-                'software': 'Logiciels',
+                'software': 'Logiciels :',
                 'gallery': 'Galerie',
                 'story_title': 'L\'Histoire du Projet',
                 'viewer_3d': 'Viewer 3D',
+                'viewer_3d_character': 'Viewer 3D - Personnage',
+                'viewer_3d_environment': 'Viewer 3D - Environnement',
+                'viewer_3d_title': 'Viewer 3D -',
+                'video_dash': 'Video -',
+                'loading_character_viewer': 'Chargement du viewer Marmoset personnage...',
+                'loading_environment_viewer': 'Chargement du viewer Marmoset environnement...',
+                'loading_marmoset_viewer': 'Chargement du viewer Marmoset...',
+                'loading_3d_viewer': 'Chargement du viewer 3D...',
+                'loading_preview': 'Preview en cours...',
+                'viewer_3d_marmoset': 'Viewer 3D Marmoset',
                 'video_title': 'Vidéo',
                 'character': 'Personnage',
                 'environment': 'Environnement',
@@ -54,6 +83,16 @@ class TranslationManager {
                 // Visualiseurs
                 'visualizer_archway': 'Visualiseur - Archway',
                 'visualizer_plasma': 'Visualiseur - Plasma Pistol',
+                'visualizer_telephone': 'Visualiseur - Telephone Booth',
+                'visualizer_room': 'Visualiseur - Room',
+                'back_to_collectibles': '← Retour Collectibles',
+                'back_collectibles_subtitle': 'Portfolio principal',
+                'loading_subtitle': 'Chargement... Veuillez patienter',
+                'shader_compilation': 'Compilation du shader...',
+                'creating_world': 'Création du monde...',
+                'building_universe': 'Construction de l\'univers...',
+                'preparing_experience': 'Préparation de l\'expérience...',
+                'ready_for_exploration': 'Prêt pour l\'exploration !',
                 'albedo': 'Albedo',
                 'ambient_occlusion': 'Ambient Occlusion',
                 'metallic': 'Metallic',
@@ -89,29 +128,58 @@ La cuisson est alors prête.`
                 // Navigation and menus
                 'portfolio': 'Portfolio',
                 'collectibles': 'Collectibles',
+                'contact': 'Contact',
+                'informations_networks': 'Informations & Networks',
+                'sound_language': 'Sound & Language',
+                'quit': 'Quit',
                 'return_to_menu': 'Return to Menu',
                 'return_collectibles': 'Return Collectibles',
+                'return_home': 'Return Home',
+                'main_page': 'Main page',
                 'portfolio_main': 'Main portfolio',
                 'options': 'Options',
                 'language': 'Language',
                 'close': 'Close',
+                'previous': '◀ Previous',
+                'next': 'Next ▶',
+                'reset_papers': 'Reset to default',
+                
+                // Contact instructions
+                'click_logos_visit_profiles': 'Click on logos to visit my profiles',
+                'paper_manipulation_instructions': 'Each sheet is movable: Click + drag to rotate • Double-click to flip • Scroll to zoom',
+                'magnifier_instructions': 'Click to activate magnifier and zoom on paper details',
                 
                 // Portfolio interface
                 'double_click_explore': 'Double-click to explore',
                 'touch_explore': 'Touch to explore',
                 'double_click_access_viewer': 'Double-click on {media} to access interactive 3D viewer',
+                'double_click_video': 'Double-click on the video to access interactive 3D viewer',
+                'double_click_image': 'Double-click on the image to access interactive 3D viewer',
                 'video': 'the video',
                 'image': 'the image',
                 'click_enlarge': 'Click on an image to enlarge',
                 'use_arrows_navigate': 'Use arrows to navigate',
                 'loading_preview': 'Preview loading...',
+                'gallery': 'Gallery',
+                'gallery_instructions': 'Click on an image to enlarge • Use arrows to navigate',
+                'images_preparing': 'Images being prepared...',
                 
                 // Projects
                 'project_title': 'Project',
-                'software': 'Software',
+                'software': 'Software:',
                 'gallery': 'Gallery',
                 'story_title': 'The Project Story',
                 'viewer_3d': '3D Viewer',
+                'viewer_3d_character': '3D Viewer - Character',
+                'viewer_3d_environment': '3D Viewer - Environment',
+                'viewer_3d_title': '3D Viewer -',
+                'video_dash': 'Video -',
+                'loading_character_viewer': 'Loading Marmoset character viewer...',
+                'loading_environment_viewer': 'Loading Marmoset environment viewer...',
+                'loading_marmoset_viewer': 'Loading Marmoset viewer...',
+                'loading_3d_viewer': 'Loading 3D viewer...',
+                'loading_preview': 'Preview loading...',
+                'viewer_3d_marmoset': 'Marmoset 3D Viewer',
                 'video_title': 'Video',
                 'character': 'Character',
                 'environment': 'Environment',
@@ -136,6 +204,16 @@ La cuisson est alors prête.`
                 // Visualizers
                 'visualizer_archway': 'Visualizer - Archway',
                 'visualizer_plasma': 'Visualizer - Plasma Pistol',
+                'visualizer_telephone': 'Visualizer - Telephone Booth',
+                'visualizer_room': 'Visualizer - Room',
+                'back_to_collectibles': '← Back to Collectibles',
+                'back_collectibles_subtitle': 'Main portfolio',
+                'loading_subtitle': 'Loading... Please Wait',
+                'shader_compilation': 'Shader compilation...',
+                'creating_world': 'Creating world...',
+                'building_universe': 'Building universe...',
+                'preparing_experience': 'Preparing experience...',
+                'ready_for_exploration': 'Ready for exploration!',
                 'albedo': 'Albedo',
                 'ambient_occlusion': 'Ambient Occlusion',
                 'metallic': 'Metallic',
@@ -143,6 +221,20 @@ La cuisson est alors prête.`
                 'full_quality': 'Full Quality',
                 'topology': 'Topology',
                 'normal': 'Normal',
+                
+                // Legal notice
+                'legal_notice': 'Legal Notice',
+                'legal_site_owner': 'Site Owner',
+                'legal_hosting': 'Hosting',
+                'legal_hosting_info': 'This site is hosted locally (WAMP64) for demonstration purposes.',
+                'legal_intellectual_property': 'Intellectual Property',
+                'legal_content_rights': 'All content on this site (3D images, projects, texts) is the property of Clara Neulinger. Any reproduction, even partial, is prohibited without prior authorization.',
+                'legal_personal_data': 'Personal Data',
+                'legal_no_data_collection': 'This site does not collect any personal data. Language and volume preferences are stored only in your browser (localStorage) and are never transmitted.',
+                'legal_cookies': 'Cookies',
+                'legal_no_cookies': 'This site does not use cookies.',
+                'legal_contact_section': 'Contact',
+                'legal_contact_info': 'For any questions about this site, you can contact me via the social networks on the Contact page.',
                 
                 // Kitchen story (English)
                 'kitchen_story': `Deep in a dark alley, hidden between concrete walls, lies a small clandestine kitchen, gloomy and filled with filth that gives no desire to pass through the door.
@@ -234,7 +326,22 @@ The cooking is then ready.`
             }
         });
     }
+    
+    // Alias pour compatibilité
+    updatePageTranslations() {
+        return this.updatePage();
+    }
 }
 
 // Instance globale
 window.translationManager = new TranslationManager();
+
+// Initialiser automatiquement après le chargement du DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.translationManager.init();
+    });
+} else {
+    // DOM déjà chargé
+    window.translationManager.init();
+}
