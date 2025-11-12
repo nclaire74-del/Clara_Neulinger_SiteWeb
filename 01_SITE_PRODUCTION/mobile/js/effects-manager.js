@@ -55,7 +55,7 @@ function showTryAgainScreen() {
                 </button>
             </div>
             
-            <div class="legal-notice-section" style="margin-top: 35px; width: 90%; max-width: 500px; text-align: left; font-size: 0.65rem; line-height: 1.3; color: rgba(255,255,255,0.5); max-height: 180px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+            <div class="legal-notice-section" style="margin-top: 60px; width: 90%; max-width: 500px; text-align: left; font-size: 0.65rem; line-height: 1.3; color: rgba(255,255,255,0.5); max-height: 180px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px;">
                 <h3 data-translate="legal_notice" style="font-size: 0.8rem; margin: 0 0 6px 0; color: rgba(255,255,255,0.7);">Mentions Légales</h3>
                 <p style="margin: 0 0 4px 0;"><strong data-translate="legal_editor" style="color: rgba(255,255,255,0.65);">Éditeur :</strong> <span data-translate="legal_editor_info">Clara Neulinger</span></p>
                 <p style="margin: 0 0 4px 0;"><strong data-translate="legal_hosting" style="color: rgba(255,255,255,0.65);">Hébergement :</strong> <span data-translate="legal_hosting_info">Ionos - claraneulinger.com</span></p>
